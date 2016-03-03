@@ -109,6 +109,9 @@ int main(int argc, char* argv[])
   {
     int NChannel = GetHOFromLMap(txtfliename, myHOFrontEnd, myHOBackEnd, myHOPMTBox, myHOGeometry, myHOTriggerTower);
     std::cout << "How many Channels do we have in HO ? " << NChannel << std::endl;
+    std::cout << "Re-calculate from Front End: " << std::endl;
+    std::cout << "Re-calculate from Back End: " << std::endl;
+    std::cout << "Re-calculate from Geometry: " << std::endl;
   }
 
   return 0;
