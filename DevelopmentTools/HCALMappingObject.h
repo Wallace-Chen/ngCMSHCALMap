@@ -158,7 +158,7 @@ namespace HOAnalyzer
   int NrbxHO0 = 1*12;
   int NrbxHO12 = 4*6;
   //3 rm in HO0 while 4 rm in HO1P, HO1M, HO2P, HO2M
-  //for HO0 part, 1,4,5,8,10,12, rm is 1,2,3; 2,3,6,7,9,11, rm is 2,3,4
+  //for HO0 part, 1,4,5,8,9,12, rm is 1,2,3; 2,3,6,7,10,11, rm is 2,3,4
   int NrmHO0 = 3;
   int NrmHO12 = 4;
   //rm fiber 2,3,4,5,6,7, in total 6 fibers per rm
@@ -202,19 +202,90 @@ void HOAnalyzer::PlottingHOFEtoGeo(
                                   )
 {
   const int NPhi = 72;
-  const int NHO0RBX = 12;
+  const int NEta = 15;
 
+  const int NHO0RBX = 12;
+  const int NHO0RM = 3;
+
+  const int NHO12RBX = 6;
+  const int NHO12RM = 4;
+
+  const char *HO0RBXlabel[NHO0RBX*NHO0RM] = {"HO001RM1","HO001RM2","HO001RM3",
+                                             "HO002RM2","HO002RM3","HO002RM4",//
+                                             "HO003RM2","HO003RM3","HO003RM4",//
+                                             "HO004RM1","HO004RM2","HO004RM3",
+                                             "HO005RM1","HO005RM2","HO005RM3",
+                                             "HO006RM2","HO006RM3","HO006RM4",//
+                                             "HO007RM2","HO007RM3","HO007RM4",//
+                                             "HO008RM1","HO008RM2","HO008RM3",
+                                             "HO009RM1","HO009RM2","HO009RM3",
+                                             "HO010RM2","HO010RM3","HO010RM4",//
+                                             "HO011RM2","HO011RM3","HO011RM4",//
+                                             "HO012RM1","HO012RM2","HO012RM3"};
+
+  const char *HO1PRBXlabel[NHO12RBX*NHO12RM] = {"HO1P02RM1","HO1P02RM2","HO1P02RM3","HO1P02RM4",
+                                                "HO1P04RM1","HO1P04RM2","HO1P04RM3","HO1P04RM4",
+                                                "HO1P06RM1","HO1P06RM3","HO1P06RM3","HO1P06RM4",
+                                                "HO1P08RM1","HO1P08RM2","HO1P08RM3","HO1P08RM4",
+                                                "HO1P10RM1","HO1P10RM2","HO1P10RM3","HO1P10RM4",
+                                                "HO1P12RM1","HO1P12RM2","HO1P12RM3","HO1P12RM4"};
+  const char *HO2PRBXlabel[NHO12RBX*NHO12RM] = {"HO2P02RM1","HO2P02RM2","HO2P02RM3","HO2P02RM4",
+                                                "HO2P04RM1","HO2P04RM2","HO2P04RM3","HO2P04RM4",
+                                                "HO2P06RM1","HO2P06RM3","HO2P06RM3","HO2P06RM4",
+                                                "HO2P08RM1","HO2P08RM2","HO2P08RM3","HO2P08RM4",
+                                                "HO2P10RM1","HO2P10RM2","HO2P10RM3","HO2P10RM4",
+                                                "HO2P12RM1","HO2P12RM2","HO2P12RM3","HO2P12RM4"};
+  const char *HO1MRBXlabel[NHO12RBX*NHO12RM] = {"HO1M02RM1","HO1M02RM2","HO1M02RM3","HO1M02RM4",
+                                                "HO1M04RM1","HO1M04RM2","HO1M04RM3","HO1M04RM4",
+                                                "HO1M06RM1","HO1M06RM3","HO1M06RM3","HO1M06RM4",
+                                                "HO1M08RM1","HO1M08RM2","HO1M08RM3","HO1M08RM4",
+                                                "HO1M10RM1","HO1M10RM2","HO1M10RM3","HO1M10RM4",
+                                                "HO1M12RM1","HO1M12RM2","HO1M12RM3","HO1M12RM4"};
+  const char *HO2MRBXlabel[NHO12RBX*NHO12RM] = {"HO2M02RM1","HO2M02RM2","HO2M02RM3","HO2M02RM4",
+                                                "HO2M04RM1","HO2M04RM2","HO2M04RM3","HO2M04RM4",
+                                                "HO2M06RM1","HO2M06RM3","HO2M06RM3","HO2M06RM4",
+                                                "HO2M08RM1","HO2M08RM2","HO2M08RM3","HO2M08RM4",
+                                                "HO2M10RM1","HO2M10RM2","HO2M10RM3","HO2M10RM4",
+                                                "HO2M12RM1","HO2M12RM2","HO2M12RM3","HO2M12RM4"};
+
+  const char *HO0RMfiberlabel[6*3] = {"RMFI2FICH0"     ,"RMFI2FICH1"     ,"RMFI2FICH2",
+                                      "RMFI3FICH0"     ,"RMFI3FICH1"     ,"RMFI3FICH2",
+                                      "RMFI4FICH0"     ,"RMFI4FICH1"     ,"RMFI4FICH2(HOX)",
+                                      "RMFI5FICH0"     ,"RMFI5FICH1"     ,"RMFI5FICH2",
+                                      "RMFI6FICH0"     ,"RMFI6FICH1(HOX)","RMFI6FICH2",
+                                      "RMFI7FICH0"     ,"RMFI7FICH1"     ,"RMFI7FICH2"};
+  const char *HO1RMfiberlabel[6*3] = {"RMFI2FICH0"     ,"RMFI2FICH1"     ,"RMFI2FICH2",
+                                      "RMFI3FICH0"     ,"RMFI3FICH1"     ,"RMFI3FICH2",
+                                      "RMFI4FICH0"     ,"RMFI4FICH1"     ,"RMFI4FICH2",
+                                      "RMFI5FICH0"     ,"RMFI5FICH1"     ,"RMFI5FICH2",
+                                      "RMFI6FICH0"     ,"RMFI6FICH1"     ,"RMFI6FICH2",
+                                      "RMFI7FICH0"     ,"RMFI7FICH1"     ,"RMFI7FICH2"};
+  const char *HO2RMfiberlabel[6*3] = {"RMFI2FICH0"     ,"RMFI2FICH1"     ,"RMFI2FICH2",
+                                      "RMFI3FICH0"     ,"RMFI3FICH1"     ,"RMFI3FICH2",
+                                      "RMFI4FICH0"     ,"RMFI4FICH1"     ,"RMFI4FICH2",
+                                      "RMFI5FICH0"     ,"RMFI5FICH1"     ,"RMFI5FICH2",
+                                      "RMFI6FICH0(HOX)","RMFI6FICH1(HOX)","RMFI6FICH2(HOX)",
+                                      "RMFI7FICH0"     ,"RMFI7FICH1"     ,"RMFI7FICH2"};
   const std::string titre="CMS HCAL Channel Mapping";
   TLatex *title = new TLatex(0.09770115,0.9194915,titre.c_str());
   title->SetNDC();
   title->SetTextSize(0.045);
 
-  TCanvas *c = new TCanvas("c", "",0,51,1920,1004);
+  TCanvas *c = new TCanvas("c", "",0,51,3000,5000);
+  c->Divide(2,5);
   c->SetFillColor(0);
   c->cd();
 
-  TH2D *ho0rbxphi = new TH2D("ho0rbxphi", "HO0 RBX vs Phi", NPhi, 1, NPhi+1, NHO0RBX, 1, NHO0RBX+1);
-  ho0rbxphi->SetMarkerSize(1.2);
+  TH2D *ho0rbxphi = new TH2D("ho0rbxphi", "Phi in HO0 FrontEnd", 18, 1, 18+1, NHO0RBX*NHO0RM, 1, NHO0RBX*NHO0RM+1);
+  TH2D *ho0rbxeta = new TH2D("ho0rbxeta", "Eta in HO0 FrontEnd", 18, 1, 18+1, NHO0RBX*NHO0RM, 1, NHO0RBX*NHO0RM+1);
+  TH2D *ho1prbxphi = new TH2D("ho1prbxphi", "Phi in HO1P FrontEnd", 18, 1, 18+1, NHO12RBX*NHO12RM, 1, NHO12RBX*NHO12RM+1);
+  TH2D *ho1prbxeta = new TH2D("ho1prbxeta", "Eta in HO1P FrontEnd", 18, 1, 18+1, NHO12RBX*NHO12RM, 1, NHO12RBX*NHO12RM+1);
+  TH2D *ho2prbxphi = new TH2D("ho2prbxphi", "Phi in HO2P FrontEnd", 18, 1, 18+1, NHO12RBX*NHO12RM, 1, NHO12RBX*NHO12RM+1);
+  TH2D *ho2prbxeta = new TH2D("ho2prbxeta", "Eta in HO2P FrontEnd", 18, 1, 18+1, NHO12RBX*NHO12RM, 1, NHO12RBX*NHO12RM+1);
+  TH2D *ho1mrbxphi = new TH2D("ho1mrbxphi", "Phi in HO1M FrontEnd", 18, 1, 18+1, NHO12RBX*NHO12RM, 1, NHO12RBX*NHO12RM+1);
+  TH2D *ho1mrbxeta = new TH2D("ho1mrbxeta", "Eta in HO1M FrontEnd", 18, 1, 18+1, NHO12RBX*NHO12RM, 1, NHO12RBX*NHO12RM+1);
+  TH2D *ho2mrbxphi = new TH2D("ho2mrbxphi", "Phi in HO2M FrontEnd", 18, 1, 18+1, NHO12RBX*NHO12RM, 1, NHO12RBX*NHO12RM+1);
+  TH2D *ho2mrbxeta = new TH2D("ho2mrbxeta", "Eta in HO2M FrontEnd", 18, 1, 18+1, NHO12RBX*NHO12RM, 1, NHO12RBX*NHO12RM+1);
 
   int HOsize = myHOFrontEnd.size();
   //std::cout << HOsize << std::endl;
@@ -224,37 +295,124 @@ void HOAnalyzer::PlottingHOFEtoGeo(
     std::string thisrbx = (myHOFrontEnd.at(i)).rbx;
     //std::cout << thisrbx << std::endl;
     //std::cout << (myHOGeometry.at(i)).eta << std::endl;
-    if( (myHOGeometry.at(i)).subdet != "HO") continue;    
+    //if( (myHOGeometry.at(i)).subdet != "HO") continue;    
+    double zphi = (myHOGeometry.at(i)).phi;
+    double zeta = (myHOGeometry.at(i)).side * (myHOGeometry.at(i)).eta;
+    double x = ((myHOFrontEnd.at(i)).rm_fiber-2)*3 + (myHOFrontEnd.at(i)).fiber_ch + 1;
+    double rbxid = std::stod( thisrbx.substr( thisrbx.length() - 2 ) );//1,....12 for HO0, 2,4,6,8,10,12 for other HO12
 
     if( thisrbx.find("HO0") != std::string::npos )
     {
-      double x = (myHOGeometry.at(i)).phi;
-      double y = std::stod( thisrbx.substr( thisrbx.length() - 2 ) );
-      
-      std::cout << x << "," << y << std::endl;
-      ho0rbxphi->Fill(x,y);
+      double rmid = -1;//123,234 to 123
+      if( rbxid == 1 || rbxid == 4 || rbxid == 5 || rbxid == 8 || rbxid == 9 || rbxid == 12 ) rmid = (myHOFrontEnd.at(i)).rm;
+      else rmid = (myHOFrontEnd.at(i)).rm-1;
+      double y = (rbxid-1)*3 + rmid;
+
+      //std::cout << x << "," << y << std::endl;
+      ho0rbxphi->Fill(x,y,zphi);
+      ho0rbxeta->Fill(x,y,zeta);
+    }
+    else
+    {
+      double rmid = (myHOFrontEnd.at(i)).rm;//1234 to 1234
+      double y = (rbxid/2-1)*4 + rmid;
+
+      if( thisrbx.find("HO1P") != std::string::npos )
+      {
+        ho1prbxphi->Fill(x,y,zphi);
+        ho1prbxeta->Fill(x,y,zeta);
+      }
+      else if( thisrbx.find("HO2P") != std::string::npos )
+      {
+        ho2prbxphi->Fill(x,y,zphi);
+        ho2prbxeta->Fill(x,y,zeta);
+      }
+      else if( thisrbx.find("HO1M") != std::string::npos )
+      {
+        ho1mrbxphi->Fill(x,y,zphi);
+        ho1mrbxeta->Fill(x,y,zeta);
+      }
+      else if( thisrbx.find("HO2M") != std::string::npos )
+      {
+        ho2mrbxphi->Fill(x,y,zphi);
+        ho2mrbxeta->Fill(x,y,zeta);
+      }
     }
   }
 
-  const char *HO0RBXylabel[NHO0RBX] = {"HO001","HO002","HO003","HO004",
-                                       "HO005","HO006","HO007","HO008",
-                                       "HO009","HO010","HO011","HO012"};
-  for (int i=1;i<=NPhi;i++) ho0rbxphi->GetXaxis()->SetBinLabel(i,(std::to_string(i)).c_str());
-  for (int i=1;i<=NHO0RBX;i++) ho0rbxphi->GetYaxis()->SetBinLabel(i,HO0RBXylabel[i-1]);
-  //ho0rbxphi->SetTitle("");
-  ho0rbxphi->SetXTitle("iPhi");
-  ho0rbxphi->SetYTitle("HO RBX");
-  ho0rbxphi->SetStats(0);
+  //for (int i=1;i<=NPhi;i++) ho0rbxphi->GetXaxis()->SetBinLabel(i,(std::to_string(i)).c_str());
+  for(int i=1;i<=18;i++)
+  { 
+    ho0rbxphi->GetXaxis()->SetBinLabel(i,HO0RMfiberlabel[i-1]); 
+    ho0rbxeta->GetXaxis()->SetBinLabel(i,HO0RMfiberlabel[i-1]); 
+    ho1prbxphi->GetXaxis()->SetBinLabel(i,HO1RMfiberlabel[i-1]);
+    ho1prbxeta->GetXaxis()->SetBinLabel(i,HO1RMfiberlabel[i-1]);
+    ho2prbxphi->GetXaxis()->SetBinLabel(i,HO2RMfiberlabel[i-1]);
+    ho2prbxeta->GetXaxis()->SetBinLabel(i,HO2RMfiberlabel[i-1]);
+    ho1mrbxphi->GetXaxis()->SetBinLabel(i,HO1RMfiberlabel[i-1]);
+    ho1mrbxeta->GetXaxis()->SetBinLabel(i,HO1RMfiberlabel[i-1]);
+    ho2mrbxphi->GetXaxis()->SetBinLabel(i,HO2RMfiberlabel[i-1]);
+    ho2mrbxeta->GetXaxis()->SetBinLabel(i,HO2RMfiberlabel[i-1]);
+  }
+  for(int i=1;i<=NHO0RBX*NHO0RM;i++) 
+  { 
+    ho0rbxphi->GetYaxis()->SetBinLabel(i,HO0RBXlabel[i-1]);
+    ho0rbxeta->GetYaxis()->SetBinLabel(i,HO0RBXlabel[i-1]); 
+  }
+  for(int i=1;i<=NHO12RBX*NHO12RM;i++)
+  {
+    ho1prbxphi->GetYaxis()->SetBinLabel(i,HO1PRBXlabel[i-1]);
+    ho1prbxeta->GetYaxis()->SetBinLabel(i,HO1PRBXlabel[i-1]);
+    ho2prbxphi->GetYaxis()->SetBinLabel(i,HO2PRBXlabel[i-1]);
+    ho2prbxeta->GetYaxis()->SetBinLabel(i,HO2PRBXlabel[i-1]);
+    ho1mrbxphi->GetYaxis()->SetBinLabel(i,HO1MRBXlabel[i-1]);
+    ho1mrbxeta->GetYaxis()->SetBinLabel(i,HO1MRBXlabel[i-1]);
+    ho2mrbxphi->GetYaxis()->SetBinLabel(i,HO2MRBXlabel[i-1]);
+    ho2mrbxeta->GetYaxis()->SetBinLabel(i,HO2MRBXlabel[i-1]);
+  }
 
+  //ho1prbxeta->SetXTitle("");
+  //ho1prbxeta->SetYTitle("");
+  ho0rbxphi->SetStats(0);
+  ho0rbxeta->SetStats(0);
+  ho1prbxphi->SetStats(0);
+  ho1prbxeta->SetStats(0);
+  ho2prbxphi->SetStats(0);
+  ho2prbxeta->SetStats(0);
+  ho1mrbxphi->SetStats(0);
+  ho1mrbxeta->SetStats(0);
+  ho2mrbxphi->SetStats(0);
+  ho2mrbxeta->SetStats(0);
+
+  c->cd(1);
   ho0rbxphi->Draw("colztext");
-  title->Draw("same");
+  c->cd(2);
+  ho0rbxeta->Draw("colztext");
+  c->cd(3);
+  ho1prbxphi->Draw("colztext");
+  c->cd(4);
+  ho1prbxeta->Draw("colztext");
+  c->cd(5);
+  ho2prbxphi->Draw("colztext");
+  c->cd(6);
+  ho2prbxeta->Draw("colztext");
+  c->cd(7);
+  ho1mrbxphi->Draw("colztext");
+  c->cd(8);
+  ho1mrbxeta->Draw("colztext");
+  c->cd(9);
+  ho2mrbxphi->Draw("colztext");
+  c->cd(10);
+  ho2mrbxeta->Draw("colztext");
+
+  //title->Draw("same");
 
   std::string dir;
   dir = "LMapvalidationPlots/";
  
-  c->SaveAs( (dir+"_horbxphi.png").c_str() );
-  c->SaveAs( (dir+"_horbxphi.pdf").c_str() );
-  c->SaveAs( (dir+"_horbxphi.C").c_str() );
+  c->SaveAs( (dir+"_HOFEetaphi.png").c_str() );
+  c->SaveAs( (dir+"_HOFEetaphi.pdf").c_str() );
+  c->SaveAs( (dir+"_HOFEetaphi.C").c_str() );
   c->Close();
 
   return ;
