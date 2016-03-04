@@ -1,13 +1,11 @@
-#include <iostream>
 #include <sstream>
 #include <fstream>
-#include <vector>
 
 #include "HCALMappingObject.h"
 
 int GetHOFromLMap(
                   std::string LMapFileName, 
-                  std::vector<HOFrontEnd> &myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOPMTBox> myHOPMTBox, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower
+                  std::vector<HOFrontEnd> &myHOFrontEnd, std::vector<HOBackEnd> &myHOBackEnd, std::vector<HOPMTBox> &myHOPMTBox, std::vector<HOGeometry> &myHOGeometry, std::vector<HOTriggerTower> &myHOTriggerTower
                  )
 {
   int NChannel = 0;
@@ -29,15 +27,21 @@ int GetHOFromLMap(
     HOPMTBox thisHOPMTBox;
     HOGeometry thisHOGeometry;
     HOTriggerTower thisHOTriggerTower;
+    
     //#side eta phi dphi depth det 
     //rbx sector rm pixel qie adc rm_fi fi_ch let_code 
     //crate block_coupler htr fpga htr_fi dcc_sl spigo dcc fedid 
     //QIEId
+    int tmp;
 
-    ss >> thisHOGeometry.side >> thisHOGeometry.eta >> thisHOGeometry.phi >> thisHOGeometry.dphi >> thisHOGeometry.depth >> thisHOGeometry.subdet 
+    ss >> tmp
+       >> thisHOGeometry.side >> thisHOGeometry.eta >> thisHOGeometry.phi >> thisHOGeometry.dphi >> thisHOGeometry.depth >> thisHOGeometry.subdet
        >> thisHOFrontEnd.rbx >> thisHOPMTBox.sector >> thisHOFrontEnd.rm >> thisHOPMTBox.pixel >> thisHOFrontEnd.qie8 >> thisHOFrontEnd.qie8_ch >> thisHOFrontEnd.rm_fiber >> thisHOFrontEnd.fiber_ch >> thisHOPMTBox.letter_code
        >> thisHOBackEnd.crate >> thisHOBackEnd.block_coupler >> thisHOBackEnd.htr >> thisHOBackEnd.fpga >> thisHOBackEnd.htr_fiber >> thisHOBackEnd.dcc_sl >> thisHOBackEnd.spigot >> thisHOBackEnd.dcc >> thisHOBackEnd.fedid 
        >> thisHOFrontEnd.qie8id;
+
+    thisHOBackEnd.fiber_ch = thisHOFrontEnd.fiber_ch;
+    //std::cout << thisHOGeometry.eta << std::endl;
 
     myHOFrontEnd.push_back(thisHOFrontEnd);
     myHOBackEnd.push_back(thisHOBackEnd);
@@ -109,13 +113,13 @@ int main(int argc, char* argv[])
   {
     int NChannel = GetHOFromLMap(txtfliename, myHOFrontEnd, myHOBackEnd, myHOPMTBox, myHOGeometry, myHOTriggerTower);
     std::cout << "How many Channels do we have in HO ? " << NChannel << std::endl;
-    std::cout << "Re-calculate from Front End: " << std::endl;
-    std::cout << "Re-calculate from Back End: " << std::endl;
-    std::cout << "Re-calculate from Geometry: " << std::endl;
+    std::cout << "Re-calculate from Front End: " << (HOAnalyzer::NrbxHO0*HOAnalyzer::NrmHO0 + HOAnalyzer::NrbxHO12*HOAnalyzer::NrmHO12) * HOAnalyzer::Nrm_fiber * HOAnalyzer::Nfiber_ch << std::endl;
+    std::cout << "Re-calculate from Back End: " << HOAnalyzer::Ncrate * HOAnalyzer::Nhtr * HOAnalyzer::Nfpga * HOAnalyzer::Nhtr_fiber * HOAnalyzer::Nfiber_ch + HOAnalyzer::NspecialHOX << std::endl;
+    std::cout << "Re-calculate from Geometry: " << HOAnalyzer::NHOside * HOAnalyzer::NHOeta * HOAnalyzer::NHOphi * HOAnalyzer::NHOdepth + HOAnalyzer::NnormalHOX + HOAnalyzer::NspecialHOX << std::endl;
+
+    HOAnalyzer::PlottingHOFEtoGeo(myHOFrontEnd,myHOGeometry);
   }
 
   return 0;
 }
-
-
 
