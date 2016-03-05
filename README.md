@@ -6,7 +6,7 @@ cd CMSSW_8_0_0/src
 
 cmsenv
 
-git clone git@github.com:weihua19900704/ngCMSHCALMap.git
+git clone git@github.com:weihuacern/ngCMSHCALMap.git
 
 scram b -j 10
 
