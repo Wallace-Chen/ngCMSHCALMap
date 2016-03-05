@@ -118,6 +118,7 @@ int main(int argc, char* argv[])
     std::cout << "Re-calculate from Geometry: " << HOAnalyzer::NHOside * HOAnalyzer::NHOeta * HOAnalyzer::NHOphi * HOAnalyzer::NHOdepth + HOAnalyzer::NnormalHOX + HOAnalyzer::NspecialHOX << std::endl;
 
     HOAnalyzer::PlottingHOFEtoGeo(myHOFrontEnd,myHOGeometry);
+    //HOAnalyzer::PlottingHOFEtoBE(myHOFrontEnd,myHOBackEnd);
   }
 
   return 0;
