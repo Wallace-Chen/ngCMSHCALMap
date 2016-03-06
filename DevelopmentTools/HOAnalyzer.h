@@ -1,4 +1,15 @@
-#include "HCALMappingObject.h"
+#include <vector>
+#include <string>
+#include <iostream>
+
+#include "TH2D.h"
+#include "TCanvas.h"
+#include "TPad.h"
+#include "TLegend.h"
+#include "TLatex.h"
+#include "TStyle.h"
+
+#include "HOMappingObject.h"
 
 namespace HOAnalyzer
 {
@@ -259,6 +270,7 @@ void HOAnalyzer::PlottingHOFEtoBE(
     double zcrate = (myHOBackEnd.at(i)).crate;
     double zhtr = (myHOBackEnd.at(i)).htr;
     double zfpga = 2000;
+    ((myHOBackEnd.at(i)).fpga)=="top" ? zfpga = 1 : zfpga = -1;
     double zhtr_fiber = (myHOBackEnd.at(i)).htr_fiber;
 
     double x = ((myHOFrontEnd.at(i)).rm_fiber-2)*3 + (myHOFrontEnd.at(i)).fiber_ch + 1;

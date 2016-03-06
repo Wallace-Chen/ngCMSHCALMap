@@ -1,6 +1,8 @@
 #include <sstream>
 #include <fstream>
 
+#include "HBHEAnalyzer.h"
+#include "HFAnalyzer.h"
 #include "HOAnalyzer.h"
 
 int GetHOFromLMap(
@@ -112,6 +114,8 @@ int main(int argc, char* argv[])
   else if( RunMode == "HOVME" )
   {
     int NChannel = GetHOFromLMap(txtfliename, myHOFrontEnd, myHOBackEnd, myHOPMTBox, myHOGeometry, myHOTriggerTower);
+    if(NChannel == HOAnalyzer::NchHO_all){ std::cout << "The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
+    else{ std::cout << "We have " << NChannel << " channels from txt Lmap while we have " << HOAnalyzer::NchHO_all << " channels expected in HO, something must be wrong!" << std::endl; return -1; }
     std::cout << "How many Channels do we have in HO ? " << NChannel << std::endl;
     std::cout << "Re-calculate from Front End: " << (HOAnalyzer::NrbxHO0*HOAnalyzer::NrmHO0 + HOAnalyzer::NrbxHO12*HOAnalyzer::NrmHO12) * HOAnalyzer::Nrm_fiber * HOAnalyzer::Nfiber_ch << std::endl;
     std::cout << "Re-calculate from Back End: " << HOAnalyzer::Ncrate * HOAnalyzer::Nhtr * HOAnalyzer::Nfpga * HOAnalyzer::Nhtr_fiber * HOAnalyzer::Nfiber_ch + HOAnalyzer::NspecialHOX << std::endl;

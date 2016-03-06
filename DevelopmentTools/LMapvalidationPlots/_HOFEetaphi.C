@@ -1,7 +1,7 @@
 void _HOFEetaphi()
 {
 //=========Macro generated from canvas: c/
-//=========  (Sat Mar  5 16:41:20 2016) by ROOT version6.06/01
+//=========  (Sun Mar  6 04:50:00 2016) by ROOT version6.06/01
    TCanvas *c = new TCanvas("c", "",0,0,3000,5000);
    c->SetHighLightColor(2);
    c->Range(0,0,1,1);
