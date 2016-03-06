@@ -14,7 +14,7 @@
 namespace HBHEAnalyzer
 {
   // channels in HB
-  const int NchHBHE_all = -1;
+  const int NchHBHE_all = 2592+2592;
   //Front End variables
   //rbx in HB, 18 for each side
   const int NrbxHB = 18;

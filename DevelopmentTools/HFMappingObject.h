@@ -20,7 +20,10 @@ struct HFBackEnd
 
 //PMT boxes struct
 struct HFPMTBox
-{};
+{
+  int wedge;
+  int pixel;
+};
 
 //Geometry struct
 struct HFGeometry

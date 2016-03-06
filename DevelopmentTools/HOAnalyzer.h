@@ -118,10 +118,10 @@ namespace HOAnalyzer
                          std::vector<HOGeometry> myHOGeometry
                         );
 
-  void PlottingHOFEtoBE(
-                        std::vector<HOFrontEnd> myHOFrontEnd,
-                        std::vector<HOBackEnd> myHOBackEnd
-                       );
+  void PlottingHOFEtoBEVME(
+                           std::vector<HOFrontEnd> myHOFrontEnd,
+                           std::vector<HOBackEnd> myHOBackEnd
+                          );
 }
 
 void HOAnalyzer::PlottingHOFEtoGeo(
@@ -234,10 +234,10 @@ void HOAnalyzer::PlottingHOFEtoGeo(
   return ;
 }
 
-void HOAnalyzer::PlottingHOFEtoBE(
-                                  std::vector<HOFrontEnd> myHOFrontEnd,
-                                  std::vector<HOBackEnd> myHOBackEnd
-                                 )
+void HOAnalyzer::PlottingHOFEtoBEVME(
+                                     std::vector<HOFrontEnd> myHOFrontEnd,
+                                     std::vector<HOBackEnd> myHOBackEnd
+                                    )
 {
   TCanvas *c = new TCanvas("c", "",0,51,6000,5000);
   c->Divide(4,5); c->SetFillColor(0); c->cd();

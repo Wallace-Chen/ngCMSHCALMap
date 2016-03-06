@@ -38,9 +38,15 @@ struct HEBackEnd
 
 //PMT boxes struct
 struct HBPMTBox
-{};
+{
+  int wedge;
+  int pixel;
+};
 struct HEPMTBox
-{};
+{
+  int wedge;
+  int pixel;
+};
 
 //Geometry struct
 struct HBGeometry
