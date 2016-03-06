@@ -1,7 +1,7 @@
 #include <sstream>
 #include <fstream>
 
-#include "HCALMappingObject.h"
+#include "HOAnalyzer.h"
 
 int GetHOFromLMap(
                   std::string LMapFileName, 
