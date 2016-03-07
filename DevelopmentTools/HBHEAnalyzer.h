@@ -148,7 +148,6 @@ namespace HBHEAnalyzer
                            std::vector<HEFrontEnd> myHEFrontEnd,
                            std::vector<HEBackEnd> myHEBackEnd
                           );
-  /*
   void PlottingHBFEtoBEuTCA(
                             std::vector<HBFrontEnd> myHBFrontEnd,
                             std::vector<HBBackEnd> myHBBackEnd
@@ -157,7 +156,6 @@ namespace HBHEAnalyzer
                             std::vector<HEFrontEnd> myHEFrontEnd,
                             std::vector<HEBackEnd> myHEBackEnd
                            );
-  */
 }
 
 void HBHEAnalyzer::HBHENChannelBasicCheck()
@@ -423,3 +421,138 @@ void HBHEAnalyzer::PlottingHEFEtoBEVME(
 
   return ;
 }
+
+void HBHEAnalyzer::PlottingHBFEtoBEuTCA(
+                                        std::vector<HBFrontEnd> myHBFrontEnd,
+                                        std::vector<HBBackEnd> myHBBackEnd
+                                       )
+{
+  TCanvas *c = new TCanvas("c", "",0,51,6000,6000);
+  c->Divide(4,2); c->SetFillColor(0); c->cd();
+
+  TH2D *hbprbxucrate = new TH2D("hbprbxucrate", "Crate in HBP FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHB*NrmHB, 1, NrbxHB*NrmHB+1);
+  TH2D *hbprbxuhtr = new TH2D("hbprbxuhtr", "HTR in HBP FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHB*NrmHB, 1, NrbxHB*NrmHB+1);
+  TH2D *hbprbxufpga = new TH2D("hbprbxufpga", "FPGA in HBP FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHB*NrmHB, 1, NrbxHB*NrmHB+1);
+  TH2D *hbprbxuhtr_fiber = new TH2D("hbprbxuhtr_fiber", "HTRfiber in HBP FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHB*NrmHB, 1, NrbxHB*NrmHB+1);
+  TH2D *hbmrbxucrate = new TH2D("hbmrbxucrate", "Crate in HBM FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHB*NrmHB, 1, NrbxHB*NrmHB+1);
+  TH2D *hbmrbxuhtr = new TH2D("hbmrbxuhtr", "HTR in HBM FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHB*NrmHB, 1, NrbxHB*NrmHB+1);
+  TH2D *hbmrbxufpga = new TH2D("hbmrbxufpga", "FPGA in HBM FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHB*NrmHB, 1, NrbxHB*NrmHB+1);
+  TH2D *hbmrbxuhtr_fiber = new TH2D("hbmrbxuhtr_fiber", "HTRfiber in HBM FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHB*NrmHB, 1, NrbxHB*NrmHB+1);
+
+  for(auto i=0; i<NchHBHE_all/2; i++)
+  {
+    std::string thisrbx = (myHBFrontEnd.at(i)).rbx;
+    //std::cout << thisrbx << std::endl;
+    double zucrate = (myHBBackEnd.at(i)).ucrate;
+    double zuhtr = (myHBBackEnd.at(i)).uhtr;
+    double zufpga = 2000;
+    ((myHBBackEnd.at(i)).ufpga)=="uHTR" ? zufpga = 10 : zufpga = -10;
+    double zuhtr_fiber = (myHBBackEnd.at(i)).uhtr_fiber;
+
+    double x = ((myHBFrontEnd.at(i)).rm_fiber-2)*3 + (myHBFrontEnd.at(i)).fiber_ch + 1;
+    double rbxid = std::stod( thisrbx.substr( thisrbx.length() - 2 ) );//1,2,....18
+    double rmid = (myHBFrontEnd.at(i)).rm;
+    double y = (rbxid-1)*4 + rmid;
+    
+    if( thisrbx.find("HBP") != std::string::npos ){ hbprbxucrate->Fill(x,y,zucrate); hbprbxuhtr->Fill(x,y,zuhtr); hbprbxufpga->Fill(x,y,zufpga); hbprbxuhtr_fiber->Fill(x,y,zuhtr_fiber); }
+    else if( thisrbx.find("HBM") != std::string::npos ){ hbmrbxucrate->Fill(x,y,zucrate); hbmrbxuhtr->Fill(x,y,zuhtr); hbmrbxufpga->Fill(x,y,zufpga); hbmrbxuhtr_fiber->Fill(x,y,zuhtr_fiber); }
+  }
+
+  for(int i=1;i<=Nrm_fiber*Nfiber_ch;i++)
+  { 
+    hbprbxucrate->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]); hbprbxuhtr->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]); 
+    hbprbxufpga->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]); hbprbxuhtr_fiber->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]);
+
+    hbmrbxucrate->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]); hbmrbxuhtr->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]);
+    hbmrbxufpga->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]); hbmrbxuhtr_fiber->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]);
+  }
+  for(int i=1;i<=NrbxHB*NrmHB;i++) 
+  { 
+    hbprbxucrate->GetYaxis()->SetBinLabel(i,HBPRBXlabel[i-1]); hbprbxuhtr->GetYaxis()->SetBinLabel(i,HBPRBXlabel[i-1]); 
+    hbprbxufpga->GetYaxis()->SetBinLabel(i,HBPRBXlabel[i-1]); hbprbxuhtr_fiber->GetYaxis()->SetBinLabel(i,HBPRBXlabel[i-1]);
+    
+    hbmrbxucrate->GetYaxis()->SetBinLabel(i,HBMRBXlabel[i-1]); hbmrbxuhtr->GetYaxis()->SetBinLabel(i,HBMRBXlabel[i-1]);
+    hbmrbxufpga->GetYaxis()->SetBinLabel(i,HBMRBXlabel[i-1]); hbmrbxuhtr_fiber->GetYaxis()->SetBinLabel(i,HBMRBXlabel[i-1]);
+  }
+
+  hbprbxucrate->SetStats(0); hbprbxuhtr->SetStats(0); hbprbxufpga->SetStats(0); hbprbxuhtr_fiber->SetStats(0);
+  hbmrbxucrate->SetStats(0); hbmrbxuhtr->SetStats(0); hbmrbxufpga->SetStats(0); hbmrbxuhtr_fiber->SetStats(0);
+
+  c->cd(1); hbprbxucrate->Draw("colztext"); c->cd(2); hbprbxuhtr->Draw("colztext"); c->cd(3); hbprbxufpga->Draw("colztext"); c->cd(4); hbprbxuhtr_fiber->Draw("colztext");
+  c->cd(5); hbmrbxucrate->Draw("colztext"); c->cd(6); hbmrbxuhtr->Draw("colztext"); c->cd(7); hbmrbxufpga->Draw("colztext"); c->cd(8); hbmrbxuhtr_fiber->Draw("colztext");
+
+  c->SaveAs( (dir+"_HBFEucrateuhtrufpgauhtr_fiber.png").c_str() );
+  c->SaveAs( (dir+"_HBFEucrateuhtrufpgauhtr_fiber.pdf").c_str() );
+  c->SaveAs( (dir+"_HBFEucrateuhtrufpgauhtr_fiber.C").c_str() );
+  c->Close();
+
+  return ;
+}
+
+void HBHEAnalyzer::PlottingHEFEtoBEuTCA(
+                                        std::vector<HEFrontEnd> myHEFrontEnd,
+                                        std::vector<HEBackEnd> myHEBackEnd
+                                       )
+{
+  TCanvas *c = new TCanvas("c", "",0,51,6000,6000);
+  c->Divide(4,2); c->SetFillColor(0); c->cd();
+
+  TH2D *heprbxucrate = new TH2D("heprbxucrate", "Crate in HEP FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHE*NrmHE, 1, NrbxHE*NrmHE+1);
+  TH2D *heprbxuhtr = new TH2D("heprbxuhtr", "HTR in HEP FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHE*NrmHE, 1, NrbxHE*NrmHE+1);
+  TH2D *heprbxufpga = new TH2D("heprbxufpga", "FPGA in HEP FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHE*NrmHE, 1, NrbxHE*NrmHE+1);
+  TH2D *heprbxuhtr_fiber = new TH2D("heprbxuhtr_fiber", "HTRfiber in HEP FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHE*NrmHE, 1, NrbxHE*NrmHE+1);
+  TH2D *hemrbxucrate = new TH2D("hemrbxucrate", "Crate in HEM FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHE*NrmHE, 1, NrbxHE*NrmHE+1);
+  TH2D *hemrbxuhtr = new TH2D("hemrbxuhtr", "HTR in HEM FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHE*NrmHE, 1, NrbxHE*NrmHE+1);
+  TH2D *hemrbxufpga = new TH2D("hemrbxufpga", "FPGA in HEM FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHE*NrmHE, 1, NrbxHE*NrmHE+1);
+  TH2D *hemrbxuhtr_fiber = new TH2D("hemrbxuhtr_fiber", "HTRfiber in HEM FrontEnd", Nrm_fiber*Nfiber_ch, 1, Nrm_fiber*Nfiber_ch+1, NrbxHE*NrmHE, 1, NrbxHE*NrmHE+1);
+
+  for(auto i=0; i<NchHBHE_all/2; i++)
+  {
+    std::string thisrbx = (myHEFrontEnd.at(i)).rbx;
+    //std::cout << thisrbx << std::endl;
+    double zucrate = (myHEBackEnd.at(i)).ucrate;
+    double zuhtr = (myHEBackEnd.at(i)).uhtr;
+    double zufpga = 2000;
+    ((myHEBackEnd.at(i)).ufpga)=="uHTR" ? zufpga = 10 : zufpga = -10;
+    double zuhtr_fiber = (myHEBackEnd.at(i)).uhtr_fiber;
+
+    double x = ((myHEFrontEnd.at(i)).rm_fiber-2)*3 + (myHEFrontEnd.at(i)).fiber_ch + 1;
+    double rbxid = std::stod( thisrbx.substr( thisrbx.length() - 2 ) );//1,2,....18
+    double rmid = (myHEFrontEnd.at(i)).rm;
+    double y = (rbxid-1)*4 + rmid;
+    
+    if( thisrbx.find("HEP") != std::string::npos ){ heprbxucrate->Fill(x,y,zucrate); heprbxuhtr->Fill(x,y,zuhtr); heprbxufpga->Fill(x,y,zufpga); heprbxuhtr_fiber->Fill(x,y,zuhtr_fiber); }
+    else if( thisrbx.find("HEM") != std::string::npos ){ hemrbxucrate->Fill(x,y,zucrate); hemrbxuhtr->Fill(x,y,zuhtr); hemrbxufpga->Fill(x,y,zufpga); hemrbxuhtr_fiber->Fill(x,y,zuhtr_fiber); }
+  }
+
+  for(int i=1;i<=Nrm_fiber*Nfiber_ch;i++)
+  { 
+    heprbxucrate->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]); heprbxuhtr->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]); 
+    heprbxufpga->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]); heprbxuhtr_fiber->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]);
+
+    hemrbxucrate->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]); hemrbxuhtr->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]);
+    hemrbxufpga->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]); hemrbxuhtr_fiber->GetXaxis()->SetBinLabel(i,HBHERMfiberlabel[i-1]);
+  }
+  for(int i=1;i<=NrbxHE*NrmHE;i++) 
+  { 
+    heprbxucrate->GetYaxis()->SetBinLabel(i,HEPRBXlabel[i-1]); heprbxuhtr->GetYaxis()->SetBinLabel(i,HEPRBXlabel[i-1]); 
+    heprbxufpga->GetYaxis()->SetBinLabel(i,HEPRBXlabel[i-1]); heprbxuhtr_fiber->GetYaxis()->SetBinLabel(i,HEPRBXlabel[i-1]);
+    
+    hemrbxucrate->GetYaxis()->SetBinLabel(i,HEMRBXlabel[i-1]); hemrbxuhtr->GetYaxis()->SetBinLabel(i,HEMRBXlabel[i-1]);
+    hemrbxufpga->GetYaxis()->SetBinLabel(i,HEMRBXlabel[i-1]); hemrbxuhtr_fiber->GetYaxis()->SetBinLabel(i,HEMRBXlabel[i-1]);
+  }
+
+  heprbxucrate->SetStats(0); heprbxuhtr->SetStats(0); heprbxufpga->SetStats(0); heprbxuhtr_fiber->SetStats(0);
+  hemrbxucrate->SetStats(0); hemrbxuhtr->SetStats(0); hemrbxufpga->SetStats(0); hemrbxuhtr_fiber->SetStats(0);
+
+  c->cd(1); heprbxucrate->Draw("colztext"); c->cd(2); heprbxuhtr->Draw("colztext"); c->cd(3); heprbxufpga->Draw("colztext"); c->cd(4); heprbxuhtr_fiber->Draw("colztext");
+  c->cd(5); hemrbxucrate->Draw("colztext"); c->cd(6); hemrbxuhtr->Draw("colztext"); c->cd(7); hemrbxufpga->Draw("colztext"); c->cd(8); hemrbxuhtr_fiber->Draw("colztext");
+
+  c->SaveAs( (dir+"_HEFEucrateuhtrufpgauhtr_fiber.png").c_str() );
+  c->SaveAs( (dir+"_HEFEucrateuhtrufpgauhtr_fiber.pdf").c_str() );
+  c->SaveAs( (dir+"_HEFEucrateuhtrufpgauhtr_fiber.C").c_str() );
+  c->Close();
+
+  return ;
+}
+

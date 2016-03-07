@@ -228,13 +228,13 @@ int main(int argc, char* argv[])
 
     HBHEAnalyzer::HBHENChannelBasicCheck();
     HBHEAnalyzer::PlottingHBFEtoGeo(myHBFrontEnd,myHBGeometry);
-    //HBHEAnalyzer::PlottingHBFEtoBEuTCA(myHBFrontEnd,myHBBackEnd);
+    HBHEAnalyzer::PlottingHBFEtoBEuTCA(myHBFrontEnd,myHBBackEnd);
     HBHEAnalyzer::PlottingHEFEtoGeo(myHEFrontEnd,myHEGeometry);
-    //HBHEAnalyzer::PlottingHEFEtoBEuTCA(myHEFrontEnd,myHEBackEnd);
+    HBHEAnalyzer::PlottingHEFEtoBEuTCA(myHEFrontEnd,myHEBackEnd);
 
     HFAnalyzer::HFNChannelBasicCheck();
     HFAnalyzer::PlottingHFFEtoGeo(myHFFrontEnd,myHFGeometry);
-    //HFAnalyzer::PlottingHFFEtoBEuTCA(myHFFrontEnd,myHFBackEnd);
+    HFAnalyzer::PlottingHFFEtoBEuTCA(myHFFrontEnd,myHFBackEnd);
   }
   else if( RunMode == "HOVME" )
   {
