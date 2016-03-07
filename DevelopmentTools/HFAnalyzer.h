@@ -93,6 +93,12 @@ namespace HFAnalyzer
                            std::vector<HFFrontEnd> myHFFrontEnd,
                            std::vector<HFBackEnd> myHFBackEnd
                           );
+  /*
+  void PlottingHFFEtoBEuTCA(
+                            std::vector<HFFrontEnd> myHFFrontEnd,
+                            std::vector<HFBackEnd> myHFBackEnd
+                           );
+  */
 }
 
 void HFAnalyzer::PlottingHFFEtoGeo(
@@ -189,7 +195,7 @@ void HFAnalyzer::PlottingHFFEtoBEVME(
     double y = (rbxid-1)*3 + rmid;
     
     if( thisrbx.find("HFP") != std::string::npos ){ hfprbxcrate->Fill(x,y,zcrate); hfprbxhtr->Fill(x,y,zhtr); hfprbxfpga->Fill(x,y,zfpga); hfprbxhtr_fiber->Fill(x,y,zhtr_fiber); }
-    else{ hfmrbxcrate->Fill(x,y,zcrate); hfmrbxhtr->Fill(x,y,zhtr); hfmrbxfpga->Fill(x,y,zfpga); hfmrbxhtr_fiber->Fill(x,y,zhtr_fiber); }
+    else if( thisrbx.find("HFM") != std::string::npos ){ hfmrbxcrate->Fill(x,y,zcrate); hfmrbxhtr->Fill(x,y,zhtr); hfmrbxfpga->Fill(x,y,zfpga); hfmrbxhtr_fiber->Fill(x,y,zhtr_fiber); }
   }
 
   for(int i=1;i<=Nrm_fiber*Nfiber_ch;i++)

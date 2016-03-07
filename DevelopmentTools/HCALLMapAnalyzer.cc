@@ -150,8 +150,6 @@ int main(int argc, char* argv[])
   std::vector<HFFrontEnd> myHFFrontEnd; std::vector<HFBackEnd> myHFBackEnd; std::vector<HFPMTBox> myHFPMTBox; std::vector<HFGeometry> myHFGeometry; std::vector<HFTriggerTower> myHFTriggerTower;
   std::vector<HOFrontEnd> myHOFrontEnd; std::vector<HOBackEnd> myHOBackEnd; std::vector<HOPMTBox> myHOPMTBox; std::vector<HOGeometry> myHOGeometry; std::vector<HOTriggerTower> myHOTriggerTower;
   
-  //#side eta phi dphi depth det rbx wedge rm pixel qie adc rm_fi fi_ch crate htr fpga htr_fi dcc_sl spigo dcc slb slbin slbin2 slnam rctcra rctcar rctcon rctnam fedid QIEId
-
   if( RunMode == "HBHEHFVME" )
   {
     std::string txtfilename = "officialMap/HCALmapHBEF_G.txt";
@@ -170,7 +168,12 @@ int main(int argc, char* argv[])
     std::cout << "How many Channels do we have in HBHE ? " << HBHEAnalyzer::NchHBHE_all << std::endl;
     std::cout << "Re-calculate from Front End: " << 2 * (HBHEAnalyzer::NrbxHB * HBHEAnalyzer::NrmHB + HBHEAnalyzer::NrbxHE * HBHEAnalyzer::NrmHE) * HBHEAnalyzer::Nrm_fiber * HBHEAnalyzer::Nfiber_ch << std::endl;
     std::cout << "Re-calculate from Back End: " << HBHEAnalyzer::Ncrate * HBHEAnalyzer::Nhtr * HBHEAnalyzer::Nfpga * HBHEAnalyzer::Nhtr_fiber * HBHEAnalyzer::Nfiber_ch << std::endl;
-    //std::cout << "Re-calculate from Geometry: " << HBHEAnalyzer::NHBHEside * (HBHEAnalyzer::NHFetadphi2 * HBHEAnalyzer::NHFphidphi2 + HBHEAnalyzer::NHFetadphi4 * HBHEAnalyzer::NHFphidphi4) * HBHEAnalyzer::NHFdepth << std::endl;
+    //std::cout << "Re-calculate from Geometry: " << HBHEAnalyzer::NHBHEside * (HBHEAnalyzer::NHBeta1to14 * HBHEAnalyzer::NHBdeptheta1to14 + HBHEAnalyzer::NHBeta1516 * HBHEAnalyzer::NHBdeptheta1516 + ) * HBHEAnalyzer::NHBHEphi << std::endl;
+
+    HBHEAnalyzer::PlottingHBFEtoGeo(myHBFrontEnd,myHBGeometry);
+    HBHEAnalyzer::PlottingHBFEtoBEVME(myHBFrontEnd,myHBBackEnd);
+    HBHEAnalyzer::PlottingHEFEtoGeo(myHEFrontEnd,myHEGeometry);
+    HBHEAnalyzer::PlottingHEFEtoBEVME(myHEFrontEnd,myHEBackEnd);
 
     std::cout << "How many Channels do we have in HF ? " << HFAnalyzer::NchHF_all << std::endl;
     std::cout << "Re-calculate from Front End: " << 2 * HFAnalyzer::NrbxHF * HFAnalyzer::NrmHF * HFAnalyzer::Nrm_fiber * HFAnalyzer::Nfiber_ch << std::endl;
@@ -184,6 +187,13 @@ int main(int argc, char* argv[])
   {
     std::string txtfilename = "officialMap/HCALmapHBEF_G_uHTR.txt";
 
+    //HBHEAnalyzer::PlottingHBFEtoGeo(myHBFrontEnd,myHBGeometry);
+    //HBHEAnalyzer::PlottingHBFEtoBEuTCA(myHBFrontEnd,myHBBackEnd);
+    //HBHEAnalyzer::PlottingHEFEtoGeo(myHEFrontEnd,myHEGeometry);
+    //HBHEAnalyzer::PlottingHEFEtoBEuTCA(myHEFrontEnd,myHEBackEnd);
+
+    //HFAnalyzer::PlottingHFFEtoGeo(myHFFrontEnd,myHFGeometry);
+    //HFAnalyzer::PlottingHFFEtoBEuTCA(myHFFrontEnd,myHFBackEnd);
   }
   else if( RunMode == "HOVME" )
   {

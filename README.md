@@ -20,3 +20,4 @@ make
 
 The valid RunMode are: HBHEHFVME, HBHEHFuTCA, HOVME
 
+To be fixed: HBHE VME FE vs BE plot, crate 0 not showed, fpga how to show in letter ?
