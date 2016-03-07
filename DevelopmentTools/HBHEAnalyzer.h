@@ -29,14 +29,14 @@ namespace HBHEAnalyzer
   const int Nqie_ch = 6;
 
   //Back End variables
-  //4 crate in HB: 0,1,4,5,10,11,14,15,17
+  //9 crate in HBHE: 0,1,4,5,10,11,14,15,17
   const int Ncrate = 9;
-  //12 htr in each crate, 2,3,4,5,6,7 and 13,14,15,16,17,18
-  const int Nhtr = 12;
-  //2 fpga flavors top and bottom
-  const int Nfpga = 2;
-  //8 fibers per htr card: 1,2,3,4,5,6,7,8
-  const int Nhtr_fiber = 8;
+  //12 htr in each crate, 2,3,4,5,6,7 and 13,14,15,16,17,18; 12 uhtr in each crate, 1,2,3,4,5,6,7,8,9,10,11,12
+  const int Nhtr = 12; const int Nuhtr = 12;
+  //2 fpga flavors top and bottom in htr, while only uHTR in u
+  const int Nfpga = 2; const int Nufpga = 1;
+  //8 fibers per htr card: 1,2,3,4,5,6,7,8, while 12 in uhtr: 2,3,4,5,6,7,8,9 and 14,15,16,17,18,19,20,21
+  const int Nhtr_fiber = 8; const int Nuhtr_fiber = 16;
 
   //Geometry variables in HB: 
   const int NHBHEside = 2;
@@ -130,7 +130,7 @@ namespace HBHEAnalyzer
   //the target directory for output plots
   std::string dir = "LMapvalidationPlots/";
 
-  
+  void HBHENChannelBasicCheck();
   void PlottingHBFEtoGeo(
                          std::vector<HBFrontEnd> myHBFrontEnd,
                          std::vector<HBGeometry> myHBGeometry
@@ -158,6 +158,16 @@ namespace HBHEAnalyzer
                             std::vector<HEBackEnd> myHEBackEnd
                            );
   */
+}
+
+void HBHEAnalyzer::HBHENChannelBasicCheck()
+{
+  std::cout << "How many Channels do we have in HBHE ? " << NchHBHE_all << std::endl;
+  std::cout << "Re-calculate from Front End: " << 2 * (NrbxHB * NrmHB + NrbxHE * NrmHE) * Nrm_fiber * Nfiber_ch << std::endl;
+  std::cout << "Re-calculate from Back End(VME): " << Ncrate * Nhtr * Nfpga * Nhtr_fiber * Nfiber_ch << std::endl;
+  std::cout << "Re-calculate from Back End(uTCA): " << Ncrate * Nuhtr * Nufpga * Nuhtr_fiber * Nfiber_ch << std::endl;
+  //std::cout << "Re-calculate from Geometry: " << NHBHEside * (NHBeta1to14 * NHBdeptheta1to14 + NHBeta1516 * NHBdeptheta1516 + ) * NHBHEphi << std::endl;
+  return ;
 }
 
 void HBHEAnalyzer::PlottingHBFEtoGeo(

@@ -21,9 +21,14 @@ struct HBBackEnd
   int crate, htr, htr_fiber;
   std::string fpga;
   int fedid;
+
   int dcc, spigot, dcc_sl;
-  int ucrate, uhtr, uhtr_fiber, fiber_ch;
+
+  int ucrate, uhtr, uhtr_fiber;
+  std::string ufpga;
   int ufedid;
+  
+  int fiber_ch;
 };
 
 struct HEBackEnd
@@ -31,9 +36,14 @@ struct HEBackEnd
   int crate, htr, htr_fiber;
   std::string fpga;
   int fedid;
+
   int dcc, spigot, dcc_sl;
-  int ucrate, uhtr, uhtr_fiber, fiber_ch;
+
+  int ucrate, uhtr, uhtr_fiber;
+  std::string ufpga;
   int ufedid;
+  
+  int fiber_ch;
 };
 
 //PMT boxes struct

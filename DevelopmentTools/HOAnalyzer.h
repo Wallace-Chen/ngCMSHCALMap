@@ -113,6 +113,7 @@ namespace HOAnalyzer
   //the target directory for output plots
   std::string dir = "LMapvalidationPlots/";
 
+  void HONChannelBasicCheck();
   void PlottingHOFEtoGeo(
                          std::vector<HOFrontEnd> myHOFrontEnd,
                          std::vector<HOGeometry> myHOGeometry
@@ -122,6 +123,16 @@ namespace HOAnalyzer
                            std::vector<HOFrontEnd> myHOFrontEnd,
                            std::vector<HOBackEnd> myHOBackEnd
                           );
+}
+
+void HOAnalyzer::HONChannelBasicCheck()
+{
+  std::cout << "How many Channels do we have in HO ? " << NchHO_all << std::endl;
+  std::cout << "Re-calculate from Front End: " << (NrbxHO0*NrmHO0 + NrbxHO12*NrmHO12) * Nrm_fiber * Nfiber_ch << std::endl;
+  std::cout << "Re-calculate from Back End: " << Ncrate * Nhtr * Nfpga * Nhtr_fiber * Nfiber_ch + NspecialHOX << std::endl;
+  std::cout << "Re-calculate from Geometry: " << NHOside * NHOeta * NHOphi * NHOdepth + NnormalHOX + NspecialHOX << std::endl;
+
+  return ;
 }
 
 void HOAnalyzer::PlottingHOFEtoGeo(
