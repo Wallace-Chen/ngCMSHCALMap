@@ -167,6 +167,16 @@ int main(int argc, char* argv[])
     if(NChannel == HBHEAnalyzer::NchHBHE_all + HFAnalyzer::NchHF_all){ std::cout << "The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
     else{ std::cout << "We have " << NChannel << " channels from txt Lmap while we have " << HBHEAnalyzer::NchHBHE_all + HFAnalyzer::NchHF_all << " channels expected in HBHEHF, something must be wrong!" << std::endl; return -1; }
 
+    std::cout << "How many Channels do we have in HBHE ? " << HBHEAnalyzer::NchHBHE_all << std::endl;
+    std::cout << "Re-calculate from Front End: " << 2 * (HBHEAnalyzer::NrbxHB * HBHEAnalyzer::NrmHB + HBHEAnalyzer::NrbxHE * HBHEAnalyzer::NrmHE) * HBHEAnalyzer::Nrm_fiber * HBHEAnalyzer::Nfiber_ch << std::endl;
+    std::cout << "Re-calculate from Back End: " << HBHEAnalyzer::Ncrate * HBHEAnalyzer::Nhtr * HBHEAnalyzer::Nfpga * HBHEAnalyzer::Nhtr_fiber * HBHEAnalyzer::Nfiber_ch << std::endl;
+    //std::cout << "Re-calculate from Geometry: " << HBHEAnalyzer::NHBHEside * (HBHEAnalyzer::NHFetadphi2 * HBHEAnalyzer::NHFphidphi2 + HBHEAnalyzer::NHFetadphi4 * HBHEAnalyzer::NHFphidphi4) * HBHEAnalyzer::NHFdepth << std::endl;
+
+    std::cout << "How many Channels do we have in HF ? " << HFAnalyzer::NchHF_all << std::endl;
+    std::cout << "Re-calculate from Front End: " << 2 * HFAnalyzer::NrbxHF * HFAnalyzer::NrmHF * HFAnalyzer::Nrm_fiber * HFAnalyzer::Nfiber_ch << std::endl;
+    std::cout << "Re-calculate from Back End: " << HFAnalyzer::Ncrate * HFAnalyzer::Nhtr * HFAnalyzer::Nfpga * HFAnalyzer::Nhtr_fiber * HFAnalyzer::Nfiber_ch << std::endl;
+    std::cout << "Re-calculate from Geometry: " << HFAnalyzer::NHFside * (HFAnalyzer::NHFetadphi2 * HFAnalyzer::NHFphidphi2 + HFAnalyzer::NHFetadphi4 * HFAnalyzer::NHFphidphi4) * HFAnalyzer::NHFdepth << std::endl;
+
     HFAnalyzer::PlottingHFFEtoGeo(myHFFrontEnd,myHFGeometry);
     HFAnalyzer::PlottingHFFEtoBEVME(myHFFrontEnd,myHFBackEnd);
   }
@@ -181,7 +191,7 @@ int main(int argc, char* argv[])
     int NChannel = GetHOFromLMap(txtfilename, myHOFrontEnd, myHOBackEnd, myHOPMTBox, myHOGeometry, myHOTriggerTower);
     if(NChannel == HOAnalyzer::NchHO_all){ std::cout << "The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
     else{ std::cout << "We have " << NChannel << " channels from txt Lmap while we have " << HOAnalyzer::NchHO_all << " channels expected in HO, something must be wrong!" << std::endl; return -1; }
-    std::cout << "How many Channels do we have in HO ? " << NChannel << std::endl;
+    std::cout << "How many Channels do we have in HO ? " << HOAnalyzer::NchHO_all << std::endl;
     std::cout << "Re-calculate from Front End: " << (HOAnalyzer::NrbxHO0*HOAnalyzer::NrmHO0 + HOAnalyzer::NrbxHO12*HOAnalyzer::NrmHO12) * HOAnalyzer::Nrm_fiber * HOAnalyzer::Nfiber_ch << std::endl;
     std::cout << "Re-calculate from Back End: " << HOAnalyzer::Ncrate * HOAnalyzer::Nhtr * HOAnalyzer::Nfpga * HOAnalyzer::Nhtr_fiber * HOAnalyzer::Nfiber_ch + HOAnalyzer::NspecialHOX << std::endl;
     std::cout << "Re-calculate from Geometry: " << HOAnalyzer::NHOside * HOAnalyzer::NHOeta * HOAnalyzer::NHOphi * HOAnalyzer::NHOdepth + HOAnalyzer::NnormalHOX + HOAnalyzer::NspecialHOX << std::endl;
