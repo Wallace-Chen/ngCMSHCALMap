@@ -10,7 +10,7 @@ CXXFLAGS  += -I. -std=c++0x -I$(CMSSW_BASE)/src/ -I$(LHAPDF_DATA_PATH)/../../inc
 ## Optimization flag
 CXXFLAGS += -g #-O3
 ## Enable the maximun warning
-#CXXFLAGS += -Wall -Wextra -Weffc++ -g
+##CXXFLAGS += -Wall -Wextra -Weffc++ -g
 
 ## Include ROOT
 CXXFLAGS  += $(shell root-config --cflags)
@@ -22,7 +22,7 @@ LDFLAGS  =
 
 LIBS     = $(shell root-config --glibs)
 
-PROGRAMS = HCALLMapAnalyzer
+PROGRAMS = HCALLMapAnalyzer HCALLMapProducer
 
 all: mkobj $(PROGRAMS)
 
@@ -38,6 +38,9 @@ $(ODIR)/%.o : $(IDIR)/%.cc
 	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) -o $@ -c $<
 
 HCALLMapAnalyzer: $(ODIR)/HCALLMapAnalyzer.o
+	$(LD) $^ $(LIBS)  -o $@
+
+HCALLMapProducer: $(ODIR)/HCALLMapProducer.o
 	$(LD) $^ $(LIBS)  -o $@
 
 clean:

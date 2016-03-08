@@ -1,9 +1,7 @@
 #include <sstream>
 #include <fstream>
 
-#include "HBHEAnalyzer.h"
-#include "HFAnalyzer.h"
-#include "HOAnalyzer.h"
+#include "HCALLMapAnalyzer.h"
 
 int GetHBHEHFromLMap(
                      std::string LMapFileName,

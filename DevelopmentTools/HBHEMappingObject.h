@@ -1,3 +1,4 @@
+#include<string>
 //FrontEnd electronics struct
 struct HBFrontEnd
 {
