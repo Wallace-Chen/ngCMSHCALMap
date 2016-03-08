@@ -11,40 +11,36 @@
 
 #include "HBHEMappingObject.h"
 
-namespace HBHEAnalyzer
+class HBHEAnalyzer : public HBHEConstant
 {
-  // channels in HB
-  const int NchHBHE_all = 2592+2592;
-  //Front End variables
-  //rbx in HB, 18 for each side
-  const int NrbxHB = 18; const int NrbxHE = 18;
-  //4 rm in all HB rbx, label from 1 to 4
-  const int NrmHB = 4; const int NrmHE = 4;
-  //rm fiber 2,3,4,5,6,7, in total 6 fibers per rm
-  const int Nrm_fiber = 6;
-  //fiber channel is same for both backend electronics and front end electronics, 0,1,2(since software people like start from 0)
-  const int Nfiber_ch = 3;
+ public:
+  void HBHENChannelBasicCheck();
+  void PlottingHBFEtoGeo(
+                         std::vector<HBFrontEnd> myHBFrontEnd,
+                         std::vector<HBGeometry> myHBGeometry
+                        );
+  void PlottingHEFEtoGeo(
+                         std::vector<HEFrontEnd> myHEFrontEnd,
+                         std::vector<HEGeometry> myHEGeometry
+                        );
 
-  const int Nqie = 3;
-  const int Nqie_ch = 6;
-
-  //Back End variables
-  //9 crate in HBHE: 0,1,4,5,10,11,14,15,17
-  const int Ncrate = 9;
-  //12 htr in each crate, 2,3,4,5,6,7 and 13,14,15,16,17,18; 12 uhtr in each crate, 1,2,3,4,5,6,7,8,9,10,11,12
-  const int Nhtr = 12; const int Nuhtr = 12;
-  //2 fpga flavors top and bottom in htr, while only uHTR in u
-  const int Nfpga = 2; const int Nufpga = 1;
-  //8 fibers per htr card: 1,2,3,4,5,6,7,8, while 12 in uhtr: 2,3,4,5,6,7,8,9 and 14,15,16,17,18,19,20,21
-  const int Nhtr_fiber = 8; const int Nuhtr_fiber = 16;
-
-  //Geometry variables in HB: 
-  const int NHBHEside = 2;
-  const int NHBHEphi = 72;
-
-  const int NHBeta1516 = 2; const int NHBeta1to14 = 14;
-  const int NHBdeptheta1516 = 2; const int NHBdeptheta1to14 = 1;
-
+  void PlottingHBFEtoBEVME(
+                           std::vector<HBFrontEnd> myHBFrontEnd,
+                           std::vector<HBBackEnd> myHBBackEnd
+                          );
+  void PlottingHEFEtoBEVME(
+                           std::vector<HEFrontEnd> myHEFrontEnd,
+                           std::vector<HEBackEnd> myHEBackEnd
+                          );
+  void PlottingHBFEtoBEuTCA(
+                            std::vector<HBFrontEnd> myHBFrontEnd,
+                            std::vector<HBBackEnd> myHBBackEnd
+                           );
+  void PlottingHEFEtoBEuTCA(
+                            std::vector<HEFrontEnd> myHEFrontEnd,
+                            std::vector<HEBackEnd> myHEBackEnd
+                           );
+ private:
   const char *HBMRBXlabel[NrbxHB*NrmHB] = {"HBM01RM1","HBM01RM2","HBM01RM3","HBM01RM4",
                                            "HBM02RM1","HBM02RM2","HBM02RM3","HBM02RM4",
                                            "HBM03RM1","HBM03RM2","HBM03RM3","HBM03RM4",
@@ -129,34 +125,7 @@ namespace HBHEAnalyzer
                                                        "RMFI7FICH0"     ,"RMFI7FICH1"     ,"RMFI7FICH2"};
   //the target directory for output plots
   std::string dir = "LMapvalidationPlots/";
-
-  void HBHENChannelBasicCheck();
-  void PlottingHBFEtoGeo(
-                         std::vector<HBFrontEnd> myHBFrontEnd,
-                         std::vector<HBGeometry> myHBGeometry
-                        );
-  void PlottingHEFEtoGeo(
-                         std::vector<HEFrontEnd> myHEFrontEnd,
-                         std::vector<HEGeometry> myHEGeometry
-                        );
-  
-  void PlottingHBFEtoBEVME(
-                           std::vector<HBFrontEnd> myHBFrontEnd,
-                           std::vector<HBBackEnd> myHBBackEnd
-                          );
-  void PlottingHEFEtoBEVME(
-                           std::vector<HEFrontEnd> myHEFrontEnd,
-                           std::vector<HEBackEnd> myHEBackEnd
-                          );
-  void PlottingHBFEtoBEuTCA(
-                            std::vector<HBFrontEnd> myHBFrontEnd,
-                            std::vector<HBBackEnd> myHBBackEnd
-                           );
-  void PlottingHEFEtoBEuTCA(
-                            std::vector<HEFrontEnd> myHEFrontEnd,
-                            std::vector<HEBackEnd> myHEBackEnd
-                           );
-}
+};
 
 void HBHEAnalyzer::HBHENChannelBasicCheck()
 {

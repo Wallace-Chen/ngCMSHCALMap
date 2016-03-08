@@ -11,42 +11,25 @@
 
 #include "HFMappingObject.h"
 
-namespace HFAnalyzer
+class HFAnalyzer : public HFConstant 
 {
-  // channels in HF
-  const int NchHF_all = 1728;
-  //Front End variables
-  //rbx in HF, 18 for each side
-  const int NrbxHF = 12;
-  //3 rm in all HF rbx, label from 1 to 3
-  const int NrmHF = 3;
-  //rm fiber 1,2,3,4,5,6,7,8, in total 8 fibers per rm
-  const int Nrm_fiber = 8;
-  //fiber channel is same for both backend electronics and front end electronics, 0,1,2(since software people like start from 0)
-  const int Nfiber_ch = 3;
+ public:
+  void HFNChannelBasicCheck();
+  void PlottingHFFEtoGeo(
+                         std::vector<HFFrontEnd> myHFFrontEnd,
+                         std::vector<HFGeometry> myHFGeometry
+                        );
 
-  const int Nqie = 4;
-  const int Nqie_ch = 6;
+  void PlottingHFFEtoBEVME(
+                           std::vector<HFFrontEnd> myHFFrontEnd,
+                           std::vector<HFBackEnd> myHFBackEnd
+                          );
+  void PlottingHFFEtoBEuTCA(
+                            std::vector<HFFrontEnd> myHFFrontEnd,
+                            std::vector<HFBackEnd> myHFBackEnd
+                           );
 
-  //Back End variables
-  //3 crate in HF: 2,9,12
-  const int Ncrate = 3;
-  //12 htr in each crate, 2,3,4,5,6,7 and 13,14,15,16,17,18; 12 uhtr in each crate, 1,2,3,4,5,6,7,8,9,10,11,12
-  const int Nhtr = 12; const int Nuhtr = 12;
-  //2 fpga flavors top and bottom in htr, while only uHTR in u
-  const int Nfpga = 2; const int Nufpga = 1;
-  //8 fibers per htr card: 1,2,3,4,5,6,7,8, while 12 in uhtr: 2,3,4,5,6,7,8,9 and 14,15,16,17,18,19,20,21
-  const int Nhtr_fiber = 8; const int Nuhtr_fiber = 16;
-
-  //Need to be tuned
-  //Geometry variables in HF: eta from 29,to 40,41, phi is 1,3,...71 for most eta while dphi == 4 for eta 40,41;
-  const int NHFside = 2;
-  const int NHFetadphi2 = 11;
-  const int NHFetadphi4 = 2;
-  const int NHFphidphi2 = 36;
-  const int NHFphidphi4 = 18;
-  const int NHFdepth = 2;
-
+ private:
   const char *HFMRBXlabel[NrbxHF*NrmHF] = {"HFM01RM1","HFM01RM2","HFM01RM3",
                                            "HFM02RM1","HFM02RM2","HFM02RM3",
                                            "HFM03RM1","HFM03RM2","HFM03RM3",
@@ -83,22 +66,7 @@ namespace HFAnalyzer
                                                      "RMFI8FICH0"     ,"RMFI8FICH1"     ,"RMFI8FICH2"};
   //the target directory for output plots
   std::string dir = "LMapvalidationPlots/";
-
-  void HFNChannelBasicCheck();
-  void PlottingHFFEtoGeo(
-                         std::vector<HFFrontEnd> myHFFrontEnd,
-                         std::vector<HFGeometry> myHFGeometry
-                        );
-
-  void PlottingHFFEtoBEVME(
-                           std::vector<HFFrontEnd> myHFFrontEnd,
-                           std::vector<HFBackEnd> myHFBackEnd
-                          );
-  void PlottingHFFEtoBEuTCA(
-                            std::vector<HFFrontEnd> myHFFrontEnd,
-                            std::vector<HFBackEnd> myHFBackEnd
-                           );
-}
+};
 
 void HFAnalyzer::HFNChannelBasicCheck()
 {
