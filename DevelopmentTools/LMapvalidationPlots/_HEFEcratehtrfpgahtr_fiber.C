@@ -1,7 +1,7 @@
 void _HEFEcratehtrfpgahtr_fiber()
 {
 //=========Macro generated from canvas: c/
-//=========  (Mon Mar  7 08:21:44 2016) by ROOT version6.06/01
+//=========  (Tue Mar  8 15:40:31 2016) by ROOT version6.06/01
    TCanvas *c = new TCanvas("c", "",0,0,6000,6000);
    c->SetHighLightColor(2);
    c->Range(0,0,1,1);
