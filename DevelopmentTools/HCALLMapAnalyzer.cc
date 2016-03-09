@@ -2,6 +2,7 @@
 #include <fstream>
 
 #include "HCALLMapAnalyzer.h"
+#include "HCALLMapDump.h"
 
 int GetHBHEHFromLMap(
                      std::string LMapFileName,
@@ -209,6 +210,7 @@ int main(int argc, char* argv[])
     myHFAnalyzer.HFNChannelBasicCheck();
     myHFAnalyzer.PlottingHFFEtoGeo(myHFFrontEnd,myHFGeometry);
     myHFAnalyzer.PlottingHFFEtoBEVME(myHFFrontEnd,myHFBackEnd);
+
   }
   else if( RunMode == "HBHEHFuTCA" )
   {
@@ -234,6 +236,8 @@ int main(int argc, char* argv[])
     myHFAnalyzer.HFNChannelBasicCheck();
     myHFAnalyzer.PlottingHFFEtoGeo(myHFFrontEnd,myHFGeometry);
     myHFAnalyzer.PlottingHFFEtoBEuTCA(myHFFrontEnd,myHFBackEnd);
+
+    printHFLMapObject(myHFFrontEnd, myHFBackEnd, myHFPMTBox, myHFGeometry, myHFTriggerTower);
   }
   else if( RunMode == "HOVME" )
   {

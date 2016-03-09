@@ -9,7 +9,6 @@ class HFMappingAlgorithm : public HFConstant
   //the variables we need to fill into the LMap
   std::vector<HFFrontEnd> myHFFrontEnd; std::vector<HFBackEnd> myHFBackEnd; std::vector<HFPMTBox> myHFPMTBox; std::vector<HFGeometry> myHFGeometry; std::vector<HFTriggerTower> myHFTriggerTower;
   void ConstructHFLMapObject();
-  void printHFLMapObject();
  private:
   void ConstructHFFrontEnd(int sideid, int rbxrmid, int rmfifichid);
   void ConstructHFBackEnd(int sideid, int rbxrmid, int rmfifichid);      
@@ -55,10 +54,17 @@ void HFMappingAlgorithm::ConstructHFFrontEnd(int sideid, int rbxrmid, int rmfifi
 {
   HFFrontEnd thisHFFrontEnd;
   std::string sideletter; sideid>0 ? sideletter = "P" : sideletter = "M";
-  thisHFFrontEnd.rbx = "HF" + sideletter + std::to_string(rbxrmid/NrmHF + 1);
+  std::string numberletter; (rbxrmid/NrmHF + 1) < 10 ? numberletter = "0" + std::to_string(rbxrmid/NrmHF + 1) : numberletter = std::to_string(rbxrmid/NrmHF + 1); 
+  thisHFFrontEnd.rbx = "HF" + sideletter + numberletter;
   thisHFFrontEnd.rm = rbxrmid%NrmHF + 1;
   thisHFFrontEnd.rm_fiber = rmfifichid/Nfiber_ch +1;
-  thisHFFrontEnd.fiber_ch = rmfifichid%Nfiber_ch +1;
+  thisHFFrontEnd.fiber_ch = rmfifichid%Nfiber_ch;
+  //set secondary variables qie8 map
+  thisHFFrontEnd.qie8 = (thisHFFrontEnd.rm_fiber -1)/2+1;
+  thisHFFrontEnd.rm_fiber%2 != 0 ? thisHFFrontEnd.qie8_ch = thisHFFrontEnd.fiber_ch : thisHFFrontEnd.qie8_ch = 3 + (thisHFFrontEnd.fiber_ch+1)%3;
+  //qie10 map
+  //thisHFFrontEnd.qie10 = ;
+  //thisHFFrontEnd.qie10_ch = ;
 
   myHFFrontEnd.push_back(thisHFFrontEnd);
   return ;
