@@ -24,7 +24,7 @@ class HFMappingAlgorithm : public HFConstant
 
 void HFMappingAlgorithm::ConstructHFLMapObject()
 {
-  std::cout << "Constructing HF LMap Object..." << std::endl;
+  std::cout << "#Constructing HF LMap Object..." << std::endl;
 
   for(int irbx=0;irbx<NrbxHF*2;irbx++)
   {
@@ -62,9 +62,6 @@ void HFMappingAlgorithm::ConstructHFFrontEnd(int sideid, int rbxrmid, int rmfifi
   //set secondary variables qie8 map
   thisHFFrontEnd.qie8 = (thisHFFrontEnd.rm_fiber -1)/2+1;
   thisHFFrontEnd.rm_fiber%2 != 0 ? thisHFFrontEnd.qie8_ch = thisHFFrontEnd.fiber_ch : thisHFFrontEnd.qie8_ch = 3 + (thisHFFrontEnd.fiber_ch+1)%3;
-  //qie10 map
-  //thisHFFrontEnd.qie10 = ;
-  //thisHFFrontEnd.qie10_ch = ;
 
   myHFFrontEnd.push_back(thisHFFrontEnd);
   return ;

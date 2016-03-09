@@ -167,7 +167,7 @@ void HFAnalyzer::PlottingHFFEtoBEVME(
     double zhtr_fiber = (myHFBackEnd.at(i)).htr_fiber;
 
     double x = ((myHFFrontEnd.at(i)).rm_fiber-1)*3 + (myHFFrontEnd.at(i)).fiber_ch + 1;
-    double rbxid = std::stod( thisrbx.substr( thisrbx.length() - 2 ) );//1,....12 for HF,0, 2,4,6,8,10,12 for other HF,12
+    double rbxid = std::stod( thisrbx.substr( thisrbx.length() - 2 ) );//1,....12 for HF
     double rmid = (myHFFrontEnd.at(i)).rm;
     double y = (rbxid-1)*3 + rmid;
     

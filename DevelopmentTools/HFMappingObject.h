@@ -5,7 +5,7 @@ struct HFFrontEnd
   std::string rbx;
   int rm, rm_fiber, fiber_ch;
   int qie8, qie8_ch, qie8id;
-  int qie10, qie10_ch;
+  //int qie10, qie10_ch;
 };
 
 //Backend electronics struct
@@ -52,7 +52,7 @@ class HFConstant
   // channels in HF
   static const int NchHF_all = 1728;
   //Front End variables
-  //rbx in HF, 18 for each side
+  //rbx in HF, 12 for each side
   static const int NrbxHF = 12;
   //3 rm in all HF rbx, label from 1 to 3
   static const int NrmHF = 3;
@@ -65,13 +65,13 @@ class HFConstant
   static const int Nqie_ch = 6;
 
   //Back End variables
-  //3 crate in HF: 2,9,12
+  //3 crate in HF: 2,9,12 while 22,29,32 for uCrate
   static const int Ncrate = 3;
   //12 htr in each crate, 2,3,4,5,6,7 and 13,14,15,16,17,18; 12 uhtr in each crate, 1,2,3,4,5,6,7,8,9,10,11,12
   static const int Nhtr = 12; static const int Nuhtr = 12;
   //2 fpga flavors top and bottom in htr, while only uHTR in u
   static const int Nfpga = 2; static const int Nufpga = 1;
-  //8 fibers per htr card: 1,2,3,4,5,6,7,8, while 12 in uhtr: 2,3,4,5,6,7,8,9 and 14,15,16,17,18,19,20,21
+  //8 fibers per htr card: 1,2,3,4,5,6,7,8, while 16 in uhtr: 2,3,4,5,6,7,8,9 and 14,15,16,17,18,19,20,21
   static const int Nhtr_fiber = 8; static const int Nuhtr_fiber = 16;
 
   //Need to be tuned
