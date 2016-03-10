@@ -11,7 +11,6 @@ class ngHFMappingAlgorithm : public ngHFConstant
   void SplitngHFfromOldHF(std::vector<HFFrontEnd> myHFFrontEnd, std::vector<HFBackEnd> myHFBackEnd, std::vector<HFPMTBox> myHFPMTBox, std::vector<HFGeometry> myHFGeometry, std::vector<HFTriggerTower> myHFTriggerTower);
   //void ConstructngHFLMapObject();
  private:
-  void printngHFLMapObject();
   //void ConstructngHFFrontEnd(int sideid, int rbxrmid, int rmfifichid);
   //void ConstructngHFBackEnd(int sideid, int rbxrmid, int rmfifichid);      
   //void ConstructngHFGeometry(int sideid, int rbxrmid, int rmfifichid);      
@@ -24,7 +23,7 @@ void ngHFMappingAlgorithm::SplitngHFfromOldHF(
                                               std::vector<HFFrontEnd> myHFFrontEnd, std::vector<HFBackEnd> myHFBackEnd, std::vector<HFPMTBox> myHFPMTBox, std::vector<HFGeometry> myHFGeometry, std::vector<HFTriggerTower> myHFTriggerTower
                                              )
 {
-  std::cout << "Splitting ngHF LMap Object from old HF LMap..." << std::endl;
+  std::cout << "#Splitting ngHF LMap Object from old HF LMap..." << std::endl;
   
   for(auto i=0; i<myHFFrontEnd.size(); i++)
   {
@@ -88,24 +87,6 @@ void ngHFMappingAlgorithm::SplitngHFfromOldHF(
     myngHFTriggerTower.push_back(thisngHFTriggerTower);
   }
   
-  printngHFLMapObject();
-  return ;
-}
-
-void ngHFMappingAlgorithm::printngHFLMapObject()
-{
-  std::cout << "Dumping ngHF LMap Object..." << std::endl;
-
-  for(auto i=0; i<myngHFFrontEnd.size(); i++)
-  {
-    std::cout //<< "ngHFFrontEnd(rbx,rm,rm_fiber,fiber_ch,qie8,qie8_ch): "
-              << myngHFFrontEnd.at(i).rbx << " " << myngHFFrontEnd.at(i).qie10 << " " << myngHFFrontEnd.at(i).qie10_ch << " " << myngHFFrontEnd.at(i).qie10_fiber << " " << myngHFFrontEnd.at(i).fiber_ch << " "
-              //<< "ngHFBackEnd(ucrate,uhtr,uhtr_fiber,fiber_ch): "
-              << myngHFBackEnd.at(i).ucrate << " " << myngHFBackEnd.at(i).uhtr << " " << myngHFBackEnd.at(i).uhtr_fiber << " " << myngHFBackEnd.at(i).fiber_ch << " "
-              //<< "ngHFGeometry(side,eta,phi,depth): "
-              << myngHFGeometry.at(i).side << " " <<  myngHFGeometry.at(i).eta << " " << myngHFGeometry.at(i).phi << " " << myngHFGeometry.at(i).depth << " "
-              << std::endl;
-  }
   return ;
 }
 

@@ -2,7 +2,7 @@
 #include <fstream>
 
 #include "HCALLMapAnalyzer.h"
-//#include "HCALLMapDump.h"
+#include "HCALLMapDumper.h"
 
 int GetHBHEHFromLMap(
                      std::string LMapFileName,
@@ -121,7 +121,7 @@ int GetHBHEHFromLMap(
 
       myHFFrontEnd.push_back(thisHFFrontEnd); myHFBackEnd.push_back(thisHFBackEnd); myHFPMTBox.push_back(thisHFPMTBox); myHFGeometry.push_back(thisHFGeometry); myHFTriggerTower.push_back(thisHFTriggerTower);
     }
-    else { std::cout << "We are looping over HBEF map but did not find the tag for HBHEHF!! Suck on that!" << std::endl; return -2; }
+    else { std::cout << "#We are looping over HBEF map but did not find the tag for HBHEHF!! Suck on that!" << std::endl; return -2; }
   }
   return NChannel;
 }
@@ -170,15 +170,15 @@ int main(int argc, char* argv[])
 {
   if (argc < 1)
   {
-    std::cerr <<"Please give at least 1 argument " << "RunMode " << std::endl;
-    std::cerr <<" Valid configurations are " << std::endl;
-    std::cerr <<" ./HCALLMapAnalyzer RunMode" << std::endl;
+    std::cerr <<"#Please give at least 1 argument " << "RunMode " << std::endl;
+    std::cerr <<"# Valid configurations are " << std::endl;
+    std::cerr <<"# ./HCALLMapAnalyzer RunMode" << std::endl;
     return -1;
   }
 
   std::string RunMode = argv[1];
-  std::cout << "The valid run modes are: HBHEHFVME, HBHEHFuTCA, HOVME" << std::endl;
-  std::cout << "The run mode we have right now is: " << RunMode << std::endl;
+  std::cout << "#The valid run modes are: HBHEHFVME, HBHEHFuTCA, HOVME" << std::endl;
+  std::cout << "#The run mode we have right now is: " << RunMode << std::endl;
 
   //initialize the variables we need in analysis
   std::vector<HBFrontEnd> myHBFrontEnd; std::vector<HBBackEnd> myHBBackEnd; std::vector<HBPMTBox> myHBPMTBox; std::vector<HBGeometry> myHBGeometry; std::vector<HBTriggerTower> myHBTriggerTower;
@@ -198,8 +198,8 @@ int main(int argc, char* argv[])
     HBHEAnalyzer myHBHEAnalyzer;
     HFAnalyzer myHFAnalyzer;
 
-    if(NChannel == myHBHEAnalyzer.NchHBHE_all + myHFAnalyzer.NchHF_all){ std::cout << "The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
-    else{ std::cout << "We have " << NChannel << " channels from txt Lmap while we have " << myHBHEAnalyzer.NchHBHE_all + myHFAnalyzer.NchHF_all << " channels expected in HBHEHF, something must be wrong!" << std::endl; return -1; }
+    if(NChannel == myHBHEAnalyzer.NchHBHE_all + myHFAnalyzer.NchHF_all){ std::cout << "#The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
+    else{ std::cout << "#We have " << NChannel << " channels from txt Lmap while we have " << myHBHEAnalyzer.NchHBHE_all + myHFAnalyzer.NchHF_all << " channels expected in HBHEHF, something must be wrong!" << std::endl; return -1; }
 
     myHBHEAnalyzer.HBHENChannelBasicCheck();
     myHBHEAnalyzer.PlottingHBFEtoGeo(myHBFrontEnd,myHBGeometry);
@@ -210,7 +210,7 @@ int main(int argc, char* argv[])
     myHFAnalyzer.HFNChannelBasicCheck();
     myHFAnalyzer.PlottingHFFEtoGeo(myHFFrontEnd,myHFGeometry);
     myHFAnalyzer.PlottingHFFEtoBEVME(myHFFrontEnd,myHFBackEnd);
-
+    return 1;
   }
   else if( RunMode == "HBHEHFuTCA" )
   {
@@ -224,8 +224,8 @@ int main(int argc, char* argv[])
     HBHEAnalyzer myHBHEAnalyzer;
     HFAnalyzer myHFAnalyzer;
 
-    if(NChannel == myHBHEAnalyzer.NchHBHE_all + myHFAnalyzer.NchHF_all){ std::cout << "The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
-    else{ std::cout << "We have " << NChannel << " channels from txt Lmap while we have " << myHBHEAnalyzer.NchHBHE_all + myHFAnalyzer.NchHF_all << " channels expected in HBHEHF, something must be wrong!" << std::endl; return -1; }
+    if(NChannel == myHBHEAnalyzer.NchHBHE_all + myHFAnalyzer.NchHF_all){ std::cout << "#The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
+    else{ std::cout << "#We have " << NChannel << " channels from txt Lmap while we have " << myHBHEAnalyzer.NchHBHE_all + myHFAnalyzer.NchHF_all << " channels expected in HBHEHF, something must be wrong!" << std::endl; return -1; }
 
     myHBHEAnalyzer.HBHENChannelBasicCheck();
     myHBHEAnalyzer.PlottingHBFEtoGeo(myHBFrontEnd,myHBGeometry);
@@ -237,21 +237,23 @@ int main(int argc, char* argv[])
     myHFAnalyzer.PlottingHFFEtoGeo(myHFFrontEnd,myHFGeometry);
     myHFAnalyzer.PlottingHFFEtoBEuTCA(myHFFrontEnd,myHFBackEnd);
 
-    //printHFLMapObject(myHFFrontEnd, myHFBackEnd, myHFPMTBox, myHFGeometry, myHFTriggerTower);
+    //HCALLMapDumper::printHFLMapObject(myHFFrontEnd, myHFBackEnd, myHFPMTBox, myHFGeometry, myHFTriggerTower);
+    return 1;
   }
   else if( RunMode == "HOVME" )
   {
     HOAnalyzer myHOAnalyzer;
     std::string txtfilename = "officialMap/HCALmapHO_G.txt";
     int NChannel = GetHOFromLMap(txtfilename, myHOFrontEnd, myHOBackEnd, myHOPMTBox, myHOGeometry, myHOTriggerTower);
-    if(NChannel == myHOAnalyzer.NchHO_all){ std::cout << "The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
-    else{ std::cout << "We have " << NChannel << " channels from txt Lmap while we have " << myHOAnalyzer.NchHO_all << " channels expected in HO, something must be wrong!" << std::endl; return -1; }
+    if(NChannel == myHOAnalyzer.NchHO_all){ std::cout << "#The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
+    else{ std::cout << "#We have " << NChannel << " channels from txt Lmap while we have " << myHOAnalyzer.NchHO_all << " channels expected in HO, something must be wrong!" << std::endl; return -1; }
 
     myHOAnalyzer.HONChannelBasicCheck();
     myHOAnalyzer.PlottingHOFEtoGeo(myHOFrontEnd,myHOGeometry);
     myHOAnalyzer.PlottingHOFEtoBEVME(myHOFrontEnd,myHOBackEnd);
+    return 1;
   }
-  else{ std::cout << "Invalide Run Mode, the the fuck is going on!" << std::endl; return -1; }
+  else{ std::cout << "#Invalide Run Mode, the the fuck is going on!" << std::endl; return -1; }
 
   return 0;
 }
