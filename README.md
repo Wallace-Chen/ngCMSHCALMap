@@ -29,3 +29,6 @@ To produce the LMap:
 ./HCALLMapProducer RunMode
 
 The valid RunMode are: HB,HE,HF,HO
+
+
+## Be careful! HCALLMapLoader.h and HCALLMapDumper.h will be functional only after load the HXMappingObject.h
