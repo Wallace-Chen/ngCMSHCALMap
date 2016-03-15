@@ -29,12 +29,18 @@ namespace HCALLMapDumper
 
     for(auto i=0; i<myngHFFrontEnd.size(); i++)
     {
-      std::cout //<< "ngHFGeometry(side,eta,phi,depth): "
-                << myngHFGeometry.at(i).side << " " <<  myngHFGeometry.at(i).eta << " " << myngHFGeometry.at(i).phi << " " << myngHFGeometry.at(i).depth << " "
+      if(i==0) std::cout << "#Side     Eta       Phi     Depth     PMT    PMT_TYPE W_Cable   S_PMT    S_QIE    R_PMT     R_QIE       ngRBX       QIE10  QIE10_CH  QIE10_FI  FI_CH    uCrate     uHTR    uHTR_FI   FI_CH"<< std::endl;
+      std::cout << "  "
+                //<< "ngHFGeometry(side,eta,phi,depth): "
+                << myngHFGeometry.at(i).side << "        " <<  myngHFGeometry.at(i).eta << "        " << myngHFGeometry.at(i).phi << "        " << myngHFGeometry.at(i).depth << "        "
+                //<< "ngHFPMTBox(PMT, PMT Type, Winchester Cable): "
+                << myngHFPMTBox.at(i).pmt << "        " << myngHFPMTBox.at(i).pmt_type << "        " << myngHFPMTBox.at(i).winchester_cable << "        "
+                //<< "Winchester Cable, PIN to PIN"
+                << myngHFPMTBox.at(i).s_coax_pmt << "        " << myngHFFrontEnd.at(i).s_coax_qie << "        " << myngHFPMTBox.at(i).r_coax_pmt << "        " << myngHFFrontEnd.at(i).r_coax_qie << "        "
                 //<< "ngHFFrontEnd(rbx,rm,rm_fiber,fiber_ch,qie8,qie8_ch): "
-                << myngHFFrontEnd.at(i).rbx << " " << myngHFFrontEnd.at(i).qie10 << " " << myngHFFrontEnd.at(i).qie10_ch << " " << myngHFFrontEnd.at(i).qie10_fiber << " " << myngHFFrontEnd.at(i).fiber_ch << " "
+                << myngHFFrontEnd.at(i).rbx << "        " << myngHFFrontEnd.at(i).qie10 << "        " << myngHFFrontEnd.at(i).qie10_ch << "        " << myngHFFrontEnd.at(i).qie10_fiber << "        " << myngHFFrontEnd.at(i).fiber_ch << "        "
                 //<< "ngHFBackEnd(ucrate,uhtr,uhtr_fiber,fiber_ch): "
-                << myngHFBackEnd.at(i).ucrate << " " << myngHFBackEnd.at(i).uhtr << " " << myngHFBackEnd.at(i).uhtr_fiber << " " << myngHFBackEnd.at(i).fiber_ch << " "
+                << myngHFBackEnd.at(i).ucrate << "        " << myngHFBackEnd.at(i).uhtr << "        " << myngHFBackEnd.at(i).uhtr_fiber << "        " << myngHFBackEnd.at(i).fiber_ch << "        "
                 << std::endl;
     }
     return ;

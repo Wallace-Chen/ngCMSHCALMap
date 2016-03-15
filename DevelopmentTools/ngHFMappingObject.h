@@ -2,9 +2,16 @@
 //FrontEnd electronics struct
 struct ngHFFrontEnd
 {
+  //interface to BackEnd: 2 side, 72 qie10s per side, 24 qie10 channels per qie10 = 3456
   std::string rbx;
   int qie10_fiber, fiber_ch;
   int qie10, qie10_ch;
+  //variables in ROB/Connector
+  
+  //interface to PMT: 2 side, 72 qie10s per side, 2 qie10 connectors per qie10, and 12 channels per connector
+  std::string qie10_connector;//TOP or BOT
+  int s_coax_qie, r_coax_qie;//24 in total, 12 each
+  //2 side * 72 QIE10s per side * 2 connectors per QIE10 * 24/2(pin to channels) = 3456
 };
 
 //Backend electronics struct
@@ -20,7 +27,13 @@ struct ngHFBackEnd
 //PMT boxes struct
 struct ngHFPMTBox
 {
-  int wedge;
+  int pmt;//1 to...36 per side
+  std::string pmt_type;//Type A or Type B
+  int winchester_cable;//1,2,3,4
+  int s_coax_pmt, r_coax_pmt;//24 in total, 12 each
+  //2 side * 36 PMTs per side *  4 Winchester cable per PMT * 24 Pins/2 = 3456 channels
+
+  int wedge;//1,2,3,4...18
   int pixel;
 };
 
@@ -69,7 +82,7 @@ class ngHFConstant
   static const int Nuhtr_fiber = 24;
 
   //Need to be tuned
-  //Geometry variables in ngHF: eta from 29,to 40,41, phi is 1,3,...71 for most eta while dphi == 4 for eta 40,41;
+  //Geometry variables in ngHF: eta from 29,to 40,41, phi is 1,3,...71 for most eta while dphi == 4 for eta 40,41;4 depth in total, depth 1 and 3 take electromagnetic shower while depth 2 and 4 take hadronic shower
   static const int NngHFside = 2;
   static const int NngHFetadphi2 = 11;
   static const int NngHFetadphi4 = 2;
