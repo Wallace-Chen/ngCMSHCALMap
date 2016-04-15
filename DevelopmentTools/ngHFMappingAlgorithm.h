@@ -104,7 +104,7 @@ void ngHFMappingAlgorithm::ConstructngHFPMTBox(int rbxqie10id, int qie10_chid, i
   ngHFPMTBox thisngHFPMTBox;
 
   thisngHFPMTBox.pmt = rbxqie10id/2+1;//from 0,...71 QIE10 to pmt 1,...36
-  thisngHFPMTBox.pmt%2!=0 ? thisngHFPMTBox.pmt_type = "A" : thisngHFPMTBox.pmt_type = "B";
+  thisngHFPMTBox.pmt%2!=0 ? thisngHFPMTBox.pmt_type = "A" : thisngHFPMTBox.pmt_type = "B";//unsymmetric for F P side. Be careful
   thisngHFPMTBox.winchester_cable = (rbxqie10id%2)*2 + (qie10_chid)/12 + 1;
   s_coax_qie <= 12 ? thisngHFPMTBox.s_coax_pmt = 12 - s_coax_qie + 1 : thisngHFPMTBox.s_coax_pmt = 24 - s_coax_qie + 13;
   r_coax_qie <= 12 ? thisngHFPMTBox.r_coax_pmt = 12 - r_coax_qie + 1 : thisngHFPMTBox.r_coax_pmt = 24 - r_coax_qie + 13;

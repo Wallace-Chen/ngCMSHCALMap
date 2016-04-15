@@ -29,10 +29,12 @@ int main(int argc, char* argv[])
     myHFMappingAlgorithm.ConstructHFLMapObject();
 
     //HCALLMapDumper::printHFLMapObject(myHFMappingAlgorithm.myHFFrontEnd, myHFMappingAlgorithm.myHFBackEnd, myHFMappingAlgorithm.myHFPMTBox, myHFMappingAlgorithm.myHFGeometry, myHFMappingAlgorithm.myHFTriggerTower);
-
     
     ngHFMappingAlgorithm myngHFMappingAlgorithm;
     myngHFMappingAlgorithm.SplitngHFfromOldHF(myHFMappingAlgorithm.myHFFrontEnd, myHFMappingAlgorithm.myHFBackEnd, myHFMappingAlgorithm.myHFPMTBox, myHFMappingAlgorithm.myHFGeometry, myHFMappingAlgorithm.myHFTriggerTower);
+    
+    //ngHFAnalyzer myngHFAnalyzer;
+    //myngHFAnalyzer.PlottingngHFBEuTCAtoGeo(myngHFMappingAlgorithm.myngHFBackEnd, myngHFMappingAlgorithm.myngHFGeometry);
 
     HCALLMapDumper::printngHFLMapObject(myngHFMappingAlgorithm.myngHFFrontEnd, myngHFMappingAlgorithm.myngHFBackEnd, myngHFMappingAlgorithm.myngHFPMTBox, myngHFMappingAlgorithm.myngHFGeometry, myngHFMappingAlgorithm.myngHFTriggerTower);
     

@@ -162,5 +162,37 @@ namespace HCALLMapLoader
     return NChannel;
   }
 
+  int GetngHFromLMap(
+                     std::string LMapFileName,
+                     std::vector<ngHFFrontEnd> &myngHFFrontEnd, std::vector<ngHFBackEnd> &myngHFBackEnd, std::vector<ngHFPMTBox> &myngHFPMTBox, std::vector<ngHFGeometry> &myngHFGeometry, std::vector<ngHFTriggerTower> &myngHFTriggerTower
+                    )
+  {
+    int NChannel = 0;
+    std::ifstream inputFile(LMapFileName.c_str());
+    std::string line;
+    while( std::getline(inputFile, line) )
+    {
+      if(line.at(0) == '#') continue;
+      NChannel++;
+
+      std::istringstream ss(line);
+      //std::cout << line << std::endl;
+      ngHFFrontEnd thisngHFFrontEnd; ngHFBackEnd thisngHFBackEnd; ngHFPMTBox thisngHFPMTBox; ngHFGeometry thisngHFGeometry; ngHFTriggerTower thisngHFTriggerTower;
+      //#  Side   Eta   Phi Depth      PMT PMT_TYPE  W_Cable S_PMT S_QIE R_PMT R_QIE    ngRBX    QIE10 QIE10_CH QIE10_FI    FI_CH   uCrate     uHTR  uHTR_FI    FI_CH
+      //      1    34     1     2        1        A        1    11     2    12     1  ngHFP01        3        1        4        0       32       12        0        0
+      ss >> thisngHFGeometry.side >> thisngHFGeometry.eta >> thisngHFGeometry.phi >> thisngHFGeometry.depth
+         >> thisngHFPMTBox.pmt >> thisngHFPMTBox.pmt_type >> thisngHFPMTBox.winchester_cable 
+         >> thisngHFPMTBox.s_coax_pmt 
+         >> thisngHFFrontEnd.s_coax_qie
+         >> thisngHFPMTBox.r_coax_pmt
+         >> thisngHFFrontEnd.r_coax_qie
+         >> thisngHFFrontEnd.rbx >> thisngHFFrontEnd.qie10 >> thisngHFFrontEnd.qie10_ch >> thisngHFFrontEnd.qie10_fiber >> thisngHFFrontEnd.fiber_ch
+         >> thisngHFBackEnd.ucrate >> thisngHFBackEnd.uhtr >> thisngHFBackEnd.uhtr_fiber >> thisngHFBackEnd.fiber_ch;
+
+      myngHFFrontEnd.push_back(thisngHFFrontEnd); myngHFBackEnd.push_back(thisngHFBackEnd); myngHFPMTBox.push_back(thisngHFPMTBox); myngHFGeometry.push_back(thisngHFGeometry); myngHFTriggerTower.push_back(thisngHFTriggerTower);
+    }
+
+    return NChannel;
+  }
 
 }

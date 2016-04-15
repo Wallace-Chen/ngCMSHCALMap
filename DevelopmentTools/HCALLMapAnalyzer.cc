@@ -23,6 +23,7 @@ int main(int argc, char* argv[])
   std::vector<HBFrontEnd> myHBFrontEnd; std::vector<HBBackEnd> myHBBackEnd; std::vector<HBPMTBox> myHBPMTBox; std::vector<HBGeometry> myHBGeometry; std::vector<HBTriggerTower> myHBTriggerTower;
   std::vector<HEFrontEnd> myHEFrontEnd; std::vector<HEBackEnd> myHEBackEnd; std::vector<HEPMTBox> myHEPMTBox; std::vector<HEGeometry> myHEGeometry; std::vector<HETriggerTower> myHETriggerTower;
   std::vector<HFFrontEnd> myHFFrontEnd; std::vector<HFBackEnd> myHFBackEnd; std::vector<HFPMTBox> myHFPMTBox; std::vector<HFGeometry> myHFGeometry; std::vector<HFTriggerTower> myHFTriggerTower;
+  std::vector<ngHFFrontEnd> myngHFFrontEnd; std::vector<ngHFBackEnd> myngHFBackEnd; std::vector<ngHFPMTBox> myngHFPMTBox; std::vector<ngHFGeometry> myngHFGeometry; std::vector<ngHFTriggerTower> myngHFTriggerTower;
   std::vector<HOFrontEnd> myHOFrontEnd; std::vector<HOBackEnd> myHOBackEnd; std::vector<HOPMTBox> myHOPMTBox; std::vector<HOGeometry> myHOGeometry; std::vector<HOTriggerTower> myHOTriggerTower;
   
   if( RunMode == "HBHEHFVME" )
@@ -91,6 +92,17 @@ int main(int argc, char* argv[])
     myHOAnalyzer.PlottingHOFEtoGeo(myHOFrontEnd,myHOGeometry);
     myHOAnalyzer.PlottingHOFEtoBEVME(myHOFrontEnd,myHOBackEnd);
     return 1;
+  }
+  else if( RunMode == "ngHFuTCA" )
+  {
+    std::string txtfilename = "officialMap/ngHFLMap_v0.txt";
+    int NChannel = HCALLMapLoader::GetngHFromLMap(
+                                                  txtfilename,
+                                                  myngHFFrontEnd, myngHFBackEnd, myngHFPMTBox, myngHFGeometry, myngHFTriggerTower
+                                                 );
+
+    ngHFAnalyzer myngHFAnalyzer;
+    myngHFAnalyzer.PlottingngHFBEuTCAtoGeo(myngHFBackEnd, myngHFGeometry);
   }
   else{ std::cout << "#Invalide Run Mode, the the fuck is going on!" << std::endl; return -1; }
 
