@@ -21,6 +21,11 @@ int main(int argc, char* argv[])
   }
   else if( RunMode == "HE" )
   {
+    ngHEMappingAlgorithm myngHEMappingAlgorithm;
+    myngHEMappingAlgorithm.ConstructngHELMapObject();
+
+    HCALLMapDumper::printngHELMapObject(myngHEMappingAlgorithm.myngHEFrontEnd, myngHEMappingAlgorithm.myngHEBackEnd, myngHEMappingAlgorithm.myngHEPMTBox, myngHEMappingAlgorithm.myngHEGeometry, myngHEMappingAlgorithm.myngHETriggerTower);
+
     return 1;
   }
   else if( RunMode == "HF" )
@@ -33,9 +38,6 @@ int main(int argc, char* argv[])
     ngHFMappingAlgorithm myngHFMappingAlgorithm;
     myngHFMappingAlgorithm.SplitngHFfromOldHF(myHFMappingAlgorithm.myHFFrontEnd, myHFMappingAlgorithm.myHFBackEnd, myHFMappingAlgorithm.myHFPMTBox, myHFMappingAlgorithm.myHFGeometry, myHFMappingAlgorithm.myHFTriggerTower);
     
-    //ngHFAnalyzer myngHFAnalyzer;
-    //myngHFAnalyzer.PlottingngHFBEuTCAtoGeo(myngHFMappingAlgorithm.myngHFBackEnd, myngHFMappingAlgorithm.myngHFGeometry);
-
     HCALLMapDumper::printngHFLMapObject(myngHFMappingAlgorithm.myngHFFrontEnd, myngHFMappingAlgorithm.myngHFBackEnd, myngHFMappingAlgorithm.myngHFPMTBox, myngHFMappingAlgorithm.myngHFGeometry, myngHFMappingAlgorithm.myngHFTriggerTower);
     
     return 1;
