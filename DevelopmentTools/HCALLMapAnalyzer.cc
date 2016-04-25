@@ -103,6 +103,8 @@ int main(int argc, char* argv[])
                                                  );
 
     ngHFAnalyzer myngHFAnalyzer;
+    myngHFAnalyzer.PlottingngHFFEtoGeo(myngHFFrontEnd, myngHFGeometry);
+    myngHFAnalyzer.PlottingngHFFEtoBEuTCA(myngHFFrontEnd,myngHFBackEnd);
     myngHFAnalyzer.PlottingngHFBEuTCAtoGeo(myngHFBackEnd, myngHFGeometry);
   }
   else if( RunMode == "ngHEuTCA" )
@@ -116,7 +118,7 @@ int main(int argc, char* argv[])
     ngHEAnalyzer myngHEAnalyzer;
     myngHEAnalyzer.PlottingngHEFEtoGeo(myngHEFrontEnd, myngHEGeometry);
     myngHEAnalyzer.PlottingngHEFEtoBEuTCA(myngHEFrontEnd,myngHEBackEnd);
-    //myngHEAnalyzer.PlottingngHEBEuTCAtoGeo(myngHEBackEnd, myngHEGeometry);
+    myngHEAnalyzer.PlottingngHEBEuTCAtoGeo(myngHEBackEnd, myngHEGeometry);
   }
   else{ std::cout << "#Invalide Run Mode, the the fuck is going on!" << std::endl; return -1; }
 

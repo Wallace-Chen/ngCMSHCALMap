@@ -247,20 +247,19 @@ void ngHEAnalyzer::PlottingngHEFEtoBEuTCA(
   return ;
 }
 
-/*
 void ngHEAnalyzer::PlottingngHEBEuTCAtoGeo(
                                            std::vector<ngHEBackEnd> myngHEBackEnd,
                                            std::vector<ngHEGeometry> myngHEGeometry
                                           )
 {
-  TCanvas *c = new TCanvas("c", "",0,51,6000,2500);
+  TCanvas *c = new TCanvas("c", "",0,51,2000,6000);
   c->Divide(1,3); c->SetFillColor(0); c->cd();
 
   gStyle->SetTitleFontSize(0.1);
 
-  TH2D *nghfbephi = new TH2D("nghfbephi", "Phi in ngHE BackEnd", Nuhtr_fiber*Nfiber_ch, 1, Nuhtr_fiber*Nfiber_ch+1, Ncrate*Nuhtr, 1, Ncrate*Nuhtr+1);
-  TH2D *nghfbeeta = new TH2D("nghfbeeta", "Eta in ngHE BackEnd", Nuhtr_fiber*Nfiber_ch, 1, Nuhtr_fiber*Nfiber_ch+1, Ncrate*Nuhtr, 1, Ncrate*Nuhtr+1);
-  TH2D *nghfbedep = new TH2D("nghfbedep", "Dep in ngHE BackEnd", Nuhtr_fiber*Nfiber_ch, 1, Nuhtr_fiber*Nfiber_ch+1, Ncrate*Nuhtr, 1, Ncrate*Nuhtr+1);
+  TH2D *nghebephi = new TH2D("nghebephi", "Phi in ngHE BackEnd", Nuhtr_fiber*Nfiber_ch, 1, Nuhtr_fiber*Nfiber_ch+1, Ncrate*Nuhtr, 1, Ncrate*Nuhtr+1);
+  TH2D *nghebeeta = new TH2D("nghebeeta", "Eta in ngHE BackEnd", Nuhtr_fiber*Nfiber_ch, 1, Nuhtr_fiber*Nfiber_ch+1, Ncrate*Nuhtr, 1, Ncrate*Nuhtr+1);
+  TH2D *nghebedep = new TH2D("nghebedep", "Dep in ngHE BackEnd", Nuhtr_fiber*Nfiber_ch, 1, Nuhtr_fiber*Nfiber_ch+1, Ncrate*Nuhtr, 1, Ncrate*Nuhtr+1);
 
   for(auto i=0; i<NchngHE_all; i++)
   {
@@ -268,29 +267,34 @@ void ngHEAnalyzer::PlottingngHEBEuTCAtoGeo(
     double zeta = (myngHEGeometry.at(i)).side * (myngHEGeometry.at(i)).eta;
     double zdepth = (myngHEGeometry.at(i)).depth;
 
-    double x = (myngHEBackEnd.at(i)).uhtr_fiber*4 + (myngHEBackEnd.at(i)).fiber_ch + 1;
+    double x = (myngHEBackEnd.at(i)).uhtr_fiber*6 + (myngHEBackEnd.at(i)).fiber_ch + 1;
     double crateid = -1;
-    if      ((myngHEBackEnd.at(i)).ucrate==22) crateid = 0; 
-    else if ((myngHEBackEnd.at(i)).ucrate==29) crateid = 1; 
-    else crateid = 2;
+    //20,21,24,25,30,31,34,35,37
+    if      ((myngHEBackEnd.at(i)).ucrate==20) crateid = 0; 
+    else if ((myngHEBackEnd.at(i)).ucrate==21) crateid = 1; 
+    else if ((myngHEBackEnd.at(i)).ucrate==24) crateid = 2;
+    else if ((myngHEBackEnd.at(i)).ucrate==25) crateid = 3;
+    else if ((myngHEBackEnd.at(i)).ucrate==30) crateid = 4;
+    else if ((myngHEBackEnd.at(i)).ucrate==31) crateid = 5;
+    else if ((myngHEBackEnd.at(i)).ucrate==34) crateid = 6;
+    else if ((myngHEBackEnd.at(i)).ucrate==35) crateid = 7;
+    else crateid = 8;
     double y = crateid*12 + (myngHEBackEnd.at(i)).uhtr;
-    nghfbephi->Fill(x,y,zphi); nghfbeeta->Fill(x,y,zeta); nghfbedep->Fill(x,y,zdepth);
+    nghebephi->Fill(x,y,zphi); nghebeeta->Fill(x,y,zeta); nghebedep->Fill(x,y,zdepth);
   }
 
   for(int i=1;i<=Nuhtr_fiber*Nfiber_ch;i++)
   { 
-    nghfbephi->GetXaxis()->SetBinLabel(i,ngHEFiberFiberChannellabel[i-1]); nghfbeeta->GetXaxis()->SetBinLabel(i,ngHEFiberFiberChannellabel[i-1]); nghfbedep->GetXaxis()->SetBinLabel(i,ngHEFiberFiberChannellabel[i-1]);
+    nghebephi->GetXaxis()->SetBinLabel(i,ngHEFiberFiberChannellabel[i-1]); nghebeeta->GetXaxis()->SetBinLabel(i,ngHEFiberFiberChannellabel[i-1]); nghebedep->GetXaxis()->SetBinLabel(i,ngHEFiberFiberChannellabel[i-1]);
   }
   for(int i=1;i<=Ncrate*Nuhtr;i++) 
   { 
-    nghfbephi->GetYaxis()->SetBinLabel(i,ngHECrateSlotlabel[i-1]); nghfbeeta->GetYaxis()->SetBinLabel(i,ngHECrateSlotlabel[i-1]); nghfbedep->GetYaxis()->SetBinLabel(i,ngHECrateSlotlabel[i-1]);
+    nghebephi->GetYaxis()->SetBinLabel(i,ngHECrateSlotlabel[i-1]); nghebeeta->GetYaxis()->SetBinLabel(i,ngHECrateSlotlabel[i-1]); nghebedep->GetYaxis()->SetBinLabel(i,ngHECrateSlotlabel[i-1]);
   }
 
-  nghfbephi->SetStats(0); nghfbeeta->SetStats(0); nghfbedep->SetStats(0);
+  nghebephi->SetStats(0); nghebeeta->SetStats(0); nghebedep->SetStats(0);
 
-  c->cd(1); nghfbephi->Draw("colztext"); c->cd(2); nghfbeeta->Draw("colztext"); c->cd(3); nghfbedep->Draw("colztext");
-
-  //title->Draw("same");
+  c->cd(1); nghebephi->Draw("colztext"); c->cd(2); nghebeeta->Draw("colztext"); c->cd(3); nghebedep->Draw("colztext");
 
   c->SaveAs( (dir+"_ngHEBEetaphidepth.png").c_str() );
   c->SaveAs( (dir+"_ngHEBEetaphidepth.pdf").c_str() );
@@ -299,4 +303,3 @@ void ngHEAnalyzer::PlottingngHEBEuTCAtoGeo(
 
   return ;
 }
-*/

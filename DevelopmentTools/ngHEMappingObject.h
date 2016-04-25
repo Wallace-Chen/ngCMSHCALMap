@@ -63,7 +63,7 @@ class ngHEConstant
   // 12 channels per QIE card, 1 to 12, but qie8 adc is 0 to 5, should we also start from 0 ?
   static const int Nqie11_ch = 12;
 
-  //9 crate shared by HB and HE: 20,21,24,24,30,31,34,35,37
+  //9 crate shared by HB and HE: 20,21,24,25,30,31,34,35,37
   static const int Ncrate = 9;
   //12 uhtr in each crate, 1,2,3,4,5,6,7,8,9,10,11,12, same as old HF
   static const int Nuhtr = 12;

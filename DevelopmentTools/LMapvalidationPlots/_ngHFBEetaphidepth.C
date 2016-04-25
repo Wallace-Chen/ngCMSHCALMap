@@ -1,7 +1,7 @@
 void _ngHFBEetaphidepth()
 {
 //=========Macro generated from canvas: c/
-//=========  (Wed Apr 20 17:53:48 2016) by ROOT version6.06/01
+//=========  (Mon Apr 25 16:33:25 2016) by ROOT version6.06/01
    TCanvas *c = new TCanvas("c", "",0,0,6000,2500);
    c->SetHighLightColor(2);
    c->Range(0,0,1,1);
@@ -7121,7 +7121,7 @@ palette->SetTitleSize(0.035);
    nghfbephi->GetZaxis()->SetTitleFont(42);
    nghfbephi->Draw("colztext");
    
-   TPaveText *pt = new TPaveText(0.4557084,0.9345786,0.5442916,0.995,"blNDC");
+   TPaveText *pt = new TPaveText(0.421502,0.8757065,0.578498,0.995,"blNDC");
    pt->SetName("title");
    pt->SetBorderSize(0);
    pt->SetFillColor(0);
@@ -14241,7 +14241,7 @@ palette->SetTitleSize(0.035);
    nghfbeeta->GetZaxis()->SetTitleFont(42);
    nghfbeeta->Draw("colztext");
    
-   pt = new TPaveText(0.4557084,0.9345786,0.5442916,0.995,"blNDC");
+   pt = new TPaveText(0.421502,0.8757065,0.578498,0.995,"blNDC");
    pt->SetName("title");
    pt->SetBorderSize(0);
    pt->SetFillColor(0);
@@ -21361,7 +21361,7 @@ palette->SetTitleSize(0.035);
    nghfbedep->GetZaxis()->SetTitleFont(42);
    nghfbedep->Draw("colztext");
    
-   pt = new TPaveText(0.4546023,0.9345786,0.5453977,0.995,"blNDC");
+   pt = new TPaveText(0.4192896,0.8757065,0.5807104,0.995,"blNDC");
    pt->SetName("title");
    pt->SetBorderSize(0);
    pt->SetFillColor(0);
