@@ -60,14 +60,12 @@ class ngHFConstant
   //Front End variables
   //rbx in ngHF, 8 for each side
   static const int NrbxngHF = 8;
-  
   //9 QIE10s per ngHF front end rbx
   static const int Nqie10 = 9;
   //QIE10 fiber, always 4,5,6,7,8,9, but is it true ?
-  //static const int Nqie10_fiber = 6;
+  static const int Nqie10_fiber = 6;
   //fiber channel is same for both backend electronics and front end electronics, 0,1,2,3(since software people like start from 0)
   static const int Nfiber_ch = 4;
-
   // 24 channels per QIE card, 1 to 24, but qie8 adc is 0 to 5, should we also start from 0 ?
   static const int Nqie10_ch = 24;
 
