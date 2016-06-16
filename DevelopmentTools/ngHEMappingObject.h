@@ -78,7 +78,7 @@ class ngHEConstant
   static const int NngHEphieta16to20 = 72;
   static const int NngHEphieta21to29 = 36;
   //number of depths for all _ngHE eta: 16,17,18,19,20,21,22,23,24,25,26,27,28,29
-  static const int NngHEdeptheta16to20 = 1+2+5+6+6;
-  static const int NngHEdeptheta21to29 = 6+6+6+6+6+7+7+7+3;
+  static const int NngHEdeptheta16to20 = 1+2+5+6+6;//20
+  static const int NngHEdeptheta21to29 = 6+6+6+6+6+7+7+7+3;//54
   static const int NngHECalibChannel = 144;
 };
