@@ -1,3 +1,6 @@
+#ifndef _HFMapObject_H_
+#define _HFMapObject_H_
+
 #include<string>
 //FrontEnd electronics struct
 struct HFFrontEnd
@@ -83,3 +86,4 @@ class HFConstant
   static const int NHFphidphi4 = 18;
   static const int NHFdepth = 2;
 };
+#endif

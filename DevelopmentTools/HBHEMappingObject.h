@@ -1,3 +1,6 @@
+#ifndef _HBHEMapObject_H_
+#define _HBHEMapObject_H_
+
 #include<string>
 //FrontEnd electronics struct
 struct HBFrontEnd
@@ -122,3 +125,5 @@ class HBHEConstant
   static const int NHBeta1516 = 2; static const int NHBeta1to14 = 14;
   static const int NHBdeptheta1516 = 2; static const int NHBdeptheta1to14 = 1;
 };
+
+#endif

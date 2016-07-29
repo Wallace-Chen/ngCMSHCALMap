@@ -1,3 +1,6 @@
+#ifndef _HOMapObject_H_
+#define _HOMapObject_H_
+
 #include<string>
 //FrontEnd electronics struct
 struct HOFrontEnd
@@ -83,3 +86,4 @@ class HOConstant
   static const int NnormalHOX = 2*72;
   //72 special HOX channels, only in side +1, eta 15, for all phis
 };
+#endif

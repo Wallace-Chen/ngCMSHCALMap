@@ -61,6 +61,29 @@ namespace HCALLMapDumper
     return ;
   }
 
+  void printngHFEMapObject(std::vector<ngHFFrontEnd> myngHFFrontEnd, std::vector<ngHFBackEnd> myngHFBackEnd, std::vector<ngHFPMTBox> myngHFPMTBox, std::vector<ngHFGeometry> myngHFGeometry, std::vector<ngHFTriggerTower> myngHFTriggerTower)
+  { 
+    //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+    std::cout << "#Dumping ngHF EMap Object..." << std::endl;
+    std::cout << "#"
+              << std::setw(10) <<"i" 
+              << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch" 
+              << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep" 
+              << std::endl;
+    
+    for(auto i=0; i<myngHFFrontEnd.size(); i++)
+    { 
+      std::cout 
+                //<< "ngHFGeometry(side,eta,phi,depth): "
+                << " " 
+                << std::setw(10) << "4200458C"          
+                << std::setw(6) << myngHFBackEnd.at(i).ucrate << std::setw(6) << myngHFBackEnd.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHFBackEnd.at(i).uhtr_fiber << std::setw(12) << myngHFBackEnd.at(i).fiber_ch
+                << std::setw(8) << myngHFGeometry.at(i).subdet << std::setw(6) << myngHFGeometry.at(i).side * myngHFGeometry.at(i).eta << std::setw(6) << myngHFGeometry.at(i).phi << std::setw(6) << myngHFGeometry.at(i).depth
+                << std::endl;
+    }
+    return ;
+  }
+
   void printngHELMapObject(std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHEPMTBox> myngHEPMTBox, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower)
   {
     std::cout << "#Dumping ngHE LMap Object..." << std::endl;
@@ -70,13 +93,34 @@ namespace HCALLMapDumper
               << std::setw(9) << "uCrate" << std::setw(9) << "uHTR" << std::setw(9) << "uHTR_FI" << std::setw(9) << "FI_CH" << std::endl;
     for(auto i=0; i<myngHEFrontEnd.size(); i++)
     {
-      if( myngHEFrontEnd.at(i).rbx != "ngHEP02" ) continue;
-      
+      //if( myngHEFrontEnd.at(i).rbx != "ngHEP02" ) continue;
       std::cout
                 << " "
                 << std::setw(6) << myngHEGeometry.at(i).side << std::setw(6) << myngHEGeometry.at(i).eta << std::setw(6) << myngHEGeometry.at(i).phi << std::setw(6) << myngHEGeometry.at(i).depth << std::setw(6) << myngHEGeometry.at(i).subdet
                 << std::setw(9) << myngHEFrontEnd.at(i).rbx << std::setw(9) << myngHEFrontEnd.at(i).rm << std::setw(9) << myngHEFrontEnd.at(i).rm_fiber << std::setw(9) << myngHEFrontEnd.at(i).fiber_ch
                 << std::setw(9) << myngHEBackEnd.at(i).ucrate << std::setw(9) << myngHEBackEnd.at(i).uhtr << std::setw(9) << myngHEBackEnd.at(i).uhtr_fiber << std::setw(9) << myngHEBackEnd.at(i).fiber_ch
+                << std::endl;
+    }
+    return ;
+  }
+
+  void printngHEEMapObject(std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHEPMTBox> myngHEPMTBox, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower)
+  {
+    //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+    std::cout << "#Dumping ngHE EMap Object..." << std::endl;
+    std::cout << "#"
+              << std::setw(10) <<"i"
+              << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
+              << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
+              << std::endl;
+
+    for(auto i=0; i<myngHEFrontEnd.size(); i++)
+    {
+      if( myngHEGeometry.at(i).subdet == "HEX" ) continue;
+      std::cout << " "
+                << std::setw(10) << "4200458C"
+                << std::setw(6) << myngHEBackEnd.at(i).ucrate << std::setw(6) << myngHEBackEnd.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHEBackEnd.at(i).uhtr_fiber << std::setw(12) << myngHEBackEnd.at(i).fiber_ch
+                << std::setw(8) << myngHEGeometry.at(i).subdet << std::setw(6) << myngHEGeometry.at(i).side * myngHEGeometry.at(i).eta << std::setw(6) << myngHEGeometry.at(i).phi << std::setw(6) << myngHEGeometry.at(i).depth
                 << std::endl;
     }
     return ;
