@@ -29,6 +29,8 @@ namespace HCALFrontEndMapDumper
       for(int i=0; i<myHCALFrontEndMapEntries.size(); i++)
       {
         if( myHCALFrontEndMapEntries.at(i).subdet == "HOX" ) continue;
+        //if( myHCALFrontEndMapEntries.at(i).subdet != "HB" || myHCALFrontEndMapEntries.at(i).subdet != "HO" ) continue;
+
         HCALFrontEndMapfile << " "          
                             << std::setw(9) << myHCALFrontEndMapEntries.at(i).side*myHCALFrontEndMapEntries.at(i).eta << std::setw(9) << myHCALFrontEndMapEntries.at(i).phi << std::setw(9) << myHCALFrontEndMapEntries.at(i).depth << std::setw(9) << myHCALFrontEndMapEntries.at(i).subdet << std::setw(9) << myHCALFrontEndMapEntries.at(i).rbx << std::setw(9) << myHCALFrontEndMapEntries.at(i).rm
                             << std::endl;
