@@ -30,9 +30,10 @@ class ngHEMappingAlgorithm : public ngHEConstant
                                                              19,19,19,19,19,19,20,20,20,20,20,20,22,22,22,22,22,22,24,24,24,24,24,24,26,26,26,26,26,26};//rm fiber 4,5,6,7,8
   const int ngHEetaInrmfifichidType2[Nrm_fiber*Nfiber_ch] = {16,17,17,18,18,18,18,18,27,27,27,27,27,27,27,29,29,26,//rm fiber 1,2,3
                                                              19,19,19,19,19,19,20,20,20,20,20,20,21,21,21,21,21,21,23,23,23,23,23,23,25,25,25,25,25,25};//rm fiber 4,5,6,7,8
-  const int ngHEdepthInrmfifichidType1[Nrm_fiber*Nfiber_ch] = {3,1,2,1,2,3,4,5,1,2,3,4,5,6,7,1,3,7,//rm fiber 1,2,3
+  //special case in depth : only 1(HB),2(HB),4(ngHE) for eta 16, only 2(ngHE),3(ngHE) for eta 17
+  const int ngHEdepthInrmfifichidType1[Nrm_fiber*Nfiber_ch] = {4,2,3,1,2,3,4,5,1,2,3,4,5,6,7,1,3,7,//rm fiber 1,2,3
                                                                1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6};//rm fiber 4,5,6,7,8
-  const int ngHEdepthInrmfifichidType2[Nrm_fiber*Nfiber_ch] = {3,1,2,1,2,3,4,5,1,2,3,4,5,6,7,2,3,7,//rm fiber 1,2,3
+  const int ngHEdepthInrmfifichidType2[Nrm_fiber*Nfiber_ch] = {4,2,3,1,2,3,4,5,1,2,3,4,5,6,7,2,3,7,//rm fiber 1,2,3
                                                                1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6};//rm fiber 4,5,6,7,8
 };
 
