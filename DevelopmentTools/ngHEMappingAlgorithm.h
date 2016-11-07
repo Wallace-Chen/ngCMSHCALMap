@@ -22,19 +22,118 @@ class ngHEMappingAlgorithm : public ngHEConstant
   const int ngHEuhtrInrmfifichidType3[Nrm_fiber] = {6,7,8,2,3,6,7,8};
   const int ngHEuhtrInrmfifichidType4[Nrm_fiber] = {9,10,11,4,5,9,10,11};
 
+  //http://cmsdoc.cern.ch/cms/HCAL/document/Calorimeters/HE/ngHE/ODU/ngHE_RM_fib_symmetries.txt
+  //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/Arjan-verified_26-aug-2016/HBHEP07_template.xls
   const int ngHEphiInrbxrmid_P_dphi1[NrbxngHE*NrmngHE] = {71,72,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70};
   const int ngHEphiInrbxrmid_P_dphi2[NrbxngHE*NrmngHE] = {71,71,1,1,3,3,5,5,7,7,9,9,11,11,13,13,15,15,17,17,19,19,21,21,23,23,25,25,27,27,29,29,31,31,33,33,35,35,37,37,39,39,41,41,43,43,45,45,47,47,49,49,51,51,53,53,55,55,57,57,59,59,61,61,63,63,65,65,67,67,69,69};
   const int ngHEphiInrbxrmid_M_dphi1[NrbxngHE*NrmngHE] = {2,1,72,71,6,5,4,3,10,9,8,7,14,13,12,11,18,17,16,15,22,21,20,19,26,25,24,23,30,29,28,27,34,33,32,31,38,37,36,35,42,41,40,39,46,45,44,43,50,49,48,47,54,53,52,51,58,57,56,55,62,61,60,59,66,65,64,63,70,69,68,67};
   const int ngHEphiInrbxrmid_M_dphi2[NrbxngHE*NrmngHE] = {1,1,71,71,5,5,3,3,9,9,7,7,13,13,11,11,17,17,15,15,21,21,19,19,25,25,23,23,29,29,27,27,33,33,31,31,37,37,35,35,41,41,39,39,45,45,43,43,49,49,47,47,53,53,51,51,57,57,55,55,61,61,59,59,65,65,63,63,69,69,67,67};
-  const int ngHEetaInrmfifichidType1[Nrm_fiber*Nfiber_ch] = {16,17,17,18,18,18,18,18,28,28,28,28,28,28,28,29,29,26,//rm fiber 1,2,3
-                                                             19,19,19,19,19,19,20,20,20,20,20,20,22,22,22,22,22,22,24,24,24,24,24,24,26,26,26,26,26,26};//rm fiber 4,5,6,7,8
-  const int ngHEetaInrmfifichidType2[Nrm_fiber*Nfiber_ch] = {16,17,17,18,18,18,18,18,27,27,27,27,27,27,27,29,29,26,//rm fiber 1,2,3
-                                                             19,19,19,19,19,19,20,20,20,20,20,20,21,21,21,21,21,21,23,23,23,23,23,23,25,25,25,25,25,25};//rm fiber 4,5,6,7,8
+
+  const int ngHEetaInrmfifichid_RM1[Nrm_fiber*Nfiber_ch]=
+  {
+    19, 20, 22, 24, 24, 26, //RM fiber 1
+    29, 28, 18, 17, 16, 29, //RM fiber 2
+    24, 24, 26, 26, 19, 26, //RM fiber 3
+    28, 28, 28, 28, 26, 28, //RM fiber 4
+    19, 26, 20, 20, 22, 22, //RM fiber 5
+    18, 28, 17, 18, 18, 18, //RM fiber 6
+    19, 20, 22, 24, 19, 26, //RM fiber 7
+    19, 24, 22, 20, 22, 20  //RM fiber 8
+  };
+
+  const int ngHEdepInrmfifichid_RM1[Nrm_fiber*Nfiber_ch]=
+  {
+    2, 3, 3, 3, 2, 2, //RM fiber 1
+    1, 1, 2, 2, 3, 2, //RM fiber 2
+    6, 5, 5, 6, 3, 3, //RM fiber 3
+    2, 5, 3, 7, 7, 6, //RM fiber 4
+    5, 4, 6, 5, 5, 6, //RM fiber 5
+    3, 4, 3, 5, 1, 4, //RM fiber 6
+    1, 1, 1, 1, 4, 1, //RM fiber 7
+    6, 4, 2, 2, 4, 4  //RM fiber 8
+  };
+
+  const int ngHEetaInrmfifichid_RM2[Nrm_fiber*Nfiber_ch]=
+  {
+    19, 19, 21, 20, 21, 20, //RM fiber 1
+    19, 20, 21, 23, 19, 25, //RM fiber 2
+    23, 25, 20, 21, 23, 20, //RM fiber 3
+    18, 18, 18, 17, 27, 18, //RM fiber 4
+    27, 27, 27, 27, 29, 0,  //RM fiber 5
+    21, 23, 25, 25, 19, 25, //RM fiber 6
+    27, 0,  18, 17, 16, 27, //RM fiber 7
+    19, 20, 21, 23, 23, 25  //RM fiber 8
+  };
+
+  const int ngHEdepInrmfifichid_RM2[Nrm_fiber*Nfiber_ch]=
+  {
+    5, 6, 2, 2, 4, 4, //RM fiber 1
+    1, 1, 1, 1, 4, 1, //RM fiber 2
+    6, 4, 5, 6, 4, 6, //RM fiber 3
+    1, 4, 5, 3, 4, 3, //RM fiber 4
+    7, 3, 5, 6, 3, 0, //RM fiber 5
+    5, 5, 6, 5, 3, 3, //RM fiber 6
+    1, 0, 2, 2, 3, 2, //RM fiber 7
+    2, 3, 3, 3, 2, 2  //RM fiber 8
+  };
+
+  const int ngHEetaInrmfifichid_RM3[Nrm_fiber*Nfiber_ch]=
+  {
+    19, 20, 21, 23, 23, 25, //RM fiber 1
+    27, 0,  18, 17, 16, 27, //RM fiber 2
+    23, 23, 25, 25, 19, 25, //RM fiber 3
+    0,  27, 27, 27, 29, 27, //RM fiber 4
+    19, 25, 20, 20, 21, 21, //RM fiber 5
+    18, 27, 17, 18, 18, 18, //RM fiber 6
+    19, 20, 21, 23, 19, 25, //RM fiber 7
+    19, 23, 21, 20, 21, 20  //RM fiber 8
+  };
+
+  const int ngHEdepInrmfifichid_RM3[Nrm_fiber*Nfiber_ch]=
+  {
+    2, 3, 3, 3, 2, 2, //RM fiber 1
+    1, 0, 2, 2, 3, 2, //RM fiber 2
+    6, 5, 5, 6, 3, 3, //RM fiber 3
+    0, 5, 3, 7, 3, 6, //RM fiber 4
+    5, 4, 6, 5, 5, 6, //RM fiber 5
+    3, 4, 3, 5, 1, 4, //RM fiber 6
+    1, 1, 1, 1, 4, 1, //RM fiber 7
+    6, 4, 2, 2, 4, 4  //RM fiber 8
+  };
+
+  const int ngHEetaInrmfifichid_RM4[Nrm_fiber*Nfiber_ch]=
+  {
+    19, 19, 22, 20, 22, 20, //RM fiber 1
+    19, 20, 22, 24, 19, 26, //RM fiber 2
+    24, 26, 20, 22, 24, 20, //RM fiber 3
+    18, 18, 18, 17, 28, 18, //RM fiber 4
+    28, 28, 28, 28, 26, 28, //RM fiber 5
+    22, 24, 26, 26, 19, 26, //RM fiber 6
+    29, 28, 18, 17, 16, 29, //RM fiber 7
+    19, 20, 22, 24, 24, 26  //RM fiber 8
+  };
+
+  const int ngHEdepInrmfifichid_RM4[Nrm_fiber*Nfiber_ch]=
+  {
+    5, 6, 2, 2, 4, 4, //RM fiber 1
+    1, 1, 1, 1, 4, 1, //RM fiber 2
+    6, 4, 5, 6, 4, 6, //RM fiber 3
+    1, 4, 5, 3, 4, 3, //RM fiber 4
+    7, 3, 5, 6, 7, 2, //RM fiber 5
+    5, 5, 6, 5, 3, 3, //RM fiber 6
+    1, 1, 2, 2, 3, 2, //RM fiber 7
+    2, 3, 3, 3, 2, 2  //RM fiber 8
+  };
+
+  //const int ngHEetaInrmfifichidType1[Nrm_fiber*Nfiber_ch] = {16,17,17,18,18,18,18,18,28,28,28,28,28,28,28,29,29,26,//rm fiber 1,2,3
+  //                                                           19,19,19,19,19,19,20,20,20,20,20,20,22,22,22,22,22,22,24,24,24,24,24,24,26,26,26,26,26,26};//rm fiber 4,5,6,7,8
+  //const int ngHEetaInrmfifichidType2[Nrm_fiber*Nfiber_ch] = {16,17,17,18,18,18,18,18,27,27,27,27,27,27,27,29,29,26,//rm fiber 1,2,3
+  //                                                           19,19,19,19,19,19,20,20,20,20,20,20,21,21,21,21,21,21,23,23,23,23,23,23,25,25,25,25,25,25};//rm fiber 4,5,6,7,8
   //special case in depth : only 1(HB),2(HB),4(ngHE) for eta 16, only 2(ngHE),3(ngHE) for eta 17
-  const int ngHEdepthInrmfifichidType1[Nrm_fiber*Nfiber_ch] = {4,2,3,1,2,3,4,5,1,2,3,4,5,6,7,1,3,7,//rm fiber 1,2,3
-                                                               1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6};//rm fiber 4,5,6,7,8
-  const int ngHEdepthInrmfifichidType2[Nrm_fiber*Nfiber_ch] = {4,2,3,1,2,3,4,5,1,2,3,4,5,6,7,2,3,7,//rm fiber 1,2,3
-                                                               1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6};//rm fiber 4,5,6,7,8
+  //const int ngHEdepthInrmfifichidType1[Nrm_fiber*Nfiber_ch] = {4,2,3,1,2,3,4,5,1,2,3,4,5,6,7,1,3,7,//rm fiber 1,2,3
+  //                                                             1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6};//rm fiber 4,5,6,7,8
+  //const int ngHEdepthInrmfifichidType2[Nrm_fiber*Nfiber_ch] = {4,2,3,1,2,3,4,5,1,2,3,4,5,6,7,2,3,7,//rm fiber 1,2,3
+  //                                                             1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6};//rm fiber 4,5,6,7,8
 };
 
 void ngHEMappingAlgorithm::ConstructngHELMapObject()
@@ -128,8 +227,32 @@ void ngHEMappingAlgorithm::ConstructngHEGeometry(int sideid, int rbxrmid, int rm
   //side -> subdet -> eta, depth -> dphi -> phi
   thisngHEGeometry.side = sideid;
   
-  if(rbxrmid%2 == 0){ thisngHEGeometry.eta = ngHEetaInrmfifichidType1[rmfifichid]; thisngHEGeometry.depth = ngHEdepthInrmfifichidType1[rmfifichid]; }
-  else{ thisngHEGeometry.eta = ngHEetaInrmfifichidType2[rmfifichid]; thisngHEGeometry.depth = ngHEdepthInrmfifichidType2[rmfifichid]; }
+  if(rbxrmid%NrmngHE == 0)
+  { 
+    thisngHEGeometry.eta = ngHEetaInrmfifichid_RM1[rmfifichid]; 
+    thisngHEGeometry.depth = ngHEdepInrmfifichid_RM1[rmfifichid]; 
+  }
+  else if(rbxrmid%NrmngHE == 1)
+  {
+    thisngHEGeometry.eta = ngHEetaInrmfifichid_RM2[rmfifichid];
+    thisngHEGeometry.depth = ngHEdepInrmfifichid_RM2[rmfifichid];
+  }
+  else if(rbxrmid%NrmngHE == 2)
+  {
+    thisngHEGeometry.eta = ngHEetaInrmfifichid_RM3[rmfifichid];
+    thisngHEGeometry.depth = ngHEdepInrmfifichid_RM3[rmfifichid];
+  }
+  else if(rbxrmid%NrmngHE == 3)
+  {
+    thisngHEGeometry.eta = ngHEetaInrmfifichid_RM4[rmfifichid];
+    thisngHEGeometry.depth = ngHEdepInrmfifichid_RM4[rmfifichid];
+  }
+  else
+  {
+    std::cout << "RM is not 1,2,3,or 4?? what the fuck???" << std::endl; 
+  }
+  //if(rbxrmid%2 == 0){ thisngHEGeometry.eta = ngHEetaInrmfifichidType1[rmfifichid]; thisngHEGeometry.depth = ngHEdepthInrmfifichidType1[rmfifichid]; }
+  //else{ thisngHEGeometry.eta = ngHEetaInrmfifichidType2[rmfifichid]; thisngHEGeometry.depth = ngHEdepthInrmfifichidType2[rmfifichid]; }
   
   if( thisngHEGeometry.eta >= 16 && thisngHEGeometry.eta <= 20 ){ thisngHEGeometry.dphi = 1; }
   else if( thisngHEGeometry.eta >= 21 && thisngHEGeometry.eta <= 29 ){ thisngHEGeometry.dphi = 2; }
@@ -149,10 +272,13 @@ void ngHEMappingAlgorithm::ConstructngHEGeometry(int sideid, int rbxrmid, int rm
   }
   
   //Over write everything for HEX channels ?
-  ( rbxrmid%2==1 && (rmfifichid == 16 || rmfifichid == 17) ) ? thisngHEGeometry.subdet = "HEX" : thisngHEGeometry.subdet = "HE";
+  //( rbxrmid%2==1 && (rmfifichid == 16 || rmfifichid == 17) ) ? thisngHEGeometry.subdet = "HEX" : thisngHEGeometry.subdet = "HE";
+  ( (rbxrmid%4==1 && rmfifichid==29 ) || (rbxrmid%4==1 && rmfifichid==37 ) || (rbxrmid%4==2 && rmfifichid==7 ) || (rbxrmid%4==2 && rmfifichid==18 ) ) ? thisngHEGeometry.subdet = "HEX" : thisngHEGeometry.subdet = "HE";
 
   if(thisngHEGeometry.subdet == "HEX") 
   {
+    //cross check HEX channel with ngHEetaInrmfifichid array
+    if(thisngHEGeometry.eta!=0 || thisngHEGeometry.depth!=0) std::cout << "Wrong HEX channel map!" << std::endl;
     thisngHEGeometry.eta = 0;
     thisngHEGeometry.phi = 0;
     thisngHEGeometry.depth = 0;
