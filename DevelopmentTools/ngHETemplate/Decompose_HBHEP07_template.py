@@ -54,13 +54,28 @@ def PrintFrontEndToGeoCPPCode(det,rm,geo):
   print("};")
   print ""
 
+def PrintFrontEndToBELine(det,rm,uhtrfi):
+  print( "Subdet : " + det + " RM : " + rm + " UHTR_FI : " + uhtrfi)
+  filename = "HBHEP07_template.txt"
+  with open(filename) as f:
+    mysubstring = []
+    for line in f:
+      if line[0] == '#':
+        continue
+      mysubstring = line.split(' ')
+      if( mysubstring[5]==det and mysubstring[8]==rm ) :
+        print ( mysubstring[8] + " " + mysubstring[12] + " " + mysubstring[13] + " " + mysubstring[22] )
+
+
 
 det_all = ['ngHE']
 rm_all = ['1','2','3','4']
-geo_all = ['eta','dep']
+#geo_all = ['eta','dep']
+geo_all = ['uHTR_fiber']
 
 for det in det_all:
   for rm in rm_all:
     for geo in geo_all:
-      PrintFrontEndToGeoCPPCode(det,rm,geo)
+      PrintFrontEndToBELine(det,rm,geo)
+      #PrintFrontEndToGeoCPPCode(det,rm,geo)
       #PrintFrontEndToGeoLine(det,rm,geo)

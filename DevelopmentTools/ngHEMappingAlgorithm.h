@@ -17,10 +17,14 @@ class ngHEMappingAlgorithm : public ngHEConstant
   void ConstructngHETriggerTower();  
   
   const int ngHEucrateInrbxrmid[Ncrate] = {30,24,20,21,25,31,35,37,34};
-  const int ngHEuhtrInrmfifichidType1[Nrm_fiber] = {18,19,20,14,15,18,19,20};
-  const int ngHEuhtrInrmfifichidType2[Nrm_fiber] = {21,22,23,16,17,21,22,23};
-  const int ngHEuhtrInrmfifichidType3[Nrm_fiber] = {6,7,8,2,3,6,7,8};
-  const int ngHEuhtrInrmfifichidType4[Nrm_fiber] = {9,10,11,4,5,9,10,11};
+  const int ngHEuhtrInrmfifichidType1[Nrm_fiber] = {1,12, 2, 13, 3,14, 4, 5};
+  const int ngHEuhtrInrmfifichidType2[Nrm_fiber] = {6, 7, 8, 15,16, 9,17,10};
+  const int ngHEuhtrInrmfifichidType3[Nrm_fiber] = {13,18,14,19,15,20,16,17};
+  const int ngHEuhtrInrmfifichidType4[Nrm_fiber] = {18,19,20,21,22,21,23,22};
+  //const int ngHEuhtrInrmfifichidType1[Nrm_fiber] = {18,19,20,14,15,18,19,20};
+  //const int ngHEuhtrInrmfifichidType2[Nrm_fiber] = {21,22,23,16,17,21,22,23};
+  //const int ngHEuhtrInrmfifichidType3[Nrm_fiber] = {6,7,8,2,3,6,7,8};
+  //const int ngHEuhtrInrmfifichidType4[Nrm_fiber] = {9,10,11,4,5,9,10,11};
 
   //http://cmsdoc.cern.ch/cms/HCAL/document/Calorimeters/HE/ngHE/ODU/ngHE_RM_fib_symmetries.txt
   //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/Arjan-verified_26-aug-2016/HBHEP07_template.xls
@@ -171,7 +175,7 @@ void ngHEMappingAlgorithm::ConstructngHEFrontEnd(int sideid, int rbxrmid, int rm
   std::string numberletter; (rbxrmid/NrmngHE + 1) < 10 ? numberletter = "0" + std::to_string(rbxrmid/NrmngHE + 1) : numberletter = std::to_string(rbxrmid/NrmngHE + 1); 
   thisngHEFrontEnd.rbx = "ngHE" + sideletter + numberletter;
   thisngHEFrontEnd.rm = rbxrmid%NrmngHE + 1;
-  thisngHEFrontEnd.rm_fiber = rmfifichid/Nfiber_ch +1;
+  thisngHEFrontEnd.rm_fiber = rmfifichid/Nfiber_ch + 1;
   thisngHEFrontEnd.fiber_ch = rmfifichid%Nfiber_ch;
   //set secondary variables qie8 map
   //thisngHEFrontEnd.qie8 = (thisngHEFrontEnd.rm_fiber -1)/2+1;
@@ -184,21 +188,31 @@ void ngHEMappingAlgorithm::ConstructngHEFrontEnd(int sideid, int rbxrmid, int rm
 void ngHEMappingAlgorithm::ConstructngHEBackEnd(int sideid, int rbxrmid, int rmfifichid)
 {
   ngHEBackEnd thisngHEBackEnd;
-  //
+  //set ucrate id from rbx and rm, 2016 and 2017 should be same
   thisngHEBackEnd.ucrate = ngHEucrateInrbxrmid[((rbxrmid+4)%72)/8];
+  //set the uhr slot from rbx and rm and rm_fiber : complicate!!
+  //3 types of backend slot : pure HB(1,4,7,10), mixed HB ngHE(2,5,8,11), and pure ngHE(3,6,9,12)
+  //mixed ngHE case : rm(rm fiber) 1(246),  2(457),  3(246),  4(457);
+  //pure  ngHE case : rm(rm fiber) 1(13578),2(12368),3(13578),4(12368);
+  int rm = rbxrmid%NrmngHE + 1; double rm_fiber = rmfifichid/Nfiber_ch + 1;
+  bool ismixed_ngHE = (rm%2!=0 && (rm_fiber==2 || rm_fiber==4 || rm_fiber==6)) || (rm%2==0 && (rm_fiber==4 || rm_fiber==5 || rm_fiber==7) );
+  
   if(sideid>0)
   { 
-    if( rmfifichid < 18 ) (rbxrmid/4)%2==0 ? thisngHEBackEnd.uhtr = 11 : thisngHEBackEnd.uhtr = 8;
+    //if( rmfifichid < 18 ) (rbxrmid/4)%2==0 ? thisngHEBackEnd.uhtr = 11 : thisngHEBackEnd.uhtr = 8;
+    if( ismixed_ngHE ) (rbxrmid/4)%2==0 ? thisngHEBackEnd.uhtr = 11 : thisngHEBackEnd.uhtr = 8;
     else (rbxrmid/4)%2==0 ? thisngHEBackEnd.uhtr = 12 : thisngHEBackEnd.uhtr = 9;
   }
   else
   { 
-    if( rmfifichid < 18 ) (rbxrmid/4)%2==0 ? thisngHEBackEnd.uhtr = 5 : thisngHEBackEnd.uhtr = 2;
+    //if( rmfifichid < 18 ) (rbxrmid/4)%2==0 ? thisngHEBackEnd.uhtr = 5 : thisngHEBackEnd.uhtr = 2;
+    if( ismixed_ngHE ) (rbxrmid/4)%2==0 ? thisngHEBackEnd.uhtr = 5 : thisngHEBackEnd.uhtr = 2;
     else (rbxrmid/4)%2==0 ? thisngHEBackEnd.uhtr = 6 : thisngHEBackEnd.uhtr = 3;
   }
 
+  //fpga variable for the backend, used to be useful in old HTR case....but we still keep a position for it now
   thisngHEBackEnd.ufpga = "uHTR";
-  
+  //set uhtr fiber from rm and rm fiber, P and M symmetry, RM1-RM3 and RM2-RM4
   if(sideid>0)
   {
     if     ( rbxrmid%4 == 0 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType1[rmfifichid/6]; } 
@@ -214,8 +228,8 @@ void ngHEMappingAlgorithm::ConstructngHEBackEnd(int sideid, int rbxrmid, int rmf
     else thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType2[rmfifichid/6];
   }
   
+  //set backend fiber channel : same as the front end one
   thisngHEBackEnd.fiber_ch = rmfifichid%6;
-
   //set secondary variables
   myngHEBackEnd.push_back(thisngHEBackEnd);
   return ;
