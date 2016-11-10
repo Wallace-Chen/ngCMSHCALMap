@@ -1,4 +1,5 @@
 #include "HBHEAnalyzer.h"
+#include "ngHBAnalyzer.h"
 #include "ngHEAnalyzer.h"
 #include "HFAnalyzer.h"
 #include "ngHFAnalyzer.h"

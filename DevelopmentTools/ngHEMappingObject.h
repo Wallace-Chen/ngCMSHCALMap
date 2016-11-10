@@ -66,14 +66,16 @@ class ngHEConstant
   //9 crate shared by HB and HE: 20,21,24,25,30,31,34,35,37
   static const int Ncrate = 9;
   //12 uhtr in each crate, 1,2,3,4,5,6,7,8,9,10,11,12, same as old HF
-  static const int Nuhtr = 12;
+  static const int Nuhtr = 12, Nuhtr_HB_pure = 4, Nuhtr_HBngHE_mixed = 4, Nuhtr_ngHE_pure = 4;
   //2 fpga flavors top and bottom in htr, while only uHTR in u
   static const int Nufpga = 1;
-  //24 in uhtr: 0,1,2,3,4,5,6,7,8,9..22,23
-  static const int Nuhtr_fiber = 24;
+  //24 in uhtr: 0,1,2,3,4,5,6,7,8,9..22,23; pure HB, 0,1,2,3 and 12 to 23; HB in HBngHE mixed, 2,3,4,5,6,7,8,9; ngHE in HEngHE mixed, 12 to 23;  ngHE in ngHE pure, 1 to 10 and 13 to 22
+  static const int Nuhtr_fiber = 24, Nuhtr_fiber_HB_pure = 16, Nuhtr_fiber_HB_HBngHE_mixed = 8, Nuhtr_fiber_ngHE_HBngHE_mixed = 12, Nuhtr_fiber_ngHE_pure = 20;
+  //Number of backend ngHE channels = 9 * (4*12+4*20) * 6 = 6912  
+  //Number of backend HB channels = 9 * (4*16+4*8) * 3 = 2592  
 
   //Need to be tuned
-  //Geometry variables in ngHE: eta from 29,to 40,41, phi is 1,3,...71 for most eta while dphi == 4 for eta 40,41;4 depth in total, depth 1 and 3 take electromagnetic shower while depth 2 and 4 take hadronic shower
+  //Geometry variables in ngHE: eta from 16 to 29, only depth 4 for eta 16 and only depth 2 and 3 for eta 17, checks below for the rest of depth eta assignment; phi 1 to 72 for eta 16 to 20 while phi 1,3,..71 for eta 21 to 29
   static const int NngHEside = 2;
   static const int NngHEphieta16to20 = 72;
   static const int NngHEphieta21to29 = 36;

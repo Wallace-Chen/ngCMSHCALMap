@@ -17,6 +17,14 @@ int main(int argc, char* argv[])
 
   if( RunMode == "HB" )
   {
+    ngHBMappingAlgorithm myngHBMappingAlgorithm;
+    myngHBMappingAlgorithm.ConstructngHBLMapObject();
+
+    HCALLMapDumper::printngHBLMapObject(myngHBMappingAlgorithm.myngHBFrontEnd, myngHBMappingAlgorithm.myngHBBackEnd, myngHBMappingAlgorithm.myngHBPMTBox, myngHBMappingAlgorithm.myngHBGeometry, myngHBMappingAlgorithm.myngHBTriggerTower);
+
+    //HCALLMapDumper::printngHBEMapObject(myngHBMappingAlgorithm.myngHBFrontEnd, myngHBMappingAlgorithm.myngHBBackEnd, myngHBMappingAlgorithm.myngHBPMTBox, myngHBMappingAlgorithm.myngHBGeometry, myngHBMappingAlgorithm.myngHBTriggerTower);
+
+    //HCALLMapDumper::printngHBFrontEndMapObject(myngHBMappingAlgorithm.myngHBFrontEnd, myngHBMappingAlgorithm.myngHBBackEnd, myngHBMappingAlgorithm.myngHBPMTBox, myngHBMappingAlgorithm.myngHBGeometry, myngHBMappingAlgorithm.myngHBTriggerTower);
     return 1;
   }
   else if( RunMode == "HE" )

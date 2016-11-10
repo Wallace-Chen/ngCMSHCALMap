@@ -47,7 +47,8 @@ def PrintFrontEndToGeoCPPCode(det,rm,geo):
             else:
               sys.stdout.write( mysubstring[3] + ", ")
         index=index+1
-        if index==6:
+        #if index==6:
+        if index==3:
           sys.stdout.write( "//RM fiber " + mysubstring[12])
           print ""
           index=0
@@ -68,7 +69,8 @@ def PrintFrontEndToBELine(det,rm,uhtrfi):
 
 
 
-det_all = ['ngHE']
+#det_all = ['ngHE']
+det_all = ['HB']
 rm_all = ['1','2','3','4']
 #geo_all = ['eta','dep']
 geo_all = ['uHTR_fiber']

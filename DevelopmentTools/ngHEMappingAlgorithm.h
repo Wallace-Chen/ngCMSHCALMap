@@ -215,21 +215,21 @@ void ngHEMappingAlgorithm::ConstructngHEBackEnd(int sideid, int rbxrmid, int rmf
   //set uhtr fiber from rm and rm fiber, P and M symmetry, RM1-RM3 and RM2-RM4
   if(sideid>0)
   {
-    if     ( rbxrmid%4 == 0 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType1[rmfifichid/6]; } 
-    else if( rbxrmid%4 == 1 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType2[rmfifichid/6]; }
-    else if( rbxrmid%4 == 2 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType3[rmfifichid/6]; }
-    else thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType4[rmfifichid/6];
+    if     ( rbxrmid%NrmngHE == 0 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType1[rmfifichid/Nfiber_ch]; } 
+    else if( rbxrmid%NrmngHE == 1 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType2[rmfifichid/Nfiber_ch]; }
+    else if( rbxrmid%NrmngHE == 2 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType3[rmfifichid/Nfiber_ch]; }
+    else thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType4[rmfifichid/Nfiber_ch];
   }
   else
   {
-    if     ( rbxrmid%4 == 0 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType3[rmfifichid/6]; }
-    else if( rbxrmid%4 == 1 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType4[rmfifichid/6]; }
-    else if( rbxrmid%4 == 2 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType1[rmfifichid/6]; }
-    else thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType2[rmfifichid/6];
+    if     ( rbxrmid%NrmngHE == 0 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType3[rmfifichid/Nfiber_ch]; }
+    else if( rbxrmid%NrmngHE == 1 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType4[rmfifichid/Nfiber_ch]; }
+    else if( rbxrmid%NrmngHE == 2 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType1[rmfifichid/Nfiber_ch]; }
+    else thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType2[rmfifichid/Nfiber_ch];
   }
   
   //set backend fiber channel : same as the front end one
-  thisngHEBackEnd.fiber_ch = rmfifichid%6;
+  thisngHEBackEnd.fiber_ch = rmfifichid%Nfiber_ch;
   //set secondary variables
   myngHEBackEnd.push_back(thisngHEBackEnd);
   return ;
