@@ -82,7 +82,8 @@ void ngHBMappingAlgorithm::ConstructngHBFrontEnd(int sideid, int rbxrmid, int rm
   ngHBFrontEnd thisngHBFrontEnd;
   std::string sideletter; sideid>0 ? sideletter = "P" : sideletter = "M";
   std::string numberletter; (rbxrmid/NrmngHB + 1) < 10 ? numberletter = "0" + std::to_string(rbxrmid/NrmngHB + 1) : numberletter = std::to_string(rbxrmid/NrmngHB + 1); 
-  thisngHBFrontEnd.rbx = "ngHB" + sideletter + numberletter;
+  //thisngHBFrontEnd.rbx = "ngHB" + sideletter + numberletter;
+  thisngHBFrontEnd.rbx = "HB" + sideletter + numberletter;
   thisngHBFrontEnd.rm = rbxrmid%NrmngHB + 1;
   thisngHBFrontEnd.rm_fiber = rmfifichid/Nfiber_ch + 2;
   thisngHBFrontEnd.fiber_ch = rmfifichid%Nfiber_ch;
@@ -161,6 +162,8 @@ void ngHBMappingAlgorithm::ConstructngHBGeometry(int sideid, int rbxrmid, int rm
     thisngHBGeometry.phi = ngHBphiInrbxrmid_M[rbxrmid];
   }
   
+  thisngHBGeometry.subdet = "HB";
+
   /*
   //No HBX channel in 2017 HB (not ngHB)
   //Over write everything for HBX channels ?
