@@ -27,16 +27,23 @@ struct ngHFBackEnd
 //PMT boxes struct
 struct ngHFPMTBox
 {
+  //connection from Front End, 2 sides * 36 PMT boxes * 4 winchester cable per PMT box * 24 PNIs/2(signal and ref) = 3456 
+  //pmt type is important attribue but not the base variables
   int pmtbox;//1 to...36 per side
   std::string pmt_type;//Type A or Type B
   int winchester_cable;//1,2,3,4
   int s_coax_pmt, r_coax_pmt;//24 in total, 12 each
-  //2 side * 36 PMTs per side *  4 Winchester cable per PMT * 24 Pins/2 = 3456 channels
 
-  int pmt;//1 to 8
-  int wedge;//1,2,3,4...18
-  int pixel;
-  std::string tower; //H1 to H24, E1 to E24
+  //interface to the Geometry, 2 side * 36 PMT boxes * 3 types of base board * 8 PMT socket per board * 2 anode per socket (1 or 3) = 3456
+  //PMT box -> phi / anode+tower -> eta depth
+  std::string tower; //H1 to H24, E1 to E24, different in type A/B PMT boxes, 24 towers per PMT box
+  int anode;//1 or 3,1E -> depth 1, 3E -> depth 3, 1H -> depth 2, 3H -> depth 4
+
+  //internal wiring in the PMT
+  std::string baseboard_type; //type of base board, A,B and C, per PMT box
+  int pmtsocket;//1 to 8, pmt socket in the base board
+
+  int wedge;//1,2,3,4...18, HFP, PMT 1 and 36 -> wedge 1
 };
 
 //Geometry struct

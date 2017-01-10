@@ -132,7 +132,12 @@ void ngHFMappingAlgorithm::ConstructngHFFrontEnd(int sideid, int rbxqie10id, int
   thisngHFFrontEnd.rbx = "ngHF" + sideletter + numberletter;
   thisngHFFrontEnd.qie10 = ngHFqie10Inrbxqie10id[rbxqie10id%Nqie10];////3,4,5,6, 10,11,12,13,14
   thisngHFFrontEnd.qie10_ch = qie10chid+1;//1 to 24
-  //set secondary variables qie10 map
+  
+  //to PMT direction ...
+  thisngHFFrontEnd.s_coax_qie = (qie10chid%12)*2+2;
+  thisngHFFrontEnd.r_coax_qie = (qie10chid%12)*2+1;
+
+  //to backend direction ...
   thisngHFFrontEnd.qie10_fiber = qie10chid/Nfiber_ch+4;//4,5,6,7,8,9
   thisngHFFrontEnd.fiber_ch = qie10chid%Nfiber_ch;//0,1,2,3
 
@@ -143,19 +148,38 @@ void ngHFMappingAlgorithm::ConstructngHFFrontEnd(int sideid, int rbxqie10id, int
 void ngHFMappingAlgorithm::ConstructngHFPMTBox(int sideid, int rbxqie10id, int qie10chid)
 {
   ngHFPMTBox thisngHFPMTBox;
-
-  /*
-  thisngHFPMTBox.pmtbox = rbxqie10id/2+1;//from 0,...71 QIE10 to pmtbox 1,...36
-  thisngHFPMTBox.pmtbox%2!=0 ? thisngHFPMTBox.pmt_type = "A" : thisngHFPMTBox.pmt_type = "B";//unsymmetric for F P side. Be careful
-  thisngHFPMTBox.winchester_cable = (rbxqie10id%2)*2 + (qie10_chid)/12 + 1;
+  const int ngHFpmtboxInrbxqie10id[18] = {5,4,4,3,3,2,2,1,1,9,9,8,8,7,7,6,6,5};
+  sideid>0 ? thisngHFPMTBox.pmtbox = rbxqie10id/2+1 : thisngHFPMTBox.pmtbox = (rbxqie10id/18)*9 + ngHFpmtboxInrbxqie10id[rbxqie10id%18];//from 0,...71 QIE10 to pmtbox 1,...36, P side normal order, M side in weird pattern : 5 44 33 22 11 99 88 77 66 5 in every 18 QIE10 blocks
+  if(sideid>0){ thisngHFPMTBox.pmtbox%2!=0 ? thisngHFPMTBox.pmt_type = "A" : thisngHFPMTBox.pmt_type = "B"; }//different odd/even numbering for M P side. Be careful! P side 1 is A and 2 is B 
+  else{ thisngHFPMTBox.pmtbox%2!=0 ? thisngHFPMTBox.pmt_type = "B" : thisngHFPMTBox.pmt_type = "A"; }
+  thisngHFPMTBox.winchester_cable = (rbxqie10id%2)*2 + (qie10chid)/12 + 1;
+  int s_coax_qie = (qie10chid%12)*2+2; int r_coax_qie = (qie10chid%12)*2+1;
   s_coax_qie <= 12 ? thisngHFPMTBox.s_coax_pmt = 12 - s_coax_qie + 1 : thisngHFPMTBox.s_coax_pmt = 24 - s_coax_qie + 13;
   r_coax_qie <= 12 ? thisngHFPMTBox.r_coax_pmt = 12 - r_coax_qie + 1 : thisngHFPMTBox.r_coax_pmt = 24 - r_coax_qie + 13;
-  */
+  
   //thisngHFPMTBox.wedge = (thisngHFPMTBox.pmtbox-1)/2 + 1;
-  //thisngHFPMTBox.pixel = ;
 
-  //internal wiring information from http://cmsdoc.cern.ch/cms/HCAL/document/Calorimeters/HF/HF_Readout_box_wiring_draft_May14-2013.pdf
-  //and http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HF/dual-anode/HF_dual-readout_PMT_box_signal_mapping.xls
+  //setting internal wiring information anode and tower
+  //http://cmsdoc.cern.ch/cms/HCAL/document/Calorimeters/HF/HF_Readout_box_wiring_draft_May14-2013.pdf
+  //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HF/dual-anode/HF_dual-readout_PMT_box_signal_mapping.xls
+  ((thisngHFPMTBox.s_coax_pmt)%4==1) ? thisngHFPMTBox.anode = 3 : thisngHFPMTBox.anode = 1;
+  const std::string ngHFtowerInWinchesterPin_TypeAW1[12] = {"E2" ,"H2" ,"E4" ,"H4" ,"E6" ,"H6" ,"E1" ,"H1" ,"E3" ,"H3" ,"E5" ,"H5" };
+  const std::string ngHFtowerInWinchesterPin_TypeAW2[12] = {"H2" ,"E2" ,"H4" ,"E4" ,"H6" ,"E6" ,"H1" ,"E1" ,"H3" ,"E3" ,"H5" ,"E5" };
+  const std::string ngHFtowerInWinchesterPin_TypeAW3[12] = {"E8" ,"H8" ,"E10","H10","E12","H12","E7" ,"H7" ,"E9" ,"H9" ,"E11","H11"};
+  const std::string ngHFtowerInWinchesterPin_TypeAW4[12] = {"H8" ,"E8" ,"H10","E10","H12","E12","H7" ,"E7" ,"H9" ,"E9" ,"H11","E11"};
+  const std::string ngHFtowerInWinchesterPin_TypeBW1[12] = {"H14","E14","H16","E16","H18","E18","H15","E15","H17","E17","H19","E19"};
+  const std::string ngHFtowerInWinchesterPin_TypeBW2[12] = {"E14","H14","E16","H16","E18","H18","E15","H15","E17","H17","E19","H19"};
+  const std::string ngHFtowerInWinchesterPin_TypeBW3[12] = {"H20","E20","H22","E22","H13","E13","H21","E21","H23","E23","H24","E24"};
+  const std::string ngHFtowerInWinchesterPin_TypeBW4[12] = {"E20","H20","E22","H22","E13","H13","E21","H21","E23","H23","E24","H24"};
+  if     ( thisngHFPMTBox.pmt_type == "A" && thisngHFPMTBox.winchester_cable == 1){ thisngHFPMTBox.tower = ngHFtowerInWinchesterPin_TypeAW1[thisngHFPMTBox.s_coax_pmt/2]; }
+  else if( thisngHFPMTBox.pmt_type == "A" && thisngHFPMTBox.winchester_cable == 2){ thisngHFPMTBox.tower = ngHFtowerInWinchesterPin_TypeAW2[thisngHFPMTBox.s_coax_pmt/2]; }
+  else if( thisngHFPMTBox.pmt_type == "A" && thisngHFPMTBox.winchester_cable == 3){ thisngHFPMTBox.tower = ngHFtowerInWinchesterPin_TypeAW3[thisngHFPMTBox.s_coax_pmt/2]; }
+  else if( thisngHFPMTBox.pmt_type == "A" && thisngHFPMTBox.winchester_cable == 4){ thisngHFPMTBox.tower = ngHFtowerInWinchesterPin_TypeAW4[thisngHFPMTBox.s_coax_pmt/2]; }
+  else if( thisngHFPMTBox.pmt_type == "B" && thisngHFPMTBox.winchester_cable == 1){ thisngHFPMTBox.tower = ngHFtowerInWinchesterPin_TypeBW1[thisngHFPMTBox.s_coax_pmt/2]; }
+  else if( thisngHFPMTBox.pmt_type == "B" && thisngHFPMTBox.winchester_cable == 2){ thisngHFPMTBox.tower = ngHFtowerInWinchesterPin_TypeBW2[thisngHFPMTBox.s_coax_pmt/2]; }
+  else if( thisngHFPMTBox.pmt_type == "B" && thisngHFPMTBox.winchester_cable == 3){ thisngHFPMTBox.tower = ngHFtowerInWinchesterPin_TypeBW3[thisngHFPMTBox.s_coax_pmt/2]; }
+  else if( thisngHFPMTBox.pmt_type == "B" && thisngHFPMTBox.winchester_cable == 4){ thisngHFPMTBox.tower = ngHFtowerInWinchesterPin_TypeBW4[thisngHFPMTBox.s_coax_pmt/2]; }
+  else{ std::cout << "No coresponding tower from pmt_type and winchester_cable??? what the fuck is going on??" << std::endl; }
 
   myngHFPMTBox.push_back(thisngHFPMTBox);
   return ;

@@ -181,7 +181,7 @@ namespace HCALLMapLoader
       //#  Side   Eta   Phi Depth   Subdet   PMT PMT_TYPE  W_Cable S_PMT S_QIE R_PMT R_QIE    ngRBX    QIE10 QIE10_CH QIE10_FI    FI_CH   uCrate     uHTR  uHTR_FI    FI_CH
       //      1    34     1     2    HF        1        A        1    11     2    12     1  ngHFP01        3        1        4        0       32       12        0        0
       ss >> thisngHFGeometry.side >> thisngHFGeometry.eta >> thisngHFGeometry.phi >> thisngHFGeometry.depth >> thisngHFGeometry.subdet
-         >> thisngHFPMTBox.pmt >> thisngHFPMTBox.pmt_type >> thisngHFPMTBox.winchester_cable 
+         >> thisngHFPMTBox.pmtbox >> thisngHFPMTBox.pmt_type >> thisngHFPMTBox.winchester_cable 
          >> thisngHFPMTBox.s_coax_pmt 
          >> thisngHFFrontEnd.s_coax_qie
          >> thisngHFPMTBox.r_coax_pmt
