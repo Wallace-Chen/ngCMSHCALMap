@@ -27,14 +27,16 @@ struct ngHFBackEnd
 //PMT boxes struct
 struct ngHFPMTBox
 {
-  int pmt;//1 to...36 per side
+  int pmtbox;//1 to...36 per side
   std::string pmt_type;//Type A or Type B
   int winchester_cable;//1,2,3,4
   int s_coax_pmt, r_coax_pmt;//24 in total, 12 each
   //2 side * 36 PMTs per side *  4 Winchester cable per PMT * 24 Pins/2 = 3456 channels
 
+  int pmt;//1 to 8
   int wedge;//1,2,3,4...18
   int pixel;
+  std::string tower; //H1 to H24, E1 to E24
 };
 
 //Geometry struct

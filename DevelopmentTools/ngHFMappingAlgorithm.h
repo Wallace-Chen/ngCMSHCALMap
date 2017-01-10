@@ -9,12 +9,12 @@ class ngHFMappingAlgorithm : public ngHFConstant
   //the variables we need to fill into the LMap
   std::vector<ngHFFrontEnd> myngHFFrontEnd; std::vector<ngHFBackEnd> myngHFBackEnd; std::vector<ngHFPMTBox> myngHFPMTBox; std::vector<ngHFGeometry> myngHFGeometry; std::vector<ngHFTriggerTower> myngHFTriggerTower;
   void SplitngHFfromOldHF(std::vector<HFFrontEnd> myHFFrontEnd, std::vector<HFBackEnd> myHFBackEnd, std::vector<HFPMTBox> myHFPMTBox, std::vector<HFGeometry> myHFGeometry, std::vector<HFTriggerTower> myHFTriggerTower);
-  //void ConstructngHFLMapObject();
+  void ConstructngHFLMapObject();
  private:
-  //void ConstructngHFFrontEnd(int sideid, int rbxrmid, int rmfifichid);
-  //void ConstructngHFBackEnd(int sideid, int rbxrmid, int rmfifichid);      
-  //void ConstructngHFGeometry(int sideid, int rbxrmid, int rmfifichid);      
-  void ConstructngHFPMTBox(int rbxqie10id, int qie10_chid, int s_coax_qie, int r_coax_qie);
+  void ConstructngHFFrontEnd(int sideid, int rbxqie10id, int qie10chid);
+  void ConstructngHFPMTBox(int sideid, int rbxqie10id, int qie10chid);
+  void ConstructngHFBackEnd(int sideid, int rbxqie10id, int qie10chid);      
+  void ConstructngHFGeometry(int sideid, int rbxqie10id, int qie10chid);      
   //void ConstructngHFTriggerTower();  
   const int ngHFqie10Inrbxqie10id[Nqie10] = {3,4,5,6,10,11,12,13,14};
 };
@@ -41,7 +41,7 @@ void ngHFMappingAlgorithm::SplitngHFfromOldHF(
     int rbxqie10id = rbxrmqie8id/2;//0,1,...71 for QIE10 cards
     int qie10_chid = ((myHFFrontEnd.at(i).qie8-1)%2) * 12 + myHFFrontEnd.at(i).qie8_ch * 2;
 
-    thisngHFFrontEnd.qie10 = ngHFqie10Inrbxqie10id[rbxqie10id%9];//3,4,5,6, 10,11,12,13,14
+    thisngHFFrontEnd.qie10 = ngHFqie10Inrbxqie10id[rbxqie10id%Nqie10];//3,4,5,6, 10,11,12,13,14
     thisngHFFrontEnd.qie10_ch = ((myHFFrontEnd.at(i).qie8-1)%2) * 12 + myHFFrontEnd.at(i).qie8_ch * 2 + 1;//1,3,5,7,9...23////
     thisngHFFrontEnd.qie10_ch <= 12 ? thisngHFFrontEnd.s_coax_qie = thisngHFFrontEnd.qie10_ch * 2 : thisngHFFrontEnd.s_coax_qie = (thisngHFFrontEnd.qie10_ch-12) * 2;////
     thisngHFFrontEnd.qie10_ch <= 12 ? thisngHFFrontEnd.r_coax_qie = thisngHFFrontEnd.qie10_ch * 2 - 1 : thisngHFFrontEnd.r_coax_qie = (thisngHFFrontEnd.qie10_ch-12) * 2 - 1;////
@@ -71,7 +71,7 @@ void ngHFMappingAlgorithm::SplitngHFfromOldHF(
     myngHFFrontEnd.push_back(thisngHFFrontEnd);
     myngHFBackEnd.push_back(thisngHFBackEnd);
     myngHFGeometry.push_back(thisngHFGeometry);
-    ConstructngHFPMTBox(rbxqie10id, qie10_chid,thisngHFFrontEnd.s_coax_qie,thisngHFFrontEnd.r_coax_qie);
+    //ConstructngHFPMTBox(rbxqie10id, qie10_chid,thisngHFFrontEnd.s_coax_qie,thisngHFFrontEnd.r_coax_qie);
     //myngHFPMTBox.push_back(thisngHFPMTBox);
     myngHFTriggerTower.push_back(thisngHFTriggerTower);
 
@@ -91,7 +91,7 @@ void ngHFMappingAlgorithm::SplitngHFfromOldHF(
     myngHFFrontEnd.push_back(thisngHFFrontEnd);
     myngHFBackEnd.push_back(thisngHFBackEnd);
     myngHFGeometry.push_back(thisngHFGeometry);
-    ConstructngHFPMTBox(rbxqie10id, qie10_chid,thisngHFFrontEnd.s_coax_qie,thisngHFFrontEnd.r_coax_qie);
+    //ConstructngHFPMTBox(rbxqie10id, qie10_chid,thisngHFFrontEnd.s_coax_qie,thisngHFFrontEnd.r_coax_qie);
     //myngHFPMTBox.push_back(thisngHFPMTBox);
     myngHFTriggerTower.push_back(thisngHFTriggerTower);
   }
@@ -99,69 +99,69 @@ void ngHFMappingAlgorithm::SplitngHFfromOldHF(
   return ;
 }
 
-void ngHFMappingAlgorithm::ConstructngHFPMTBox(int rbxqie10id, int qie10_chid, int s_coax_qie, int r_coax_qie)
-{
-  ngHFPMTBox thisngHFPMTBox;
-
-  thisngHFPMTBox.pmt = rbxqie10id/2+1;//from 0,...71 QIE10 to pmt 1,...36
-  thisngHFPMTBox.pmt%2!=0 ? thisngHFPMTBox.pmt_type = "A" : thisngHFPMTBox.pmt_type = "B";//unsymmetric for F P side. Be careful
-  thisngHFPMTBox.winchester_cable = (rbxqie10id%2)*2 + (qie10_chid)/12 + 1;
-  s_coax_qie <= 12 ? thisngHFPMTBox.s_coax_pmt = 12 - s_coax_qie + 1 : thisngHFPMTBox.s_coax_pmt = 24 - s_coax_qie + 13;
-  r_coax_qie <= 12 ? thisngHFPMTBox.r_coax_pmt = 12 - r_coax_qie + 1 : thisngHFPMTBox.r_coax_pmt = 24 - r_coax_qie + 13;
-
-  thisngHFPMTBox.wedge = (thisngHFPMTBox.pmt-1)/2 + 1;
-  //thisngHFPMTBox.pixel = ;
-
-  myngHFPMTBox.push_back(thisngHFPMTBox);
-  return ;
-}
-
-/*
 void ngHFMappingAlgorithm::ConstructngHFLMapObject()
 {
-  std::cout << "Constructing ngHF LMap Object..." << std::endl;
+  std::cout << "#Constructing ngHF LMap Object..." << std::endl;
 
-  for(int irbx=0;irbx<NrbxngHF*2;irbx++)
+  for(int irbx=0;irbx<NrbxngHF*2;irbx++)//8 rbx per side for ngHF
   {
-    for(int irm=0;irm<NrmngHF;irm++)
+    for(int iqie10=0;iqie10<Nqie10;iqie10++)//9 QIE10 cards per rbx
     {
-      for(int irmfi=0;irmfi<Nrm_fiber;irmfi++)
+      for(int iqie10ch=0;iqie10ch<Nqie10_ch;iqie10ch++)//24 qie10 channels per qie card
       {
-        for(int ifich=0;ifich<Nfiber_ch;ifich++)
-        {
-          int sideid; irbx<NrbxngHF ? sideid = 1 : sideid = -1;//0..to 11 is P side, while 12 to 23 is M side
-          int rbxrmid; irbx<NrbxngHF ? rbxrmid = irbx*NrmngHF+irm : rbxrmid = (irbx-NrbxngHF)*NrmngHF+irm;//ngHF 0...to 35
-          int rmfifichid = irmfi*Nfiber_ch+ifich;//ngHF 0...to 23
+        int sideid; irbx<NrbxngHF ? sideid = 1 : sideid = -1;//0..to 7 is P side, while 8 to 15 is M side
+        int rbxqie10id; irbx<NrbxngHF ? rbxqie10id = irbx*Nqie10+iqie10 : rbxqie10id = (irbx-NrbxngHF)*Nqie10+iqie10;//ngHF 0...to 71
+        int qie10chid = iqie10ch;//ngHF 0...to 23
 
-          ConstructngHFFrontEnd(sideid,rbxrmid,rmfifichid);      
-          ConstructngHFBackEnd(sideid,rbxrmid,rmfifichid);  
-          ConstructngHFGeometry(sideid,rbxrmid,rmfifichid);
-          ConstructngHFPMTBox();  
-          ConstructngHFTriggerTower();
-        }
+        ConstructngHFFrontEnd(sideid,rbxqie10id,qie10chid);
+        ConstructngHFPMTBox(sideid,rbxqie10id,qie10chid);
+        //ConstructngHFBackEnd(sideid,rbxqie10id,qie10chid);
+        //ConstructngHFGeometry(sideid,rbxqie10id,qie10chid);
+        //ConstructngHFTriggerTower();
       }
     }
   }
   return ;
 }
 
-void ngHFMappingAlgorithm::ConstructngHFFrontEnd(int sideid, int rbxrmid, int rmfifichid)
+void ngHFMappingAlgorithm::ConstructngHFFrontEnd(int sideid, int rbxqie10id, int qie10chid)
 {
   ngHFFrontEnd thisngHFFrontEnd;
   std::string sideletter; sideid>0 ? sideletter = "P" : sideletter = "M";
-  std::string numberletter; (rbxrmid/NrmngHF + 1) < 10 ? numberletter = "0" + std::to_string(rbxrmid/NrmngHF + 1) : numberletter = std::to_string(rbxrmid/NrmngHF + 1); 
+  std::string numberletter; (rbxqie10id/Nqie10 + 1) < 10 ? numberletter = "0" + std::to_string(rbxqie10id/Nqie10 + 1) : numberletter = std::to_string(rbxqie10id/Nqie10 + 1); 
   thisngHFFrontEnd.rbx = "ngHF" + sideletter + numberletter;
-  thisngHFFrontEnd.rm = rbxrmid%NrmngHF + 1;
-  thisngHFFrontEnd.rm_fiber = rmfifichid/Nfiber_ch +1;
-  thisngHFFrontEnd.fiber_ch = rmfifichid%Nfiber_ch;
-  //set secondary variables qie8 map
-  thisngHFFrontEnd.qie8 = (thisngHFFrontEnd.rm_fiber -1)/2+1;
-  thisngHFFrontEnd.rm_fiber%2 != 0 ? thisngHFFrontEnd.qie8_ch = thisngHFFrontEnd.fiber_ch : thisngHFFrontEnd.qie8_ch = 3 + (thisngHFFrontEnd.fiber_ch+1)%3;
+  thisngHFFrontEnd.qie10 = ngHFqie10Inrbxqie10id[rbxqie10id%Nqie10];////3,4,5,6, 10,11,12,13,14
+  thisngHFFrontEnd.qie10_ch = qie10chid+1;//1 to 24
+  //set secondary variables qie10 map
+  thisngHFFrontEnd.qie10_fiber = qie10chid/Nfiber_ch+4;//4,5,6,7,8,9
+  thisngHFFrontEnd.fiber_ch = qie10chid%Nfiber_ch;//0,1,2,3
 
   myngHFFrontEnd.push_back(thisngHFFrontEnd);
   return ;
 }
 
+void ngHFMappingAlgorithm::ConstructngHFPMTBox(int sideid, int rbxqie10id, int qie10chid)
+{
+  ngHFPMTBox thisngHFPMTBox;
+
+  /*
+  thisngHFPMTBox.pmtbox = rbxqie10id/2+1;//from 0,...71 QIE10 to pmtbox 1,...36
+  thisngHFPMTBox.pmtbox%2!=0 ? thisngHFPMTBox.pmt_type = "A" : thisngHFPMTBox.pmt_type = "B";//unsymmetric for F P side. Be careful
+  thisngHFPMTBox.winchester_cable = (rbxqie10id%2)*2 + (qie10_chid)/12 + 1;
+  s_coax_qie <= 12 ? thisngHFPMTBox.s_coax_pmt = 12 - s_coax_qie + 1 : thisngHFPMTBox.s_coax_pmt = 24 - s_coax_qie + 13;
+  r_coax_qie <= 12 ? thisngHFPMTBox.r_coax_pmt = 12 - r_coax_qie + 1 : thisngHFPMTBox.r_coax_pmt = 24 - r_coax_qie + 13;
+  */
+  //thisngHFPMTBox.wedge = (thisngHFPMTBox.pmtbox-1)/2 + 1;
+  //thisngHFPMTBox.pixel = ;
+
+  //internal wiring information from http://cmsdoc.cern.ch/cms/HCAL/document/Calorimeters/HF/HF_Readout_box_wiring_draft_May14-2013.pdf
+  //and http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HF/dual-anode/HF_dual-readout_PMT_box_signal_mapping.xls
+
+  myngHFPMTBox.push_back(thisngHFPMTBox);
+  return ;
+}
+
+/*
 void ngHFMappingAlgorithm::ConstructngHFBackEnd(int sideid, int rbxrmid, int rmfifichid)
 {
   ngHFBackEnd thisngHFBackEnd;
@@ -208,14 +208,6 @@ void ngHFMappingAlgorithm::ConstructngHFGeometry(int sideid, int rbxrmid, int rm
     else{ thisngHFGeometry.eta = ngHFetaInrmfifichidType2[rmfifichid]; thisngHFGeometry.depth = ((rmfifichid+6)%24/6)%2+1; }
   }
   myngHFGeometry.push_back(thisngHFGeometry);
-  return ;
-}
-
-void ngHFMappingAlgorithm::ConstructngHFPMTBox()
-{
-  ngHFPMTBox thisngHFPMTBox;
-  
-  myngHFPMTBox.push_back(thisngHFPMTBox);
   return ;
 }
 
