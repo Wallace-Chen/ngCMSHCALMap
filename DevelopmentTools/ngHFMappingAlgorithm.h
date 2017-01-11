@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <map>
 
 #include "ngHFMappingObject.h"
 
@@ -13,8 +14,8 @@ class ngHFMappingAlgorithm : public ngHFConstant
  private:
   void ConstructngHFFrontEnd(int sideid, int rbxqie10id, int qie10chid);
   void ConstructngHFPMTBox(int sideid, int rbxqie10id, int qie10chid);
-  void ConstructngHFBackEnd(int sideid, int rbxqie10id, int qie10chid);      
-  void ConstructngHFGeometry(int sideid, int rbxqie10id, int qie10chid);      
+  void ConstructngHFBackEnd(int sideid, int rbxqie10id, int qie10chid);
+  void ConstructngHFGeometry(int sideid, int pmtbox, std::string tower, int anode);
   //void ConstructngHFTriggerTower();  
   const int ngHFqie10Inrbxqie10id[Nqie10] = {3,4,5,6,10,11,12,13,14};
 };
@@ -114,9 +115,9 @@ void ngHFMappingAlgorithm::ConstructngHFLMapObject()
         int qie10chid = iqie10ch;//ngHF 0...to 23
 
         ConstructngHFFrontEnd(sideid,rbxqie10id,qie10chid);
-        ConstructngHFPMTBox(sideid,rbxqie10id,qie10chid);
+        ConstructngHFPMTBox(sideid,rbxqie10id,qie10chid); //Also construct Geometry
         //ConstructngHFBackEnd(sideid,rbxqie10id,qie10chid);
-        //ConstructngHFGeometry(sideid,rbxqie10id,qie10chid);
+        //ConstructngHFGeometry(sideid,pmtbox,tower,anode); //Geometry is include into the PMT box construcion function, since it is not directly from FrontEnd variable
         //ConstructngHFTriggerTower();
       }
     }
@@ -157,12 +158,9 @@ void ngHFMappingAlgorithm::ConstructngHFPMTBox(int sideid, int rbxqie10id, int q
   s_coax_qie <= 12 ? thisngHFPMTBox.s_coax_pmt = 12 - s_coax_qie + 1 : thisngHFPMTBox.s_coax_pmt = 24 - s_coax_qie + 13;
   r_coax_qie <= 12 ? thisngHFPMTBox.r_coax_pmt = 12 - r_coax_qie + 1 : thisngHFPMTBox.r_coax_pmt = 24 - r_coax_qie + 13;
   
-  //thisngHFPMTBox.wedge = (thisngHFPMTBox.pmtbox-1)/2 + 1;
-
   //setting internal wiring information anode and tower
   //http://cmsdoc.cern.ch/cms/HCAL/document/Calorimeters/HF/HF_Readout_box_wiring_draft_May14-2013.pdf
   //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HF/dual-anode/HF_dual-readout_PMT_box_signal_mapping.xls
-  ((thisngHFPMTBox.s_coax_pmt)%4==1) ? thisngHFPMTBox.anode = 3 : thisngHFPMTBox.anode = 1;
   const std::string ngHFtowerInWinchesterPin_TypeAW1[12] = {"E2" ,"H2" ,"E4" ,"H4" ,"E6" ,"H6" ,"E1" ,"H1" ,"E3" ,"H3" ,"E5" ,"H5" };
   const std::string ngHFtowerInWinchesterPin_TypeAW2[12] = {"H2" ,"E2" ,"H4" ,"E4" ,"H6" ,"E6" ,"H1" ,"E1" ,"H3" ,"E3" ,"H5" ,"E5" };
   const std::string ngHFtowerInWinchesterPin_TypeAW3[12] = {"E8" ,"H8" ,"E10","H10","E12","H12","E7" ,"H7" ,"E9" ,"H9" ,"E11","H11"};
@@ -179,9 +177,19 @@ void ngHFMappingAlgorithm::ConstructngHFPMTBox(int sideid, int rbxqie10id, int q
   else if( thisngHFPMTBox.pmt_type == "B" && thisngHFPMTBox.winchester_cable == 2){ thisngHFPMTBox.tower = ngHFtowerInWinchesterPin_TypeBW2[thisngHFPMTBox.s_coax_pmt/2]; }
   else if( thisngHFPMTBox.pmt_type == "B" && thisngHFPMTBox.winchester_cable == 3){ thisngHFPMTBox.tower = ngHFtowerInWinchesterPin_TypeBW3[thisngHFPMTBox.s_coax_pmt/2]; }
   else if( thisngHFPMTBox.pmt_type == "B" && thisngHFPMTBox.winchester_cable == 4){ thisngHFPMTBox.tower = ngHFtowerInWinchesterPin_TypeBW4[thisngHFPMTBox.s_coax_pmt/2]; }
-  else{ std::cout << "No coresponding tower from pmt_type and winchester_cable??? what the fuck is going on??" << std::endl; }
+  else{ std::cout << "No corresponding tower from pmt_type and winchester_cable??? what the fuck is going on??" << std::endl; }
+  ((thisngHFPMTBox.s_coax_pmt)%4==1) ? thisngHFPMTBox.anode = 3 : thisngHFPMTBox.anode = 1;
+
+  //thisngHFPMTBox.baseboard_type = ; //type of base board, A,B and C, per PMT box
+  //thisngHFPMTBox.pmtsocket = ;//1 to 8, pmt socket in the base board
+  //thisngHFPMTBox.wedge = (thisngHFPMTBox.pmtbox-1)/2 + 1;
 
   myngHFPMTBox.push_back(thisngHFPMTBox);
+  //Done with PMT box class
+
+  //Build Geometry variables from PMT box
+  ConstructngHFGeometry(sideid,thisngHFPMTBox.pmtbox,thisngHFPMTBox.tower,thisngHFPMTBox.anode);
+  
   return ;
 }
 
@@ -210,31 +218,41 @@ void ngHFMappingAlgorithm::ConstructngHFBackEnd(int sideid, int rbxrmid, int rmf
   myngHFBackEnd.push_back(thisngHFBackEnd);
   return ;
 }
+*/
 
-void ngHFMappingAlgorithm::ConstructngHFGeometry(int sideid, int rbxrmid, int rmfifichid)
+void ngHFMappingAlgorithm::ConstructngHFGeometry(int sideid,int pmtbox,std::string tower,int anode)
 {
   ngHFGeometry thisngHFGeometry;
 
-  thisngHFGeometry.subdet = "ngHF";
+  thisngHFGeometry.subdet = "HF";
   thisngHFGeometry.side = sideid;
+  //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HF/dual-anode/ngHF_QIE_MTP_map.xls Phi - - - pmtbox mapping
+  thisngHFGeometry.phi = pmtbox*2-1;
+  //http://cmsdoc.cern.ch/cms/HCAL/document/Calorimeters/HF/HF_Readout_box_wiring_draft_May14-2013.pdf Eta - - - tower mapping
+  //decouple the tower into 2 pieces
+  std::string towertype = tower.substr(0,1); int towerid = atoi(tower.substr(1).c_str());
+  const std::map<int, int> ngHFetaIntowerid = { 
+                                               {15,30}, {17,32}, {14,29},{16,31},//Base board C, PMT Box type B
+                                               {19,34}, {21,36}, {18,33},{20,35},//Base board B, PMT Box type B
+                                               {23,38}, {24,39}, {22,37},{13,41},//Base board A, PMT Box type B
+                                               { 1,29}, { 3,31}, { 2,30},{ 4,32},//Base board C, PMT Box type A
+                                               { 5,33}, { 7,35}, { 6,34},{ 8,36},//Base board B, PMT Box type A
+                                               { 9,37}, {11,39}, {10,38},{12,40},//Base board A, PMT Box type A
+                                              };
+  thisngHFGeometry.eta = (ngHFetaIntowerid.find(towerid))->second;
+  if     (towertype=="E" && anode==1) thisngHFGeometry.depth = 1;
+  else if(towertype=="H" && anode==1) thisngHFGeometry.depth = 2;
+  else if(towertype=="E" && anode==3) thisngHFGeometry.depth = 3;
+  else if(towertype=="H" && anode==3) thisngHFGeometry.depth = 4;
+  else std::cout << "Can not set depth?? What the hell is going on!!" << std::endl;
+  if(towerid==12 || towerid==13) thisngHFGeometry.dphi = 4;//tower 12 and tower 13 are for the eta 40,41, where dphi == 4
+  else thisngHFGeometry.dphi = 2;
   
-  if(rmfifichid == 12||rmfifichid == 18){ thisngHFGeometry.phi = (((rbxrmid+35)%36)/2)*4+3; thisngHFGeometry.dphi = 4; }
-  else{ thisngHFGeometry.phi = rbxrmid*2+1; thisngHFGeometry.dphi = 2; }
-  
-  if(sideid > 0)
-  { 
-    if(rbxrmid%2 == 0){ thisngHFGeometry.eta = ngHFetaInrmfifichidType2[rmfifichid]; thisngHFGeometry.depth = ((rmfifichid+6)%24/6)%2+1; }
-    else{ thisngHFGeometry.eta = ngHFetaInrmfifichidType1[rmfifichid]; thisngHFGeometry.depth = (rmfifichid/6)%2+1; }
-  }
-  else
-  {
-    if(rbxrmid%2 == 0){ thisngHFGeometry.eta = ngHFetaInrmfifichidType1[rmfifichid]; thisngHFGeometry.depth = (rmfifichid/6)%2+1; }
-    else{ thisngHFGeometry.eta = ngHFetaInrmfifichidType2[rmfifichid]; thisngHFGeometry.depth = ((rmfifichid+6)%24/6)%2+1; }
-  }
   myngHFGeometry.push_back(thisngHFGeometry);
   return ;
 }
 
+/*
 void ngHFMappingAlgorithm::ConstructngHFTriggerTower()
 {
   ngHFTriggerTower thisngHFTriggerTower;
