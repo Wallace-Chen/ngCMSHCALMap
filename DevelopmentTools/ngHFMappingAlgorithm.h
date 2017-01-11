@@ -130,7 +130,7 @@ void ngHFMappingAlgorithm::ConstructngHFFrontEnd(int sideid, int rbxqie10id, int
   ngHFFrontEnd thisngHFFrontEnd;
   std::string sideletter; sideid>0 ? sideletter = "P" : sideletter = "M";
   std::string numberletter; (rbxqie10id/Nqie10 + 1) < 10 ? numberletter = "0" + std::to_string(rbxqie10id/Nqie10 + 1) : numberletter = std::to_string(rbxqie10id/Nqie10 + 1); 
-  thisngHFFrontEnd.rbx = "ngHF" + sideletter + numberletter;
+  thisngHFFrontEnd.rbx = "HF" + sideletter + numberletter;
   thisngHFFrontEnd.qie10 = ngHFqie10Inrbxqie10id[rbxqie10id%Nqie10];////3,4,5,6, 10,11,12,13,14
   thisngHFFrontEnd.qie10_ch = qie10chid+1;//1 to 24
   
@@ -201,7 +201,8 @@ void ngHFMappingAlgorithm::ConstructngHFPMTBox(int sideid, int rbxqie10id, int q
                                                           };
   thisngHFPMTBox.baseboard_type = (ngHFbaseboard_typeIntower.find(thisngHFPMTBox.tower))->second; //type of base board, A,B and C, per PMT box
   thisngHFPMTBox.pmtsocket = (ngHFpmtsocketIntower.find(thisngHFPMTBox.tower))->second;//1 to 8, pmt socket in the base board
-  //thisngHFPMTBox.wedge = (thisngHFPMTBox.pmtbox-1)/2 + 1;
+  
+  thisngHFPMTBox.wedge = (thisngHFPMTBox.pmtbox%36)/2 + 1;
 
   myngHFPMTBox.push_back(thisngHFPMTBox);
   //Done with PMT box class
