@@ -142,6 +142,9 @@ void ngHFMappingAlgorithm::ConstructngHFFrontEnd(int sideid, int rbxqie10id, int
   thisngHFFrontEnd.qie10_fiber = qie10chid/Nfiber_ch+4;//4,5,6,7,8,9
   thisngHFFrontEnd.fiber_ch = qie10chid%Nfiber_ch;//0,1,2,3
 
+  //ohters...
+  thisngHFFrontEnd.qie10_ch<13 ? thisngHFFrontEnd.qie10_connector = "TOP" : thisngHFFrontEnd.qie10_connector = "BOT";
+
   myngHFFrontEnd.push_back(thisngHFFrontEnd);
   return ;
 }
@@ -180,8 +183,24 @@ void ngHFMappingAlgorithm::ConstructngHFPMTBox(int sideid, int rbxqie10id, int q
   else{ std::cout << "No corresponding tower from pmt_type and winchester_cable??? what the fuck is going on??" << std::endl; }
   ((thisngHFPMTBox.s_coax_pmt)%4==1) ? thisngHFPMTBox.anode = 3 : thisngHFPMTBox.anode = 1;
 
-  //thisngHFPMTBox.baseboard_type = ; //type of base board, A,B and C, per PMT box
-  //thisngHFPMTBox.pmtsocket = ;//1 to 8, pmt socket in the base board
+  const std::map<std::string, std::string> ngHFbaseboard_typeIntower = {
+                                           {"H9" ,"A"},{"H11","A"},{"E9" ,"A"},{"E11","A"},{"H10","A"},{"H12","A"},{"E10","A"},{"E12","A"},//PMT box type A, base board A
+                                           {"H5" ,"B"},{"H7" ,"B"},{"E5" ,"B"},{"E7" ,"B"},{"H6" ,"B"},{"H8" ,"B"},{"E6" ,"B"},{"E8" ,"B"},//PMT box type A, base board B
+                                           {"H1" ,"C"},{"H3" ,"C"},{"E1" ,"C"},{"E3" ,"C"},{"H2" ,"C"},{"H4" ,"C"},{"E2" ,"C"},{"E4" ,"C"},//PMT box type A, base board C
+                                           {"E23","A"},{"E24","A"},{"H23","A"},{"H24","A"},{"E22","A"},{"E13","A"},{"H22","A"},{"H13","A"},//PMT box type B, base board A
+                                           {"E19","B"},{"E21","B"},{"H19","B"},{"H21","B"},{"E18","B"},{"E20","B"},{"H18","B"},{"H20","B"},//PMT box type B, base board B
+                                           {"E15","C"},{"E17","C"},{"H15","C"},{"H17","C"},{"E14","C"},{"E16","C"},{"H14","C"},{"H16","C"},//PMT box type B, base board C
+                                                                       };
+  const std::map<std::string, int> ngHFpmtsocketIntower = {
+                                   {"H9" ,1},{"H11",2},{"E9" ,3},{"E11",4},{"H10",5},{"H12",6},{"E10",7},{"E12",8},//PMT box type A, base board A
+                                   {"H5" ,1},{"H7" ,2},{"E5" ,3},{"E7" ,4},{"H6" ,5},{"H8" ,6},{"E6" ,7},{"E8" ,8},//PMT box type A, base board B
+                                   {"H1" ,1},{"H3" ,2},{"E1" ,3},{"E3" ,4},{"H2" ,5},{"H4" ,6},{"E2" ,7},{"E4" ,8},//PMT box type A, base board C
+                                   {"E23",1},{"E24",2},{"H23",3},{"H24",4},{"E22",5},{"E13",6},{"H22",7},{"H13",8},//PMT box type B, base board A
+                                   {"E19",1},{"E21",2},{"H19",3},{"H21",4},{"E18",5},{"E20",6},{"H18",7},{"H20",8},//PMT box type B, base board B
+                                   {"E15",1},{"E17",2},{"H15",3},{"H17",4},{"E14",5},{"E16",6},{"H14",7},{"H16",8},//PMT box type B, base board C
+                                                          };
+  thisngHFPMTBox.baseboard_type = (ngHFbaseboard_typeIntower.find(thisngHFPMTBox.tower))->second; //type of base board, A,B and C, per PMT box
+  thisngHFPMTBox.pmtsocket = (ngHFpmtsocketIntower.find(thisngHFPMTBox.tower))->second;//1 to 8, pmt socket in the base board
   //thisngHFPMTBox.wedge = (thisngHFPMTBox.pmtbox-1)/2 + 1;
 
   myngHFPMTBox.push_back(thisngHFPMTBox);
