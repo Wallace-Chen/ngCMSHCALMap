@@ -1,6 +1,7 @@
 #include <vector>
 #include <iostream>
 #include <map>
+#include <utility>
 
 #include "ngHFMappingObject.h"
 
@@ -116,7 +117,7 @@ void ngHFMappingAlgorithm::ConstructngHFLMapObject()
 
         ConstructngHFFrontEnd(sideid,rbxqie10id,qie10chid);
         ConstructngHFPMTBox(sideid,rbxqie10id,qie10chid); //Also construct Geometry
-        //ConstructngHFBackEnd(sideid,rbxqie10id,qie10chid);
+        ConstructngHFBackEnd(sideid,rbxqie10id,qie10chid);
         //ConstructngHFGeometry(sideid,pmtbox,tower,anode); //Geometry is include into the PMT box construcion function, since it is not directly from FrontEnd variable
         //ConstructngHFTriggerTower();
       }
@@ -213,32 +214,123 @@ void ngHFMappingAlgorithm::ConstructngHFPMTBox(int sideid, int rbxqie10id, int q
   return ;
 }
 
-/*
-void ngHFMappingAlgorithm::ConstructngHFBackEnd(int sideid, int rbxrmid, int rmfifichid)
+void ngHFMappingAlgorithm::ConstructngHFBackEnd(int sideid, int rbxqie10id, int qie10chid)
 {
   ngHFBackEnd thisngHFBackEnd;
-  //
-  thisngHFBackEnd.ucrate = ngHFucrateInrbxrmid[((rbxrmid+35)%36)/12];
-  sideid>0 ? thisngHFBackEnd.uhtr = (((rbxrmid+35)%36)%12)/2 + 7 : thisngHFBackEnd.uhtr = (((rbxrmid+35)%36)%12)/2 + 1;
-  thisngHFBackEnd.ufpga = "uHTR";
-  if(sideid>0)
-  { 
-    if( rbxrmid%2 == 0){ rmfifichid<12 ? thisngHFBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 18 : thisngHFBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 6; }
-    else{ rmfifichid<12 ? thisngHFBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 14 : thisngHFBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 2; }
-  }
-  else
-  { 
-    if( rbxrmid%2 == 0){ rmfifichid<12 ? thisngHFBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 14 : thisngHFBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 2; }
-    else{ rmfifichid<12 ? thisngHFBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 18 : thisngHFBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 6; }
-  }
+  //set trunk, Y fiber and MTP
+  const int ngHFtrunk_ncableInrbxqie10id_HFP[72] = 
+                                         {
+                                          14193,14193,14194,14194,14194,14194,14194,14194,14194,//HFP01
+                                          14194,14195,14195,14195,14195,14195,14195,14195,14195,//HFP02
+                                          14196,14196,14196,14196,14196,14196,14196,14196,14197,//HFP03
+                                          14197,14197,14197,14197,14197,14197,14197,14198,14198,//HFP04
+                                          14198,14198,14198,14198,14198,14198,14199,14199,14199,//HFP05
+                                          14199,14199,14199,14199,14199,14200,14200,14200,14200,//HFP06
+                                          14191,14191,14191,14191,14192,14192,14192,14192,14192,//HFP07
+                                          14192,14192,14192,14193,14193,14193,14193,14193,14193,//HFP08
+                                         };
+  const int ngHFtrunk_ncableInrbxqie10id_HFM[72] = 
+                                         {
+                                          14204,14204,14204,14204,14204,14204,14204,14203,14203,//HFM01
+                                          14205,14205,14205,14205,14205,14205,14205,14205,14204,//HFM02
+                                          14207,14206,14206,14206,14206,14206,14206,14206,14206,//HFM03
+                                          14208,14208,14207,14207,14207,14207,14207,14207,14207,//HFM04
+                                          14209,14209,14209,14208,14208,14208,14208,14208,14208,//HFM05
+                                          14210,14210,14210,14210,14209,14209,14209,14209,14209,//HFM06
+                                          14202,14202,14202,14202,14202,14201,14201,14201,14201,//HFM07
+                                          14203,14203,14203,14203,14203,14203,14202,14202,14202,//HFM08
+                                         };
+  sideid > 0 ? thisngHFBackEnd.trunk_ncable = ngHFtrunk_ncableInrbxqie10id_HFP[rbxqie10id] : thisngHFBackEnd.trunk_ncable = ngHFtrunk_ncableInrbxqie10id_HFM[rbxqie10id];
+  
+  //1 or 2, HFP in 121212 pattern, while HFM in 212121 patter
+  sideid > 0 ? thisngHFBackEnd.yfiber_input = rbxqie10id%2+1 : thisngHFBackEnd.yfiber_input = (rbxqie10id+1)%2+1;
 
-  thisngHFBackEnd.fiber_ch = rmfifichid%3;
+  const int ngHFmtpInrbxqie10id_HFP[72] =
+                                {
+                                 4,4,1,1,2,2,3,3,4,//HFP01
+                                 4,1,1,2,2,3,3,4,4,//HFP02
+                                 1,1,2,2,3,3,4,4,1,//HFP03
+                                 1,2,2,3,3,4,4,1,1,//HFP04
+                                 2,2,3,3,4,4,1,1,2,//HFP05
+                                 2,3,3,4,4,1,1,2,2,//HFP06
+                                 1,1,2,2,1,1,2,2,3,//HFP07
+                                 3,4,4,1,1,2,2,3,3,//HFP08
+                                };
+  const int ngHFmtpInrbxqie10id_HFM[72] =
+                                {
+                                 1,2,2,3,3,4,4,1,1,//HFM01
+                                 1,1,2,2,3,3,4,4,1,//HFM02
+                                 4,1,1,2,2,3,3,4,4,//HFM03
+                                 4,4,1,1,2,2,3,3,4,//HFM04
+                                 3,4,4,1,1,2,2,3,3,//HFM05
+                                 1,1,2,2,1,1,2,2,3,//HFM06
+                                 2,3,3,4,4,1,1,2,2,//HFM07
+                                 2,2,3,3,4,4,1,1,2,//HFM08
+                                };
+  sideid > 0 ? thisngHFBackEnd.mtp = ngHFmtpInrbxqie10id_HFP[rbxqie10id] : thisngHFBackEnd.mtp = ngHFmtpInrbxqie10id_HFM[rbxqie10id];
 
+  //start to mapping crate uHTR slot fiber from trunk ncable, Y fiber, MTP
+  //uCrate is determined by nCable only!
+  const std::map<int, int> ngHFucrateIntrunk_ncable = {
+                                                       {14191,32},{14192,32},{14193,32},{14194,22},{14195,22},{14196,22},{14197,29},{14198,29},{14199,29},{14200,32},//ngHFP cable
+                                                       {14201,32},{14202,32},{14203,32},{14204,22},{14205,22},{14206,22},{14207,29},{14208,29},{14209,29},{14210,32},//ngHFM cable
+                                                      };
+  thisngHFBackEnd.ucrate = (ngHFucrateIntrunk_ncable.find(thisngHFBackEnd.trunk_ncable))->second;
+  //uHTR is determined by nCable and MTP, and also different by side, HFP for slot 7 to 12 while HFM for 1 to 6
+  std::map<std::pair<int, int>, int> ngHFuhtrIntrunk_ncablemtp = 
+                                     {
+                                      {{14191,1}, 8},{{14191,2}, 8},
+                                      {{14192,1}, 9},{{14192,2}, 9},{{14192,3},10},{{14192,4},10},
+                                      {{14193,1},11},{{14193,2},11},{{14193,3},12},{{14193,4},12},
+                                      {{14194,1}, 7},{{14194,2}, 7},{{14194,3}, 8},{{14194,4}, 8},
+                                      {{14195,1}, 9},{{14195,2}, 9},{{14195,3},10},{{14195,4},10},
+                                      {{14196,1},11},{{14196,2},11},{{14196,3},12},{{14196,4},12},
+                                      {{14197,1}, 7},{{14197,2}, 7},{{14197,3}, 8},{{14197,4}, 8},
+                                      {{14198,1}, 9},{{14198,2}, 9},{{14198,3},10},{{14198,4},10},
+                                      {{14199,1},11},{{14199,2},11},{{14199,3},12},{{14199,4},12},
+                                      {{14200,1}, 7},{{14200,2}, 7},
+                                      {{14201,1}, 2},{{14201,2}, 2},
+                                      {{14202,1}, 4},{{14202,2}, 4},{{14202,3}, 3},{{14202,4}, 3},
+                                      {{14203,1}, 6},{{14203,2}, 6},{{14203,3}, 5},{{14203,4}, 5},
+                                      {{14204,1}, 2},{{14204,2}, 2},{{14204,3}, 1},{{14204,4}, 1},
+                                      {{14205,1}, 4},{{14205,2}, 4},{{14205,3}, 3},{{14205,4}, 3},
+                                      {{14206,1}, 6},{{14206,2}, 6},{{14206,3}, 5},{{14206,4}, 5},
+                                      {{14207,1}, 2},{{14207,2}, 2},{{14207,3}, 1},{{14207,4}, 1},
+                                      {{14208,1}, 4},{{14208,2}, 4},{{14208,3}, 3},{{14208,4}, 3},
+                                      {{14209,1}, 6},{{14209,2}, 6},{{14209,3}, 5},{{14209,4}, 5},
+                                      {{14210,1}, 1},{{14210,2}, 1},
+                                     };
+  thisngHFBackEnd.uhtr = (ngHFuhtrIntrunk_ncablemtp.find(std::make_pair(thisngHFBackEnd.trunk_ncable,thisngHFBackEnd.mtp)))->second;
+  //set RX from MTP, 0 or 1
+  thisngHFBackEnd.uhtr_rx = (thisngHFBackEnd.mtp+1)%2;
+  //set uHTR fiber from uhtr_rx y fiber and qie_fiber
+  /*
+  input       output     uHTR       uHTR
+  (QIE)       (trunk)    (R0)       (R1)
+  1-4         1          0          12
+  1-5         2          1          13
+  1-6         3          2          14
+  1-7         4          3          15
+  1-8         5          4          16
+  1-9         6          5          17
+  2-4         7          6          18
+  2-5         8          7          19
+  2-6         9          8          20
+  2-7        10          9          21
+  2-8        11         10          22
+  2-9        12         11          23
+  */
+  thisngHFBackEnd.uhtr_fiber = thisngHFBackEnd.uhtr_rx*12 + (thisngHFBackEnd.yfiber_input-1)*6 + qie10chid/Nfiber_ch;//0,1,2,3,4,5 to 23
+  //fiber channel just same as fiber channel
+  thisngHFBackEnd.fiber_ch = qie10chid%Nfiber_ch;//0,1,2,3
   //set secondary variables
+  thisngHFBackEnd.trunk_fiber = (thisngHFBackEnd.yfiber_input-1)*6 + qie10chid/Nfiber_ch + 1;//1 to 12
+  const std::map<int, int> ngHFufedidInucrate = { {22,1118},{29,1120},{32,1122} };
+  thisngHFBackEnd.ufedid = (ngHFufedidInucrate.find(thisngHFBackEnd.ucrate))->second;
+
   myngHFBackEnd.push_back(thisngHFBackEnd);
   return ;
 }
-*/
 
 void ngHFMappingAlgorithm::ConstructngHFGeometry(int sideid,int pmtbox,std::string tower,int anode)
 {

@@ -17,11 +17,21 @@ struct ngHFFrontEnd
 //Backend electronics struct
 struct ngHFBackEnd
 {
-  int ucrate, uhtr, uhtr_fiber;
+  //QIE10 -> Y fiber -> MTPs -> uHTR
+  //QIEid -> trunk(nCable), MTP; (2 side, 0 to 71)->(14XXX, (1 to 4)); 144 -> (2+8*4+2)*2 = 72
+  int trunk_ncable; //HFP for 14191 to 14200, 14191 and 14200 only have MTP 1 and 2, while other have all 4 MTPs; HFM in 14201 to 14210, 14201 and 14210 only have MTP 1 and 2, while other have all 4 MTPs
+  int trunk_fiber; //1 to 12
+  int yfiber_input; //1 or 2, HFP in 121212 pattern, while HFM in 212121 patter
+  int mtp; //1,2,3,4 per trunk cable
+
+  //trunk(nCable), MTP -> crate, slot, Rx; (14XXX, (1 to 4) ) -> ((22,29,32), (1 to 12), (0 or 1)); (2+8*4+2)*2 = 72 -> 3*12*2 = 72
+  //Y fiber, QIE fiber -> uhtr fiber
+  int ucrate, uhtr, uhtr_rx;
+  int uhtr_fiber;
+  int fiber_ch;
+
   std::string ufpga;
   int ufedid;
-
-  int fiber_ch;
 };
 
 //PMT boxes struct
