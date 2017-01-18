@@ -12,6 +12,8 @@ struct ngHFFrontEnd
   std::string qie10_connector;//TOP or BOT
   int s_coax_qie, r_coax_qie;//24 in total, 12 each
   //2 side * 72 QIE10s per side * 2 connectors per QIE10 * 24/2(pin to channels) = 3456
+  //QIEID for the offline DB
+  int qie10_id;
 };
 
 //Backend electronics struct

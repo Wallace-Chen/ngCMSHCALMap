@@ -145,6 +145,9 @@ void ngHFMappingAlgorithm::ConstructngHFFrontEnd(int sideid, int rbxqie10id, int
 
   //ohters...
   thisngHFFrontEnd.qie10_ch<13 ? thisngHFFrontEnd.qie10_connector = "TOP" : thisngHFFrontEnd.qie10_connector = "BOT";
+  
+  //QIE id ... need to set from a huge xls file
+  thisngHFFrontEnd.qie10_id = 999999;
 
   myngHFFrontEnd.push_back(thisngHFFrontEnd);
   return ;
@@ -339,7 +342,9 @@ void ngHFMappingAlgorithm::ConstructngHFGeometry(int sideid,int pmtbox,std::stri
   thisngHFGeometry.subdet = "HF";
   thisngHFGeometry.side = sideid;
   //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HF/dual-anode/ngHF_QIE_MTP_map.xls Phi - - - pmtbox mapping
-  thisngHFGeometry.phi = pmtbox*2-1;
+  //Special fix for Tower E12 and H12 on phi : do we have a more elegant way to do that ?
+  if(tower=="E12"||tower=="H12") thisngHFGeometry.phi = ((pmtbox+34)%36)*2+1;
+  else                           thisngHFGeometry.phi = pmtbox*2-1; 
   //http://cmsdoc.cern.ch/cms/HCAL/document/Calorimeters/HF/HF_Readout_box_wiring_draft_May14-2013.pdf Eta - - - tower mapping
   //decouple the tower into 2 pieces
   std::string towertype = tower.substr(0,1); int towerid = atoi(tower.substr(1).c_str());

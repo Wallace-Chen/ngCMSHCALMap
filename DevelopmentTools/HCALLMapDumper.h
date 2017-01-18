@@ -44,6 +44,7 @@ namespace HCALLMapDumper
               << std::setw(9) << "Trunk_FI" << std::setw(9) << "nCable" << std::setw(6) << "MTP"
               << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(7) << "uHTR_Rx" << std::setw(7) << "uHTR_FI"
               << std::setw(6) << "FEDid"
+              << std::setw(9) << "QIE10id"
               << std::endl;
 
     for(auto i=0; i<myngHFFrontEnd.size(); i++)
@@ -68,6 +69,8 @@ namespace HCALLMapDumper
                 << std::setw(6) << myngHFBackEnd.at(i).ucrate << std::setw(6) << myngHFBackEnd.at(i).uhtr << std::setw(7) << myngHFBackEnd.at(i).uhtr_rx << std::setw(7) << myngHFBackEnd.at(i).uhtr_fiber
                 //<< "ngHFBackEnd(ufedid): "
                 << std::setw(6) << myngHFBackEnd.at(i).ufedid
+                //<< "ngHFFrontEnd(qie10_id): "
+                << std::setw(9) << myngHFFrontEnd.at(i).qie10_id
                 << std::endl;
     }
     return ;
