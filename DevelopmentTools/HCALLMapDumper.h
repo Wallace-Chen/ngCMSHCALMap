@@ -42,13 +42,14 @@ namespace HCALLMapDumper
               << std::setw(6) << "S_PMT" << std::setw(6) << "S_QIE" << std::setw(6) << "R_PMT" << std::setw(6) << "R_QIE"
               << std::setw(6) << "QIE10" << std::setw(6) << "QIETB" << std::setw(6) << "QIECH" << std::setw(6) << "QIEFI" << std::setw(6) << "FI_CH"
               << std::setw(9) << "Trunk_FI" << std::setw(9) << "nCable" << std::setw(6) << "MTP"
-              << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(7) << "uHTR_Rx" << std::setw(7) << "uHTR_FI"
+              << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_Rx" << std::setw(9) << "uHTR_FI"
               << std::setw(6) << "FEDid"
               << std::setw(9) << "QIE10id"
               << std::endl;
 
     for(auto i=0; i<myngHFFrontEnd.size(); i++)
     {
+      //if( !(myngHFFrontEnd.at(i).fiber_ch==1 && myngHFBackEnd.at(i).uhtr_fiber==0) ) continue;
       std::cout 
                 << " "
                 //<< "ngHFGeometry(side,eta,phi,dphi,depth,subdet): "
@@ -66,7 +67,7 @@ namespace HCALLMapDumper
                 //<< "ngHFBackEnd(trunk_fiber,trunk_ncable,mtp): "
                 << std::setw(9) << myngHFBackEnd.at(i).trunk_fiber << std::setw(9) << myngHFBackEnd.at(i).trunk_ncable << std::setw(6) << myngHFBackEnd.at(i).mtp
                 //<< "ngHFBackEnd(ucrate,uhtr,uhtr_rx,uhtr_fiber): "
-                << std::setw(6) << myngHFBackEnd.at(i).ucrate << std::setw(6) << myngHFBackEnd.at(i).uhtr << std::setw(7) << myngHFBackEnd.at(i).uhtr_rx << std::setw(7) << myngHFBackEnd.at(i).uhtr_fiber
+                << std::setw(6) << myngHFBackEnd.at(i).ucrate << std::setw(6) << myngHFBackEnd.at(i).uhtr << std::setw(9) << myngHFBackEnd.at(i).uhtr_rx << std::setw(9) << myngHFBackEnd.at(i).uhtr_fiber
                 //<< "ngHFBackEnd(ufedid): "
                 << std::setw(6) << myngHFBackEnd.at(i).ufedid
                 //<< "ngHFFrontEnd(qie10_id): "

@@ -160,7 +160,29 @@ void ngHFMappingAlgorithm::ConstructngHFPMTBox(int sideid, int rbxqie10id, int q
   sideid>0 ? thisngHFPMTBox.pmtbox = rbxqie10id/2+1 : thisngHFPMTBox.pmtbox = (rbxqie10id/18)*9 + ngHFpmtboxInrbxqie10id[rbxqie10id%18];//from 0,...71 QIE10 to pmtbox 1,...36, P side normal order, M side in weird pattern : 5 44 33 22 11 99 88 77 66 5 in every 18 QIE10 blocks
   if(sideid>0){ thisngHFPMTBox.pmtbox%2!=0 ? thisngHFPMTBox.pmt_type = "A" : thisngHFPMTBox.pmt_type = "B"; }//different odd/even numbering for M P side. Be careful! P side 1 is A and 2 is B 
   else{ thisngHFPMTBox.pmtbox%2!=0 ? thisngHFPMTBox.pmt_type = "B" : thisngHFPMTBox.pmt_type = "A"; }
-  thisngHFPMTBox.winchester_cable = (rbxqie10id%2)*2 + (qie10chid)/12 + 1;
+  //winchester cable assignment different between the P and M side, see : http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HF/ngHF/HF_Winchester-QIE_23-jan-2016.xls
+  if(sideid>0)
+  { 
+    thisngHFPMTBox.winchester_cable = (rbxqie10id%2)*2 + (qie10chid)/12 + 1; 
+  }
+  else
+  { 
+    int tmprbx = rbxqie10id/Nqie10 + 1;
+    const int ngHFwinchester_cableInrbxqie10id_RBX0107[9] = {1,1,3,1,3,1,3,1,3};
+    const int ngHFwinchester_cableInrbxqie10id_RBX0208[9] = {1,3,1,3,1,3,1,3,3};
+    const int ngHFwinchester_cableInrbxqie10id_RBX0305[9] = {3,1,3,1,3,1,3,1,3};
+    const int ngHFwinchester_cableInrbxqie10id_RBX0406[9] = {1,3,1,3,1,3,1,3,1};
+    //HFM01 07 pattern 113131313 in TOP connector in QIE10
+    if     (tmprbx==1 || tmprbx==7){ thisngHFPMTBox.winchester_cable = ngHFwinchester_cableInrbxqie10id_RBX0107[rbxqie10id%Nqie10] + (qie10chid)/12; }
+    //HFM02 08 pattern 131313133 in TOP connector in QIE10
+    else if(tmprbx==2 || tmprbx==8){ thisngHFPMTBox.winchester_cable = ngHFwinchester_cableInrbxqie10id_RBX0208[rbxqie10id%Nqie10] + (qie10chid)/12; }
+    //HFM03 05 pattern 313131313 in TOP connector in QIE10
+    else if(tmprbx==3 || tmprbx==5){ thisngHFPMTBox.winchester_cable = ngHFwinchester_cableInrbxqie10id_RBX0305[rbxqie10id%Nqie10] + (qie10chid)/12; }
+    //HFM04 06 pattern 131313131 in TOP connector in QIE10
+    else if(tmprbx==4 || tmprbx==6){ thisngHFPMTBox.winchester_cable = ngHFwinchester_cableInrbxqie10id_RBX0406[rbxqie10id%Nqie10] + (qie10chid)/12; }
+    //HFM01,02 / 07,08 in pattern 11313131....133
+    else{ std::cout << "What the fuck?? the rbx id is not in the range [1,8]! " << tmprbx << std::endl; }
+  }
   int s_coax_qie = (qie10chid%12)*2+2; int r_coax_qie = (qie10chid%12)*2+1;
   s_coax_qie <= 12 ? thisngHFPMTBox.s_coax_pmt = 12 - s_coax_qie + 1 : thisngHFPMTBox.s_coax_pmt = 24 - s_coax_qie + 13;
   r_coax_qie <= 12 ? thisngHFPMTBox.r_coax_pmt = 12 - r_coax_qie + 1 : thisngHFPMTBox.r_coax_pmt = 24 - r_coax_qie + 13;
