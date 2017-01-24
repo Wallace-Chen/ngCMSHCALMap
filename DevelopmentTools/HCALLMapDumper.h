@@ -49,7 +49,7 @@ namespace HCALLMapDumper
 
     for(auto i=0; i<myngHFFrontEnd.size(); i++)
     {
-      if( !(myngHFFrontEnd.at(i).fiber_ch==3 && myngHFBackEnd.at(i).uhtr_fiber==13) ) continue;
+      //if( !(myngHFFrontEnd.at(i).fiber_ch==3 && myngHFBackEnd.at(i).uhtr_fiber==13) ) continue;
       std::cout 
                 << " "
                 //<< "ngHFGeometry(side,eta,phi,dphi,depth,subdet): "
