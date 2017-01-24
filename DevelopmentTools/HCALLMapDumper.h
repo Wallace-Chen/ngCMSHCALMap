@@ -35,43 +35,43 @@ namespace HCALLMapDumper
   {
     std::cout << "#Dumping ngHF LMap Object..." << std::endl;
     std::cout << "#"
-              << std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
+              //<< std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
               << std::setw(6) << "ngRBX" 
               << std::setw(6) << "Wedge" << std::setw(6) << "PMTBx" << std::setw(9) << "PMT_TYPE" << std::setw(9) << "W_Cable" << std::setw(6) << "Tower"
-              << std::setw(6) << "PMT" << std::setw(9) << "BaseBoard" << std::setw(6) << "Anode"
-              << std::setw(6) << "S_PMT" << std::setw(6) << "S_QIE" << std::setw(6) << "R_PMT" << std::setw(6) << "R_QIE"
+              //<< std::setw(6) << "PMT" << std::setw(9) << "BaseBoard" << std::setw(6) << "Anode"
+              //<< std::setw(6) << "S_PMT" << std::setw(6) << "S_QIE" << std::setw(6) << "R_PMT" << std::setw(6) << "R_QIE"
               << std::setw(6) << "QIE10" << std::setw(6) << "QIETB" << std::setw(6) << "QIECH" << std::setw(6) << "QIEFI" << std::setw(6) << "FI_CH"
-              << std::setw(9) << "Trunk_FI" << std::setw(9) << "nCable" << std::setw(6) << "MTP"
+              //<< std::setw(9) << "Trunk_FI" << std::setw(9) << "nCable" << std::setw(6) << "MTP"
               << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_Rx" << std::setw(9) << "uHTR_FI"
-              << std::setw(6) << "FEDid"
-              << std::setw(9) << "QIE10id"
+              //<< std::setw(6) << "FEDid"
+              //<< std::setw(9) << "QIE10id"
               << std::endl;
 
     for(auto i=0; i<myngHFFrontEnd.size(); i++)
     {
-      //if( !(myngHFFrontEnd.at(i).fiber_ch==1 && myngHFBackEnd.at(i).uhtr_fiber==0) ) continue;
+      if( !(myngHFFrontEnd.at(i).fiber_ch==3 && myngHFBackEnd.at(i).uhtr_fiber==13) ) continue;
       std::cout 
                 << " "
                 //<< "ngHFGeometry(side,eta,phi,dphi,depth,subdet): "
-                << std::setw(6) << myngHFGeometry.at(i).side << std::setw(6) << myngHFGeometry.at(i).eta << std::setw(6) << myngHFGeometry.at(i).phi << std::setw(6) << myngHFGeometry.at(i).dphi << std::setw(6) << myngHFGeometry.at(i).depth << std::setw(6) << myngHFGeometry.at(i).subdet
+                //<< std::setw(6) << myngHFGeometry.at(i).side << std::setw(6) << myngHFGeometry.at(i).eta << std::setw(6) << myngHFGeometry.at(i).phi << std::setw(6) << myngHFGeometry.at(i).dphi << std::setw(6) << myngHFGeometry.at(i).depth << std::setw(6) << myngHFGeometry.at(i).subdet
                 //ngRBX
                 << std::setw(6) << myngHFFrontEnd.at(i).rbx
                 //<< "ngHFPMTBox(PMT, PMT Type, Winchester Cable,tower): "
                 << std::setw(6) << myngHFPMTBox.at(i).wedge << std::setw(6) << myngHFPMTBox.at(i).pmtbox << std::setw(9) << myngHFPMTBox.at(i).pmt_type << std::setw(9) << myngHFPMTBox.at(i).winchester_cable << std::setw(6) << myngHFPMTBox.at(i).tower
                 //<< PMT socket, Base board type, anode
-                << std::setw(6) << myngHFPMTBox.at(i).pmtsocket << std::setw(9) << myngHFPMTBox.at(i).baseboard_type << std::setw(6) << myngHFPMTBox.at(i).anode
+                //<< std::setw(6) << myngHFPMTBox.at(i).pmtsocket << std::setw(9) << myngHFPMTBox.at(i).baseboard_type << std::setw(6) << myngHFPMTBox.at(i).anode
                 //<< "Winchester Cable, PIN to PIN"
-                << std::setw(6) << myngHFPMTBox.at(i).s_coax_pmt << std::setw(6) << myngHFFrontEnd.at(i).s_coax_qie << std::setw(6) << myngHFPMTBox.at(i).r_coax_pmt << std::setw(6) << myngHFFrontEnd.at(i).r_coax_qie
+                //<< std::setw(6) << myngHFPMTBox.at(i).s_coax_pmt << std::setw(6) << myngHFFrontEnd.at(i).s_coax_qie << std::setw(6) << myngHFPMTBox.at(i).r_coax_pmt << std::setw(6) << myngHFFrontEnd.at(i).r_coax_qie
                 //<< "ngHFFrontEnd(qie10,qie10_ch,qie10_fiber,fiber_ch): "
                 << std::setw(6) << myngHFFrontEnd.at(i).qie10 << std::setw(6) << myngHFFrontEnd.at(i).qie10_connector << std::setw(6) << myngHFFrontEnd.at(i).qie10_ch << std::setw(6) << myngHFFrontEnd.at(i).qie10_fiber << std::setw(6)  << myngHFFrontEnd.at(i).fiber_ch
                 //<< "ngHFBackEnd(trunk_fiber,trunk_ncable,mtp): "
-                << std::setw(9) << myngHFBackEnd.at(i).trunk_fiber << std::setw(9) << myngHFBackEnd.at(i).trunk_ncable << std::setw(6) << myngHFBackEnd.at(i).mtp
+                //<< std::setw(9) << myngHFBackEnd.at(i).trunk_fiber << std::setw(9) << myngHFBackEnd.at(i).trunk_ncable << std::setw(6) << myngHFBackEnd.at(i).mtp
                 //<< "ngHFBackEnd(ucrate,uhtr,uhtr_rx,uhtr_fiber): "
                 << std::setw(6) << myngHFBackEnd.at(i).ucrate << std::setw(6) << myngHFBackEnd.at(i).uhtr << std::setw(9) << myngHFBackEnd.at(i).uhtr_rx << std::setw(9) << myngHFBackEnd.at(i).uhtr_fiber
                 //<< "ngHFBackEnd(ufedid): "
-                << std::setw(6) << myngHFBackEnd.at(i).ufedid
+                //<< std::setw(6) << myngHFBackEnd.at(i).ufedid
                 //<< "ngHFFrontEnd(qie10_id): "
-                << std::setw(9) << myngHFFrontEnd.at(i).qie10_id
+                //<< std::setw(9) << myngHFFrontEnd.at(i).qie10_id
                 << std::endl;
     }
     return ;

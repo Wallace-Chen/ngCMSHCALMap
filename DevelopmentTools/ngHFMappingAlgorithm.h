@@ -168,8 +168,10 @@ void ngHFMappingAlgorithm::ConstructngHFPMTBox(int sideid, int rbxqie10id, int q
   else
   { 
     int tmprbx = rbxqie10id/Nqie10 + 1;
-    const int ngHFwinchester_cableInrbxqie10id_RBX0107[9] = {1,1,3,1,3,1,3,1,3};
-    const int ngHFwinchester_cableInrbxqie10id_RBX0208[9] = {1,3,1,3,1,3,1,3,3};
+    //const int ngHFwinchester_cableInrbxqie10id_RBX0107[9] = {1,1,3,1,3,1,3,1,3};
+    //const int ngHFwinchester_cableInrbxqie10id_RBX0208[9] = {1,3,1,3,1,3,1,3,3};
+    const int ngHFwinchester_cableInrbxqie10id_RBX0107[9] = {3,1,3,1,3,1,3,1,3};
+    const int ngHFwinchester_cableInrbxqie10id_RBX0208[9] = {1,3,1,3,1,3,1,3,1};
     const int ngHFwinchester_cableInrbxqie10id_RBX0305[9] = {3,1,3,1,3,1,3,1,3};
     const int ngHFwinchester_cableInrbxqie10id_RBX0406[9] = {1,3,1,3,1,3,1,3,1};
     //HFM01 07 pattern 113131313 in TOP connector in QIE10
