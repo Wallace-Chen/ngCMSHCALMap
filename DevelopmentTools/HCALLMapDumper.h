@@ -50,6 +50,10 @@ namespace HCALLMapDumper
     for(auto i=0; i<myngHFFrontEnd.size(); i++)
     {
       //if( !(myngHFFrontEnd.at(i).fiber_ch==3 && myngHFBackEnd.at(i).uhtr_fiber==13) ) continue;
+      //if( !(myngHFPMTBox.at(i).tower=="E12" || myngHFPMTBox.at(i).tower=="H12") ) continue;
+      //if( !(myngHFPMTBox.at(i).tower=="E13" || myngHFPMTBox.at(i).tower=="H13") ) continue;
+      //if( !(myngHFGeometry.at(i).eta==40 || myngHFGeometry.at(i).eta==41) ) continue;
+      //if( !(myngHFPMTBox.at(i).wedge==1) ) continue;
       std::cout 
                 << " "
                 //<< "ngHFGeometry(side,eta,phi,dphi,depth,subdet): "

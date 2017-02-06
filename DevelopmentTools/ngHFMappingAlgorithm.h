@@ -366,9 +366,9 @@ void ngHFMappingAlgorithm::ConstructngHFGeometry(int sideid,int pmtbox,std::stri
   thisngHFGeometry.subdet = "HF";
   thisngHFGeometry.side = sideid;
   //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HF/dual-anode/ngHF_QIE_MTP_map.xls Phi - - - pmtbox mapping
-  //Special fix for Tower E12 and H12 on phi : do we have a more elegant way to do that ?
-  if(tower=="E12"||tower=="H12") thisngHFGeometry.phi = ((pmtbox+34)%36)*2+1;
-  else                           thisngHFGeometry.phi = pmtbox*2-1; 
+  //Special fix for Tower E12 H12 E13, H13 on phi : do we have a more elegant way to do that ?
+  if(tower=="E12"||tower=="H12"||tower=="E13"||tower=="H13") thisngHFGeometry.phi = (((pmtbox%36)/2)*4+3+68)%72;
+  else thisngHFGeometry.phi = pmtbox*2-1; 
   //http://cmsdoc.cern.ch/cms/HCAL/document/Calorimeters/HF/HF_Readout_box_wiring_draft_May14-2013.pdf Eta - - - tower mapping
   //decouple the tower into 2 pieces
   std::string towertype = tower.substr(0,1); int towerid = atoi(tower.substr(1).c_str());
