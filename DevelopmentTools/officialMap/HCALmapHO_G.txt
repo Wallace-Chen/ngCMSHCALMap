@@ -1,4 +1,4 @@
-## file created 24.Feb.2016 ##
+## file created 06.Feb.2017 ##
 #   side    eta    phi   dphi  depth    det     rbx  sector    rm  pixel   qie    adc  rm_fi  fi_ch let_code  crate  block_coupler  htr   fpga  htr_fi  dcc_sl  spigo    dcc  fedid  QIEId
 0     -1      1      1      1      4     HO   HO001      1      2      9     2      4      5      0        M      3         3.08      3    bot       4      10      3      1    724 101259
 0     -1      2      1      1      4     HO   HO001      1      2     13     2      5      5      1        L      3         3.08      3    bot       4      10      3      1    724 101259
