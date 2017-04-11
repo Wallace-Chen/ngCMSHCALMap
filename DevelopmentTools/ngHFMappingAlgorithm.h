@@ -1,3 +1,5 @@
+#include <sstream>
+#include <fstream>
 #include <vector>
 #include <iostream>
 #include <map>
@@ -19,6 +21,13 @@ class ngHFMappingAlgorithm : public ngHFConstant
   void ConstructngHFGeometry(int sideid, int pmtbox, std::string tower, int anode);
   //void ConstructngHFTriggerTower();  
   const int ngHFqie10Inrbxqie10id[Nqie10] = {3,4,5,6,10,11,12,13,14};
+  //QIE10 calibration constants
+  struct ngHFQIE10CardMap
+  {
+    std::string rbx,qie,barcode,qie_id;
+  };
+  std::vector<ngHFQIE10CardMap> myngHFQIE10CardMap;
+  void LoadngHFQIEMap(std::string QIE10CardMapFileName);
 };
 
 void ngHFMappingAlgorithm::SplitngHFfromOldHF(
@@ -103,6 +112,9 @@ void ngHFMappingAlgorithm::SplitngHFfromOldHF(
 
 void ngHFMappingAlgorithm::ConstructngHFLMapObject()
 {
+  std::cout << "#Loading information from QIE allocation file..." << std::endl;
+  LoadngHFQIEMap("ngHFQIEInput/QIEcardLocationMap.txt");
+
   std::cout << "#Constructing ngHF LMap Object..." << std::endl;
 
   for(int irbx=0;irbx<NrbxngHF*2;irbx++)//8 rbx per side for ngHF
@@ -148,7 +160,7 @@ void ngHFMappingAlgorithm::ConstructngHFFrontEnd(int sideid, int rbxqie10id, int
   
   //QIE id ... need to set from a huge xls file
   thisngHFFrontEnd.qie10_id = 999999;
-
+  thisngHFFrontEnd.qie10_barcode = "0x3e000000 0xba22f270";
   myngHFFrontEnd.push_back(thisngHFFrontEnd);
   return ;
 }
@@ -402,3 +414,28 @@ void ngHFMappingAlgorithm::ConstructngHFTriggerTower()
   return ;
 }
 */
+
+void ngHFMappingAlgorithm::LoadngHFQIEMap(std::string QIE10CardMapFileName)
+{
+  std::ifstream inputFile(QIE10CardMapFileName.c_str());
+  std::string line;
+  while( std::getline(inputFile, line) )
+  {
+    if(line.at(0) == '#') continue;
+      
+    //std::istringstream ss(line);
+    std::stringstream ss(line);
+    ngHFQIE10CardMap thisngHFQIE10CardMap;
+    std::string barcode1,barcode2;
+   
+    ss >> thisngHFQIE10CardMap.rbx >> thisngHFQIE10CardMap.qie >> barcode1 >> barcode2 >> thisngHFQIE10CardMap.qie_id;
+    //std::cout << thisngHFQIE10CardMap.rbx << std::endl;
+    //std::cout << thisngHFQIE10CardMap.qie << std::endl;
+    //std::cout << barcode1 << std::endl;
+    //std::cout << barcode2 << std::endl;
+    //std::cout << thisngHFQIE10CardMap.qie_id << std::endl;
+    thisngHFQIE10CardMap.barcode=barcode1+" "+barcode2;
+    myngHFQIE10CardMap.push_back(thisngHFQIE10CardMap);
+  }
+}
+
