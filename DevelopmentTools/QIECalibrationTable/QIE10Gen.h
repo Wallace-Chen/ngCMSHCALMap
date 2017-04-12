@@ -10,7 +10,7 @@ class QIE10LMap
   std::string subdet;
   std::string rbx;
   int qie_card, qie_ch;
-
+  int qie_id;
   void printQIE10LMapInfo();
 };
 
@@ -18,13 +18,13 @@ void QIE10LMap::printQIE10LMapInfo()
 {
   std::cout << std::setw(10) << "Side : " << side << std::setw(10) << " Eta : " << eta << std::setw(10) << " Phi : " << phi << std::setw(10) << " Depth : " << depth << std::setw(10) << " Det : " << subdet
             << std::setw(10) << " RBX : " << rbx << std::setw(10) << " FECard : " << qie_card << std::setw(10) << " QIE10Ch : " << qie_ch
+            << std::setw(10) << " QIES/N : " << qie_id
             << std::endl;
 }
 
 class QIE10Condition
 {
  public:
-  int crate, slot;
   int QIE10_id;
   int QIE10_ch;
   double offsets[16], slopes[16];
@@ -34,7 +34,7 @@ class QIE10Condition
 
 void QIE10Condition::printQIE10ConditionInfo()
 {
-  std::cout << std::setw(10) << "FECrate : " << crate << std::setw(10) << " FESlot : " << slot << std::setw(10) << " QIE10Id : " << QIE10_id << std::setw(10) << " QIE10Ch : " << QIE10_ch
+  std::cout << std::setw(10) << " QIE10Id : " << QIE10_id << std::setw(10) << " QIE10Ch : " << QIE10_ch
             << std::endl;
 }
 
@@ -55,5 +55,3 @@ void QIE10Table::printQIE10TableInfo()
   for(int i=0;i<16;i++){ std::cout << std::setw(6) << " " << slopes[i]; }   
   std::cout << std::endl;
 }
-
-

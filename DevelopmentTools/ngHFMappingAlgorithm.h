@@ -5,6 +5,10 @@
 #include <map>
 #include <utility>
 
+#include <TSQLServer.h>
+#include <TSQLResult.h>
+#include <TSQLRow.h>
+
 #include "ngHFMappingObject.h"
 
 class ngHFMappingAlgorithm : public ngHFConstant
@@ -22,6 +26,7 @@ class ngHFMappingAlgorithm : public ngHFConstant
   //void ConstructngHFTriggerTower();  
   const int ngHFqie10Inrbxqie10id[Nqie10] = {3,4,5,6,10,11,12,13,14};
   //QIE10 calibration constants
+  //LMap add QIE10 ID and QIE10 BarCode
   struct ngHFQIE10CardMap
   {
     std::string rbx,qie,barcode,qie_id;
@@ -465,6 +470,6 @@ void ngHFMappingAlgorithm::GetngHFQIEInfoToLMap(
     }
     else continue;
   }
-  if(!qie10match) std::cout << "QIE 10 card not found in front end coordinates ???!!!" << std::endl;
+  if(!qie10match) std::cout << "#QIE 10 card not found in front end coordinates ???!!!" << std::endl;
   return ;
 }
