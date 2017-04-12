@@ -28,6 +28,10 @@ class ngHFMappingAlgorithm : public ngHFConstant
   };
   std::vector<ngHFQIE10CardMap> myngHFQIE10CardMap;
   void LoadngHFQIEMap(std::string QIE10CardMapFileName);
+  void GetngHFQIEInfoToLMap(
+                            std::string rbx, int qie,
+                            int &qie10_id, std::string &qie10_barcode
+                           );
 };
 
 void ngHFMappingAlgorithm::SplitngHFfromOldHF(
@@ -159,8 +163,12 @@ void ngHFMappingAlgorithm::ConstructngHFFrontEnd(int sideid, int rbxqie10id, int
   thisngHFFrontEnd.qie10_ch<13 ? thisngHFFrontEnd.qie10_connector = "TOP" : thisngHFFrontEnd.qie10_connector = "BOT";
   
   //QIE id ... need to set from a huge xls file
-  thisngHFFrontEnd.qie10_id = 999999;
-  thisngHFFrontEnd.qie10_barcode = "0x3e000000 0xba22f270";
+  //thisngHFFrontEnd.qie10_id = 999999;
+  //thisngHFFrontEnd.qie10_barcode = "0x3e000000 0xba22f270";
+  GetngHFQIEInfoToLMap(
+                       thisngHFFrontEnd.rbx, thisngHFFrontEnd.qie10,
+                       thisngHFFrontEnd.qie10_id, thisngHFFrontEnd.qie10_barcode
+                      );
   myngHFFrontEnd.push_back(thisngHFFrontEnd);
   return ;
 }
@@ -437,5 +445,26 @@ void ngHFMappingAlgorithm::LoadngHFQIEMap(std::string QIE10CardMapFileName)
     thisngHFQIE10CardMap.barcode=barcode1+" "+barcode2;
     myngHFQIE10CardMap.push_back(thisngHFQIE10CardMap);
   }
+  return ;
 }
 
+void ngHFMappingAlgorithm::GetngHFQIEInfoToLMap(
+                                                std::string rbx, int qie,
+                                                int &qie10_id, std::string &qie10_barcode
+                                               )
+{
+  bool qie10match = false;
+  for(auto i=0; i<myngHFQIE10CardMap.size(); i++)
+  {
+    qie10match = (rbx==myngHFQIE10CardMap.at(i).rbx) && (qie==std::stoi(myngHFQIE10CardMap.at(i).qie));
+    if(qie10match)
+    {
+      qie10_id = std::stoi(myngHFQIE10CardMap.at(i).qie_id);
+      qie10_barcode = myngHFQIE10CardMap.at(i).barcode;
+      break;
+    }
+    else continue;
+  }
+  if(!qie10match) std::cout << "QIE 10 card not found in front end coordinates ???!!!" << std::endl;
+  return ;
+}
