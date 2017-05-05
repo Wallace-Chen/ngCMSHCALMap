@@ -40,7 +40,7 @@ $(ODIR)/%.o : $(IDIR)/%.cc
 HCALLMapAnalyzer: $(ODIR)/HCALLMapAnalyzer.o $(ODIR)/HCALLMapDumper.o $(ODIR)/HCALLMapLoader.o $(ODIR)/HBHEAnalyzer.o $(ODIR)/HFAnalyzer.o $(ODIR)/HOAnalyzer.o $(ODIR)/ngHBAnalyzer.o $(ODIR)/ngHEAnalyzer.o $(ODIR)/ngHFAnalyzer.o
 	$(LD) $^ $(LIBS)  -o $@
 
-HCALLMapProducer: $(ODIR)/HCALLMapProducer.o $(ODIR)/HCALLMapDumper.o $(ODIR)/HCALLMapLoader.o
+HCALLMapProducer: $(ODIR)/HCALLMapProducer.o $(ODIR)/HCALLMapDumper.o $(ODIR)/HCALLMapLoader.o $(ODIR)/HBHEMappingAlgorithm.o $(ODIR)/HFMappingAlgorithm.o $(ODIR)/HOMappingAlgorithm.o $(ODIR)/ngHBMappingAlgorithm.o $(ODIR)/ngHEMappingAlgorithm.o $(ODIR)/ngHFMappingAlgorithm.o
 	$(LD) $^ $(LIBS)  -o $@
 
 clean:
