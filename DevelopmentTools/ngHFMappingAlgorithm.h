@@ -1,7 +1,13 @@
+#include <sstream>
+#include <fstream>
 #include <vector>
 #include <iostream>
 #include <map>
 #include <utility>
+
+#include <TSQLServer.h>
+#include <TSQLResult.h>
+#include <TSQLRow.h>
 
 #include "ngHFMappingObject.h"
 
@@ -19,6 +25,18 @@ class ngHFMappingAlgorithm : public ngHFConstant
   void ConstructngHFGeometry(int sideid, int pmtbox, std::string tower, int anode);
   //void ConstructngHFTriggerTower();  
   const int ngHFqie10Inrbxqie10id[Nqie10] = {3,4,5,6,10,11,12,13,14};
+  //QIE10 calibration constants
+  //LMap add QIE10 ID and QIE10 BarCode
+  struct ngHFQIE10CardMap
+  {
+    std::string rbx,qie,barcode,qie_id;
+  };
+  std::vector<ngHFQIE10CardMap> myngHFQIE10CardMap;
+  void LoadngHFQIEMap(std::string QIE10CardMapFileName);
+  void GetngHFQIEInfoToLMap(
+                            std::string rbx, int qie,
+                            int &qie10_id, std::string &qie10_barcode
+                           );
 };
 
 void ngHFMappingAlgorithm::SplitngHFfromOldHF(
@@ -103,6 +121,9 @@ void ngHFMappingAlgorithm::SplitngHFfromOldHF(
 
 void ngHFMappingAlgorithm::ConstructngHFLMapObject()
 {
+  std::cout << "#Loading information from QIE allocation file..." << std::endl;
+  LoadngHFQIEMap("ngHFQIEInput/QIEcardLocationMap.txt");
+
   std::cout << "#Constructing ngHF LMap Object..." << std::endl;
 
   for(int irbx=0;irbx<NrbxngHF*2;irbx++)//8 rbx per side for ngHF
@@ -147,8 +168,12 @@ void ngHFMappingAlgorithm::ConstructngHFFrontEnd(int sideid, int rbxqie10id, int
   thisngHFFrontEnd.qie10_ch<13 ? thisngHFFrontEnd.qie10_connector = "TOP" : thisngHFFrontEnd.qie10_connector = "BOT";
   
   //QIE id ... need to set from a huge xls file
-  thisngHFFrontEnd.qie10_id = 999999;
-
+  //thisngHFFrontEnd.qie10_id = 999999;
+  //thisngHFFrontEnd.qie10_barcode = "0x3e000000 0xba22f270";
+  GetngHFQIEInfoToLMap(
+                       thisngHFFrontEnd.rbx, thisngHFFrontEnd.qie10,
+                       thisngHFFrontEnd.qie10_id, thisngHFFrontEnd.qie10_barcode
+                      );
   myngHFFrontEnd.push_back(thisngHFFrontEnd);
   return ;
 }
@@ -352,9 +377,12 @@ void ngHFMappingAlgorithm::ConstructngHFBackEnd(int sideid, int rbxqie10id, int 
   thisngHFBackEnd.fiber_ch = qie10chid%Nfiber_ch;//0,1,2,3
   //set secondary variables
   thisngHFBackEnd.trunk_fiber = (thisngHFBackEnd.yfiber_input-1)*6 + qie10chid/Nfiber_ch + 1;//1 to 12
+  //FED 1118,1119,1120,1121,1122,1123
+  //backend slot 7 to 12 to P-side, backend slot 1 to 6 to M-side, 
+  //The odd HF FEDs read P-side, the evens read M-side - - - 1118,1120,1122 for P-side, and 1119,1121,1123 for M-side
   const std::map<int, int> ngHFufedidInucrate = { {22,1118},{29,1120},{32,1122} };
   thisngHFBackEnd.ufedid = (ngHFufedidInucrate.find(thisngHFBackEnd.ucrate))->second;
-
+  if(thisngHFBackEnd.uhtr <= 6){ thisngHFBackEnd.ufedid++; } 
   myngHFBackEnd.push_back(thisngHFBackEnd);
   return ;
 }
@@ -402,3 +430,49 @@ void ngHFMappingAlgorithm::ConstructngHFTriggerTower()
   return ;
 }
 */
+
+void ngHFMappingAlgorithm::LoadngHFQIEMap(std::string QIE10CardMapFileName)
+{
+  std::ifstream inputFile(QIE10CardMapFileName.c_str());
+  std::string line;
+  while( std::getline(inputFile, line) )
+  {
+    if(line.at(0) == '#') continue;
+      
+    //std::istringstream ss(line);
+    std::stringstream ss(line);
+    ngHFQIE10CardMap thisngHFQIE10CardMap;
+    std::string barcode1,barcode2;
+   
+    ss >> thisngHFQIE10CardMap.rbx >> thisngHFQIE10CardMap.qie >> barcode1 >> barcode2 >> thisngHFQIE10CardMap.qie_id;
+    //std::cout << thisngHFQIE10CardMap.rbx << std::endl;
+    //std::cout << thisngHFQIE10CardMap.qie << std::endl;
+    //std::cout << barcode1 << std::endl;
+    //std::cout << barcode2 << std::endl;
+    //std::cout << thisngHFQIE10CardMap.qie_id << std::endl;
+    thisngHFQIE10CardMap.barcode=barcode1+" "+barcode2;
+    myngHFQIE10CardMap.push_back(thisngHFQIE10CardMap);
+  }
+  return ;
+}
+
+void ngHFMappingAlgorithm::GetngHFQIEInfoToLMap(
+                                                std::string rbx, int qie,
+                                                int &qie10_id, std::string &qie10_barcode
+                                               )
+{
+  bool qie10match = false;
+  for(auto i=0; i<myngHFQIE10CardMap.size(); i++)
+  {
+    qie10match = (rbx==myngHFQIE10CardMap.at(i).rbx) && (qie==std::stoi(myngHFQIE10CardMap.at(i).qie));
+    if(qie10match)
+    {
+      qie10_id = std::stoi(myngHFQIE10CardMap.at(i).qie_id);
+      qie10_barcode = myngHFQIE10CardMap.at(i).barcode;
+      break;
+    }
+    else continue;
+  }
+  if(!qie10match) std::cout << "#QIE 10 card not found in front end coordinates ???!!!" << std::endl;
+  return ;
+}
