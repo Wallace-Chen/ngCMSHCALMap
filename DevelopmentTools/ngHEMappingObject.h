@@ -1,3 +1,6 @@
+#ifndef _ngHEMapObject_H_
+#define _ngHEMapObject_H_
+
 #include<string>
 //FrontEnd electronics struct
 struct ngHEFrontEnd
@@ -84,3 +87,4 @@ class ngHEConstant
   static const int NngHEdeptheta21to29 = 6+6+6+6+6+7+7+7+3;//54
   static const int NngHECalibChannel = 144;
 };
+#endif

@@ -37,10 +37,10 @@ $(ODIR)/%.o : $(IDIR)/%.C
 $(ODIR)/%.o : $(IDIR)/%.cc
 	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) -o $@ -c $<
 
-HCALLMapAnalyzer: $(ODIR)/HCALLMapAnalyzer.o
+HCALLMapAnalyzer: $(ODIR)/HCALLMapAnalyzer.o $(ODIR)/HCALLMapDumper.o $(ODIR)/HCALLMapLoader.o
 	$(LD) $^ $(LIBS)  -o $@
 
-HCALLMapProducer: $(ODIR)/HCALLMapProducer.o
+HCALLMapProducer: $(ODIR)/HCALLMapProducer.o $(ODIR)/HCALLMapDumper.o $(ODIR)/HCALLMapLoader.o
 	$(LD) $^ $(LIBS)  -o $@
 
 clean:

@@ -1,3 +1,6 @@
+#ifndef _ngHFMapObject_H_
+#define _ngHFMapObject_H_
+
 #include<string>
 //FrontEnd electronics struct
 struct ngHFFrontEnd
@@ -110,3 +113,4 @@ class ngHFConstant
   static const int NngHFphidphi4 = 18;
   static const int NngHFdepth = 4;
 };
+#endif

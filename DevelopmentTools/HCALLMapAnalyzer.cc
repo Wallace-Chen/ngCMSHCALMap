@@ -19,6 +19,9 @@ int main(int argc, char* argv[])
   std::cout << "#The valid run modes are: HBHEHFVME, HBHEHFuTCA, HOVME" << std::endl;
   std::cout << "#The run mode we have right now is: " << RunMode << std::endl;
 
+  HCALLMapDumper myHCALLMapDumper;
+  HCALLMapLoader myHCALLMapLoader;
+
   //initialize the variables we need in analysis
   std::vector<HBFrontEnd> myHBFrontEnd; std::vector<HBBackEnd> myHBBackEnd; std::vector<HBPMTBox> myHBPMTBox; std::vector<HBGeometry> myHBGeometry; std::vector<HBTriggerTower> myHBTriggerTower;
   std::vector<HEFrontEnd> myHEFrontEnd; std::vector<HEBackEnd> myHEBackEnd; std::vector<HEPMTBox> myHEPMTBox; std::vector<HEGeometry> myHEGeometry; std::vector<HETriggerTower> myHETriggerTower;
@@ -30,12 +33,12 @@ int main(int argc, char* argv[])
   if( RunMode == "HBHEHFVME" )
   {
     std::string txtfilename = "officialMap/HCALmapHBEF_G.txt";
-    int NChannel = HCALLMapLoader::GetHBHEHFromLMap(
-                                                    txtfilename,
-                                                    myHBFrontEnd, myHBBackEnd, myHBPMTBox, myHBGeometry, myHBTriggerTower,
-                                                    myHEFrontEnd, myHEBackEnd, myHEPMTBox, myHEGeometry, myHETriggerTower,
-                                                    myHFFrontEnd, myHFBackEnd, myHFPMTBox, myHFGeometry, myHFTriggerTower
-                                                   );
+    int NChannel = myHCALLMapLoader.GetHBHEHFromLMap(
+                                                     txtfilename,
+                                                     myHBFrontEnd, myHBBackEnd, myHBPMTBox, myHBGeometry, myHBTriggerTower,
+                                                     myHEFrontEnd, myHEBackEnd, myHEPMTBox, myHEGeometry, myHETriggerTower,
+                                                     myHFFrontEnd, myHFBackEnd, myHFPMTBox, myHFGeometry, myHFTriggerTower
+                                                    );
     HBHEAnalyzer myHBHEAnalyzer;
     HFAnalyzer myHFAnalyzer;
 
@@ -56,12 +59,12 @@ int main(int argc, char* argv[])
   else if( RunMode == "HBHEHFuTCA" )
   {
     std::string txtfilename = "officialMap/HCALmapHBEF_G_uHTR.txt";
-    int NChannel = HCALLMapLoader::GetHBHEHFromLMap(
-                                                    txtfilename,
-                                                    myHBFrontEnd, myHBBackEnd, myHBPMTBox, myHBGeometry, myHBTriggerTower,
-                                                    myHEFrontEnd, myHEBackEnd, myHEPMTBox, myHEGeometry, myHETriggerTower,
-                                                    myHFFrontEnd, myHFBackEnd, myHFPMTBox, myHFGeometry, myHFTriggerTower
-                                                   );
+    int NChannel = myHCALLMapLoader.GetHBHEHFromLMap(
+                                                     txtfilename,
+                                                     myHBFrontEnd, myHBBackEnd, myHBPMTBox, myHBGeometry, myHBTriggerTower,
+                                                     myHEFrontEnd, myHEBackEnd, myHEPMTBox, myHEGeometry, myHETriggerTower,
+                                                     myHFFrontEnd, myHFBackEnd, myHFPMTBox, myHFGeometry, myHFTriggerTower
+                                                    );
     HBHEAnalyzer myHBHEAnalyzer;
     HFAnalyzer myHFAnalyzer;
 
@@ -78,14 +81,14 @@ int main(int argc, char* argv[])
     myHFAnalyzer.PlottingHFFEtoGeo(myHFFrontEnd,myHFGeometry);
     myHFAnalyzer.PlottingHFFEtoBEuTCA(myHFFrontEnd,myHFBackEnd);
 
-    //HCALLMapDumper::printHFLMapObject(myHFFrontEnd, myHFBackEnd, myHFPMTBox, myHFGeometry, myHFTriggerTower);
+    //myHCALLMapDumper.printHFLMapObject(myHFFrontEnd, myHFBackEnd, myHFPMTBox, myHFGeometry, myHFTriggerTower);
     return 1;
   }
   else if( RunMode == "HOVME" )
   {
     HOAnalyzer myHOAnalyzer;
     std::string txtfilename = "officialMap/HCALmapHO_G.txt";
-    int NChannel = HCALLMapLoader::GetHOFromLMap(txtfilename, myHOFrontEnd, myHOBackEnd, myHOPMTBox, myHOGeometry, myHOTriggerTower);
+    int NChannel = myHCALLMapLoader.GetHOFromLMap(txtfilename, myHOFrontEnd, myHOBackEnd, myHOPMTBox, myHOGeometry, myHOTriggerTower);
     if(NChannel == myHOAnalyzer.NchHO_all){ std::cout << "#The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
     else{ std::cout << "#We have " << NChannel << " channels from txt Lmap while we have " << myHOAnalyzer.NchHO_all << " channels expected in HO, something must be wrong!" << std::endl; return -1; }
 
@@ -97,10 +100,10 @@ int main(int argc, char* argv[])
   else if( RunMode == "ngHFuTCA" )
   {
     std::string txtfilename = "officialMap/ngHFLMap_v0.txt";
-    int NChannel = HCALLMapLoader::GetngHFromLMap(
-                                                  txtfilename,
-                                                  myngHFFrontEnd, myngHFBackEnd, myngHFPMTBox, myngHFGeometry, myngHFTriggerTower
-                                                 );
+    int NChannel = myHCALLMapLoader.GetngHFromLMap(
+                                                   txtfilename,
+                                                   myngHFFrontEnd, myngHFBackEnd, myngHFPMTBox, myngHFGeometry, myngHFTriggerTower
+                                                  );
 
     ngHFAnalyzer myngHFAnalyzer;
     myngHFAnalyzer.PlottingngHFFEtoGeo(myngHFFrontEnd, myngHFGeometry);
@@ -110,10 +113,10 @@ int main(int argc, char* argv[])
   else if( RunMode == "ngHEuTCA" )
   {
     std::string txtfilename = "officialMap/ngHELMap_v0.txt";
-    int NChannel = HCALLMapLoader::GetngHEromLMap(
-                                                  txtfilename,
-                                                  myngHEFrontEnd, myngHEBackEnd, myngHEPMTBox, myngHEGeometry, myngHETriggerTower
-                                                 );
+    int NChannel = myHCALLMapLoader.GetngHEromLMap(
+                                                   txtfilename,
+                                                   myngHEFrontEnd, myngHEBackEnd, myngHEPMTBox, myngHEGeometry, myngHETriggerTower
+                                                  );
 
     ngHEAnalyzer myngHEAnalyzer;
     myngHEAnalyzer.PlottingngHEFEtoGeo(myngHEFrontEnd, myngHEGeometry);
