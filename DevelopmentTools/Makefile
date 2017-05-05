@@ -37,7 +37,7 @@ $(ODIR)/%.o : $(IDIR)/%.C
 $(ODIR)/%.o : $(IDIR)/%.cc
 	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) -o $@ -c $<
 
-HCALLMapAnalyzer: $(ODIR)/HCALLMapAnalyzer.o $(ODIR)/HCALLMapDumper.o $(ODIR)/HCALLMapLoader.o
+HCALLMapAnalyzer: $(ODIR)/HCALLMapAnalyzer.o $(ODIR)/HCALLMapDumper.o $(ODIR)/HCALLMapLoader.o $(ODIR)/HBHEAnalyzer.o $(ODIR)/HFAnalyzer.o $(ODIR)/HOAnalyzer.o $(ODIR)/ngHBAnalyzer.o $(ODIR)/ngHEAnalyzer.o $(ODIR)/ngHFAnalyzer.o
 	$(LD) $^ $(LIBS)  -o $@
 
 HCALLMapProducer: $(ODIR)/HCALLMapProducer.o $(ODIR)/HCALLMapDumper.o $(ODIR)/HCALLMapLoader.o
