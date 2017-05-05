@@ -26,9 +26,7 @@ Plots To be fixed: HBHE VME FE vs BE plot, crate 0 not showed, fpga how to show 
 
 To produce the LMap:
 
-./HCALLMapProducer RunMode
+./HCALLMapProducer RunMode PrdMode
 
 The valid RunMode are: HB,HE,HF,HO
-
-
-## Be careful! HCALLMapLoader.h and HCALLMapDumper.h will be functional only after load the HXMappingObject.h
+The valid PrdMode are: LMap,EMap,FMap
