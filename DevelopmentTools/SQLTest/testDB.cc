@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sqlite3.h>
+#include "/afs/cern.ch/user/h/hua/hcal-mapping/Development/CMSSW_8_0_0/src/bld/sqlite3.h"
 
 static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
@@ -15,12 +15,26 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 
 int main(int argc, char* argv[])
 {
+   sqlite3 *db;
+   char *zErrMsg = 0;
+   int rc;
+
+   rc = sqlite3_open("test.db", &db);
+
+   if( rc ){
+      fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+      return(0);
+   }else{
+      fprintf(stderr, "Opened database successfully\n");
+   }
+   sqlite3_close(db);
+
+  /*
   sqlite3 *db;
   char *zErrMsg = 0;
   int rc;
   char *sql;
 
-  /* Open database */
   rc = sqlite3_open("test.db", &db);
   if( rc )
   {
@@ -32,7 +46,6 @@ int main(int argc, char* argv[])
     fprintf(stderr, "Opened database successfully\n");
   }
    
-  /* Create SQL statement */
   sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "  \
         "VALUES (1, 'Paul', 32, 'California', 20000.00 ); " \
         "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "  \
@@ -42,7 +55,6 @@ int main(int argc, char* argv[])
         "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)" \
         "VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 );";
 
-  /* Execute SQL statement */
   rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
   if( rc != SQLITE_OK )
   {
@@ -54,5 +66,7 @@ int main(int argc, char* argv[])
     fprintf(stdout, "Records created successfully\n");
   }
   sqlite3_close(db);
+  */
+
   return 0;
 }

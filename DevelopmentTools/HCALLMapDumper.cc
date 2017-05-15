@@ -251,3 +251,28 @@ void HCALLMapDumper::printngHBFrontEndMapObject(std::vector<ngHBFrontEnd> myngHB
   }
   return ;
 }
+
+void HCALLMapDumper::makedbngHFLMapObject(std::vector<ngHFFrontEnd> myngHFFrontEnd, std::vector<ngHFBackEnd> myngHFBackEnd, std::vector<ngHFPMTBox> myngHFPMTBox, std::vector<ngHFGeometry> myngHFGeometry, std::vector<ngHFTriggerTower> myngHFTriggerTower)
+{
+   sqlite3 *db;
+   char *zErrMsg = 0;
+   int rc;
+
+   rc = sqlite3_open("test.db", &db);
+
+   if( rc )
+   {
+     fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+     return ;
+   }
+   else
+   {
+     fprintf(stderr, "Opened database successfully\n");
+   }
+
+   sqlite3_close(db);
+
+  //TSQLServer *db = TSQLServer::Connect("mysql://localhost/test", "hua", "");
+  //TSQLServer *db = TSQLServer::Connect("oracle://pccmsecdb:1521/ecalh4db","read01","XXXpasswordXXX");
+  return ;
+}
