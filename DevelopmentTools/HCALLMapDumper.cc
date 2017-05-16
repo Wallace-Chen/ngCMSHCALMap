@@ -31,7 +31,7 @@ void HCALLMapDumper::printngHFLMapObject(std::vector<ngHFFrontEnd> myngHFFrontEn
             << std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
             << std::setw(6) << "ngRBX" 
             << std::setw(6) << "Wedge" << std::setw(6) << "PMTBx" << std::setw(9) << "PMT_TYPE" << std::setw(9) << "W_Cable" << std::setw(6) << "Tower"
-            << std::setw(6) << "PMT" << std::setw(9) << "BaseBoard" << std::setw(6) << "Anode"
+            << std::setw(6) << "PMT" << std::setw(10) << "BaseBoard" << std::setw(6) << "Anode"
             << std::setw(6) << "S_PMT" << std::setw(6) << "S_QIE" << std::setw(6) << "R_PMT" << std::setw(6) << "R_QIE"
             << std::setw(6) << "QIE10" << std::setw(6) << "QIETB" << std::setw(6) << "QIECH" << std::setw(6) << "QIEFI" << std::setw(6) << "FI_CH"
             << std::setw(9) << "Trunk_FI" << std::setw(9) << "nCable" << std::setw(6) << "MTP"
@@ -56,7 +56,7 @@ void HCALLMapDumper::printngHFLMapObject(std::vector<ngHFFrontEnd> myngHFFrontEn
               //<< "ngHFPMTBox(PMT, PMT Type, Winchester Cable,tower): "
               << std::setw(6) << myngHFPMTBox.at(i).wedge << std::setw(6) << myngHFPMTBox.at(i).pmtbox << std::setw(9) << myngHFPMTBox.at(i).pmt_type << std::setw(9) << myngHFPMTBox.at(i).winchester_cable << std::setw(6) << myngHFPMTBox.at(i).tower
               //<< PMT socket, Base board type, anode
-              << std::setw(6) << myngHFPMTBox.at(i).pmtsocket << std::setw(9) << myngHFPMTBox.at(i).baseboard_type << std::setw(6) << myngHFPMTBox.at(i).anode
+              << std::setw(6) << myngHFPMTBox.at(i).pmtsocket << std::setw(10) << myngHFPMTBox.at(i).baseboard_type << std::setw(6) << myngHFPMTBox.at(i).anode
               //<< "Winchester Cable, PIN to PIN"
               << std::setw(6) << myngHFPMTBox.at(i).s_coax_pmt << std::setw(6) << myngHFFrontEnd.at(i).s_coax_qie << std::setw(6) << myngHFPMTBox.at(i).r_coax_pmt << std::setw(6) << myngHFFrontEnd.at(i).r_coax_qie
               //<< "ngHFFrontEnd(qie10,qie10_ch,qie10_fiber,fiber_ch): "
@@ -252,27 +252,86 @@ void HCALLMapDumper::printngHBFrontEndMapObject(std::vector<ngHBFrontEnd> myngHB
   return ;
 }
 
-void HCALLMapDumper::makedbngHFLMapObject(std::vector<ngHFFrontEnd> myngHFFrontEnd, std::vector<ngHFBackEnd> myngHFBackEnd, std::vector<ngHFPMTBox> myngHFPMTBox, std::vector<ngHFGeometry> myngHFGeometry, std::vector<ngHFTriggerTower> myngHFTriggerTower)
+void HCALLMapDumper::makedbngHFLMapObject(std::string HCALLMapDbStr, std::string ngHFTableStr,
+                                          std::vector<ngHFFrontEnd> myngHFFrontEnd, std::vector<ngHFBackEnd> myngHFBackEnd, std::vector<ngHFPMTBox> myngHFPMTBox, std::vector<ngHFGeometry> myngHFGeometry, std::vector<ngHFTriggerTower> myngHFTriggerTower)
 {
-   sqlite3 *db;
-   char *zErrMsg = 0;
-   int rc;
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc;
 
-   rc = sqlite3_open("test.db", &db);
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db)); exit(0); }
+  else{ fprintf(stderr, "Opened database successfully\n"); }
 
-   if( rc )
-   {
-     fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
-     return ;
-   }
-   else
-   {
-     fprintf(stderr, "Opened database successfully\n");
-   }
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det 
+  //ngRBX 
+  //Wedge PMTBx PMT_TYPE W_Cable Tower 
+  //PMT BaseBoard Anode 
+  //S_PMT S_QIE R_PMT R_QIE 
+  //QIE10 QIETB QIECH QIEFI FI_CH 
+  //Trunk_FI nCable MTP 
+  //Crate uHTR uHTR_Rx uHTR_FI FEDid 
+  //QIE10id QIE10BarCode
 
-   sqlite3_close(db);
+  std::string CreateTable = "CREATE TABLE " + ngHFTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "ngRBX TEXT NOT NULL, " \
+                            "Wedge INT NOT NULL, PMTBx INT NOT NULL, PMT_TYPE TEXT NOT NULL, W_Cable INT NOT NULL, Tower TEXT NOT NULL, " \
+                            "PMT INT NOT NULL, BaseBoard TEXT NOT NULL, Anode INT NOT NULL, " \
+                            "S_PMT INT NOT NULL, S_QIE INT NOT NULL, R_PMT INT NOT NULL, R_QIE INT NOT NULL, " \
+                            "QIE10 INT NOT NULL, QIETB TEXT NOT NULL, QIECH INT NOT NULL, QIEFI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "Trunk_FI INT NOT NULL, nCable INT NOT NULL, MTP INT NOT NULL, " \
+                            "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_Rx INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIE10id INT NOT NULL, QIE10BarCode TEXT NOT NULL);";
+                    
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "Table created successfully\n"); }
 
-  //TSQLServer *db = TSQLServer::Connect("mysql://localhost/test", "hua", "");
-  //TSQLServer *db = TSQLServer::Connect("oracle://pccmsecdb:1521/ecalh4db","read01","XXXpasswordXXX");
+  for(auto i=0; i<myngHFFrontEnd.size(); i++)
+  {
+    /*
+    std::cout 
+              << " "
+              //<< PMT socket, Base board type, anode
+              << std::setw(6) << myngHFPMTBox.at(i).pmtsocket << std::setw(9) << myngHFPMTBox.at(i).baseboard_type << std::setw(6) << myngHFPMTBox.at(i).anode
+              //<< "Winchester Cable, PIN to PIN"
+              << std::setw(6) << myngHFPMTBox.at(i).s_coax_pmt << std::setw(6) << myngHFFrontEnd.at(i).s_coax_qie << std::setw(6) << myngHFPMTBox.at(i).r_coax_pmt << std::setw(6) << myngHFFrontEnd.at(i).r_coax_qie
+              //<< "ngHFFrontEnd(qie10,qie10_ch,qie10_fiber,fiber_ch): "
+              << std::setw(6) << myngHFFrontEnd.at(i).qie10 << std::setw(6) << myngHFFrontEnd.at(i).qie10_connector << std::setw(6) << myngHFFrontEnd.at(i).qie10_ch << std::setw(6) << myngHFFrontEnd.at(i).qie10_fiber << std::setw(6)  << myngHFFrontEnd.at(i).fiber_ch
+              << std::endl;
+    */
+    std::string one = "INSERT INTO " + ngHFTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "ngRBX," \
+                      "Wedge,PMTBx,PMT_TYPE,W_Cable,Tower," \
+                      "PMT,BaseBoard,Anode," \
+                      "S_PMT,S_QIE,R_PMT,R_QIE," \
+                      "QIE10,QIETB,QIECH,QIEFI,FI_CH," \
+                      "Trunk_FI,nCable,MTP," \
+                      "Crate,uHTR,uHTR_Rx,uHTR_FI,FEDid," \
+                      "QIE10id,QIE10BarCode) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myngHFGeometry.at(i).side)+","+std::to_string(myngHFGeometry.at(i).eta)+","+std::to_string(myngHFGeometry.at(i).phi)+","+std::to_string(myngHFGeometry.at(i).dphi)+","+std::to_string(myngHFGeometry.at(i).depth)+",'"+myngHFGeometry.at(i).subdet+"','"
+                      +myngHFFrontEnd.at(i).rbx+"',"
+                      +std::to_string(myngHFPMTBox.at(i).wedge)+","+std::to_string(myngHFPMTBox.at(i).pmtbox)+",'"+myngHFPMTBox.at(i).pmt_type+"',"+std::to_string(myngHFPMTBox.at(i).winchester_cable)+",'"+myngHFPMTBox.at(i).tower+"',"
+                      +std::to_string(myngHFPMTBox.at(i).pmtsocket)+",'"+myngHFPMTBox.at(i).baseboard_type+"',"+std::to_string(myngHFPMTBox.at(i).anode)+","
+                      +std::to_string(myngHFPMTBox.at(i).s_coax_pmt)+","+std::to_string(myngHFFrontEnd.at(i).s_coax_qie)+","+std::to_string(myngHFPMTBox.at(i).r_coax_pmt)+","+std::to_string(myngHFFrontEnd.at(i).r_coax_qie)+","
+                      +std::to_string(myngHFFrontEnd.at(i).qie10)+",'"+myngHFFrontEnd.at(i).qie10_connector+"',"+std::to_string(myngHFFrontEnd.at(i).qie10_ch)+","+std::to_string(myngHFFrontEnd.at(i).qie10_fiber)+","+std::to_string(myngHFFrontEnd.at(i).fiber_ch)+","
+                      +std::to_string(myngHFBackEnd.at(i).trunk_fiber)+","+std::to_string(myngHFBackEnd.at(i).trunk_ncable)+","+std::to_string(myngHFBackEnd.at(i).mtp)+","
+                      +std::to_string(myngHFBackEnd.at(i).ucrate)+","+std::to_string(myngHFBackEnd.at(i).uhtr)+","+std::to_string(myngHFBackEnd.at(i).uhtr_rx)+","+std::to_string(myngHFBackEnd.at(i).uhtr_fiber)+","+std::to_string(myngHFBackEnd.at(i).ufedid)+","
+                      +std::to_string(myngHFFrontEnd.at(i).qie10_id)+",'"+myngHFFrontEnd.at(i).qie10_barcode+"');";
+
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "%d Records created successfully!\n", i+1); }
+  }
+
+  sqlite3_close(db);
+
   return ;
 }

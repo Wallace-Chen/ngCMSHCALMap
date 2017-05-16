@@ -48,6 +48,7 @@ To produce the LMap:
 
 ```
 ./HCALLMapProducer RunMode PrdMode
+./HCALLMapProducer HF LMap
 ```
 
 The valid RunMode are: HB,HE,HF,HO
