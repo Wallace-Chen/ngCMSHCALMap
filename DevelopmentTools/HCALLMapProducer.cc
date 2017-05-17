@@ -20,6 +20,7 @@ int main(int argc, char* argv[])
   std::cout << "#The valid run modes are: LMap, EMap, FMap" << std::endl;
   std::cout << "#The produce mode we have right now is: " << PrdMode << std::endl;
 
+  HCALLMapLoader myHCALLMapLoader;
   HCALLMapDumper myHCALLMapDumper;
 
   if( RunMode == "HB" )
@@ -74,8 +75,8 @@ int main(int argc, char* argv[])
     if( PrdMode == "LMap" )
     {
       myHCALLMapDumper.printngHFLMapObject(myngHFMappingAlgorithm.myngHFFrontEnd, myngHFMappingAlgorithm.myngHFBackEnd, myngHFMappingAlgorithm.myngHFPMTBox, myngHFMappingAlgorithm.myngHFGeometry, myngHFMappingAlgorithm.myngHFTriggerTower);
-      //myHCALLMapDumper.makedbngHFLMapObject("officialMap/HCALLogicalMap.db", "ngHFLogicalMap",
-      //                                      myngHFMappingAlgorithm.myngHFFrontEnd, myngHFMappingAlgorithm.myngHFBackEnd, myngHFMappingAlgorithm.myngHFPMTBox, myngHFMappingAlgorithm.myngHFGeometry, myngHFMappingAlgorithm.myngHFTriggerTower);
+      myHCALLMapDumper.makedbngHFLMapObject("officialMap/HCALLogicalMap.db", "ngHFLogicalMap",
+                                            myngHFMappingAlgorithm.myngHFFrontEnd, myngHFMappingAlgorithm.myngHFBackEnd, myngHFMappingAlgorithm.myngHFPMTBox, myngHFMappingAlgorithm.myngHFGeometry, myngHFMappingAlgorithm.myngHFTriggerTower);
     }
     if( PrdMode == "EMap" )
     {

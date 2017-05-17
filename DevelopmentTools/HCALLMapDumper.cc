@@ -259,8 +259,13 @@ void HCALLMapDumper::makedbngHFLMapObject(std::string HCALLMapDbStr, std::string
   char *zErrMsg = 0; int rc;
 
   rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
-  if( rc ){ fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db)); exit(0); }
-  else{ fprintf(stderr, "Opened database successfully\n"); }
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,ngHFTableStr);
+  if(TableExist){ std::cout << "#Table: " << ngHFTableStr <<" already in the database!! Please check!" << std::endl; return ; }
+  else{ std::cout << "#Table: " << ngHFTableStr <<" not in the database... Creating..." << std::endl; }
 
   //Create Table in SQL
   //i(Unique key)
@@ -274,7 +279,7 @@ void HCALLMapDumper::makedbngHFLMapObject(std::string HCALLMapDbStr, std::string
   //Crate uHTR uHTR_Rx uHTR_FI FEDid 
   //QIE10id QIE10BarCode
 
-  std::string CreateTable = "CREATE TABLE " + ngHFTableStr + "(" \
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHFTableStr + "(" \
                             "ID INT PRIMARY KEY NOT NULL, " \
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
                             "ngRBX TEXT NOT NULL, " \
@@ -288,21 +293,10 @@ void HCALLMapDumper::makedbngHFLMapObject(std::string HCALLMapDbStr, std::string
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-  else{ fprintf(stdout, "Table created successfully\n"); }
-
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+  
   for(auto i=0; i<myngHFFrontEnd.size(); i++)
   {
-    /*
-    std::cout 
-              << " "
-              //<< PMT socket, Base board type, anode
-              << std::setw(6) << myngHFPMTBox.at(i).pmtsocket << std::setw(9) << myngHFPMTBox.at(i).baseboard_type << std::setw(6) << myngHFPMTBox.at(i).anode
-              //<< "Winchester Cable, PIN to PIN"
-              << std::setw(6) << myngHFPMTBox.at(i).s_coax_pmt << std::setw(6) << myngHFFrontEnd.at(i).s_coax_qie << std::setw(6) << myngHFPMTBox.at(i).r_coax_pmt << std::setw(6) << myngHFFrontEnd.at(i).r_coax_qie
-              //<< "ngHFFrontEnd(qie10,qie10_ch,qie10_fiber,fiber_ch): "
-              << std::setw(6) << myngHFFrontEnd.at(i).qie10 << std::setw(6) << myngHFFrontEnd.at(i).qie10_connector << std::setw(6) << myngHFFrontEnd.at(i).qie10_ch << std::setw(6) << myngHFFrontEnd.at(i).qie10_fiber << std::setw(6)  << myngHFFrontEnd.at(i).fiber_ch
-              << std::endl;
-    */
     std::string one = "INSERT INTO " + ngHFTableStr + "(" \
                       "ID," \
                       "Side,Eta,Phi,dPhi,Depth,Det," \
@@ -328,10 +322,33 @@ void HCALLMapDumper::makedbngHFLMapObject(std::string HCALLMapDbStr, std::string
 
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "%d Records created successfully!\n", i+1); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
   }
-
   sqlite3_close(db);
-
+  
   return ;
+}
+
+bool HCALLMapDumper::ifTableExistInDB(sqlite3 *db, std::string TableName)
+{
+  bool exist = false;
+  std::string CheckTable = "SELECT name FROM sqlite_master WHERE type='table' AND name='"+TableName+"';";
+
+  sqlite3_stmt *pSelectStatement = NULL;
+  int iResult = SQLITE_ERROR;
+  iResult = sqlite3_prepare_v2(db, CheckTable.c_str(), -1, &pSelectStatement, 0);
+
+  if((iResult == SQLITE_OK) && (pSelectStatement != NULL))
+  {                   
+    iResult = sqlite3_step(pSelectStatement);
+    //was found?
+    if (iResult == SQLITE_ROW)
+    {
+      exist = true;
+      sqlite3_clear_bindings(pSelectStatement);
+      sqlite3_reset(pSelectStatement);
+    }
+    iResult = sqlite3_finalize(pSelectStatement);
+  }
+  return exist;
 }

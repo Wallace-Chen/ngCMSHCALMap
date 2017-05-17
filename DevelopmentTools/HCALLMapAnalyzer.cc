@@ -19,8 +19,8 @@ int main(int argc, char* argv[])
   std::cout << "#The valid run modes are: HBHEHFVME, HBHEHFuTCA, HOVME" << std::endl;
   std::cout << "#The run mode we have right now is: " << RunMode << std::endl;
 
-  HCALLMapDumper myHCALLMapDumper;
   HCALLMapLoader myHCALLMapLoader;
+  HCALLMapDumper myHCALLMapDumper;
 
   //initialize the variables we need in analysis
   std::vector<HBFrontEnd> myHBFrontEnd; std::vector<HBBackEnd> myHBBackEnd; std::vector<HBPMTBox> myHBPMTBox; std::vector<HBGeometry> myHBGeometry; std::vector<HBTriggerTower> myHBTriggerTower;
