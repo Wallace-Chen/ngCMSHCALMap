@@ -7,7 +7,8 @@
 //#include <TSQLServer.h>
 //#include <TSQLiteServer.h>
 
-#include "HBHEMappingObject.h"
+#include "HBMappingAlgorithm.h"
+#include "HEMappingAlgorithm.h"
 #include "ngHBMappingObject.h"
 #include "ngHEMappingObject.h"
 #include "HFMappingObject.h"

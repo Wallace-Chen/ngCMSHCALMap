@@ -84,5 +84,5 @@ class HOAnalyzer : public HOConstant
                                                       "RMFI6FICH0(HOX)","RMFI6FICH1(HOX)","RMFI6FICH2(HOX)",
                                                       "RMFI7FICH0"     ,"RMFI7FICH1"     ,"RMFI7FICH2"};
   //the target directory for output plots
-  std::string dir = "LMapvalidationPlots/";
+  std::string dir = "LMapValidationPlots/";
 };

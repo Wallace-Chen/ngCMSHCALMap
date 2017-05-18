@@ -1,4 +1,5 @@
-#include "HBHEMappingAlgorithm.h"
+#include "HBMappingAlgorithm.h"
+#include "HEMappingAlgorithm.h"
 #include "ngHBMappingAlgorithm.h"
 #include "ngHEMappingAlgorithm.h"
 #include "HFMappingAlgorithm.h"

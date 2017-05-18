@@ -157,7 +157,7 @@ int HCALLMapLoader::GetHOFromLMap(
   return NChannel;
 }
 
-int HCALLMapLoader::GetngHFromLMap(
+int HCALLMapLoader::GetngHFromLMap(//FIXME
                                    std::string LMapFileName,
                                    std::vector<ngHFFrontEnd> &myngHFFrontEnd, std::vector<ngHFBackEnd> &myngHFBackEnd, std::vector<ngHFPMTBox> &myngHFPMTBox, std::vector<ngHFGeometry> &myngHFGeometry, std::vector<ngHFTriggerTower> &myngHFTriggerTower
                                   )

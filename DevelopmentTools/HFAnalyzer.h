@@ -65,5 +65,5 @@ class HFAnalyzer : public HFConstant
                                                      "RMFI7FICH0"     ,"RMFI7FICH1"     ,"RMFI7FICH2",
                                                      "RMFI8FICH0"     ,"RMFI8FICH1"     ,"RMFI8FICH2"};
   //the target directory for output plots
-  std::string dir = "LMapvalidationPlots/";
+  std::string dir = "LMapValidationPlots/";
 };

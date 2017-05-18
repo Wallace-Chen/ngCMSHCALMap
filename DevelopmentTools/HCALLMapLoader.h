@@ -4,7 +4,8 @@
 #include <sstream>
 #include <fstream>
 
-#include "HBHEMappingObject.h"
+#include "HBMappingObject.h"
+#include "HEMappingObject.h"
 #include "ngHBMappingObject.h"
 #include "ngHEMappingObject.h"
 #include "HFMappingObject.h"
@@ -26,7 +27,7 @@ class HCALLMapLoader
                     std::vector<HOFrontEnd> &myHOFrontEnd, std::vector<HOBackEnd> &myHOBackEnd, std::vector<HOSiPM> &myHOSiPM, std::vector<HOGeometry> &myHOGeometry, std::vector<HOTriggerTower> &myHOTriggerTower
                    );
 
-  int GetngHFromLMap(
+  int GetngHFromLMap(//FIXME
                      std::string LMapFileName,
                      std::vector<ngHFFrontEnd> &myngHFFrontEnd, std::vector<ngHFBackEnd> &myngHFBackEnd, std::vector<ngHFPMTBox> &myngHFPMTBox, std::vector<ngHFGeometry> &myngHFGeometry, std::vector<ngHFTriggerTower> &myngHFTriggerTower
                     );

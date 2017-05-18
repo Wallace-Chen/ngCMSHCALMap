@@ -39,17 +39,20 @@ int main(int argc, char* argv[])
                                                      myHEFrontEnd, myHEBackEnd, myHEHPD, myHEGeometry, myHETriggerTower,
                                                      myHFFrontEnd, myHFBackEnd, myHFPMTBox, myHFGeometry, myHFTriggerTower
                                                     );
-    HBHEAnalyzer myHBHEAnalyzer;
+    HBAnalyzer myHBAnalyzer;
+    HEAnalyzer myHEAnalyzer;
     HFAnalyzer myHFAnalyzer;
 
-    if(NChannel == myHBHEAnalyzer.NchHBHE_all + myHFAnalyzer.NchHF_all){ std::cout << "#The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
-    else{ std::cout << "#We have " << NChannel << " channels from txt Lmap while we have " << myHBHEAnalyzer.NchHBHE_all + myHFAnalyzer.NchHF_all << " channels expected in HBHEHF, something must be wrong!" << std::endl; return -1; }
+    if(NChannel == myHBAnalyzer.NchHB_all + myHEAnalyzer.NchHE_all + myHFAnalyzer.NchHF_all){ std::cout << "#The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
+    else{ std::cout << "#We have " << NChannel << " channels from txt Lmap while we have " << myHBAnalyzer.NchHB_all + myHEAnalyzer.NchHE_all + myHFAnalyzer.NchHF_all << " channels expected in HBHEHF, something must be wrong!" << std::endl; return -1; }
 
-    myHBHEAnalyzer.HBHENChannelBasicCheck();
-    myHBHEAnalyzer.PlottingHBFEtoGeo(myHBFrontEnd,myHBGeometry);
-    myHBHEAnalyzer.PlottingHBFEtoBEVME(myHBFrontEnd,myHBBackEnd);
-    myHBHEAnalyzer.PlottingHEFEtoGeo(myHEFrontEnd,myHEGeometry);
-    myHBHEAnalyzer.PlottingHEFEtoBEVME(myHEFrontEnd,myHEBackEnd);
+    myHBAnalyzer.HBNChannelBasicCheck();
+    myHBAnalyzer.PlottingHBFEtoGeo(myHBFrontEnd,myHBGeometry);
+    myHBAnalyzer.PlottingHBFEtoBEVME(myHBFrontEnd,myHBBackEnd);
+
+    myHEAnalyzer.HENChannelBasicCheck();
+    myHEAnalyzer.PlottingHEFEtoGeo(myHEFrontEnd,myHEGeometry);
+    myHEAnalyzer.PlottingHEFEtoBEVME(myHEFrontEnd,myHEBackEnd);
 
     myHFAnalyzer.HFNChannelBasicCheck();
     myHFAnalyzer.PlottingHFFEtoGeo(myHFFrontEnd,myHFGeometry);
@@ -65,23 +68,24 @@ int main(int argc, char* argv[])
                                                      myHEFrontEnd, myHEBackEnd, myHEHPD, myHEGeometry, myHETriggerTower,
                                                      myHFFrontEnd, myHFBackEnd, myHFPMTBox, myHFGeometry, myHFTriggerTower
                                                     );
-    HBHEAnalyzer myHBHEAnalyzer;
+    HBAnalyzer myHBAnalyzer;
+    HEAnalyzer myHEAnalyzer;
     HFAnalyzer myHFAnalyzer;
 
-    if(NChannel == myHBHEAnalyzer.NchHBHE_all + myHFAnalyzer.NchHF_all){ std::cout << "#The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
-    else{ std::cout << "#We have " << NChannel << " channels from txt Lmap while we have " << myHBHEAnalyzer.NchHBHE_all + myHFAnalyzer.NchHF_all << " channels expected in HBHEHF, something must be wrong!" << std::endl; return -1; }
+    if(NChannel == myHBAnalyzer.NchHB_all + myHEAnalyzer.NchHE_all + myHFAnalyzer.NchHF_all){ std::cout << "#The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
+    else{ std::cout << "#We have " << NChannel << " channels from txt Lmap while we have " << myHBAnalyzer.NchHB_all + myHEAnalyzer.NchHE_all + myHFAnalyzer.NchHF_all << " channels expected in HBHEHF, something must be wrong!" << std::endl; return -1; }
 
-    myHBHEAnalyzer.HBHENChannelBasicCheck();
-    myHBHEAnalyzer.PlottingHBFEtoGeo(myHBFrontEnd,myHBGeometry);
-    myHBHEAnalyzer.PlottingHBFEtoBEuTCA(myHBFrontEnd,myHBBackEnd);
-    myHBHEAnalyzer.PlottingHEFEtoGeo(myHEFrontEnd,myHEGeometry);
-    myHBHEAnalyzer.PlottingHEFEtoBEuTCA(myHEFrontEnd,myHEBackEnd);
+    myHBAnalyzer.HBNChannelBasicCheck();
+    myHBAnalyzer.PlottingHBFEtoGeo(myHBFrontEnd,myHBGeometry);
+    myHBAnalyzer.PlottingHBFEtoBEuTCA(myHBFrontEnd,myHBBackEnd);
+
+    myHEAnalyzer.HENChannelBasicCheck();
+    myHEAnalyzer.PlottingHEFEtoGeo(myHEFrontEnd,myHEGeometry);
+    myHEAnalyzer.PlottingHEFEtoBEuTCA(myHEFrontEnd,myHEBackEnd);
 
     myHFAnalyzer.HFNChannelBasicCheck();
     myHFAnalyzer.PlottingHFFEtoGeo(myHFFrontEnd,myHFGeometry);
     myHFAnalyzer.PlottingHFFEtoBEuTCA(myHFFrontEnd,myHFBackEnd);
-
-    //myHCALLMapDumper.printHFLMapObject(myHFFrontEnd, myHFBackEnd, myHFPMTBox, myHFGeometry, myHFTriggerTower);
     return 1;
   }
   else if( RunMode == "HOVME" )
@@ -109,6 +113,7 @@ int main(int argc, char* argv[])
     myngHFAnalyzer.PlottingngHFFEtoGeo(myngHFFrontEnd, myngHFGeometry);
     myngHFAnalyzer.PlottingngHFFEtoBEuTCA(myngHFFrontEnd,myngHFBackEnd);
     myngHFAnalyzer.PlottingngHFBEuTCAtoGeo(myngHFBackEnd, myngHFGeometry);
+    return 1;
   }
   else if( RunMode == "ngHEuTCA" )
   {
@@ -122,9 +127,9 @@ int main(int argc, char* argv[])
     myngHEAnalyzer.PlottingngHEFEtoGeo(myngHEFrontEnd, myngHEGeometry);
     myngHEAnalyzer.PlottingngHEFEtoBEuTCA(myngHEFrontEnd,myngHEBackEnd);
     myngHEAnalyzer.PlottingngHEBEuTCAtoGeo(myngHEBackEnd, myngHEGeometry);
+    return 1;
   }
   else{ std::cout << "#Invalide Run Mode, the the fuck is going on!" << std::endl; return -1; }
 
   return 0;
 }
-
