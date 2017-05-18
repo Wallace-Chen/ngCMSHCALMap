@@ -173,16 +173,40 @@ int HCALLMapLoader::GetngHFromLMap(//FIXME
     std::istringstream ss(line);
     //std::cout << line << std::endl;
     ngHFFrontEnd thisngHFFrontEnd; ngHFBackEnd thisngHFBackEnd; ngHFPMTBox thisngHFPMTBox; ngHFGeometry thisngHFGeometry; ngHFTriggerTower thisngHFTriggerTower;
-    //#  Side   Eta   Phi Depth   Subdet   PMT PMT_TYPE  W_Cable S_PMT S_QIE R_PMT R_QIE    ngRBX    QIE10 QIE10_CH QIE10_FI    FI_CH   uCrate     uHTR  uHTR_FI    FI_CH
-    //      1    34     1     2    HF        1        A        1    11     2    12     1  ngHFP01        3        1        4        0       32       12        0        0
-    ss >> thisngHFGeometry.side >> thisngHFGeometry.eta >> thisngHFGeometry.phi >> thisngHFGeometry.depth >> thisngHFGeometry.subdet
-       >> thisngHFPMTBox.pmtbox >> thisngHFPMTBox.pmt_type >> thisngHFPMTBox.winchester_cable 
-       >> thisngHFPMTBox.s_coax_pmt 
-       >> thisngHFFrontEnd.s_coax_qie
-       >> thisngHFPMTBox.r_coax_pmt
-       >> thisngHFFrontEnd.r_coax_qie
-       >> thisngHFFrontEnd.rbx >> thisngHFFrontEnd.qie10 >> thisngHFFrontEnd.qie10_ch >> thisngHFFrontEnd.qie10_fiber >> thisngHFFrontEnd.fiber_ch
-       >> thisngHFBackEnd.ucrate >> thisngHFBackEnd.uhtr >> thisngHFBackEnd.uhtr_fiber >> thisngHFBackEnd.fiber_ch;
+    //Side   Eta   Phi  dPhi Depth   Det 
+    //ngRBX 
+    //Wedge PMTBx PMT_TYPE  W_Cable Tower   
+    //PMT BaseBoard Anode 
+    //S_PMT S_QIE R_PMT R_QIE 
+    //QIE10 QIETB QIECH QIEFI FI_CH 
+    //Trunk_FI   nCable   MTP 
+    //Crate  uHTR  uHTR_Rx  uHTR_FI 
+    //FEDid  
+    //QIE10id             QIE10BarCode
+    //1    34     1     2     2    HF 
+    //HFP01     
+    //1     1        A        1    H6     
+    //5         B     1    
+    //11     2    12     1     
+    //3   TOP     1     4     0
+    //1    14193     4    
+    //32    12        1       12  
+    //1122   
+    //500751    0x6b000000 0xba086a70
+    std::string qie10_barcode_p1, qie10_barcode_p2;
+    ss >> thisngHFGeometry.side >> thisngHFGeometry.eta >> thisngHFGeometry.phi >> thisngHFGeometry.dphi >>thisngHFGeometry.depth >> thisngHFGeometry.subdet
+       >> thisngHFFrontEnd.rbx
+       >> thisngHFPMTBox.wedge >> thisngHFPMTBox.pmtbox >> thisngHFPMTBox.pmt_type >> thisngHFPMTBox.winchester_cable >> thisngHFPMTBox.tower
+       >> thisngHFPMTBox.pmtsocket >> thisngHFPMTBox.baseboard_type >> thisngHFPMTBox.anode
+       >> thisngHFPMTBox.s_coax_pmt >> thisngHFFrontEnd.s_coax_qie >> thisngHFPMTBox.r_coax_pmt >> thisngHFFrontEnd.r_coax_qie
+       >> thisngHFFrontEnd.qie10 >> thisngHFFrontEnd.qie10_connector >> thisngHFFrontEnd.qie10_ch >> thisngHFFrontEnd.qie10_fiber >> thisngHFFrontEnd.fiber_ch
+       >> thisngHFBackEnd.trunk_fiber >> thisngHFBackEnd.trunk_ncable >> thisngHFBackEnd.mtp
+       >> thisngHFBackEnd.ucrate >> thisngHFBackEnd.uhtr >> thisngHFBackEnd.uhtr_rx >> thisngHFBackEnd.uhtr_fiber
+       >> thisngHFBackEnd.ufedid
+       >> thisngHFFrontEnd.qie10_id>> qie10_barcode_p1 >> qie10_barcode_p2;
+
+    thisngHFFrontEnd.qie10_barcode = qie10_barcode_p1 + " " + qie10_barcode_p2;
+    thisngHFBackEnd.fiber_ch = thisngHFFrontEnd.fiber_ch;
 
     myngHFFrontEnd.push_back(thisngHFFrontEnd); myngHFBackEnd.push_back(thisngHFBackEnd); myngHFPMTBox.push_back(thisngHFPMTBox); myngHFGeometry.push_back(thisngHFGeometry); myngHFTriggerTower.push_back(thisngHFTriggerTower);
   }

@@ -32,8 +32,8 @@ void ngHFAnalyzer::PlottingngHFFEtoGeo(
     double y = -1;
     qie10id < 8 ? y = (rbxid-1)*9 + qie10id-3+1 : y = (rbxid-1)*9 + qie10id-10+5;////
 
-    if( thisrbx.find("ngHFP") != std::string::npos ){ nghfprbxphi->Fill(x,y,zphi); nghfprbxeta->Fill(x,y,zeta); nghfprbxdep->Fill(x,y,zdepth); }
-    else if( thisrbx.find("ngHFM") != std::string::npos ){ nghfmrbxphi->Fill(x,y,zphi); nghfmrbxeta->Fill(x,y,zeta); nghfmrbxdep->Fill(x,y,zdepth); }
+    if( thisrbx.find("HFP") != std::string::npos ){ nghfprbxphi->Fill(x,y,zphi); nghfprbxeta->Fill(x,y,zeta); nghfprbxdep->Fill(x,y,zdepth); }
+    else if( thisrbx.find("HFM") != std::string::npos ){ nghfmrbxphi->Fill(x,y,zphi); nghfmrbxeta->Fill(x,y,zeta); nghfmrbxdep->Fill(x,y,zdepth); }
   }
 
   for(int i=1;i<=Nqie10_fiber*Nfiber_ch;i++)
@@ -98,8 +98,8 @@ void ngHFAnalyzer::PlottingngHFFEtoBEuTCA(
     double y = -1;
     qie10id < 8 ? y = (rbxid-1)*9 + qie10id-3+1 : y = (rbxid-1)*9 + qie10id-10+5;////
 
-    if( thisrbx.find("ngHFP") != std::string::npos ){ hfprbxucrate->Fill(x,y,zucrate); hfprbxuhtr->Fill(x,y,zuhtr); hfprbxufpga->Fill(x,y,zufpga); hfprbxuhtr_fiber->Fill(x,y,zuhtr_fiber); }
-    else if( thisrbx.find("ngHFM") != std::string::npos ){ hfmrbxucrate->Fill(x,y,zucrate); hfmrbxuhtr->Fill(x,y,zuhtr); hfmrbxufpga->Fill(x,y,zufpga); hfmrbxuhtr_fiber->Fill(x,y,zuhtr_fiber); }
+    if( thisrbx.find("HFP") != std::string::npos ){ hfprbxucrate->Fill(x,y,zucrate); hfprbxuhtr->Fill(x,y,zuhtr); hfprbxufpga->Fill(x,y,zufpga); hfprbxuhtr_fiber->Fill(x,y,zuhtr_fiber); }
+    else if( thisrbx.find("HFM") != std::string::npos ){ hfmrbxucrate->Fill(x,y,zucrate); hfmrbxuhtr->Fill(x,y,zuhtr); hfmrbxufpga->Fill(x,y,zufpga); hfmrbxuhtr_fiber->Fill(x,y,zuhtr_fiber); }
   }
 
   for(int i=1;i<=Nqie10_fiber*Nfiber_ch;i++)

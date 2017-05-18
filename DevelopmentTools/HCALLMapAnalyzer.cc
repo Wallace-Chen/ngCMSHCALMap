@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
   }
 
   std::string RunMode = argv[1];
-  std::cout << "#The valid run modes are: HBHEHFVME, HBHEHFuTCA, HOVME" << std::endl;
+  std::cout << "#The valid run modes are: HBHEHFVME, HBHEHFuTCA, HOVME ngHEuTCA ngHFuTCA" << std::endl;
   std::cout << "#The run mode we have right now is: " << RunMode << std::endl;
 
   HCALLMapLoader myHCALLMapLoader;
@@ -101,20 +101,6 @@ int main(int argc, char* argv[])
     myHOAnalyzer.PlottingHOFEtoBEVME(myHOFrontEnd,myHOBackEnd);
     return 1;
   }
-  else if( RunMode == "ngHFuTCA" )
-  {
-    std::string txtfilename = "officialMap/ngHFLMap_v0.txt";
-    int NChannel = myHCALLMapLoader.GetngHFromLMap(
-                                                   txtfilename,
-                                                   myngHFFrontEnd, myngHFBackEnd, myngHFPMTBox, myngHFGeometry, myngHFTriggerTower
-                                                  );
-
-    ngHFAnalyzer myngHFAnalyzer;
-    myngHFAnalyzer.PlottingngHFFEtoGeo(myngHFFrontEnd, myngHFGeometry);
-    myngHFAnalyzer.PlottingngHFFEtoBEuTCA(myngHFFrontEnd,myngHFBackEnd);
-    myngHFAnalyzer.PlottingngHFBEuTCAtoGeo(myngHFBackEnd, myngHFGeometry);
-    return 1;
-  }
   else if( RunMode == "ngHEuTCA" )
   {
     std::string txtfilename = "officialMap/ngHELMap_v0.txt";
@@ -127,6 +113,20 @@ int main(int argc, char* argv[])
     myngHEAnalyzer.PlottingngHEFEtoGeo(myngHEFrontEnd, myngHEGeometry);
     myngHEAnalyzer.PlottingngHEFEtoBEuTCA(myngHEFrontEnd,myngHEBackEnd);
     myngHEAnalyzer.PlottingngHEBEuTCAtoGeo(myngHEBackEnd, myngHEGeometry);
+    return 1;
+  }
+  else if( RunMode == "ngHFuTCA" )
+  {
+    std::string txtfilename = "officialMap/ngHF2017LMap_20170505_pre06.txt";
+    int NChannel = myHCALLMapLoader.GetngHFromLMap(
+                                                   txtfilename,
+                                                   myngHFFrontEnd, myngHFBackEnd, myngHFPMTBox, myngHFGeometry, myngHFTriggerTower
+                                                  );
+
+    ngHFAnalyzer myngHFAnalyzer;
+    myngHFAnalyzer.PlottingngHFFEtoGeo(myngHFFrontEnd, myngHFGeometry);
+    myngHFAnalyzer.PlottingngHFFEtoBEuTCA(myngHFFrontEnd,myngHFBackEnd);
+    myngHFAnalyzer.PlottingngHFBEuTCAtoGeo(myngHFBackEnd, myngHFGeometry);
     return 1;
   }
   else{ std::cout << "#Invalide Run Mode, the the fuck is going on!" << std::endl; return -1; }

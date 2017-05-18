@@ -30,7 +30,7 @@ class ngHEAnalyzer : public ngHEConstant
 
  private:
   //the target directory for output plots
-  std::string dir = "LMapvalidationPlots/";
+  std::string dir = "LMapValidationPlots/";
 
   const char *ngHEMRBXlabel[NrbxngHE*NrmngHE] = {"ngHEM01RM1","ngHEM01RM2","ngHEM01RM3","ngHEM01RM4",
                                                  "ngHEM02RM1","ngHEM02RM2","ngHEM02RM3","ngHEM02RM4",

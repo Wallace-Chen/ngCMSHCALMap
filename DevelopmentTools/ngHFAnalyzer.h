@@ -31,7 +31,7 @@ class ngHFAnalyzer : public ngHFConstant
 
  private:
   //the target directory for output plots
-  std::string dir = "LMapvalidationPlots/";
+  std::string dir = "LMapValidationPlots/";
 
   const char *ngHFMRBXlabel[NrbxngHF*Nqie10] = {
   "ngHFM01QIE03","ngHFM01QIE04","ngHFM01QIE05","ngHFM01QIE06","ngHFM01QIE10","ngHFM01QIE11","ngHFM01QIE12","ngHFM01QIE13","ngHFM01QIE14",
