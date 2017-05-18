@@ -5,7 +5,7 @@ cd CMSSW_8_0_0/src
 cmsenv
 ```
 
-# SQLite support
+#SQLite c++ Support
 https://www.sqlite.org/download.html
 ```
 cd $CMSSW_BASE/src
@@ -19,7 +19,7 @@ make sqlite3.c
 make test
 ```
 
-# ngCMSHCALMap
+#CMS HCAL Logical Map
 
 ```
 cd $CMSSW_BASE/src
@@ -40,7 +40,7 @@ To analyze the LMap:
 ./HCALLMapAnalyzer RunMode
 ```
 
-The valid RunMode are: HBHEHFVME, HBHEHFuTCA, HOVME, ngHFuTCA, ngHEuTCA
+The valid RunMode are: HBHEHFVME, HBHEHFuTCA, HOVME, ngHEuTCA, ngHFuTCA
 
 Plots To be fixed: HBHE VME FE vs BE plot, crate 0 not showed, fpga how to show in letter ?
 

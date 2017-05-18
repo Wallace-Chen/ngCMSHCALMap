@@ -7,19 +7,21 @@ struct HBFrontEnd
 {
   std::string rbx;
   int rm, rm_fiber, fiber_ch;
-  int qie8, qie8_ch, qie8id;
-  int qie10, qie10_ch;
+  int qie8, qie8_ch, qie8_id;
 };
 
 //Backend electronics struct
 struct HBBackEnd
 {
+  //patch panel information
+
+  //old htr info, going to be obsolete...
   int crate, htr, htr_fiber;
   std::string fpga;
   int fedid;
-
   int dcc, spigot, dcc_sl;
 
+  //uHTR
   int ucrate, uhtr, uhtr_fiber;
   std::string ufpga;
   int ufedid;

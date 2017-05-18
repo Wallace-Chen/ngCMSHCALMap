@@ -36,7 +36,7 @@ int HCALLMapLoader::GetHBHEHFromLMap(
            >> thisHBBackEnd.ucrate >> thisHBBackEnd.uhtr >> thisHBBackEnd.ufpga >> thisHBBackEnd.uhtr_fiber >> thisHBBackEnd.dcc_sl >> thisHBBackEnd.spigot >> thisHBBackEnd.dcc
            >> tmp >> tmp_str >> tmp_str >> tmp_str >> tmp >> tmp >> tmp >> tmp_str //skip variables for RCR, RIP
            >> thisHBBackEnd.ufedid
-           >> thisHBFrontEnd.qie8id;
+           >> thisHBFrontEnd.qie8_id;
       }
       else
       {
@@ -46,7 +46,7 @@ int HCALLMapLoader::GetHBHEHFromLMap(
            >> thisHBBackEnd.crate >> thisHBBackEnd.htr >> thisHBBackEnd.fpga >> thisHBBackEnd.htr_fiber >> thisHBBackEnd.dcc_sl >> thisHBBackEnd.spigot >> thisHBBackEnd.dcc 
            >> tmp >> tmp_str >> tmp_str >> tmp_str >> tmp >> tmp >> tmp >> tmp_str //skip variables for RCR, RIP
            >> thisHBBackEnd.fedid
-           >> thisHBFrontEnd.qie8id;
+           >> thisHBFrontEnd.qie8_id;
       }
       thisHBBackEnd.fiber_ch = thisHBFrontEnd.fiber_ch;
 
@@ -67,7 +67,7 @@ int HCALLMapLoader::GetHBHEHFromLMap(
            >> thisHEBackEnd.ucrate >> thisHEBackEnd.uhtr >> thisHEBackEnd.ufpga >> thisHEBackEnd.uhtr_fiber >> thisHEBackEnd.dcc_sl >> thisHEBackEnd.spigot >> thisHEBackEnd.dcc
            >> tmp >> tmp_str >> tmp_str >> tmp_str >> tmp >> tmp >> tmp >> tmp_str //skip variables for RCR, RIP
            >> thisHEBackEnd.ufedid
-           >> thisHEFrontEnd.qie8id;
+           >> thisHEFrontEnd.qie8_id;
       }
       else
       {
@@ -77,7 +77,7 @@ int HCALLMapLoader::GetHBHEHFromLMap(
            >> thisHEBackEnd.crate >> thisHEBackEnd.htr >> thisHEBackEnd.fpga >> thisHEBackEnd.htr_fiber >> thisHEBackEnd.dcc_sl >> thisHEBackEnd.spigot >> thisHEBackEnd.dcc
            >> tmp >> tmp_str >> tmp_str >> tmp_str >> tmp >> tmp >> tmp >> tmp_str //skip variables for RCR, RIP
            >> thisHEBackEnd.fedid
-           >> thisHEFrontEnd.qie8id;
+           >> thisHEFrontEnd.qie8_id;
       }
       thisHEBackEnd.fiber_ch = thisHEFrontEnd.fiber_ch;
 
@@ -99,7 +99,7 @@ int HCALLMapLoader::GetHBHEHFromLMap(
            >> thisHFBackEnd.ucrate >> thisHFBackEnd.uhtr >> thisHFBackEnd.ufpga >> thisHFBackEnd.uhtr_fiber >> thisHFBackEnd.dcc_sl >> thisHFBackEnd.spigot >> thisHFBackEnd.dcc
            >> tmp >> tmp_str >> tmp_str >> tmp_str >> tmp >> tmp >> tmp >> tmp_str //skip variables for RCR, RIP
            >> thisHFBackEnd.ufedid
-           >> thisHFFrontEnd.qie8id;
+           >> thisHFFrontEnd.qie8_id;
       }
       else
       {
@@ -109,7 +109,7 @@ int HCALLMapLoader::GetHBHEHFromLMap(
            >> thisHFBackEnd.crate >> thisHFBackEnd.htr >> thisHFBackEnd.fpga >> thisHFBackEnd.htr_fiber >> thisHFBackEnd.dcc_sl >> thisHFBackEnd.spigot >> thisHFBackEnd.dcc
            >> tmp >> tmp_str >> tmp_str >> tmp_str >> tmp >> tmp >> tmp >> tmp_str //skip variables for RCR, RIP
            >> thisHFBackEnd.fedid
-           >> thisHFFrontEnd.qie8id;
+           >> thisHFFrontEnd.qie8_id;
       }
       thisHFBackEnd.fiber_ch = thisHFFrontEnd.fiber_ch;
 
@@ -147,7 +147,7 @@ int HCALLMapLoader::GetHOFromLMap(
        >> thisHOGeometry.side >> thisHOGeometry.eta >> thisHOGeometry.phi >> thisHOGeometry.dphi >> thisHOGeometry.depth >> thisHOGeometry.subdet
        >> thisHOFrontEnd.rbx >> thisHOSiPM.sector >> thisHOFrontEnd.rm >> thisHOSiPM.pixel >> thisHOFrontEnd.qie8 >> thisHOFrontEnd.qie8_ch >> thisHOFrontEnd.rm_fiber >> thisHOFrontEnd.fiber_ch >> thisHOSiPM.letter_code
        >> thisHOBackEnd.crate >> thisHOBackEnd.block_coupler >> thisHOBackEnd.htr >> thisHOBackEnd.fpga >> thisHOBackEnd.htr_fiber >> thisHOBackEnd.dcc_sl >> thisHOBackEnd.spigot >> thisHOBackEnd.dcc >> thisHOBackEnd.fedid 
-       >> thisHOFrontEnd.qie8id;
+       >> thisHOFrontEnd.qie8_id;
 
     thisHOBackEnd.fiber_ch = thisHOFrontEnd.fiber_ch;
     //std::cout << thisHOGeometry.eta << std::endl;
@@ -157,7 +157,7 @@ int HCALLMapLoader::GetHOFromLMap(
   return NChannel;
 }
 
-int HCALLMapLoader::GetngHFromLMap(//FIXME
+int HCALLMapLoader::GetngHFromLMap(
                                    std::string LMapFileName,
                                    std::vector<ngHFFrontEnd> &myngHFFrontEnd, std::vector<ngHFBackEnd> &myngHFBackEnd, std::vector<ngHFPMTBox> &myngHFPMTBox, std::vector<ngHFGeometry> &myngHFGeometry, std::vector<ngHFTriggerTower> &myngHFTriggerTower
                                   )
