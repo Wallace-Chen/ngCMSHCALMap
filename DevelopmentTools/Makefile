@@ -21,6 +21,7 @@ LD       = g++
 LDFLAGS  =
 
 LIBS     = $(shell root-config --glibs)
+LIBS     += -lpthread -ldl
 
 PROGRAMS = HCALLMapAnalyzer HCALLMapProducer
 
@@ -37,10 +38,13 @@ $(ODIR)/%.o : $(IDIR)/%.C
 $(ODIR)/%.o : $(IDIR)/%.cc
 	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) -o $@ -c $<
 
-HCALLMapAnalyzer: $(ODIR)/HCALLMapAnalyzer.o
+#sqlite3.o : $(CMSSW_BASE)/src/bld/sqlite3.c
+#	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) -o $@ -c $<
+
+HCALLMapAnalyzer: $(ODIR)/HCALLMapAnalyzer.o $(ODIR)/HCALLMapDumper.o $(ODIR)/HCALLMapLoader.o $(ODIR)/HBAnalyzer.o $(ODIR)/HEAnalyzer.o $(ODIR)/HFAnalyzer.o $(ODIR)/HOAnalyzer.o $(ODIR)/ngHBAnalyzer.o $(ODIR)/ngHEAnalyzer.o $(ODIR)/ngHFAnalyzer.o $(CMSSW_BASE)/src/bld/sqlite3.o
 	$(LD) $^ $(LIBS)  -o $@
 
-HCALLMapProducer: $(ODIR)/HCALLMapProducer.o
+HCALLMapProducer: $(ODIR)/HCALLMapProducer.o $(ODIR)/HCALLMapDumper.o $(ODIR)/HCALLMapLoader.o $(ODIR)/HBMappingAlgorithm.o $(ODIR)/HEMappingAlgorithm.o $(ODIR)/HFMappingAlgorithm.o $(ODIR)/HOMappingAlgorithm.o $(ODIR)/ngHBMappingAlgorithm.o $(ODIR)/ngHEMappingAlgorithm.o $(ODIR)/ngHFMappingAlgorithm.o $(CMSSW_BASE)/src/bld/sqlite3.o
 	$(LD) $^ $(LIBS)  -o $@
 
 clean:

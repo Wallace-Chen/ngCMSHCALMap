@@ -22,7 +22,7 @@ struct HOBackEnd
 };
 
 //PMT boxes struct
-struct HOPMTBox
+struct HOSiPM
 {
   int sector;
   int pixel;

@@ -1,3 +1,6 @@
+#ifndef _ngHBMapObject_H_
+#define _ngHBMapObject_H_
+
 #include<string>
 //FrontEnd electronics struct
 struct ngHBFrontEnd
@@ -21,7 +24,7 @@ struct ngHBBackEnd
 };
 
 //PMT boxes struct
-struct ngHBPMTBox
+struct ngHBSiPM
 {
   int wedge;//1,2,3,4...18
   int pixel;
@@ -99,3 +102,4 @@ class ngHBConstant
   //Number if Geo ngHB channels = 2 * 72 * (1*3+15*4) = 9072
   //static const int NngHBCalibChannel = 144;
 };
+#endif
