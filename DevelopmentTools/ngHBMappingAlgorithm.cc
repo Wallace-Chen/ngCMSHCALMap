@@ -19,7 +19,7 @@ void ngHBMappingAlgorithm::ConstructngHBLMapObject()
           ConstructngHBFrontEnd(sideid,rbxrmid,rmfifichid);      
           ConstructngHBBackEnd(sideid,rbxrmid,rmfifichid);  
           ConstructngHBGeometry(sideid,rbxrmid,rmfifichid);
-          ConstructngHBPMTBox();  
+          ConstructngHBSiPM();  
           ConstructngHBTriggerTower();
         }
       }
@@ -134,11 +134,11 @@ void ngHBMappingAlgorithm::ConstructngHBGeometry(int sideid, int rbxrmid, int rm
   return ;
 }
 
-void ngHBMappingAlgorithm::ConstructngHBPMTBox()
+void ngHBMappingAlgorithm::ConstructngHBSiPM()
 {
-  ngHBPMTBox thisngHBPMTBox;
+  ngHBSiPM thisngHBSiPM;
   
-  myngHBPMTBox.push_back(thisngHBPMTBox);
+  myngHBSiPM.push_back(thisngHBSiPM);
   return ;
 }
 

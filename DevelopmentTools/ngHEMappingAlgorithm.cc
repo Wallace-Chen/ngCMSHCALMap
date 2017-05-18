@@ -19,7 +19,7 @@ void ngHEMappingAlgorithm::ConstructngHELMapObject()
           ConstructngHEFrontEnd(sideid,rbxrmid,rmfifichid);      
           ConstructngHEBackEnd(sideid,rbxrmid,rmfifichid);  
           ConstructngHEGeometry(sideid,rbxrmid,rmfifichid);
-          ConstructngHEPMTBox();  
+          ConstructngHESiPM();  
           ConstructngHETriggerTower();
         }
       }
@@ -163,11 +163,11 @@ void ngHEMappingAlgorithm::ConstructngHEGeometry(int sideid, int rbxrmid, int rm
   return ;
 }
 
-void ngHEMappingAlgorithm::ConstructngHEPMTBox()
+void ngHEMappingAlgorithm::ConstructngHESiPM()
 {
-  ngHEPMTBox thisngHEPMTBox;
+  ngHESiPM thisngHESiPM;
   
-  myngHEPMTBox.push_back(thisngHEPMTBox);
+  myngHESiPM.push_back(thisngHESiPM);
   return ;
 }
 

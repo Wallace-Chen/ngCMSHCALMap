@@ -24,7 +24,7 @@ struct ngHEBackEnd
 };
 
 //PMT boxes struct
-struct ngHEPMTBox
+struct ngHESiPM
 {
   int wedge;//1,2,3,4...18
   int pixel;

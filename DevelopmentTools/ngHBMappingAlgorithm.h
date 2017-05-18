@@ -7,13 +7,13 @@ class ngHBMappingAlgorithm : public ngHBConstant
 {
  public:
   //the variables we need to fill into the LMap
-  std::vector<ngHBFrontEnd> myngHBFrontEnd; std::vector<ngHBBackEnd> myngHBBackEnd; std::vector<ngHBPMTBox> myngHBPMTBox; std::vector<ngHBGeometry> myngHBGeometry; std::vector<ngHBTriggerTower> myngHBTriggerTower;
+  std::vector<ngHBFrontEnd> myngHBFrontEnd; std::vector<ngHBBackEnd> myngHBBackEnd; std::vector<ngHBSiPM> myngHBSiPM; std::vector<ngHBGeometry> myngHBGeometry; std::vector<ngHBTriggerTower> myngHBTriggerTower;
   void ConstructngHBLMapObject();
  private:
   void ConstructngHBFrontEnd(int sideid, int rbxrmid, int rmfifichid);
   void ConstructngHBBackEnd(int sideid, int rbxrmid, int rmfifichid);      
   void ConstructngHBGeometry(int sideid, int rbxrmid, int rmfifichid);      
-  void ConstructngHBPMTBox();
+  void ConstructngHBSiPM();
   void ConstructngHBTriggerTower();  
   
   const int ngHBucrateInrbxrmid[Ncrate] = {30,24,20,21,25,31,35,37,34};

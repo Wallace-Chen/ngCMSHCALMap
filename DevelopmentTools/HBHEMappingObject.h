@@ -51,12 +51,12 @@ struct HEBackEnd
 };
 
 //PMT boxes struct
-struct HBPMTBox
+struct HBHPD
 {
   int wedge;
   int pixel;
 };
-struct HEPMTBox
+struct HEHPD
 {
   int wedge;
   int pixel;

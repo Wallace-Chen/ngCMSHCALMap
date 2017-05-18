@@ -2,8 +2,8 @@
 
 int HCALLMapLoader::GetHBHEHFromLMap(
                                      std::string LMapFileName,
-                                     std::vector<HBFrontEnd> &myHBFrontEnd, std::vector<HBBackEnd> &myHBBackEnd, std::vector<HBPMTBox> &myHBPMTBox, std::vector<HBGeometry> &myHBGeometry, std::vector<HBTriggerTower> &myHBTriggerTower,
-                                     std::vector<HEFrontEnd> &myHEFrontEnd, std::vector<HEBackEnd> &myHEBackEnd, std::vector<HEPMTBox> &myHEPMTBox, std::vector<HEGeometry> &myHEGeometry, std::vector<HETriggerTower> &myHETriggerTower,
+                                     std::vector<HBFrontEnd> &myHBFrontEnd, std::vector<HBBackEnd> &myHBBackEnd, std::vector<HBHPD> &myHBHPD, std::vector<HBGeometry> &myHBGeometry, std::vector<HBTriggerTower> &myHBTriggerTower,
+                                     std::vector<HEFrontEnd> &myHEFrontEnd, std::vector<HEBackEnd> &myHEBackEnd, std::vector<HEHPD> &myHEHPD, std::vector<HEGeometry> &myHEGeometry, std::vector<HETriggerTower> &myHETriggerTower,
                                      std::vector<HFFrontEnd> &myHFFrontEnd, std::vector<HFBackEnd> &myHFBackEnd, std::vector<HFPMTBox> &myHFPMTBox, std::vector<HFGeometry> &myHFGeometry, std::vector<HFTriggerTower> &myHFTriggerTower
                                     )
 {
@@ -18,7 +18,7 @@ int HCALLMapLoader::GetHBHEHFromLMap(
     if(line.find("HB") != std::string::npos)
     {
       std::istringstream ss(line);
-      HBFrontEnd thisHBFrontEnd; HBBackEnd thisHBBackEnd; HBPMTBox thisHBPMTBox; HBGeometry thisHBGeometry; HBTriggerTower thisHBTriggerTower;
+      HBFrontEnd thisHBFrontEnd; HBBackEnd thisHBBackEnd; HBHPD thisHBHPD; HBGeometry thisHBGeometry; HBTriggerTower thisHBTriggerTower;
 
       int tmp;
       std::string tmp_str;
@@ -32,7 +32,7 @@ int HCALLMapLoader::GetHBHEHFromLMap(
       {
         ss >> tmp
            >> thisHBGeometry.side >> thisHBGeometry.eta >> thisHBGeometry.phi >> thisHBGeometry.dphi >> thisHBGeometry.depth >> thisHBGeometry.subdet
-           >> thisHBFrontEnd.rbx >> thisHBPMTBox.wedge >> thisHBFrontEnd.rm >> thisHBPMTBox.pixel >> thisHBFrontEnd.qie8 >> thisHBFrontEnd.qie8_ch >> thisHBFrontEnd.rm_fiber >> thisHBFrontEnd.fiber_ch
+           >> thisHBFrontEnd.rbx >> thisHBHPD.wedge >> thisHBFrontEnd.rm >> thisHBHPD.pixel >> thisHBFrontEnd.qie8 >> thisHBFrontEnd.qie8_ch >> thisHBFrontEnd.rm_fiber >> thisHBFrontEnd.fiber_ch
            >> thisHBBackEnd.ucrate >> thisHBBackEnd.uhtr >> thisHBBackEnd.ufpga >> thisHBBackEnd.uhtr_fiber >> thisHBBackEnd.dcc_sl >> thisHBBackEnd.spigot >> thisHBBackEnd.dcc
            >> tmp >> tmp_str >> tmp_str >> tmp_str >> tmp >> tmp >> tmp >> tmp_str //skip variables for RCR, RIP
            >> thisHBBackEnd.ufedid
@@ -42,7 +42,7 @@ int HCALLMapLoader::GetHBHEHFromLMap(
       {
         ss >> tmp
            >> thisHBGeometry.side >> thisHBGeometry.eta >> thisHBGeometry.phi >> thisHBGeometry.dphi >> thisHBGeometry.depth >> thisHBGeometry.subdet
-           >> thisHBFrontEnd.rbx >> thisHBPMTBox.wedge >> thisHBFrontEnd.rm >> thisHBPMTBox.pixel >> thisHBFrontEnd.qie8 >> thisHBFrontEnd.qie8_ch >> thisHBFrontEnd.rm_fiber >> thisHBFrontEnd.fiber_ch
+           >> thisHBFrontEnd.rbx >> thisHBHPD.wedge >> thisHBFrontEnd.rm >> thisHBHPD.pixel >> thisHBFrontEnd.qie8 >> thisHBFrontEnd.qie8_ch >> thisHBFrontEnd.rm_fiber >> thisHBFrontEnd.fiber_ch
            >> thisHBBackEnd.crate >> thisHBBackEnd.htr >> thisHBBackEnd.fpga >> thisHBBackEnd.htr_fiber >> thisHBBackEnd.dcc_sl >> thisHBBackEnd.spigot >> thisHBBackEnd.dcc 
            >> tmp >> tmp_str >> tmp_str >> tmp_str >> tmp >> tmp >> tmp >> tmp_str //skip variables for RCR, RIP
            >> thisHBBackEnd.fedid
@@ -50,12 +50,12 @@ int HCALLMapLoader::GetHBHEHFromLMap(
       }
       thisHBBackEnd.fiber_ch = thisHBFrontEnd.fiber_ch;
 
-      myHBFrontEnd.push_back(thisHBFrontEnd); myHBBackEnd.push_back(thisHBBackEnd); myHBPMTBox.push_back(thisHBPMTBox); myHBGeometry.push_back(thisHBGeometry); myHBTriggerTower.push_back(thisHBTriggerTower);
+      myHBFrontEnd.push_back(thisHBFrontEnd); myHBBackEnd.push_back(thisHBBackEnd); myHBHPD.push_back(thisHBHPD); myHBGeometry.push_back(thisHBGeometry); myHBTriggerTower.push_back(thisHBTriggerTower);
     }
     else if(line.find("HE") != std::string::npos)
     {
       std::istringstream ss(line);
-      HEFrontEnd thisHEFrontEnd; HEBackEnd thisHEBackEnd; HEPMTBox thisHEPMTBox; HEGeometry thisHEGeometry; HETriggerTower thisHETriggerTower;
+      HEFrontEnd thisHEFrontEnd; HEBackEnd thisHEBackEnd; HEHPD thisHEHPD; HEGeometry thisHEGeometry; HETriggerTower thisHETriggerTower;
 
       int tmp;
       std::string tmp_str;
@@ -63,7 +63,7 @@ int HCALLMapLoader::GetHBHEHFromLMap(
       {
         ss >> tmp
            >> thisHEGeometry.side >> thisHEGeometry.eta >> thisHEGeometry.phi >> thisHEGeometry.dphi >> thisHEGeometry.depth >> thisHEGeometry.subdet 
-           >> thisHEFrontEnd.rbx >> thisHEPMTBox.wedge >> thisHEFrontEnd.rm >> thisHEPMTBox.pixel >> thisHEFrontEnd.qie8 >> thisHEFrontEnd.qie8_ch >> thisHEFrontEnd.rm_fiber >> thisHEFrontEnd.fiber_ch
+           >> thisHEFrontEnd.rbx >> thisHEHPD.wedge >> thisHEFrontEnd.rm >> thisHEHPD.pixel >> thisHEFrontEnd.qie8 >> thisHEFrontEnd.qie8_ch >> thisHEFrontEnd.rm_fiber >> thisHEFrontEnd.fiber_ch
            >> thisHEBackEnd.ucrate >> thisHEBackEnd.uhtr >> thisHEBackEnd.ufpga >> thisHEBackEnd.uhtr_fiber >> thisHEBackEnd.dcc_sl >> thisHEBackEnd.spigot >> thisHEBackEnd.dcc
            >> tmp >> tmp_str >> tmp_str >> tmp_str >> tmp >> tmp >> tmp >> tmp_str //skip variables for RCR, RIP
            >> thisHEBackEnd.ufedid
@@ -73,7 +73,7 @@ int HCALLMapLoader::GetHBHEHFromLMap(
       {
         ss >> tmp
            >> thisHEGeometry.side >> thisHEGeometry.eta >> thisHEGeometry.phi >> thisHEGeometry.dphi >> thisHEGeometry.depth >> thisHEGeometry.subdet
-           >> thisHEFrontEnd.rbx >> thisHEPMTBox.wedge >> thisHEFrontEnd.rm >> thisHEPMTBox.pixel >> thisHEFrontEnd.qie8 >> thisHEFrontEnd.qie8_ch >> thisHEFrontEnd.rm_fiber >> thisHEFrontEnd.fiber_ch
+           >> thisHEFrontEnd.rbx >> thisHEHPD.wedge >> thisHEFrontEnd.rm >> thisHEHPD.pixel >> thisHEFrontEnd.qie8 >> thisHEFrontEnd.qie8_ch >> thisHEFrontEnd.rm_fiber >> thisHEFrontEnd.fiber_ch
            >> thisHEBackEnd.crate >> thisHEBackEnd.htr >> thisHEBackEnd.fpga >> thisHEBackEnd.htr_fiber >> thisHEBackEnd.dcc_sl >> thisHEBackEnd.spigot >> thisHEBackEnd.dcc
            >> tmp >> tmp_str >> tmp_str >> tmp_str >> tmp >> tmp >> tmp >> tmp_str //skip variables for RCR, RIP
            >> thisHEBackEnd.fedid
@@ -81,7 +81,7 @@ int HCALLMapLoader::GetHBHEHFromLMap(
       }
       thisHEBackEnd.fiber_ch = thisHEFrontEnd.fiber_ch;
 
-      myHEFrontEnd.push_back(thisHEFrontEnd); myHEBackEnd.push_back(thisHEBackEnd); myHEPMTBox.push_back(thisHEPMTBox); myHEGeometry.push_back(thisHEGeometry); myHETriggerTower.push_back(thisHETriggerTower);
+      myHEFrontEnd.push_back(thisHEFrontEnd); myHEBackEnd.push_back(thisHEBackEnd); myHEHPD.push_back(thisHEHPD); myHEGeometry.push_back(thisHEGeometry); myHETriggerTower.push_back(thisHETriggerTower);
     }
     else if(line.find("HF") != std::string::npos)
     {
@@ -122,7 +122,7 @@ int HCALLMapLoader::GetHBHEHFromLMap(
 
 int HCALLMapLoader::GetHOFromLMap(
                                   std::string LMapFileName, 
-                                  std::vector<HOFrontEnd> &myHOFrontEnd, std::vector<HOBackEnd> &myHOBackEnd, std::vector<HOPMTBox> &myHOPMTBox, std::vector<HOGeometry> &myHOGeometry, std::vector<HOTriggerTower> &myHOTriggerTower
+                                  std::vector<HOFrontEnd> &myHOFrontEnd, std::vector<HOBackEnd> &myHOBackEnd, std::vector<HOSiPM> &myHOSiPM, std::vector<HOGeometry> &myHOGeometry, std::vector<HOTriggerTower> &myHOTriggerTower
                                  )
 {
   int NChannel = 0;
@@ -135,7 +135,7 @@ int HCALLMapLoader::GetHOFromLMap(
     NChannel++;
     std::istringstream ss(line);
     //std::cout << line << std::endl;
-    HOFrontEnd thisHOFrontEnd; HOBackEnd thisHOBackEnd; HOPMTBox thisHOPMTBox; HOGeometry thisHOGeometry; HOTriggerTower thisHOTriggerTower;
+    HOFrontEnd thisHOFrontEnd; HOBackEnd thisHOBackEnd; HOSiPM thisHOSiPM; HOGeometry thisHOGeometry; HOTriggerTower thisHOTriggerTower;
     
     //#side eta phi dphi depth det 
     //rbx sector rm pixel qie adc rm_fi fi_ch let_code 
@@ -145,14 +145,14 @@ int HCALLMapLoader::GetHOFromLMap(
 
     ss >> tmp
        >> thisHOGeometry.side >> thisHOGeometry.eta >> thisHOGeometry.phi >> thisHOGeometry.dphi >> thisHOGeometry.depth >> thisHOGeometry.subdet
-       >> thisHOFrontEnd.rbx >> thisHOPMTBox.sector >> thisHOFrontEnd.rm >> thisHOPMTBox.pixel >> thisHOFrontEnd.qie8 >> thisHOFrontEnd.qie8_ch >> thisHOFrontEnd.rm_fiber >> thisHOFrontEnd.fiber_ch >> thisHOPMTBox.letter_code
+       >> thisHOFrontEnd.rbx >> thisHOSiPM.sector >> thisHOFrontEnd.rm >> thisHOSiPM.pixel >> thisHOFrontEnd.qie8 >> thisHOFrontEnd.qie8_ch >> thisHOFrontEnd.rm_fiber >> thisHOFrontEnd.fiber_ch >> thisHOSiPM.letter_code
        >> thisHOBackEnd.crate >> thisHOBackEnd.block_coupler >> thisHOBackEnd.htr >> thisHOBackEnd.fpga >> thisHOBackEnd.htr_fiber >> thisHOBackEnd.dcc_sl >> thisHOBackEnd.spigot >> thisHOBackEnd.dcc >> thisHOBackEnd.fedid 
        >> thisHOFrontEnd.qie8id;
 
     thisHOBackEnd.fiber_ch = thisHOFrontEnd.fiber_ch;
     //std::cout << thisHOGeometry.eta << std::endl;
 
-    myHOFrontEnd.push_back(thisHOFrontEnd); myHOBackEnd.push_back(thisHOBackEnd); myHOPMTBox.push_back(thisHOPMTBox); myHOGeometry.push_back(thisHOGeometry); myHOTriggerTower.push_back(thisHOTriggerTower);
+    myHOFrontEnd.push_back(thisHOFrontEnd); myHOBackEnd.push_back(thisHOBackEnd); myHOSiPM.push_back(thisHOSiPM); myHOGeometry.push_back(thisHOGeometry); myHOTriggerTower.push_back(thisHOTriggerTower);
   }
   return NChannel;
 }
@@ -191,7 +191,7 @@ int HCALLMapLoader::GetngHFromLMap(
 
 int HCALLMapLoader::GetngHEromLMap(
                                    std::string LMapFileName,
-                                   std::vector<ngHEFrontEnd> &myngHEFrontEnd, std::vector<ngHEBackEnd> &myngHEBackEnd, std::vector<ngHEPMTBox> &myngHEPMTBox, std::vector<ngHEGeometry> &myngHEGeometry, std::vector<ngHETriggerTower> &myngHETriggerTower
+                                   std::vector<ngHEFrontEnd> &myngHEFrontEnd, std::vector<ngHEBackEnd> &myngHEBackEnd, std::vector<ngHESiPM> &myngHESiPM, std::vector<ngHEGeometry> &myngHEGeometry, std::vector<ngHETriggerTower> &myngHETriggerTower
                                   )
 {
   int NChannel = 0;
@@ -204,14 +204,14 @@ int HCALLMapLoader::GetngHEromLMap(
 
     std::istringstream ss(line);
     //std::cout << line << std::endl;
-    ngHEFrontEnd thisngHEFrontEnd; ngHEBackEnd thisngHEBackEnd; ngHEPMTBox thisngHEPMTBox; ngHEGeometry thisngHEGeometry; ngHETriggerTower thisngHETriggerTower;
+    ngHEFrontEnd thisngHEFrontEnd; ngHEBackEnd thisngHEBackEnd; ngHESiPM thisngHESiPM; ngHEGeometry thisngHEGeometry; ngHETriggerTower thisngHETriggerTower;
     //#  Side   Eta   Phi DepthSubdet    ngRBX       RM    RM_FI    FI_CH   uCrate     uHTR  uHTR_FI    FI_CH
     //      1    16    71     3    HE  ngHEP01        1        1        0       30       11       18        0
     ss >> thisngHEGeometry.side >> thisngHEGeometry.eta >> thisngHEGeometry.phi >> thisngHEGeometry.depth >> thisngHEGeometry.subdet
        >> thisngHEFrontEnd.rbx >> thisngHEFrontEnd.rm >> thisngHEFrontEnd.rm_fiber >> thisngHEFrontEnd.fiber_ch
        >> thisngHEBackEnd.ucrate >> thisngHEBackEnd.uhtr >> thisngHEBackEnd.uhtr_fiber >> thisngHEBackEnd.fiber_ch;
 
-    myngHEFrontEnd.push_back(thisngHEFrontEnd); myngHEBackEnd.push_back(thisngHEBackEnd); myngHEPMTBox.push_back(thisngHEPMTBox); myngHEGeometry.push_back(thisngHEGeometry); myngHETriggerTower.push_back(thisngHETriggerTower);
+    myngHEFrontEnd.push_back(thisngHEFrontEnd); myngHEBackEnd.push_back(thisngHEBackEnd); myngHESiPM.push_back(thisngHESiPM); myngHEGeometry.push_back(thisngHEGeometry); myngHETriggerTower.push_back(thisngHETriggerTower);
   }
   return NChannel;
 }

@@ -24,7 +24,7 @@ struct ngHBBackEnd
 };
 
 //PMT boxes struct
-struct ngHBPMTBox
+struct ngHBSiPM
 {
   int wedge;//1,2,3,4...18
   int pixel;

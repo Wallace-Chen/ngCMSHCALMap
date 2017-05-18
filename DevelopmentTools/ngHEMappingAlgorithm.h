@@ -7,13 +7,13 @@ class ngHEMappingAlgorithm : public ngHEConstant
 {
  public:
   //the variables we need to fill into the LMap
-  std::vector<ngHEFrontEnd> myngHEFrontEnd; std::vector<ngHEBackEnd> myngHEBackEnd; std::vector<ngHEPMTBox> myngHEPMTBox; std::vector<ngHEGeometry> myngHEGeometry; std::vector<ngHETriggerTower> myngHETriggerTower;
+  std::vector<ngHEFrontEnd> myngHEFrontEnd; std::vector<ngHEBackEnd> myngHEBackEnd; std::vector<ngHESiPM> myngHESiPM; std::vector<ngHEGeometry> myngHEGeometry; std::vector<ngHETriggerTower> myngHETriggerTower;
   void ConstructngHELMapObject();
  private:
   void ConstructngHEFrontEnd(int sideid, int rbxrmid, int rmfifichid);
   void ConstructngHEBackEnd(int sideid, int rbxrmid, int rmfifichid);      
   void ConstructngHEGeometry(int sideid, int rbxrmid, int rmfifichid);      
-  void ConstructngHEPMTBox();
+  void ConstructngHESiPM();
   void ConstructngHETriggerTower();  
   
   const int ngHEucrateInrbxrmid[Ncrate] = {30,24,20,21,25,31,35,37,34};

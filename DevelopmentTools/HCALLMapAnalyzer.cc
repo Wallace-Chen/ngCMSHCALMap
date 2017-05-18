@@ -23,20 +23,20 @@ int main(int argc, char* argv[])
   HCALLMapDumper myHCALLMapDumper;
 
   //initialize the variables we need in analysis
-  std::vector<HBFrontEnd> myHBFrontEnd; std::vector<HBBackEnd> myHBBackEnd; std::vector<HBPMTBox> myHBPMTBox; std::vector<HBGeometry> myHBGeometry; std::vector<HBTriggerTower> myHBTriggerTower;
-  std::vector<HEFrontEnd> myHEFrontEnd; std::vector<HEBackEnd> myHEBackEnd; std::vector<HEPMTBox> myHEPMTBox; std::vector<HEGeometry> myHEGeometry; std::vector<HETriggerTower> myHETriggerTower;
-  std::vector<ngHEFrontEnd> myngHEFrontEnd; std::vector<ngHEBackEnd> myngHEBackEnd; std::vector<ngHEPMTBox> myngHEPMTBox; std::vector<ngHEGeometry> myngHEGeometry; std::vector<ngHETriggerTower> myngHETriggerTower;
+  std::vector<HBFrontEnd> myHBFrontEnd; std::vector<HBBackEnd> myHBBackEnd; std::vector<HBHPD> myHBHPD; std::vector<HBGeometry> myHBGeometry; std::vector<HBTriggerTower> myHBTriggerTower;
+  std::vector<HEFrontEnd> myHEFrontEnd; std::vector<HEBackEnd> myHEBackEnd; std::vector<HEHPD> myHEHPD; std::vector<HEGeometry> myHEGeometry; std::vector<HETriggerTower> myHETriggerTower;
+  std::vector<ngHEFrontEnd> myngHEFrontEnd; std::vector<ngHEBackEnd> myngHEBackEnd; std::vector<ngHESiPM> myngHESiPM; std::vector<ngHEGeometry> myngHEGeometry; std::vector<ngHETriggerTower> myngHETriggerTower;
   std::vector<HFFrontEnd> myHFFrontEnd; std::vector<HFBackEnd> myHFBackEnd; std::vector<HFPMTBox> myHFPMTBox; std::vector<HFGeometry> myHFGeometry; std::vector<HFTriggerTower> myHFTriggerTower;
   std::vector<ngHFFrontEnd> myngHFFrontEnd; std::vector<ngHFBackEnd> myngHFBackEnd; std::vector<ngHFPMTBox> myngHFPMTBox; std::vector<ngHFGeometry> myngHFGeometry; std::vector<ngHFTriggerTower> myngHFTriggerTower;
-  std::vector<HOFrontEnd> myHOFrontEnd; std::vector<HOBackEnd> myHOBackEnd; std::vector<HOPMTBox> myHOPMTBox; std::vector<HOGeometry> myHOGeometry; std::vector<HOTriggerTower> myHOTriggerTower;
+  std::vector<HOFrontEnd> myHOFrontEnd; std::vector<HOBackEnd> myHOBackEnd; std::vector<HOSiPM> myHOSiPM; std::vector<HOGeometry> myHOGeometry; std::vector<HOTriggerTower> myHOTriggerTower;
   
   if( RunMode == "HBHEHFVME" )
   {
     std::string txtfilename = "officialMap/HCALmapHBEF_G.txt";
     int NChannel = myHCALLMapLoader.GetHBHEHFromLMap(
                                                      txtfilename,
-                                                     myHBFrontEnd, myHBBackEnd, myHBPMTBox, myHBGeometry, myHBTriggerTower,
-                                                     myHEFrontEnd, myHEBackEnd, myHEPMTBox, myHEGeometry, myHETriggerTower,
+                                                     myHBFrontEnd, myHBBackEnd, myHBHPD, myHBGeometry, myHBTriggerTower,
+                                                     myHEFrontEnd, myHEBackEnd, myHEHPD, myHEGeometry, myHETriggerTower,
                                                      myHFFrontEnd, myHFBackEnd, myHFPMTBox, myHFGeometry, myHFTriggerTower
                                                     );
     HBHEAnalyzer myHBHEAnalyzer;
@@ -61,8 +61,8 @@ int main(int argc, char* argv[])
     std::string txtfilename = "officialMap/HCALmapHBEF_G_uHTR.txt";
     int NChannel = myHCALLMapLoader.GetHBHEHFromLMap(
                                                      txtfilename,
-                                                     myHBFrontEnd, myHBBackEnd, myHBPMTBox, myHBGeometry, myHBTriggerTower,
-                                                     myHEFrontEnd, myHEBackEnd, myHEPMTBox, myHEGeometry, myHETriggerTower,
+                                                     myHBFrontEnd, myHBBackEnd, myHBHPD, myHBGeometry, myHBTriggerTower,
+                                                     myHEFrontEnd, myHEBackEnd, myHEHPD, myHEGeometry, myHETriggerTower,
                                                      myHFFrontEnd, myHFBackEnd, myHFPMTBox, myHFGeometry, myHFTriggerTower
                                                     );
     HBHEAnalyzer myHBHEAnalyzer;
@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
   {
     HOAnalyzer myHOAnalyzer;
     std::string txtfilename = "officialMap/HCALmapHO_G.txt";
-    int NChannel = myHCALLMapLoader.GetHOFromLMap(txtfilename, myHOFrontEnd, myHOBackEnd, myHOPMTBox, myHOGeometry, myHOTriggerTower);
+    int NChannel = myHCALLMapLoader.GetHOFromLMap(txtfilename, myHOFrontEnd, myHOBackEnd, myHOSiPM, myHOGeometry, myHOTriggerTower);
     if(NChannel == myHOAnalyzer.NchHO_all){ std::cout << "#The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
     else{ std::cout << "#We have " << NChannel << " channels from txt Lmap while we have " << myHOAnalyzer.NchHO_all << " channels expected in HO, something must be wrong!" << std::endl; return -1; }
 
@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
     std::string txtfilename = "officialMap/ngHELMap_v0.txt";
     int NChannel = myHCALLMapLoader.GetngHEromLMap(
                                                    txtfilename,
-                                                   myngHEFrontEnd, myngHEBackEnd, myngHEPMTBox, myngHEGeometry, myngHETriggerTower
+                                                   myngHEFrontEnd, myngHEBackEnd, myngHESiPM, myngHEGeometry, myngHETriggerTower
                                                   );
 
     ngHEAnalyzer myngHEAnalyzer;
