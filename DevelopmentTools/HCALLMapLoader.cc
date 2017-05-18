@@ -157,6 +157,33 @@ int HCALLMapLoader::GetHOFromLMap(
   return NChannel;
 }
 
+int HCALLMapLoader::GetngHEromLMap(
+                                   std::string LMapFileName,
+                                   std::vector<ngHEFrontEnd> &myngHEFrontEnd, std::vector<ngHEBackEnd> &myngHEBackEnd, std::vector<ngHESiPM> &myngHESiPM, std::vector<ngHEGeometry> &myngHEGeometry, std::vector<ngHETriggerTower> &myngHETriggerTower
+                                  )
+{
+  int NChannel = 0;
+  std::ifstream inputFile(LMapFileName.c_str());
+  std::string line;
+  while( std::getline(inputFile, line) )
+  {
+    if(line.at(0) == '#') continue;
+    NChannel++;
+
+    std::istringstream ss(line);
+    //std::cout << line << std::endl;
+    ngHEFrontEnd thisngHEFrontEnd; ngHEBackEnd thisngHEBackEnd; ngHESiPM thisngHESiPM; ngHEGeometry thisngHEGeometry; ngHETriggerTower thisngHETriggerTower;
+    //#  Side   Eta   Phi DepthSubdet    ngRBX       RM    RM_FI    FI_CH   uCrate     uHTR  uHTR_FI    FI_CH
+    //      1    16    71     3    HE  ngHEP01        1        1        0       30       11       18        0
+    ss >> thisngHEGeometry.side >> thisngHEGeometry.eta >> thisngHEGeometry.phi >> thisngHEGeometry.depth >> thisngHEGeometry.subdet
+       >> thisngHEFrontEnd.rbx >> thisngHEFrontEnd.rm >> thisngHEFrontEnd.rm_fiber >> thisngHEFrontEnd.fiber_ch
+       >> thisngHEBackEnd.ucrate >> thisngHEBackEnd.uhtr >> thisngHEBackEnd.uhtr_fiber >> thisngHEBackEnd.fiber_ch;
+
+    myngHEFrontEnd.push_back(thisngHEFrontEnd); myngHEBackEnd.push_back(thisngHEBackEnd); myngHESiPM.push_back(thisngHESiPM); myngHEGeometry.push_back(thisngHEGeometry); myngHETriggerTower.push_back(thisngHETriggerTower);
+  }
+  return NChannel;
+}
+
 int HCALLMapLoader::GetngHFromLMap(
                                    std::string LMapFileName,
                                    std::vector<ngHFFrontEnd> &myngHFFrontEnd, std::vector<ngHFBackEnd> &myngHFBackEnd, std::vector<ngHFPMTBox> &myngHFPMTBox, std::vector<ngHFGeometry> &myngHFGeometry, std::vector<ngHFTriggerTower> &myngHFTriggerTower
@@ -209,33 +236,6 @@ int HCALLMapLoader::GetngHFromLMap(
     thisngHFBackEnd.fiber_ch = thisngHFFrontEnd.fiber_ch;
 
     myngHFFrontEnd.push_back(thisngHFFrontEnd); myngHFBackEnd.push_back(thisngHFBackEnd); myngHFPMTBox.push_back(thisngHFPMTBox); myngHFGeometry.push_back(thisngHFGeometry); myngHFTriggerTower.push_back(thisngHFTriggerTower);
-  }
-  return NChannel;
-}
-
-int HCALLMapLoader::GetngHEromLMap(
-                                   std::string LMapFileName,
-                                   std::vector<ngHEFrontEnd> &myngHEFrontEnd, std::vector<ngHEBackEnd> &myngHEBackEnd, std::vector<ngHESiPM> &myngHESiPM, std::vector<ngHEGeometry> &myngHEGeometry, std::vector<ngHETriggerTower> &myngHETriggerTower
-                                  )
-{
-  int NChannel = 0;
-  std::ifstream inputFile(LMapFileName.c_str());
-  std::string line;
-  while( std::getline(inputFile, line) )
-  {
-    if(line.at(0) == '#') continue;
-    NChannel++;
-
-    std::istringstream ss(line);
-    //std::cout << line << std::endl;
-    ngHEFrontEnd thisngHEFrontEnd; ngHEBackEnd thisngHEBackEnd; ngHESiPM thisngHESiPM; ngHEGeometry thisngHEGeometry; ngHETriggerTower thisngHETriggerTower;
-    //#  Side   Eta   Phi DepthSubdet    ngRBX       RM    RM_FI    FI_CH   uCrate     uHTR  uHTR_FI    FI_CH
-    //      1    16    71     3    HE  ngHEP01        1        1        0       30       11       18        0
-    ss >> thisngHEGeometry.side >> thisngHEGeometry.eta >> thisngHEGeometry.phi >> thisngHEGeometry.depth >> thisngHEGeometry.subdet
-       >> thisngHEFrontEnd.rbx >> thisngHEFrontEnd.rm >> thisngHEFrontEnd.rm_fiber >> thisngHEFrontEnd.fiber_ch
-       >> thisngHEBackEnd.ucrate >> thisngHEBackEnd.uhtr >> thisngHEBackEnd.uhtr_fiber >> thisngHEBackEnd.fiber_ch;
-
-    myngHEFrontEnd.push_back(thisngHEFrontEnd); myngHEBackEnd.push_back(thisngHEBackEnd); myngHESiPM.push_back(thisngHESiPM); myngHEGeometry.push_back(thisngHEGeometry); myngHETriggerTower.push_back(thisngHETriggerTower);
   }
   return NChannel;
 }
