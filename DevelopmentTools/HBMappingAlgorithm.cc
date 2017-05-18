@@ -15,10 +15,10 @@ void HBMappingAlgorithm::ConstructHBLMapObject()
           int rbxrmid; irbx<NrbxHB ? rbxrmid = irbx*NrmHB+irm : rbxrmid = (irbx-NrbxHB)*NrmHB+irm;//HB 0...to 35
           int rmfifichid = irmfi*Nfiber_ch+ifich;//HB 0...to 23
 
-          ConstructHBFrontEnd(sideid,rbxrmid,rmfifichid);      
-          ConstructHBBackEnd(sideid,rbxrmid,rmfifichid);  
+          ConstructHBFrontEnd(sideid,rbxrmid,rmfifichid);
+          ConstructHBBackEnd(sideid,rbxrmid,rmfifichid);
           ConstructHBGeometry(sideid,rbxrmid,rmfifichid);
-          ConstructHBHPD();  
+          ConstructHBHPD(sideid,rbxrmid,rmfifichid);
           ConstructHBTriggerTower();
         }
       }
@@ -34,12 +34,13 @@ void HBMappingAlgorithm::ConstructHBFrontEnd(int sideid, int rbxrmid, int rmfifi
   std::string numberletter; (rbxrmid/NrmHB + 1) < 10 ? numberletter = "0" + std::to_string(rbxrmid/NrmHB + 1) : numberletter = std::to_string(rbxrmid/NrmHB + 1); 
   thisHBFrontEnd.rbx = "HB" + sideletter + numberletter;
   thisHBFrontEnd.rm = rbxrmid%NrmHB + 1;
-  thisHBFrontEnd.rm_fiber = rmfifichid/Nfiber_ch +1;
+  thisHBFrontEnd.rm_fiber = rmfifichid/Nfiber_ch + 2;
   thisHBFrontEnd.fiber_ch = rmfifichid%Nfiber_ch;
   //set secondary variables qie8 map
   thisHBFrontEnd.qie8 = (thisHBFrontEnd.rm_fiber -1)/2+1;
-  thisHBFrontEnd.rm_fiber%2 != 0 ? thisHBFrontEnd.qie8_ch = thisHBFrontEnd.fiber_ch : thisHBFrontEnd.qie8_ch = 3 + (thisHBFrontEnd.fiber_ch+1)%3;
-
+  thisHBFrontEnd.rm_fiber%2 == 0 ? thisHBFrontEnd.qie8_ch = thisHBFrontEnd.fiber_ch : thisHBFrontEnd.qie8_ch = 3 + (thisHBFrontEnd.fiber_ch+1)%3;
+  //set tmp qie8 id
+  thisHBFrontEnd.qie8_id = 999991;
   myHBFrontEnd.push_back(thisHBFrontEnd);
   return ;
 }
@@ -47,30 +48,58 @@ void HBMappingAlgorithm::ConstructHBFrontEnd(int sideid, int rbxrmid, int rmfifi
 void HBMappingAlgorithm::ConstructHBBackEnd(int sideid, int rbxrmid, int rmfifichid)
 {
   HBBackEnd thisHBBackEnd;
-  //
-  thisHBBackEnd.crate = HBcrateInrbxrmid[((rbxrmid+35)%36)/12];
-  sideid>0 ? thisHBBackEnd.htr = (((rbxrmid+35)%36)%12)/2 + 13 : thisHBBackEnd.htr = (((rbxrmid+35)%36)%12)/2 + 2;
-  rmfifichid<12 ? thisHBBackEnd.fpga = "top" : thisHBBackEnd.fpga = "bot";
-  if(sideid>0){ rbxrmid%2 == 0 ? thisHBBackEnd.htr_fiber = (rmfifichid%12)/3 +5 : thisHBBackEnd.htr_fiber = (rmfifichid%12)/3 +1; }
-  else{ rbxrmid%2 == 0 ? thisHBBackEnd.htr_fiber = (rmfifichid%12)/3 +1 : thisHBBackEnd.htr_fiber = (rmfifichid%12)/3 +5; }
-
-  thisHBBackEnd.ucrate = HBucrateInrbxrmid[((rbxrmid+35)%36)/12];
-  sideid>0 ? thisHBBackEnd.uhtr = (((rbxrmid+35)%36)%12)/2 + 7 : thisHBBackEnd.uhtr = (((rbxrmid+35)%36)%12)/2 + 1;
-  thisHBBackEnd.ufpga = "uHTR";
+  //set ucrate id from rbx and rm, 2016 and 2017 should be same
+  thisHBBackEnd.ucrate = HBucrateInrbxrmid[((rbxrmid+4)%72)/8];
+  //set the uhr slot from rbx and rm and rm_fiber : complicate!!
+  //3 types of backend slot : pure HB(1,4,7,10), mixed HB ngHE(2,5,8,11), and pure ngHE(3,6,9,12)
+  //mixed HB case : rm(rm fiber) 1(23),  2(23),  3(23),  4(23);
+  //pure  HB case : rm(rm fiber) 1(4567),2(4567),3(4567),4(4567);
+  std::string sideletter; sideid>0 ? sideletter = "P" : sideletter = "M";
+  std::string numberletter; (rbxrmid/NrmHB + 1) < 10 ? numberletter = "0" + std::to_string(rbxrmid/NrmHB + 1) : numberletter = std::to_string(rbxrmid/NrmHB + 1);
+  std::string rbx = "HB" + sideletter + numberletter;
+  int rm = rbxrmid%NrmHB + 1; double rm_fiber = rmfifichid/Nfiber_ch + 2;
+  bool ismixed_HB = (rm_fiber==2 || rm_fiber==3);
+  
   if(sideid>0)
   { 
-    if( rbxrmid%2 == 0){ rmfifichid<12 ? thisHBBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 18 : thisHBBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 6; }
-    else{ rmfifichid<12 ? thisHBBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 14 : thisHBBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 2; }
+    if( ismixed_HB ) (rbxrmid/4)%2==0 ? thisHBBackEnd.uhtr = 11 : thisHBBackEnd.uhtr = 8;
+    else (rbxrmid/4)%2==0 ? thisHBBackEnd.uhtr = 10 : thisHBBackEnd.uhtr = 7;
   }
   else
   { 
-    if( rbxrmid%2 == 0){ rmfifichid<12 ? thisHBBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 14 : thisHBBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 2; }
-    else{ rmfifichid<12 ? thisHBBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 18 : thisHBBackEnd.uhtr_fiber = (rmfifichid%12)/3 + 6; }
+    if( ismixed_HB ) (rbxrmid/4)%2==0 ? thisHBBackEnd.uhtr = 5 : thisHBBackEnd.uhtr = 2;
+    else (rbxrmid/4)%2==0 ? thisHBBackEnd.uhtr = 4 : thisHBBackEnd.uhtr = 1;
   }
 
-  thisHBBackEnd.fiber_ch = rmfifichid%3;
-
-  //set secondary variables
+  //fpga variable for the backend, used to be useful in old HTR case....but we still keep a position for it now
+  thisHBBackEnd.ufpga = "uHTR";
+  //set uhtr fiber from patch panel
+  //first set patch panel info, from front end side
+  thisHBBackEnd.ppcol = (rm_fiber-1)/4+3;
+  thisHBBackEnd.pprow = rm;
+  thisHBBackEnd.pplc = int(rm_fiber-1)%((int)4) + 1;
+  std::string cplletter;
+  rm_fiber<=4 ? cplletter="A" : cplletter="B";
+  thisHBBackEnd.ppcpl = rbx+"_RM"+std::to_string(rm)+cplletter;
+  //then set uhtr fiber infomation from patch panel
+  //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/ngHE/optical_patch.txt
+  if( ismixed_HB )
+  {
+    if     (thisHBBackEnd.ppcol==3){ thisHBBackEnd.uhtr_fiber = (thisHBBackEnd.pprow-1)*2+rm_fiber-2+2; }
+    else{ std::cout << "the ppCol of HB channel is not 3 in mixed HBHE slot for HB??!! Please check!" << std::endl; }
+  }
+  else
+  {
+    if     (thisHBBackEnd.ppcol==3){ thisHBBackEnd.uhtr_fiber = thisHBBackEnd.pprow-1; }
+    else if(thisHBBackEnd.ppcol==4){ thisHBBackEnd.uhtr_fiber = (thisHBBackEnd.pprow-1)*3+rm_fiber-5+12; }
+    else{ std::cout << "the ppCol of HB channel is neither 3 nor 4 in pure HB slot??!! Please check!" << std::endl; }
+  }
+  //finally set dodec from back end side
+  thisHBBackEnd.dodec = (thisHBBackEnd.uhtr_fiber)%12+1;
+  //set backend fiber channel : same as the front end one
+  thisHBBackEnd.fiber_ch = rmfifichid%Nfiber_ch;
+  //set tmp fed id
+  thisHBBackEnd.ufedid = thisHBBackEnd.ucrate + 1100 -20;
   myHBBackEnd.push_back(thisHBBackEnd);
   return ;
 }
@@ -78,23 +107,43 @@ void HBMappingAlgorithm::ConstructHBBackEnd(int sideid, int rbxrmid, int rmfific
 void HBMappingAlgorithm::ConstructHBGeometry(int sideid, int rbxrmid, int rmfifichid)
 {
   HBGeometry thisHBGeometry;
-
-  thisHBGeometry.subdet = "HB";
+  //side -> subdet -> eta, depth -> dphi -> phi
   thisHBGeometry.side = sideid;
   
-  if(rmfifichid == 12||rmfifichid == 18){ thisHBGeometry.phi = (((rbxrmid+35)%36)/2)*4+3; thisHBGeometry.dphi = 4; }
-  else{ thisHBGeometry.phi = rbxrmid*2+1; thisHBGeometry.dphi = 2; }
+  thisHBGeometry.eta = HBetaInrmfifichid[rmfifichid]; 
+  thisHBGeometry.depth = HBdepInrmfifichid[rmfifichid]; 
+  thisHBGeometry.dphi = 1;
+
+  if(sideid > 0)
+  {
+    thisHBGeometry.phi = HBphiInrbxrmid_P[rbxrmid];
+  }
+  else
+  {
+    thisHBGeometry.phi = HBphiInrbxrmid_M[rbxrmid];
+  }
   
-  thisHBGeometry.eta = HBetaInrmfifichid[rmfifichid]; thisHBGeometry.depth = ((rmfifichid+6)%24/6)%2+1;
-  
+  thisHBGeometry.subdet = "HB";
+
   myHBGeometry.push_back(thisHBGeometry);
   return ;
 }
 
-void HBMappingAlgorithm::ConstructHBHPD()
+void HBMappingAlgorithm::ConstructHBHPD(int sideid, int rbxrmid, int rmfifichid)
 {
   HBHPD thisHBHPD;
-  
+  thisHBHPD.wedge = rbxrmid/NrmHB+1;
+  const int ipixelHB_loc[Nrm_fiber][Nfiber_ch][NrmHB] = 
+  {  //  fch = 0           fch = 1           fch = 2
+    {{18, 17, 3,  2 }, {13, 3,  17, 7 }, {14, 1,  19, 6 }}, //rmfiber = 2
+    {{19, 2,  18, 1 }, {15, 7,  13, 5 }, {17, 19, 1,  3 }}, //rmfiber = 3
+    {{9,  4,  16, 11}, {5,  8,  12, 15}, {2,  13, 7,  18}}, //rmfiber = 4
+    {{12, 11, 9,  8 }, {7,  15, 5,  13}, {16, 6,  14, 4 }}, //rmfiber = 5
+    {{8,  5,  15, 12}, {4,  9,  11, 16}, {1,  14, 6,  19}}, //rmfiber = 6
+    {{6,  16, 4,  14}, {3,  18, 2,  17}, {11, 12, 8,  9 }}  //rmfiber = 7
+  };
+  int rmid = rbxrmid%NrmHB; int rmfiid = rmfifichid/Nfiber_ch; int fichid = rmfifichid%Nfiber_ch;
+  thisHBHPD.pixel = ipixelHB_loc[rmfiid][fichid][rmid]; 
   myHBHPD.push_back(thisHBHPD);
   return ;
 }

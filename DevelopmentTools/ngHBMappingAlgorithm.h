@@ -46,5 +46,4 @@ class ngHBMappingAlgorithm : public ngHBConstant
     1, 1, 1, //RM fiber 6
     1, 1, 1, //RM fiber 7
   };
-
 };

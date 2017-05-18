@@ -14,8 +14,10 @@ struct HBFrontEnd
 struct HBBackEnd
 {
   //patch panel information
+  int ppcol,pprow,pplc,dodec;
+  std::string ppcpl;
 
-  //old htr info, going to be obsolete...
+  //old htr info, going to be obsolete after 2018 HB re mapping, but keep it for legacy map dumper information
   int crate, htr, htr_fiber;
   std::string fpga;
   int fedid;
