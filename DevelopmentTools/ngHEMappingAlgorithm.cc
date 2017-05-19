@@ -87,17 +87,68 @@ void ngHEMappingAlgorithm::ConstructngHEBackEnd(int sideid, int rbxrmid, int rmf
   thisngHEBackEnd.ppcpl = rbx+"_RM"+std::to_string(rm)+cplletter;
   //then set uhtr fiber infomation from patch panel
   //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/ngHE/optical_patch.txt
+  /*
+    The P-side mixed uHTR (xx indicates an empty spigot):
+  
+           HEM04                 HBM04                 HEP04                 HBP04     
+  | -------- | -------- | -------- | -------- | ------17 | 22--23-- | xx0809-- | ------xx |  RM4
+  | -------- | -------- | -------- | -------- | --15--16 | --21---- | xx0607-- | ------xx |  RM3
+  | -------- | -------- | -------- | -------- | ------14 | 19--20-- | xx0405-- | ------xx |  RM2
+  | -------- | -------- | -------- | -------- | --12--13 | --18---- | xx0203-- | ------xx |  RM1
+
+    The P-side pure ngHE uHTR (xx indicates an empty spigot):
+  
+         HEM04                 HBM04                 HEP04                 HBP04     
+  | -------- | -------- | -------- | -------- | 080910-- | --21--22 | xx------ | ------xx |  RM4
+  | -------- | -------- | -------- | -------- | 06--07-- | 18--1920 | xx------ | ------xx |  RM3
+  | -------- | -------- | -------- | -------- | 030405-- | --16--17 | xx------ | ------xx |  RM2
+  | -------- | -------- | -------- | -------- | 01--02-- | 13--1415 | xx------ | ------xx |  RM1
+  */
+  //comment from mapper: why the hell HE is far more complicate than HB?? ok, i know is trigger link requirement, just want to compliant....
   if( ismixed_ngHE )//FIXME
   {
-    if     (thisngHEBackEnd.ppcol==1){ thisngHEBackEnd.uhtr_fiber = (thisngHEBackEnd.pprow-1)*2+rm_fiber-2+2; }
-    else if(thisngHEBackEnd.ppcol==2){ thisngHEBackEnd.uhtr_fiber = (thisngHEBackEnd.pprow-1)*3+rm_fiber-5+12; }
+    const int ngHEuhtrfiInpp_mixed_c1[4][4]=//rm(pprow),rmfiber
+    {
+      {-1,12,-1,13},//rm 1 pprow 1
+      {-1,-1,-1,14},//rm 2 pprow 2
+      {-1,15,-1,16},//rm 3 pprow 3
+      {-1,-1,-1,17} //rm 4 pprow 4
+    };
+    const int ngHEuhtrfiInpp_mixed_c2[4][4]=//rm(pprow),rmfiber
+    {
+      {-1,18,-1,-1},//rm 1 pprow 1
+      {19,-1,20,-1},//rm 2 pprow 2
+      {-1,21,-1,-1},//rm 3 pprow 3
+      {22,-1,23,-1} //rm 4 pprow 4
+    };
+    if     (thisngHEBackEnd.ppcol==1){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_mixed_c1[thisngHEBackEnd.pprow-1][rm_fiber-1]; }
+    else if(thisngHEBackEnd.ppcol==2){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_mixed_c2[thisngHEBackEnd.pprow-1][rm_fiber-5]; }
     else{ std::cout << "the ppCol of ngHE channel is neither 1 nor 2 in mixed HBHE slot for ngHE??!! Please check!" << std::endl; }
   }
   else//FIXME
   {
-    if     (thisngHEBackEnd.ppcol==1){ thisngHEBackEnd.uhtr_fiber = thisngHEBackEnd.pprow-1; }
-    else if(thisngHEBackEnd.ppcol==2){ thisngHEBackEnd.uhtr_fiber = (thisngHEBackEnd.pprow-1)*3+rm_fiber-5+12; }
+    const int ngHEuhtrfiInpp_pure_c1[4][4]=//rm(pprow),rmfiber
+    {
+      { 1,-1, 2,-1},//rm 1 pprow 1
+      { 3, 4, 5,-1},//rm 2 pprow 2
+      { 6,-1, 7,-1},//rm 3 pprow 3
+      { 8, 9,10,-1} //rm 4 pprow 4
+    };
+    const int ngHEuhtrfiInpp_pure_c2[4][4]=//rm(pprow),rmfiber
+    {
+      {13,-1,14,15},//rm 1 pprow 1
+      {-1,16,-1,17},//rm 2 pprow 2
+      {18,-1,19,20},//rm 3 pprow 3
+      {-1,21,-1,22} //rm 4 pprow 4
+    };
+    if     (thisngHEBackEnd.ppcol==1){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_pure_c1[thisngHEBackEnd.pprow-1][rm_fiber-1]; }
+    else if(thisngHEBackEnd.ppcol==2){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_pure_c2[thisngHEBackEnd.pprow-1][rm_fiber-5]; }
     else{ std::cout << "the ppCol of ngHE channel is neither 1 nor 2 in pure ngHE slot??!! Please check!" << std::endl; }
+  }
+  if( thisngHEBackEnd.uhtr_fiber<0 )
+  { 
+    std::cout << "negative uhtr fiber from patch panel mapping??!! Please check!" << std::endl; 
+    std::cout << "RBX RM RM_FI : " << rbx << " "<< rm << " " << rm_fiber << std::endl;
   }
   //finally set dodec from back end side
   thisngHEBackEnd.dodec = (thisngHEBackEnd.uhtr_fiber)%12+1;
