@@ -43,6 +43,8 @@ class HCALLMapDumper
   //ngHB,db
   //HE?,db
   //ngHE,db
+  void makedbngHELMapObject(std::string HCALLMapDbStr, std::string ngHETableStr,
+                            std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower);
   //HF?,db
   //ngHF,db
   void makedbngHFLMapObject(std::string HCALLMapDbStr, std::string ngHFTableStr,
