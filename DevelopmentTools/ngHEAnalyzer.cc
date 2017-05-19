@@ -31,8 +31,8 @@ void ngHEAnalyzer::PlottingngHEFEtoGeo(
     double rmid = (myngHEFrontEnd.at(i)).rm;
     double y = (rbxid-1)*4 + rmid;
 
-    if( thisrbx.find("ngHEP") != std::string::npos ){ ngheprbxphi->Fill(x,y,zphi); ngheprbxeta->Fill(x,y,zeta); ngheprbxdep->Fill(x,y,zdepth); }
-    else if( thisrbx.find("ngHEM") != std::string::npos ){ nghemrbxphi->Fill(x,y,zphi); nghemrbxeta->Fill(x,y,zeta); nghemrbxdep->Fill(x,y,zdepth); }
+    if( thisrbx.find("HEP") != std::string::npos ){ ngheprbxphi->Fill(x,y,zphi); ngheprbxeta->Fill(x,y,zeta); ngheprbxdep->Fill(x,y,zdepth); }
+    else if( thisrbx.find("HEM") != std::string::npos ){ nghemrbxphi->Fill(x,y,zphi); nghemrbxeta->Fill(x,y,zeta); nghemrbxdep->Fill(x,y,zdepth); }
   }
 
   for(int i=1;i<=Nrm_fiber*Nfiber_ch;i++)
@@ -96,8 +96,8 @@ void ngHEAnalyzer::PlottingngHEFEtoBEuTCA(
     double rmid = (myngHEFrontEnd.at(i)).rm;
     double y = (rbxid-1)*4 + rmid;
     
-    if( thisrbx.find("ngHEP") != std::string::npos ){ heprbxucrate->Fill(x,y,zucrate); heprbxuhtr->Fill(x,y,zuhtr); heprbxufpga->Fill(x,y,zufpga); heprbxuhtr_fiber->Fill(x,y,zuhtr_fiber); }
-    else if( thisrbx.find("ngHEM") != std::string::npos ){ hemrbxucrate->Fill(x,y,zucrate); hemrbxuhtr->Fill(x,y,zuhtr); hemrbxufpga->Fill(x,y,zufpga); hemrbxuhtr_fiber->Fill(x,y,zuhtr_fiber); }
+    if( thisrbx.find("HEP") != std::string::npos ){ heprbxucrate->Fill(x,y,zucrate); heprbxuhtr->Fill(x,y,zuhtr); heprbxufpga->Fill(x,y,zufpga); heprbxuhtr_fiber->Fill(x,y,zuhtr_fiber); }
+    else if( thisrbx.find("HEM") != std::string::npos ){ hemrbxucrate->Fill(x,y,zucrate); hemrbxuhtr->Fill(x,y,zuhtr); hemrbxufpga->Fill(x,y,zufpga); hemrbxuhtr_fiber->Fill(x,y,zuhtr_fiber); }
   }
 
   for(int i=1;i<=Nrm_fiber*Nfiber_ch;i++)

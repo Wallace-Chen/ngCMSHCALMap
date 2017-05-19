@@ -7,15 +7,17 @@ struct ngHEFrontEnd
 {
   //interface to BackEnd: 2 side, 18 rbx per side, 4 rm per rbx and 8 rm fibers per rm
   std::string rbx;
-  int rm, rm_fiber;
-  int qie11_fiber, fiber_ch;
-  int qie11, qie11_ch;
-  //variables in ROB/Connector
+  int rm, rm_fiber, fiber_ch;
+  int qie11, qie11_ch, qie11_id;
 };
 
 //Backend electronics struct
 struct ngHEBackEnd
 {
+  //patch panel information
+  int ppcol,pprow,pplc,dodec;
+  std::string ppcpl;
+  //uHTR
   int ucrate, uhtr, uhtr_fiber;
   std::string ufpga;
   int ufedid;
@@ -23,11 +25,11 @@ struct ngHEBackEnd
   int fiber_ch;
 };
 
-//PMT boxes struct
+//SiPM struct
 struct ngHESiPM
 {
   int wedge;//1,2,3,4...18
-  int pixel;
+  int bv;
 };
 
 //Geometry struct

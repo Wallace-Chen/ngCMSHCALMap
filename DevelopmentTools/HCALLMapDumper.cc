@@ -1,5 +1,192 @@
 #include "HCALLMapDumper.h"
 
+void HCALLMapDumper::printHBLMapObject(std::vector<HBFrontEnd> myHBFrontEnd, std::vector<HBBackEnd> myHBBackEnd, std::vector<HBHPD> myHBHPD, std::vector<HBGeometry> myHBGeometry, std::vector<HBTriggerTower> myHBTriggerTower)
+{
+  std::cout << "#Dumping HB LMap Object..." << std::endl;
+  //Side Eta Phi dPhi Depth Det 
+  //RBX 
+  //Wedge Pix 
+  //QIE8 QIECH RM RM_FI FI_CH 
+  //ppCol ppRow ppCpl ppLC dodec 
+  //Crate uHTR uHTR_FI FEDid 
+  //QIE8id
+
+  std::cout << "#"
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
+            << std::setw(6) << "RBX"
+            << std::setw(6) << "Wedge" << std::setw(6) << "Pix"
+            << std::setw(6) << "QIE8" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(15) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI" << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIE8id"
+            << std::endl;
+  for(auto i=0; i<myHBFrontEnd.size(); i++)
+  {
+    std::cout
+              << " "
+              << std::setw(6) << myHBGeometry.at(i).side << std::setw(6) << myHBGeometry.at(i).eta << std::setw(6) << myHBGeometry.at(i).phi << std::setw(6) << myHBGeometry.at(i).dphi << std::setw(6) << myHBGeometry.at(i).depth << std::setw(6) << myHBGeometry.at(i).subdet
+              << std::setw(6) << myHBFrontEnd.at(i).rbx 
+              << std::setw(6) << myHBHPD.at(i).wedge << std::setw(6) << myHBHPD.at(i).pixel
+              << std::setw(6) << myHBFrontEnd.at(i).qie8 << std::setw(6) << myHBFrontEnd.at(i).qie8_ch << std::setw(6) << myHBFrontEnd.at(i).rm << std::setw(6) << myHBFrontEnd.at(i).rm_fiber << std::setw(6) << myHBFrontEnd.at(i).fiber_ch
+              << std::setw(6) << myHBBackEnd.at(i).ppcol << std::setw(6) << myHBBackEnd.at(i).pprow << std::setw(15) << myHBBackEnd.at(i).ppcpl << std::setw(6) << myHBBackEnd.at(i).pplc << std::setw(6) << myHBBackEnd.at(i).dodec
+              << std::setw(6) << myHBBackEnd.at(i).ucrate << std::setw(6) << myHBBackEnd.at(i).uhtr << std::setw(9) << myHBBackEnd.at(i).uhtr_fiber << std::setw(6) << myHBBackEnd.at(i).ufedid
+              << std::setw(9) << myHBFrontEnd.at(i).qie8_id
+              << std::endl;
+  }
+  return ;
+}
+
+void HCALLMapDumper::printngHBLMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower)
+{
+  std::cout << "#Dumping ngHB LMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
+            << std::setw(9) << "ngRBX" << std::setw(9) << "RM" << std::setw(9) << "RM_FI" << std::setw(9) << "FI_CH"
+            << std::setw(9) << "uCrate" << std::setw(9) << "uHTR" << std::setw(9) << "uHTR_FI" << std::setw(9) << "FI_CH" << std::endl;
+  for(auto i=0; i<myngHBFrontEnd.size(); i++)
+  {
+    //if( myngHBFrontEnd.at(i).rbx != "ngHBP02" ) continue;
+    std::cout
+              << " "
+              << std::setw(6) << myngHBGeometry.at(i).side << std::setw(6) << myngHBGeometry.at(i).eta << std::setw(6) << myngHBGeometry.at(i).phi << std::setw(6) << myngHBGeometry.at(i).depth << std::setw(6) << myngHBGeometry.at(i).subdet
+              << std::setw(9) << myngHBFrontEnd.at(i).rbx << std::setw(9) << myngHBFrontEnd.at(i).rm << std::setw(9) << myngHBFrontEnd.at(i).rm_fiber << std::setw(9) << myngHBFrontEnd.at(i).fiber_ch
+              << std::setw(9) << myngHBBackEnd.at(i).ucrate << std::setw(9) << myngHBBackEnd.at(i).uhtr << std::setw(9) << myngHBBackEnd.at(i).uhtr_fiber << std::setw(9) << myngHBBackEnd.at(i).fiber_ch
+              << std::endl;
+  }
+  return ;
+}
+
+void HCALLMapDumper::printngHBEMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  std::cout << "#Dumping ngHB EMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(10) <<"i"
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
+            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
+            << std::endl;
+
+  for(auto i=0; i<myngHBFrontEnd.size(); i++)
+  {
+    if( myngHBGeometry.at(i).subdet == "HEX" ) continue;
+    std::cout << " "
+              << std::setw(10) << "4200458C"
+              << std::setw(6) << myngHBBackEnd.at(i).ucrate << std::setw(6) << myngHBBackEnd.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHBBackEnd.at(i).uhtr_fiber << std::setw(12) << myngHBBackEnd.at(i).fiber_ch
+              << std::setw(8) << myngHBGeometry.at(i).subdet << std::setw(6) << myngHBGeometry.at(i).side * myngHBGeometry.at(i).eta << std::setw(6) << myngHBGeometry.at(i).phi << std::setw(6) << myngHBGeometry.at(i).depth
+              << std::endl;
+  }
+  return ;
+}
+
+void HCALLMapDumper::printngHBFrontEndMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  std::cout << "#Dumping ngHB FrontEnd Map Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
+            << std::setw(8) << "subdet"
+            << std::setw(6) << "rbx" << std::setw(6) << "rm"
+            << std::endl;
+    
+  for(auto i=0; i<myngHBFrontEnd.size(); i++)
+  {
+    if( myngHBGeometry.at(i).subdet == "HEX" ) continue;
+    std::cout
+              //<< "ngHBGeometry(side,eta,phi,depth): "
+              << " "
+              << std::setw(6) << myngHBGeometry.at(i).side * myngHBGeometry.at(i).eta << std::setw(6) << myngHBGeometry.at(i).phi << std::setw(6) << myngHBGeometry.at(i).depth
+              << std::setw(8) << myngHBGeometry.at(i).subdet
+              << std::setw(9) << myngHBFrontEnd.at(i).rbx << std::setw(6) << myngHBFrontEnd.at(i).rm
+              << std::endl;
+  }
+  return ;
+}
+
+void HCALLMapDumper::printngHELMapObject(std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower)
+{
+  std::cout << "#Dumping ngHE LMap Object..." << std::endl;
+  //Side Eta Phi dPhi Depth Det 
+  //RBX 
+  //Wedge BV
+  //QIE8 QIECH RM RM_FI FI_CH 
+  //ppCol ppRow ppCpl ppLC docdec 
+  //Crate uHTR uHTR_FI 
+  //FEDid 
+  //QIE8id
+
+  std::cout << "#"
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
+            << std::setw(6) << "RBX"
+            << std::setw(6) << "Wedge" << std::setw(6) << "BV"
+            << std::setw(6) << "QIE11" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(15) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+            << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIE11id"
+            << std::endl;
+  for(auto i=0; i<myngHEFrontEnd.size(); i++)
+  {
+    std::cout
+              << " "
+              << std::setw(6) << myngHEGeometry.at(i).side << std::setw(6) << myngHEGeometry.at(i).eta << std::setw(6) << myngHEGeometry.at(i).phi << std::setw(6) << myngHEGeometry.at(i).dphi << std::setw(6) << myngHEGeometry.at(i).depth << std::setw(6) << myngHEGeometry.at(i).subdet
+              << std::setw(6) << myngHEFrontEnd.at(i).rbx 
+              << std::setw(6) << myngHESiPM.at(i).wedge << std::setw(6) << myngHESiPM.at(i).bv
+              << std::setw(6) << myngHEFrontEnd.at(i).qie11 << std::setw(6) << myngHEFrontEnd.at(i).qie11_ch << std::setw(6) << myngHEFrontEnd.at(i).rm << std::setw(6) << myngHEFrontEnd.at(i).rm_fiber << std::setw(6) << myngHEFrontEnd.at(i).fiber_ch
+              << std::setw(6) << myngHEBackEnd.at(i).ppcol << std::setw(6) << myngHEBackEnd.at(i).pprow << std::setw(15) << myngHEBackEnd.at(i).ppcpl << std::setw(6) << myngHEBackEnd.at(i).pplc << std::setw(6) << myngHEBackEnd.at(i).dodec
+              << std::setw(6) << myngHEBackEnd.at(i).ucrate << std::setw(6) << myngHEBackEnd.at(i).uhtr << std::setw(9) << myngHEBackEnd.at(i).uhtr_fiber
+              << std::setw(6) << myngHEBackEnd.at(i).ufedid
+              << std::setw(9) << myngHEFrontEnd.at(i).qie11_id
+              << std::endl;
+  }
+  return ;
+}
+
+void HCALLMapDumper::printngHEEMapObject(std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  std::cout << "#Dumping ngHE EMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(10) <<"i"
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
+            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
+            << std::endl;
+
+  for(auto i=0; i<myngHEFrontEnd.size(); i++)
+  {
+    if( myngHEGeometry.at(i).subdet == "HEX" ) continue;
+    std::cout << " "
+              << std::setw(10) << "4200458C"
+              << std::setw(6) << myngHEBackEnd.at(i).ucrate << std::setw(6) << myngHEBackEnd.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHEBackEnd.at(i).uhtr_fiber << std::setw(12) << myngHEBackEnd.at(i).fiber_ch
+              << std::setw(8) << myngHEGeometry.at(i).subdet << std::setw(6) << myngHEGeometry.at(i).side * myngHEGeometry.at(i).eta << std::setw(6) << myngHEGeometry.at(i).phi << std::setw(6) << myngHEGeometry.at(i).depth
+              << std::endl;
+  }
+  return ;
+}
+
+void HCALLMapDumper::printngHEFrontEndMapObject(std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  std::cout << "#Dumping ngHE FrontEnd Map Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
+            << std::setw(8) << "subdet"
+            << std::setw(6) << "rbx" << std::setw(6) << "rm"
+            << std::endl;
+    
+  for(auto i=0; i<myngHEFrontEnd.size(); i++)
+  {
+    if( myngHEGeometry.at(i).subdet == "HEX" ) continue;
+    std::cout
+              //<< "ngHEGeometry(side,eta,phi,depth): "
+              << " "
+              << std::setw(6) << myngHEGeometry.at(i).side * myngHEGeometry.at(i).eta << std::setw(6) << myngHEGeometry.at(i).phi << std::setw(6) << myngHEGeometry.at(i).depth
+              << std::setw(8) << myngHEGeometry.at(i).subdet
+              << std::setw(9) << myngHEFrontEnd.at(i).rbx << std::setw(6) << myngHEFrontEnd.at(i).rm
+              << std::endl;
+  }
+  return ;
+}
+
 void HCALLMapDumper::printHFLMapObject(std::vector<HFFrontEnd> myHFFrontEnd, std::vector<HFBackEnd> myHFBackEnd, std::vector<HFPMTBox> myHFPMTBox, std::vector<HFGeometry> myHFGeometry, std::vector<HFTriggerTower> myHFTriggerTower)
 {
   std::cout << "#Dumping HF LMap Object..." << std::endl;
@@ -120,135 +307,151 @@ void HCALLMapDumper::printngHFFrontEndMapObject(std::vector<ngHFFrontEnd> myngHF
   return ;
 }
 
-void HCALLMapDumper::printngHELMapObject(std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower)
+void HCALLMapDumper::printHOLMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower)
 {
-  std::cout << "#Dumping ngHE LMap Object..." << std::endl;
-  std::cout << "#"
-            << std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "Depth" << std::setw(6) << "Subdet"
-            << std::setw(9) << "ngRBX" << std::setw(9) << "RM" << std::setw(9) << "RM_FI" << std::setw(9) << "FI_CH"
-            << std::setw(9) << "uCrate" << std::setw(9) << "uHTR" << std::setw(9) << "uHTR_FI" << std::setw(9) << "FI_CH" << std::endl;
+  //side eta phi dphi depth det     
+  //rbx sector rm pixel qie adc rm_fi fi_ch let_code  
+  //crate block_coupler htr fpga htr_fi dcc_sl spigo dcc fedid  
+  //QIEId
+
+  return ;
+}
+
+void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string HBTableStr,
+                                        std::vector<HBFrontEnd> myHBFrontEnd, std::vector<HBBackEnd> myHBBackEnd, std::vector<HBHPD> myHBHPD, std::vector<HBGeometry> myHBGeometry, std::vector<HBTriggerTower> myHBTriggerTower)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc;
+
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,HBTableStr);
+  if(TableExist){ std::cout << "#Table: " << HBTableStr <<" already in the database!! Please check!" << std::endl; return ; }
+  else{ std::cout << "#Table: " << HBTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det 
+  //RBX 
+  //Wedge Pix 
+  //QIE8 QIECH RM RM_FI FI_CH 
+  //ppCol ppRow ppCpl ppLC dodec 
+  //Crate uHTR uHTR_FI FEDid 
+  //QIE8id
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + HBTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "RBX TEXT NOT NULL, " \
+                            "Wedge INT NOT NULL, Pix INT NOT NULL, " \
+                            "QIE8 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
+                            "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIE8id INT NOT NULL);";
+                    
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+  
+  for(auto i=0; i<myHBFrontEnd.size(); i++)
+  {
+    std::string one = "INSERT INTO " + HBTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "RBX," \
+                      "Wedge,Pix," \
+                      "QIE8,QIECH,RM,RM_FI,FI_CH," \
+                      "ppCol,ppRow,ppCpl,ppLC,dodec," \
+                      "Crate,uHTR,uHTR_FI,FEDid," \
+                      "QIE8id) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myHBGeometry.at(i).side)+","+std::to_string(myHBGeometry.at(i).eta)+","+std::to_string(myHBGeometry.at(i).phi)+","+std::to_string(myHBGeometry.at(i).dphi)+","+std::to_string(myHBGeometry.at(i).depth)+",'"+myHBGeometry.at(i).subdet+"','"
+                      +myHBFrontEnd.at(i).rbx+"',"
+                      +std::to_string(myHBHPD.at(i).wedge)+","+std::to_string(myHBHPD.at(i).pixel)+","
+                      +std::to_string(myHBFrontEnd.at(i).qie8)+","+std::to_string(myHBFrontEnd.at(i).qie8_ch)+","+std::to_string(myHBFrontEnd.at(i).rm)+","+std::to_string(myHBFrontEnd.at(i).rm_fiber)+","+std::to_string(myHBFrontEnd.at(i).fiber_ch)+","
+                      +std::to_string(myHBBackEnd.at(i).ppcol)+","+std::to_string(myHBBackEnd.at(i).pprow)+",'"+myHBBackEnd.at(i).ppcpl+"',"+std::to_string(myHBBackEnd.at(i).pplc)+","+std::to_string(myHBBackEnd.at(i).dodec)+","
+                      +std::to_string(myHBBackEnd.at(i).ucrate)+","+std::to_string(myHBBackEnd.at(i).uhtr)+","+std::to_string(myHBBackEnd.at(i).uhtr_fiber)+","+std::to_string(myHBBackEnd.at(i).ufedid)+","
+                      +std::to_string(myHBFrontEnd.at(i).qie8_id)+");";
+
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  sqlite3_close(db);
+  
+  return ;
+}
+
+void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string ngHETableStr,
+                                          std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc;
+
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,ngHETableStr);
+  if(TableExist){ std::cout << "#Table: " << ngHETableStr <<" already in the database!! Please check!" << std::endl; return ; }
+  else{ std::cout << "#Table: " << ngHETableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det 
+  //ngRBX 
+  //Wedge Pix 
+  //QIE8 QIECH RM RM_FI FI_CH 
+  //ppCol ppRow ppCpl ppLC dodec 
+  //Crate uHTR uHTR_FI FEDid 
+  //QIE8id
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHETableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "ngRBX TEXT NOT NULL, " \
+                            "Wedge INT NOT NULL, Pix INT NOT NULL, " \
+                            "QIE8 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
+                            "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIE8id INT NOT NULL);";
+                    
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+  
   for(auto i=0; i<myngHEFrontEnd.size(); i++)
   {
-    //if( myngHEFrontEnd.at(i).rbx != "ngHEP02" ) continue;
-    std::cout
-              << " "
-              << std::setw(6) << myngHEGeometry.at(i).side << std::setw(6) << myngHEGeometry.at(i).eta << std::setw(6) << myngHEGeometry.at(i).phi << std::setw(6) << myngHEGeometry.at(i).depth << std::setw(6) << myngHEGeometry.at(i).subdet
-              << std::setw(9) << myngHEFrontEnd.at(i).rbx << std::setw(9) << myngHEFrontEnd.at(i).rm << std::setw(9) << myngHEFrontEnd.at(i).rm_fiber << std::setw(9) << myngHEFrontEnd.at(i).fiber_ch
-              << std::setw(9) << myngHEBackEnd.at(i).ucrate << std::setw(9) << myngHEBackEnd.at(i).uhtr << std::setw(9) << myngHEBackEnd.at(i).uhtr_fiber << std::setw(9) << myngHEBackEnd.at(i).fiber_ch
-              << std::endl;
+    std::string one = "INSERT INTO " + ngHETableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "ngRBX," \
+                      "Wedge,Pix," \
+                      "QIE8,QIECH,RM,RM_FI,FI_CH," \
+                      "ppCol,ppRow,ppCpl,ppLC,dodec," \
+                      "Crate,uHTR,uHTR_FI,FEDid," \
+                      "QIE8id) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myngHEGeometry.at(i).side)+","+std::to_string(myngHEGeometry.at(i).eta)+","+std::to_string(myngHEGeometry.at(i).phi)+","+std::to_string(myngHEGeometry.at(i).dphi)+","+std::to_string(myngHEGeometry.at(i).depth)+",'"+myngHEGeometry.at(i).subdet+"','"
+                      +myngHEFrontEnd.at(i).rbx+"',"
+                      +std::to_string(myngHESiPM.at(i).wedge)+","+std::to_string(myngHESiPM.at(i).bv)+","
+                      +std::to_string(myngHEFrontEnd.at(i).qie11)+","+std::to_string(myngHEFrontEnd.at(i).qie11_ch)+","+std::to_string(myngHEFrontEnd.at(i).rm)+","+std::to_string(myngHEFrontEnd.at(i).rm_fiber)+","+std::to_string(myngHEFrontEnd.at(i).fiber_ch)+","
+                      +std::to_string(myngHEBackEnd.at(i).ppcol)+","+std::to_string(myngHEBackEnd.at(i).pprow)+",'"+myngHEBackEnd.at(i).ppcpl+"',"+std::to_string(myngHEBackEnd.at(i).pplc)+","+std::to_string(myngHEBackEnd.at(i).dodec)+","
+                      +std::to_string(myngHEBackEnd.at(i).ucrate)+","+std::to_string(myngHEBackEnd.at(i).uhtr)+","+std::to_string(myngHEBackEnd.at(i).uhtr_fiber)+","+std::to_string(myngHEBackEnd.at(i).ufedid)+","
+                      +std::to_string(myngHEFrontEnd.at(i).qie11_id)+");";
+
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
   }
-  return ;
-}
-
-void HCALLMapDumper::printngHEEMapObject(std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower)
-{
-  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
-  std::cout << "#Dumping ngHE EMap Object..." << std::endl;
-  std::cout << "#"
-            << std::setw(10) <<"i"
-            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
-            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
-            << std::endl;
-
-  for(auto i=0; i<myngHEFrontEnd.size(); i++)
-  {
-    if( myngHEGeometry.at(i).subdet == "HEX" ) continue;
-    std::cout << " "
-              << std::setw(10) << "4200458C"
-              << std::setw(6) << myngHEBackEnd.at(i).ucrate << std::setw(6) << myngHEBackEnd.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHEBackEnd.at(i).uhtr_fiber << std::setw(12) << myngHEBackEnd.at(i).fiber_ch
-              << std::setw(8) << myngHEGeometry.at(i).subdet << std::setw(6) << myngHEGeometry.at(i).side * myngHEGeometry.at(i).eta << std::setw(6) << myngHEGeometry.at(i).phi << std::setw(6) << myngHEGeometry.at(i).depth
-              << std::endl;
-  }
-  return ;
-}
-
-void HCALLMapDumper::printngHEFrontEndMapObject(std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower)
-{
-  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
-  std::cout << "#Dumping ngHE FrontEnd Map Object..." << std::endl;
-  std::cout << "#"
-            << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
-            << std::setw(8) << "subdet"
-            << std::setw(6) << "rbx" << std::setw(6) << "rm"
-            << std::endl;
-    
-  for(auto i=0; i<myngHEFrontEnd.size(); i++)
-  {
-    if( myngHEGeometry.at(i).subdet == "HEX" ) continue;
-    std::cout
-              //<< "ngHEGeometry(side,eta,phi,depth): "
-              << " "
-              << std::setw(6) << myngHEGeometry.at(i).side * myngHEGeometry.at(i).eta << std::setw(6) << myngHEGeometry.at(i).phi << std::setw(6) << myngHEGeometry.at(i).depth
-              << std::setw(8) << myngHEGeometry.at(i).subdet
-              << std::setw(9) << myngHEFrontEnd.at(i).rbx << std::setw(6) << myngHEFrontEnd.at(i).rm
-              << std::endl;
-  }
-  return ;
-}
-
-void HCALLMapDumper::printngHBLMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower)
-{
-  std::cout << "#Dumping ngHB LMap Object..." << std::endl;
-  std::cout << "#"
-            << std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "Depth" << std::setw(6) << "Subdet"
-            << std::setw(9) << "ngRBX" << std::setw(9) << "RM" << std::setw(9) << "RM_FI" << std::setw(9) << "FI_CH"
-            << std::setw(9) << "uCrate" << std::setw(9) << "uHTR" << std::setw(9) << "uHTR_FI" << std::setw(9) << "FI_CH" << std::endl;
-  for(auto i=0; i<myngHBFrontEnd.size(); i++)
-  {
-    //if( myngHBFrontEnd.at(i).rbx != "ngHBP02" ) continue;
-    std::cout
-              << " "
-              << std::setw(6) << myngHBGeometry.at(i).side << std::setw(6) << myngHBGeometry.at(i).eta << std::setw(6) << myngHBGeometry.at(i).phi << std::setw(6) << myngHBGeometry.at(i).depth << std::setw(6) << myngHBGeometry.at(i).subdet
-              << std::setw(9) << myngHBFrontEnd.at(i).rbx << std::setw(9) << myngHBFrontEnd.at(i).rm << std::setw(9) << myngHBFrontEnd.at(i).rm_fiber << std::setw(9) << myngHBFrontEnd.at(i).fiber_ch
-              << std::setw(9) << myngHBBackEnd.at(i).ucrate << std::setw(9) << myngHBBackEnd.at(i).uhtr << std::setw(9) << myngHBBackEnd.at(i).uhtr_fiber << std::setw(9) << myngHBBackEnd.at(i).fiber_ch
-              << std::endl;
-  }
-  return ;
-}
-
-void HCALLMapDumper::printngHBEMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower)
-{
-  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
-  std::cout << "#Dumping ngHB EMap Object..." << std::endl;
-  std::cout << "#"
-            << std::setw(10) <<"i"
-            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
-            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
-            << std::endl;
-
-  for(auto i=0; i<myngHBFrontEnd.size(); i++)
-  {
-    if( myngHBGeometry.at(i).subdet == "HEX" ) continue;
-    std::cout << " "
-              << std::setw(10) << "4200458C"
-              << std::setw(6) << myngHBBackEnd.at(i).ucrate << std::setw(6) << myngHBBackEnd.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHBBackEnd.at(i).uhtr_fiber << std::setw(12) << myngHBBackEnd.at(i).fiber_ch
-              << std::setw(8) << myngHBGeometry.at(i).subdet << std::setw(6) << myngHBGeometry.at(i).side * myngHBGeometry.at(i).eta << std::setw(6) << myngHBGeometry.at(i).phi << std::setw(6) << myngHBGeometry.at(i).depth
-              << std::endl;
-  }
-  return ;
-}
-
-void HCALLMapDumper::printngHBFrontEndMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower)
-{
-  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
-  std::cout << "#Dumping ngHB FrontEnd Map Object..." << std::endl;
-  std::cout << "#"
-            << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
-            << std::setw(8) << "subdet"
-            << std::setw(6) << "rbx" << std::setw(6) << "rm"
-            << std::endl;
-    
-  for(auto i=0; i<myngHBFrontEnd.size(); i++)
-  {
-    if( myngHBGeometry.at(i).subdet == "HEX" ) continue;
-    std::cout
-              //<< "ngHBGeometry(side,eta,phi,depth): "
-              << " "
-              << std::setw(6) << myngHBGeometry.at(i).side * myngHBGeometry.at(i).eta << std::setw(6) << myngHBGeometry.at(i).phi << std::setw(6) << myngHBGeometry.at(i).depth
-              << std::setw(8) << myngHBGeometry.at(i).subdet
-              << std::setw(9) << myngHBFrontEnd.at(i).rbx << std::setw(6) << myngHBFrontEnd.at(i).rm
-              << std::endl;
-  }
+  sqlite3_close(db);
+  
   return ;
 }
 

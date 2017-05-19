@@ -7,19 +7,23 @@ struct HBFrontEnd
 {
   std::string rbx;
   int rm, rm_fiber, fiber_ch;
-  int qie8, qie8_ch, qie8id;
-  int qie10, qie10_ch;
+  int qie8, qie8_ch, qie8_id;
 };
 
 //Backend electronics struct
 struct HBBackEnd
 {
+  //patch panel information
+  int ppcol,pprow,pplc,dodec;
+  std::string ppcpl;
+
+  //old htr info, going to be obsolete after 2018 HB re mapping, but keep it for legacy map dumper information
   int crate, htr, htr_fiber;
   std::string fpga;
   int fedid;
-
   int dcc, spigot, dcc_sl;
 
+  //uHTR
   int ucrate, uhtr, uhtr_fiber;
   std::string ufpga;
   int ufedid;

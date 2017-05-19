@@ -7,7 +7,7 @@ struct HFFrontEnd
 {
   std::string rbx;
   int rm, rm_fiber, fiber_ch;
-  int qie8, qie8_ch, qie8id;
+  int qie8, qie8_ch, qie8_id;
   //int qie10, qie10_ch;
 };
 
