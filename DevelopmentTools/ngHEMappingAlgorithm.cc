@@ -16,10 +16,10 @@ void ngHEMappingAlgorithm::ConstructngHELMapObject()
           int rbxrmid; irbx<NrbxngHE ? rbxrmid = irbx*NrmngHE+irm : rbxrmid = (irbx-NrbxngHE)*NrmngHE+irm;//ngHE 0...to 71
           int rmfifichid = irmfi*Nfiber_ch+ifich;//ngHE 0...to 47
 
-          ConstructngHEFrontEnd(sideid,rbxrmid,rmfifichid);      
-          ConstructngHEBackEnd(sideid,rbxrmid,rmfifichid);  
+          ConstructngHEFrontEnd(sideid,rbxrmid,rmfifichid);
+          ConstructngHEBackEnd(sideid,rbxrmid,rmfifichid);
           ConstructngHEGeometry(sideid,rbxrmid,rmfifichid);
-          ConstructngHESiPM();  
+          ConstructngHESiPM(sideid,rbxrmid,rmfifichid);
           ConstructngHETriggerTower();
         }
       }
@@ -33,13 +33,17 @@ void ngHEMappingAlgorithm::ConstructngHEFrontEnd(int sideid, int rbxrmid, int rm
   ngHEFrontEnd thisngHEFrontEnd;
   std::string sideletter; sideid>0 ? sideletter = "P" : sideletter = "M";
   std::string numberletter; (rbxrmid/NrmngHE + 1) < 10 ? numberletter = "0" + std::to_string(rbxrmid/NrmngHE + 1) : numberletter = std::to_string(rbxrmid/NrmngHE + 1); 
-  thisngHEFrontEnd.rbx = "ngHE" + sideletter + numberletter;
+  thisngHEFrontEnd.rbx = "HE" + sideletter + numberletter;
   thisngHEFrontEnd.rm = rbxrmid%NrmngHE + 1;
   thisngHEFrontEnd.rm_fiber = rmfifichid/Nfiber_ch + 1;
   thisngHEFrontEnd.fiber_ch = rmfifichid%Nfiber_ch;
-  //set secondary variables qie8 map
-  //thisngHEFrontEnd.qie8 = (thisngHEFrontEnd.rm_fiber -1)/2+1;
+  //set secondary variables qie11 map
+  //qie11: 1 to 4, qie11_ch: 1 to 12 = 1 rm(48 chs)
+  thisngHEFrontEnd.qie11 = (thisngHEFrontEnd.rm_fiber-1)/2+1;
+  thisngHEFrontEnd.qie11_ch = ((thisngHEFrontEnd.rm_fiber-1)%2)*6+thisngHEFrontEnd.fiber_ch+1;
   //thisngHEFrontEnd.rm_fiber%2 != 0 ? thisngHEFrontEnd.qie8_ch = thisngHEFrontEnd.fiber_ch : thisngHEFrontEnd.qie8_ch = 3 + (thisngHEFrontEnd.fiber_ch+1)%3;
+  //set tmp qie11 id
+  thisngHEFrontEnd.qie11_id = 500000;
 
   myngHEFrontEnd.push_back(thisngHEFrontEnd);
   return ;
@@ -54,42 +58,53 @@ void ngHEMappingAlgorithm::ConstructngHEBackEnd(int sideid, int rbxrmid, int rmf
   //3 types of backend slot : pure HB(1,4,7,10), mixed HB ngHE(2,5,8,11), and pure ngHE(3,6,9,12)
   //mixed ngHE case : rm(rm fiber) 1(246),  2(457),  3(246),  4(457);
   //pure  ngHE case : rm(rm fiber) 1(13578),2(12368),3(13578),4(12368);
-  int rm = rbxrmid%NrmngHE + 1; double rm_fiber = rmfifichid/Nfiber_ch + 1;
+  std::string sideletter; sideid>0 ? sideletter = "P" : sideletter = "M";
+  std::string numberletter; (rbxrmid/NrmngHE + 1) < 10 ? numberletter = "0" + std::to_string(rbxrmid/NrmngHE + 1) : numberletter = std::to_string(rbxrmid/NrmngHE + 1);
+  std::string rbx = "HE" + sideletter + numberletter;
+  int rm = rbxrmid%NrmngHE + 1; int rm_fiber = rmfifichid/Nfiber_ch + 1;
   bool ismixed_ngHE = (rm%2!=0 && (rm_fiber==2 || rm_fiber==4 || rm_fiber==6)) || (rm%2==0 && (rm_fiber==4 || rm_fiber==5 || rm_fiber==7) );
   
   if(sideid>0)
   { 
-    //if( rmfifichid < 18 ) (rbxrmid/4)%2==0 ? thisngHEBackEnd.uhtr = 11 : thisngHEBackEnd.uhtr = 8;
     if( ismixed_ngHE ) (rbxrmid/4)%2==0 ? thisngHEBackEnd.uhtr = 11 : thisngHEBackEnd.uhtr = 8;
     else (rbxrmid/4)%2==0 ? thisngHEBackEnd.uhtr = 12 : thisngHEBackEnd.uhtr = 9;
   }
   else
   { 
-    //if( rmfifichid < 18 ) (rbxrmid/4)%2==0 ? thisngHEBackEnd.uhtr = 5 : thisngHEBackEnd.uhtr = 2;
     if( ismixed_ngHE ) (rbxrmid/4)%2==0 ? thisngHEBackEnd.uhtr = 5 : thisngHEBackEnd.uhtr = 2;
     else (rbxrmid/4)%2==0 ? thisngHEBackEnd.uhtr = 6 : thisngHEBackEnd.uhtr = 3;
   }
 
   //fpga variable for the backend, used to be useful in old HTR case....but we still keep a position for it now
   thisngHEBackEnd.ufpga = "uHTR";
-  //set uhtr fiber from rm and rm fiber, P and M symmetry, RM1-RM3 and RM2-RM4
-  if(sideid>0)
+  //set uhtr fiber from patch panel
+  //first set patch panel info, from front end side
+  thisngHEBackEnd.ppcol = (rm_fiber-1)/4+1;
+  thisngHEBackEnd.pprow = rm;
+  thisngHEBackEnd.pplc = (rm_fiber-1)%4+1;
+  std::string cplletter;
+  rm_fiber<=4 ? cplletter="A" : cplletter="B";
+  thisngHEBackEnd.ppcpl = rbx+"_RM"+std::to_string(rm)+cplletter;
+  //then set uhtr fiber infomation from patch panel
+  //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/ngHE/optical_patch.txt
+  if( ismixed_ngHE )//FIXME
   {
-    if     ( rbxrmid%NrmngHE == 0 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType1[rmfifichid/Nfiber_ch]; } 
-    else if( rbxrmid%NrmngHE == 1 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType2[rmfifichid/Nfiber_ch]; }
-    else if( rbxrmid%NrmngHE == 2 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType3[rmfifichid/Nfiber_ch]; }
-    else thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType4[rmfifichid/Nfiber_ch];
+    if     (thisngHEBackEnd.ppcol==1){ thisngHEBackEnd.uhtr_fiber = (thisngHEBackEnd.pprow-1)*2+rm_fiber-2+2; }
+    else if(thisngHEBackEnd.ppcol==2){ thisngHEBackEnd.uhtr_fiber = (thisngHEBackEnd.pprow-1)*3+rm_fiber-5+12; }
+    else{ std::cout << "the ppCol of ngHE channel is neither 1 nor 2 in mixed HBHE slot for ngHE??!! Please check!" << std::endl; }
   }
-  else
+  else//FIXME
   {
-    if     ( rbxrmid%NrmngHE == 0 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType3[rmfifichid/Nfiber_ch]; }
-    else if( rbxrmid%NrmngHE == 1 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType4[rmfifichid/Nfiber_ch]; }
-    else if( rbxrmid%NrmngHE == 2 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType1[rmfifichid/Nfiber_ch]; }
-    else thisngHEBackEnd.uhtr_fiber = ngHEuhtrInrmfifichidType2[rmfifichid/Nfiber_ch];
+    if     (thisngHEBackEnd.ppcol==1){ thisngHEBackEnd.uhtr_fiber = thisngHEBackEnd.pprow-1; }
+    else if(thisngHEBackEnd.ppcol==2){ thisngHEBackEnd.uhtr_fiber = (thisngHEBackEnd.pprow-1)*3+rm_fiber-5+12; }
+    else{ std::cout << "the ppCol of ngHE channel is neither 1 nor 2 in pure ngHE slot??!! Please check!" << std::endl; }
   }
-  
+  //finally set dodec from back end side
+  thisngHEBackEnd.dodec = (thisngHEBackEnd.uhtr_fiber)%12+1;
   //set backend fiber channel : same as the front end one
   thisngHEBackEnd.fiber_ch = rmfifichid%Nfiber_ch;
+  //set tmp fed id
+  thisngHEBackEnd.ufedid = thisngHEBackEnd.ucrate + 1100 -20;
   //set secondary variables
   myngHEBackEnd.push_back(thisngHEBackEnd);
   return ;
@@ -125,8 +140,6 @@ void ngHEMappingAlgorithm::ConstructngHEGeometry(int sideid, int rbxrmid, int rm
   {
     std::cout << "RM is not 1,2,3,or 4?? what the fuck???" << std::endl; 
   }
-  //if(rbxrmid%2 == 0){ thisngHEGeometry.eta = ngHEetaInrmfifichidType1[rmfifichid]; thisngHEGeometry.depth = ngHEdepthInrmfifichidType1[rmfifichid]; }
-  //else{ thisngHEGeometry.eta = ngHEetaInrmfifichidType2[rmfifichid]; thisngHEGeometry.depth = ngHEdepthInrmfifichidType2[rmfifichid]; }
   
   if( thisngHEGeometry.eta >= 16 && thisngHEGeometry.eta <= 20 ){ thisngHEGeometry.dphi = 1; }
   else if( thisngHEGeometry.eta >= 21 && thisngHEGeometry.eta <= 29 ){ thisngHEGeometry.dphi = 2; }
@@ -163,10 +176,21 @@ void ngHEMappingAlgorithm::ConstructngHEGeometry(int sideid, int rbxrmid, int rm
   return ;
 }
 
-void ngHEMappingAlgorithm::ConstructngHESiPM()
+void ngHEMappingAlgorithm::ConstructngHESiPM(int sideid, int rbxrmid, int rmfifichid)
 {
   ngHESiPM thisngHESiPM;
-  
+  thisngHESiPM.wedge = rbxrmid/NrmngHE+1;
+  int rm = rbxrmid%NrmngHE+1; int rmfiid = rmfifichid/Nfiber_ch; int fichid = rmfifichid%Nfiber_ch;
+  //bias voltage is 1 to 48 per rm, rm 13 in same patterm rm 24 in the other same patter
+  //rm1: 16 30 31 32 21 22 8 7 15 14 13 24 44 36 37 45 29 39 23 38 40 48 47 46 33 26 42 34 35 43 28 27 12 11 1 9 2 3 4 5 10 6 41 25 20 19 18 17
+  //rm2: 40 48 21 22 23 24 7 6 5 4 15 3 45 31 39 46 32 47 8 16 14 13 30 29 41 33 35 43 42 18 38 37 44 36 28 34 1 2 10 11 12 17 9 27 26 25 20 19
+  //rm3: 16 30 31 32 21 22 8 7 15 14 13 24 44 36 37 45 29 39 23 38 40 48 47 46 33 26 42 34 35 43 28 27 12 11 1 9 2 3 4 5 10 6 41 25 20 19 18 17
+  //rm4: 40 48 21 22 23 24 7 6 5 4 15 3 45 31 39 46 32 47 8 16 14 13 30 29 41 33 35 43 42 18 38 37 44 36 28 34 1 2 10 11 12 17 9 27 26 25 20 19
+  const int bv_rm13[Nrm_fiber*Nfiber_ch] = {16,30,31,32,21,22,8,7,15,14,13,24,44,36,37,45,29,39,23,38,40,48,47,46,33,26,42,34,35,43,28,27,12,11,1,9,2,3,4,5,10,6,41,25,20,19,18,17};
+  const int bv_rm24[Nrm_fiber*Nfiber_ch] = {40,48,21,22,23,24,7,6,5,4,15,3,45,31,39,46,32,47,8,16,14,13,30,29,41,33,35,43,42,18,38,37,44,36,28,34,1,2,10,11,12,17,9,27,26,25,20,19};
+  if     (rm==1||rm==3){ thisngHESiPM.bv = bv_rm13[rmfifichid]; }
+  else if(rm==2||rm==4){ thisngHESiPM.bv = bv_rm24[rmfifichid]; }
+  else{ std::cout << "rm is not 1234??" << std::endl; }
   myngHESiPM.push_back(thisngHESiPM);
   return ;
 }

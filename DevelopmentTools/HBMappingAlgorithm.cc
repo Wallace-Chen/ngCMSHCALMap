@@ -57,7 +57,7 @@ void HBMappingAlgorithm::ConstructHBBackEnd(int sideid, int rbxrmid, int rmfific
   std::string sideletter; sideid>0 ? sideletter = "P" : sideletter = "M";
   std::string numberletter; (rbxrmid/NrmHB + 1) < 10 ? numberletter = "0" + std::to_string(rbxrmid/NrmHB + 1) : numberletter = std::to_string(rbxrmid/NrmHB + 1);
   std::string rbx = "HB" + sideletter + numberletter;
-  int rm = rbxrmid%NrmHB + 1; double rm_fiber = rmfifichid/Nfiber_ch + 2;
+  int rm = rbxrmid%NrmHB + 1; int rm_fiber = rmfifichid/Nfiber_ch + 2;
   bool ismixed_HB = (rm_fiber==2 || rm_fiber==3);
   
   if(sideid>0)
@@ -70,14 +70,13 @@ void HBMappingAlgorithm::ConstructHBBackEnd(int sideid, int rbxrmid, int rmfific
     if( ismixed_HB ) (rbxrmid/4)%2==0 ? thisHBBackEnd.uhtr = 5 : thisHBBackEnd.uhtr = 2;
     else (rbxrmid/4)%2==0 ? thisHBBackEnd.uhtr = 4 : thisHBBackEnd.uhtr = 1;
   }
-
   //fpga variable for the backend, used to be useful in old HTR case....but we still keep a position for it now
   thisHBBackEnd.ufpga = "uHTR";
   //set uhtr fiber from patch panel
   //first set patch panel info, from front end side
   thisHBBackEnd.ppcol = (rm_fiber-1)/4+3;
   thisHBBackEnd.pprow = rm;
-  thisHBBackEnd.pplc = int(rm_fiber-1)%((int)4) + 1;
+  thisHBBackEnd.pplc = (rm_fiber-1)%4+1;
   std::string cplletter;
   rm_fiber<=4 ? cplletter="A" : cplletter="B";
   thisHBBackEnd.ppcpl = rbx+"_RM"+std::to_string(rm)+cplletter;
@@ -133,6 +132,7 @@ void HBMappingAlgorithm::ConstructHBHPD(int sideid, int rbxrmid, int rmfifichid)
 {
   HBHPD thisHBHPD;
   thisHBHPD.wedge = rbxrmid/NrmHB+1;
+  //to be honest, i never understand the root of pixel mapping in HB, i borrow it from old map code directly. It will die anyway when we move to sipm
   const int ipixelHB_loc[Nrm_fiber][Nfiber_ch][NrmHB] = 
   {  //  fch = 0           fch = 1           fch = 2
     {{18, 17, 3,  2 }, {13, 3,  17, 7 }, {14, 1,  19, 6 }}, //rmfiber = 2

@@ -1,11 +1,11 @@
-#CMSSW
+# CMSSW
 ```
 cmsrel CMSSW_8_0_0
 cd CMSSW_8_0_0/src
 cmsenv
 ```
 
-#SQLite c++ Support
+# SQLite c++ Support
 https://www.sqlite.org/download.html
 ```
 cd $CMSSW_BASE/src
@@ -19,7 +19,7 @@ make sqlite3.c
 make test
 ```
 
-#CMS HCAL Logical Map
+# CMS HCAL Logical Map
 
 ```
 cd $CMSSW_BASE/src

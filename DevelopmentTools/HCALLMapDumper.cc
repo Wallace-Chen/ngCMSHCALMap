@@ -7,9 +7,8 @@ void HCALLMapDumper::printHBLMapObject(std::vector<HBFrontEnd> myHBFrontEnd, std
   //RBX 
   //Wedge Pix 
   //QIE8 QIECH RM RM_FI FI_CH 
-  //ppCol ppRow ppCpl ppLC docdec 
-  //Crate uHTR uHTR_FI 
-  //FEDid 
+  //ppCol ppRow ppCpl ppLC dodec 
+  //Crate uHTR uHTR_FI FEDid 
   //QIE8id
 
   std::cout << "#"
@@ -18,8 +17,7 @@ void HCALLMapDumper::printHBLMapObject(std::vector<HBFrontEnd> myHBFrontEnd, std
             << std::setw(6) << "Wedge" << std::setw(6) << "Pix"
             << std::setw(6) << "QIE8" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
             << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(15) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
-            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
-            << std::setw(6) << "FEDid"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI" << std::setw(6) << "FEDid"
             << std::setw(9) << "QIE8id"
             << std::endl;
   for(auto i=0; i<myHBFrontEnd.size(); i++)
@@ -31,8 +29,7 @@ void HCALLMapDumper::printHBLMapObject(std::vector<HBFrontEnd> myHBFrontEnd, std
               << std::setw(6) << myHBHPD.at(i).wedge << std::setw(6) << myHBHPD.at(i).pixel
               << std::setw(6) << myHBFrontEnd.at(i).qie8 << std::setw(6) << myHBFrontEnd.at(i).qie8_ch << std::setw(6) << myHBFrontEnd.at(i).rm << std::setw(6) << myHBFrontEnd.at(i).rm_fiber << std::setw(6) << myHBFrontEnd.at(i).fiber_ch
               << std::setw(6) << myHBBackEnd.at(i).ppcol << std::setw(6) << myHBBackEnd.at(i).pprow << std::setw(15) << myHBBackEnd.at(i).ppcpl << std::setw(6) << myHBBackEnd.at(i).pplc << std::setw(6) << myHBBackEnd.at(i).dodec
-              << std::setw(6) << myHBBackEnd.at(i).ucrate << std::setw(6) << myHBBackEnd.at(i).uhtr << std::setw(9) << myHBBackEnd.at(i).uhtr_fiber
-              << std::setw(6) << myHBBackEnd.at(i).ufedid
+              << std::setw(6) << myHBBackEnd.at(i).ucrate << std::setw(6) << myHBBackEnd.at(i).uhtr << std::setw(9) << myHBBackEnd.at(i).uhtr_fiber << std::setw(6) << myHBBackEnd.at(i).ufedid
               << std::setw(9) << myHBFrontEnd.at(i).qie8_id
               << std::endl;
   }
@@ -108,18 +105,37 @@ void HCALLMapDumper::printngHBFrontEndMapObject(std::vector<ngHBFrontEnd> myngHB
 void HCALLMapDumper::printngHELMapObject(std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower)
 {
   std::cout << "#Dumping ngHE LMap Object..." << std::endl;
+  //Side Eta Phi dPhi Depth Det 
+  //RBX 
+  //Wedge BV
+  //QIE8 QIECH RM RM_FI FI_CH 
+  //ppCol ppRow ppCpl ppLC docdec 
+  //Crate uHTR uHTR_FI 
+  //FEDid 
+  //QIE8id
+
   std::cout << "#"
-            << std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
-            << std::setw(9) << "ngRBX" << std::setw(9) << "RM" << std::setw(9) << "RM_FI" << std::setw(9) << "FI_CH"
-            << std::setw(9) << "uCrate" << std::setw(9) << "uHTR" << std::setw(9) << "uHTR_FI" << std::setw(9) << "FI_CH" << std::endl;
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
+            << std::setw(6) << "RBX"
+            << std::setw(6) << "Wedge" << std::setw(6) << "BV"
+            << std::setw(6) << "QIE11" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(15) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+            << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIE11id"
+            << std::endl;
   for(auto i=0; i<myngHEFrontEnd.size(); i++)
   {
-    //if( myngHEFrontEnd.at(i).rbx != "ngHEP02" ) continue;
     std::cout
               << " "
-              << std::setw(6) << myngHEGeometry.at(i).side << std::setw(6) << myngHEGeometry.at(i).eta << std::setw(6) << myngHEGeometry.at(i).phi << std::setw(6) << myngHEGeometry.at(i).depth << std::setw(6) << myngHEGeometry.at(i).subdet
-              << std::setw(9) << myngHEFrontEnd.at(i).rbx << std::setw(9) << myngHEFrontEnd.at(i).rm << std::setw(9) << myngHEFrontEnd.at(i).rm_fiber << std::setw(9) << myngHEFrontEnd.at(i).fiber_ch
-              << std::setw(9) << myngHEBackEnd.at(i).ucrate << std::setw(9) << myngHEBackEnd.at(i).uhtr << std::setw(9) << myngHEBackEnd.at(i).uhtr_fiber << std::setw(9) << myngHEBackEnd.at(i).fiber_ch
+              << std::setw(6) << myngHEGeometry.at(i).side << std::setw(6) << myngHEGeometry.at(i).eta << std::setw(6) << myngHEGeometry.at(i).phi << std::setw(6) << myngHEGeometry.at(i).dphi << std::setw(6) << myngHEGeometry.at(i).depth << std::setw(6) << myngHEGeometry.at(i).subdet
+              << std::setw(6) << myngHEFrontEnd.at(i).rbx 
+              << std::setw(6) << myngHESiPM.at(i).wedge << std::setw(6) << myngHESiPM.at(i).bv
+              << std::setw(6) << myngHEFrontEnd.at(i).qie11 << std::setw(6) << myngHEFrontEnd.at(i).qie11_ch << std::setw(6) << myngHEFrontEnd.at(i).rm << std::setw(6) << myngHEFrontEnd.at(i).rm_fiber << std::setw(6) << myngHEFrontEnd.at(i).fiber_ch
+              << std::setw(6) << myngHEBackEnd.at(i).ppcol << std::setw(6) << myngHEBackEnd.at(i).pprow << std::setw(15) << myngHEBackEnd.at(i).ppcpl << std::setw(6) << myngHEBackEnd.at(i).pplc << std::setw(6) << myngHEBackEnd.at(i).dodec
+              << std::setw(6) << myngHEBackEnd.at(i).ucrate << std::setw(6) << myngHEBackEnd.at(i).uhtr << std::setw(9) << myngHEBackEnd.at(i).uhtr_fiber
+              << std::setw(6) << myngHEBackEnd.at(i).ufedid
+              << std::setw(9) << myngHEFrontEnd.at(i).qie11_id
               << std::endl;
   }
   return ;
@@ -288,6 +304,75 @@ void HCALLMapDumper::printngHFFrontEndMapObject(std::vector<ngHFFrontEnd> myngHF
               << std::setw(9) << myngHFFrontEnd.at(i).rbx << std::setw(6) << 0
               << std::endl;
   }
+  return ;
+}
+
+void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string HBTableStr,
+                                        std::vector<HBFrontEnd> myHBFrontEnd, std::vector<HBBackEnd> myHBBackEnd, std::vector<HBHPD> myHBHPD, std::vector<HBGeometry> myHBGeometry, std::vector<HBTriggerTower> myHBTriggerTower)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc;
+
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,HBTableStr);
+  if(TableExist){ std::cout << "#Table: " << HBTableStr <<" already in the database!! Please check!" << std::endl; return ; }
+  else{ std::cout << "#Table: " << HBTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det 
+  //RBX 
+  //Wedge Pix 
+  //QIE8 QIECH RM RM_FI FI_CH 
+  //ppCol ppRow ppCpl ppLC dodec 
+  //Crate uHTR uHTR_FI FEDid 
+  //QIE8id
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + HBTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "RBX TEXT NOT NULL, " \
+                            "Wedge INT NOT NULL, Pix INT NOT NULL, " \
+                            "QIE8 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
+                            "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIE8id INT NOT NULL);";
+                    
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+  
+  for(auto i=0; i<myHBFrontEnd.size(); i++)
+  {
+    std::string one = "INSERT INTO " + HBTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "RBX," \
+                      "Wedge,Pix," \
+                      "QIE8,QIECH,RM,RM_FI,FI_CH," \
+                      "ppCol,ppRow,ppCpl,ppLC,dodec," \
+                      "Crate,uHTR,uHTR_FI,FEDid," \
+                      "QIE8id) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myHBGeometry.at(i).side)+","+std::to_string(myHBGeometry.at(i).eta)+","+std::to_string(myHBGeometry.at(i).phi)+","+std::to_string(myHBGeometry.at(i).dphi)+","+std::to_string(myHBGeometry.at(i).depth)+",'"+myHBGeometry.at(i).subdet+"','"
+                      +myHBFrontEnd.at(i).rbx+"',"
+                      +std::to_string(myHBHPD.at(i).wedge)+","+std::to_string(myHBHPD.at(i).pixel)+","
+                      +std::to_string(myHBFrontEnd.at(i).qie8)+","+std::to_string(myHBFrontEnd.at(i).qie8_ch)+","+std::to_string(myHBFrontEnd.at(i).rm)+","+std::to_string(myHBFrontEnd.at(i).rm_fiber)+","+std::to_string(myHBFrontEnd.at(i).fiber_ch)+","
+                      +std::to_string(myHBBackEnd.at(i).ppcol)+","+std::to_string(myHBBackEnd.at(i).pprow)+",'"+myHBBackEnd.at(i).ppcpl+"',"+std::to_string(myHBBackEnd.at(i).pplc)+","+std::to_string(myHBBackEnd.at(i).dodec)+","
+                      +std::to_string(myHBBackEnd.at(i).ucrate)+","+std::to_string(myHBBackEnd.at(i).uhtr)+","+std::to_string(myHBBackEnd.at(i).uhtr_fiber)+","+std::to_string(myHBBackEnd.at(i).ufedid)+","
+                      +std::to_string(myHBFrontEnd.at(i).qie8_id)+");";
+
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  sqlite3_close(db);
+  
   return ;
 }
 
