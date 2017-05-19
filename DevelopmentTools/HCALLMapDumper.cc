@@ -307,6 +307,16 @@ void HCALLMapDumper::printngHFFrontEndMapObject(std::vector<ngHFFrontEnd> myngHF
   return ;
 }
 
+void HCALLMapDumper::printHOLMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower)
+{
+  //side eta phi dphi depth det     
+  //rbx sector rm pixel qie adc rm_fi fi_ch let_code  
+  //crate block_coupler htr fpga htr_fi dcc_sl spigo dcc fedid  
+  //QIEId
+
+  return ;
+}
+
 void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string HBTableStr,
                                         std::vector<HBFrontEnd> myHBFrontEnd, std::vector<HBBackEnd> myHBBackEnd, std::vector<HBHPD> myHBHPD, std::vector<HBGeometry> myHBGeometry, std::vector<HBTriggerTower> myHBTriggerTower)
 {

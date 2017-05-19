@@ -41,7 +41,6 @@ void ngHEMappingAlgorithm::ConstructngHEFrontEnd(int sideid, int rbxrmid, int rm
   //qie11: 1 to 4, qie11_ch: 1 to 12 = 1 rm(48 chs)
   thisngHEFrontEnd.qie11 = (thisngHEFrontEnd.rm_fiber-1)/2+1;
   thisngHEFrontEnd.qie11_ch = ((thisngHEFrontEnd.rm_fiber-1)%2)*6+thisngHEFrontEnd.fiber_ch+1;
-  //thisngHEFrontEnd.rm_fiber%2 != 0 ? thisngHEFrontEnd.qie8_ch = thisngHEFrontEnd.fiber_ch : thisngHEFrontEnd.qie8_ch = 3 + (thisngHEFrontEnd.fiber_ch+1)%3;
   //set tmp qie11 id
   thisngHEFrontEnd.qie11_id = 500000;
 
