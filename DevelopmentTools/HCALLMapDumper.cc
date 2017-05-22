@@ -309,10 +309,41 @@ void HCALLMapDumper::printngHFFrontEndMapObject(std::vector<ngHFFrontEnd> myngHF
 
 void HCALLMapDumper::printHOLMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower)
 {
-  //side eta phi dphi depth det     
-  //rbx sector rm pixel qie adc rm_fi fi_ch let_code  
-  //crate block_coupler htr fpga htr_fi dcc_sl spigo dcc fedid  
-  //QIEId
+  //Side Eta Phi dPhi Depth Det
+  //RBX 
+  //Sect Pix Let_Code
+  //QIE8 QIECH RM RM_FI FI_CH
+  //Block_Coupler Crate HTR HTR_TB HTR_FI DCC_SL Spigot DCC FEDid
+  //QIE8Id
+
+  std::cout << "#Dumping HO LMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
+            << std::setw(9) << "RBX"
+            << std::setw(6) << "Sect" << std::setw(6) << "Pix" << std::setw(9) << "Let_Code"
+            << std::setw(6) << "QIE8" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(15) << "Block_Coupler" << std::setw(6) << "Crate" << std::setw(6) << "HTR" << std::setw(6) << "HTRTB" << std::setw(9) << "HTR_FI" << std::setw(9) << "DCC_SL" << std::setw(9) << "Spigot" << std::setw(6) << "DCC" << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIE8id"
+            << std::endl;
+
+  for(auto i=0; i<myHOFrontEnd.size(); i++)
+  { 
+    std::cout 
+              << " "
+              //<< "HOGeometry(side,eta,phi,dphi,depth,subdet): "
+              << std::setw(6) << myHOGeometry.at(i).side << std::setw(6) << myHOGeometry.at(i).eta << std::setw(6) << myHOGeometry.at(i).phi << std::setw(6) << myHOGeometry.at(i).dphi << std::setw(6) << myHOGeometry.at(i).depth << std::setw(6) << myHOGeometry.at(i).subdet
+              //ngRBX
+              << std::setw(9) << myHOFrontEnd.at(i).rbx
+              //<< "HOSiPM(Sector, Pixel, Letter Code): "
+              << std::setw(6) << myHOSiPM.at(i).sector << std::setw(6) << myHOSiPM.at(i).pixel << std::setw(9) << myHOSiPM.at(i).letter_code
+              //<< "HOFrontEnd(qie8,qie8_ch,rm,rm_fiber,fiber_ch): "
+              << std::setw(6) << myHOFrontEnd.at(i).qie8 << std::setw(6) << myHOFrontEnd.at(i).qie8_ch << std::setw(6) << myHOFrontEnd.at(i).rm << std::setw(6) << myHOFrontEnd.at(i).rm_fiber << std::setw(6)  << myHOFrontEnd.at(i).fiber_ch
+              //<< "HOBackEnd(crate,htr,fpga,htr_fiber): "
+              << std::setw(15) << myHOBackEnd.at(i).block_coupler << std::setw(6) << myHOBackEnd.at(i).crate << std::setw(6) << myHOBackEnd.at(i).htr << std::setw(6) << myHOBackEnd.at(i).fpga << std::setw(9) << myHOBackEnd.at(i).htr_fiber << std::setw(9) << myHOBackEnd.at(i).dcc_sl << std::setw(9) << myHOBackEnd.at(i).spigot << std::setw(6) << myHOBackEnd.at(i).dcc << std::setw(6) << myHOBackEnd.at(i).fedid
+              //<< "HOFrontEnd(qie_id): "
+              << std::setw(9) << myHOFrontEnd.at(i).qie8_id
+              << std::endl;
+  }
 
   return ;
 }
@@ -529,6 +560,71 @@ void HCALLMapDumper::makedbngHFLMapObject(std::string HCALLMapDbStr, std::string
   }
   sqlite3_close(db);
   
+  return ;
+}
+
+void HCALLMapDumper::makedbHOLMapObject(std::string HCALLMapDbStr, std::string HOTableStr,
+                                        std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc;
+
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,HOTableStr);
+  if(TableExist){ std::cout << "#Table: " << HOTableStr <<" already in the database!! Please check!" << std::endl; return ; }
+  else{ std::cout << "#Table: " << HOTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det
+  //RBX 
+  //Sect Pix Let_Code
+  //QIE8 QIECH RM RM_FI FI_CH
+  //Block_Coupler Crate HTR HTR_TB HTR_FI DCC_SL Spigot DCC FEDid
+  //QIE8Id
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + HOTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "RBX TEXT NOT NULL, " \
+                            "Sect INT NOT NULL, Pix INT NOT NULL, Let_Code TEXT NOT NULL, " \
+                            "QIE8 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "Block_Coupler REAL NOT NULL, Crate INT NOT NULL, HTR INT NOT NULL, HTR_TB TEXT NOT NULL, HTR_FI INT NOT NULL, DCC_SL INT NOT NULL, Spigot INT NOT NULL, DCC INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIE8id INT NOT NULL);";
+                    
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+  
+  for(auto i=0; i<myHOFrontEnd.size(); i++)
+  {
+    std::string one = "INSERT INTO " + HOTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "RBX," \
+                      "Sect,Pix,Let_Code," \
+                      "QIE8,QIECH,RM,RM_FI,FI_CH," \
+                      "Block_Coupler,Crate,HTR,HTR_TB,HTR_FI,DCC_SL,Spigot,DCC,FEDid," \
+                      "QIE8id) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myHOGeometry.at(i).side)+","+std::to_string(myHOGeometry.at(i).eta)+","+std::to_string(myHOGeometry.at(i).phi)+","+std::to_string(myHOGeometry.at(i).dphi)+","+std::to_string(myHOGeometry.at(i).depth)+",'"+myHOGeometry.at(i).subdet+"','"
+                      +myHOFrontEnd.at(i).rbx+"',"
+                      +std::to_string(myHOSiPM.at(i).sector)+","+std::to_string(myHOSiPM.at(i).pixel)+",'"+myHOSiPM.at(i).letter_code+"',"
+                      +std::to_string(myHOFrontEnd.at(i).qie8)+","+std::to_string(myHOFrontEnd.at(i).qie8_ch)+","+std::to_string(myHOFrontEnd.at(i).rm)+","+std::to_string(myHOFrontEnd.at(i).rm_fiber)+","+std::to_string(myHOFrontEnd.at(i).fiber_ch)+","
+                      +std::to_string(myHOBackEnd.at(i).block_coupler)+","+std::to_string(myHOBackEnd.at(i).crate)+","+std::to_string(myHOBackEnd.at(i).htr)+",'"+myHOBackEnd.at(i).fpga+"',"+std::to_string(myHOBackEnd.at(i).htr_fiber)+","+std::to_string(myHOBackEnd.at(i).dcc_sl)+","+std::to_string(myHOBackEnd.at(i).spigot)+","+std::to_string(myHOBackEnd.at(i).dcc)+","+std::to_string(myHOBackEnd.at(i).fedid)+","
+                      +std::to_string(myHOFrontEnd.at(i).qie8_id)+");";
+
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  sqlite3_close(db);
+
   return ;
 }
 

@@ -51,6 +51,8 @@ class HCALLMapDumper
   void makedbngHFLMapObject(std::string HCALLMapDbStr, std::string ngHFTableStr,
                             std::vector<ngHFFrontEnd> myngHFFrontEnd, std::vector<ngHFBackEnd> myngHFBackEnd, std::vector<ngHFPMTBox> myngHFPMTBox, std::vector<ngHFGeometry> myngHFGeometry, std::vector<ngHFTriggerTower> myngHFTriggerTower);
   //HO,db
+  void makedbHOLMapObject(std::string HCALLMapDbStr, std::string HOTableStr,
+                          std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower);
 
  private:
   bool ifTableExistInDB(sqlite3 *db, std::string TableName);//note: please use this function after sqlite3_open() and before sqlite3_close()!!
