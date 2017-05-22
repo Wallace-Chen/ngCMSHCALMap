@@ -98,8 +98,15 @@ int main(int argc, char* argv[])
   }
   else if( RunMode == "HO" )
   {
+    HOMappingAlgorithm myHOMappingAlgorithm;
+    //so sorry no HO mapping algorithm for now... in a mess... directly load from generation G mapping algotrithm
+    int NChannel = myHCALLMapLoader.GetHOFromLMap("officialMap/HCALmapHO_G.txt", myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
+    //myHOMappingAlgorithm.ConstructHOLMapObject();
+
     if( PrdMode == "LMap" )
     {
+      myHCALLMapDumper.printHOLMapObject(myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
+
     }
     if( PrdMode == "EMap" )
     {
