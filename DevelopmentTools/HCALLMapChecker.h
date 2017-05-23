@@ -20,6 +20,7 @@ class HCALLMapChecker
   //ngHE
   //HF
   //ngHF
+  bool checkngHFLMapObject(std::vector<ngHFFrontEnd> myngHFFrontEnd, std::vector<ngHFBackEnd> myngHFBackEnd, std::vector<ngHFPMTBox> myngHFPMTBox, std::vector<ngHFGeometry> myngHFGeometry, std::vector<ngHFTriggerTower> myngHFTriggerTower);
   //HO
  private:
 };

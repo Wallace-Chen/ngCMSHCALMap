@@ -1,7 +1,7 @@
 void _ngHFFEucrateuhtrufpgauhtr_fiber()
 {
 //=========Macro generated from canvas: c/
-//=========  (Thu May 18 14:14:41 2017) by ROOT version6.06/01
+//=========  (Mon May 22 16:12:49 2017) by ROOT version6.06/01
    TCanvas *c = new TCanvas("c", "",0,0,8000,6000);
    c->SetHighLightColor(2);
    c->Range(0,0,1,1);
@@ -14365,7 +14365,7 @@ palette->SetTitleSize(0.035);
    hfprbxuhtr_fiber->GetZaxis()->SetLabelSize(0.035);
    hfprbxuhtr_fiber->GetZaxis()->SetTitleSize(0.035);
    hfprbxuhtr_fiber->GetZaxis()->SetTitleFont(42);
-   hfprbxuhtr_fiber->Draw("colztext");
+   hfprbxuhtr_fiber->Draw("colz0text");
    
    pt = new TPaveText(0.15,0.885,0.85,0.995,"blNDC");
    pt->SetName("title");

@@ -360,7 +360,29 @@ void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string H
 
   //Check if table in the database already??
   bool TableExist = ifTableExistInDB(db,HBTableStr);
-  if(TableExist){ std::cout << "#Table: " << HBTableStr <<" already in the database!! Please check!" << std::endl; return ; }
+  if(TableExist)
+  { 
+    std::cout << "#Table: " << HBTableStr <<" already in the database!! Please check!" << std::endl; return ;
+    /*
+    std::cout << "#Table: " << HBTableStr <<" already in the database!! Do you want to drop this table and generate a new one?[Yes/No]" << std::endl;
+    std::string ifdrop="";
+    while( std::cin >> ifdrop && ( (ifdrop.find("Yes")==std::string::npos) && (ifdrop.find("No")==std::string::npos) ) )
+    { 
+      std::cout<<"#Wrong option for table drop, please type Yes or No!"<<std::endl;
+      if( (ifdrop.find("Yes")==std::string::npos) || (ifdrop.find("No")==std::string::npos) ) ifdrop="";
+    }
+    if(ifdrop=="Yes")
+    { 
+      std::cout << "#Drop Table: " << HBTableStr <<" from database..." << std::endl;
+      rc = sqlite3_exec(db, ("DROP TABLE "+HBTableStr).c_str(), 0, 0, &zErrMsg);
+    }
+    else if(ifdrop=="No")
+    {
+      std::cout << "#Table: " << HBTableStr <<" stay unchange in database..." << std::endl;
+      return ;
+    }
+    */
+  }
   else{ std::cout << "#Table: " << HBTableStr <<" not in the database... Creating..." << std::endl; }
 
   //Create Table in SQL
