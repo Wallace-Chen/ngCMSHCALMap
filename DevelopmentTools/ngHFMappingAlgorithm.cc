@@ -83,7 +83,7 @@ void ngHFMappingAlgorithm::SplitngHFfromOldHF(
 void ngHFMappingAlgorithm::ConstructngHFLMapObject()
 {
   std::cout << "#Loading information from QIE allocation file..." << std::endl;
-  LoadngHFQIEMap("ngHFQIEInput/QIEcardLocationMap.txt");
+  LoadngHFQIEMap("ngHFQIEInput/HF_QIE10_CardMap_26May2017.txt");
 
   std::cout << "#Constructing ngHF LMap Object..." << std::endl;
 
