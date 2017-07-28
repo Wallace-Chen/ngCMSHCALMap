@@ -1,6 +1,7 @@
 #include "HCALLMapProducer.h"
 #include "HCALLMapLoader.h"
 #include "HCALLMapDumper.h"
+#include "HCALLMapChecker.h"
 
 int main(int argc, char* argv[])
 {
@@ -22,6 +23,7 @@ int main(int argc, char* argv[])
 
   HCALLMapLoader myHCALLMapLoader;
   HCALLMapDumper myHCALLMapDumper;
+  HCALLMapChecker myHCALLMapChecker;
 
   if( RunMode == "HB" )
   {
@@ -106,8 +108,8 @@ int main(int argc, char* argv[])
     if( PrdMode == "LMap" )
     {
       myHCALLMapDumper.printHOLMapObject(myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
-      myHCALLMapDumper.makedbHOLMapObject("officialMap/HCALLogicalMap.db", "HOLogicalMap",
-                                          myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
+      //myHCALLMapDumper.makedbHOLMapObject("officialMap/HCALLogicalMap.db", "HOLogicalMap",
+      //                                    myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
     }
     if( PrdMode == "EMap" )
     {

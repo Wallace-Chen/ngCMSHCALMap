@@ -158,6 +158,7 @@ int main()
     //If not found in QIE condition
     if( !matched )
     {
+      //(*it1).printQIE10LMapInfo();
       //std::cout << "#LMap do not find match in QIE10 table!" << std::endl;
       QIE10Table thisQIE10Table;
       thisQIE10Table.eta = (*it1).eta * (*it1).side;

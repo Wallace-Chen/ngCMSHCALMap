@@ -8,7 +8,8 @@ import sqlite3 as lite
 import pandas as pd
 
 #input sqlite file
-con = lite.connect('qie10_database/qieCalibrationParameters_All.db')
+#con = lite.connect('qie10_database/qieCalibrationParameters_All.db')
+con = lite.connect('qie10_database/qieCalibrationParameters_HF_2017-04-24.db')
 
 # select QIE chip, shunt value
 qieID = 1
@@ -50,7 +51,6 @@ with con:
   j=0
   for row in rows:
     #print row
-    #if qieID == row[2] and range == row[4] and shunt == row[5]:
     #print "#"*50
     #print "QIE barcode: "+row[0]
     #print "QIE id: 500"+ str(row[1])
@@ -59,13 +59,15 @@ with con:
     #print "range: "+ str(row[4])
     #print "slope: "+ str(row[7])
     #print "offset: " + str(row[8])
+    
     QIEID=""
     if(row[1]>=1000 and row[1]<10000):
       QIEID="50"+str(row[1])
     elif(row[1]>=100 and row[1]<1000):
       QIEID="500"+str(row[1])
     else:
-      print str(row[1])
+      QIEID=str(row[1])
+      #print str(row[1])
     i=int(str(row[3]))*4+int(str(row[4]));
     offsets_arr[i] = row[8]
     slopes_arr[i] = row[7]

@@ -24,13 +24,14 @@ make test
 ```
 cd $CMSSW_BASE/src
 git clone git@github.com:weihuacern/ngCMSHCALMap.git
+cmsenv
 scram b -j 10
 ```
 
 To run the code in DevelopmentTools directory:
 
 ```
-cd $CMSSW_BASE/src/DevelopmentTools
+cd $CMSSW_BASE/src/ngCMSHCALMap/DevelopmentTools
 make
 ```
 

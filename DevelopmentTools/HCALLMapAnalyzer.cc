@@ -4,6 +4,7 @@
 #include "HCALLMapAnalyzer.h"
 #include "HCALLMapLoader.h"
 #include "HCALLMapDumper.h"
+#include "HCALLMapChecker.h"
 
 int main(int argc, char* argv[])
 {
@@ -21,6 +22,7 @@ int main(int argc, char* argv[])
 
   HCALLMapLoader myHCALLMapLoader;
   HCALLMapDumper myHCALLMapDumper;
+  HCALLMapChecker myHCALLMapChecker;
 
   //initialize the variables we need in analysis
   std::vector<HBFrontEnd> myHBFrontEnd; std::vector<HBBackEnd> myHBBackEnd; std::vector<HBHPD> myHBHPD; std::vector<HBGeometry> myHBGeometry; std::vector<HBTriggerTower> myHBTriggerTower;
