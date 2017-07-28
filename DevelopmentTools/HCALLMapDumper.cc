@@ -154,6 +154,8 @@ void HCALLMapDumper::printngHEEMapObject(std::vector<ngHEFrontEnd> myngHEFrontEn
   for(auto i=0; i<myngHEFrontEnd.size(); i++)
   {
     if( myngHEGeometry.at(i).subdet == "HEX" ) continue;
+    if( myngHEFrontEnd.at(i).rbx != "HEP01" ) continue;
+
     std::cout << " "
               << std::setw(10) << "4200458C"
               << std::setw(6) << myngHEBackEnd.at(i).ucrate << std::setw(6) << myngHEBackEnd.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHEBackEnd.at(i).uhtr_fiber << std::setw(12) << myngHEBackEnd.at(i).fiber_ch
