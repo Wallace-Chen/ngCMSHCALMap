@@ -36,6 +36,50 @@ void HCALLMapDumper::printHBLMapObject(std::vector<HBFrontEnd> myHBFrontEnd, std
   return ;
 }
 
+void HCALLMapDumper::printHBEMapObject(std::vector<HBFrontEnd> myHBFrontEnd, std::vector<HBBackEnd> myHBBackEnd, std::vector<HBHPD> myHBHPD, std::vector<HBGeometry> myHBGeometry, std::vector<HBTriggerTower> myHBTriggerTower)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  std::cout << "#Dumping HB EMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(10) <<"i"
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
+            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
+            << std::endl;
+
+  for(auto i=0; i<myHBFrontEnd.size(); i++)
+  {
+    std::cout << " "
+              << std::setw(10) << "4200458C"
+              << std::setw(6) << myHBBackEnd.at(i).ucrate << std::setw(6) << myHBBackEnd.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myHBBackEnd.at(i).uhtr_fiber << std::setw(12) << myHBBackEnd.at(i).fiber_ch
+              << std::setw(8) << myHBGeometry.at(i).subdet << std::setw(6) << myHBGeometry.at(i).side * myHBGeometry.at(i).eta << std::setw(6) << myHBGeometry.at(i).phi << std::setw(6) << myHBGeometry.at(i).depth
+              << std::endl;
+  }
+  return ;
+}
+
+void HCALLMapDumper::printHBFrontEndMapObject(std::vector<HBFrontEnd> myHBFrontEnd, std::vector<HBBackEnd> myHBBackEnd, std::vector<HBHPD> myHBHPD, std::vector<HBGeometry> myHBGeometry, std::vector<HBTriggerTower> myHBTriggerTower)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  std::cout << "#Dumping HB FrontEnd Map Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
+            << std::setw(8) << "subdet"
+            << std::setw(6) << "rbx" << std::setw(6) << "rm"
+            << std::endl;
+
+  for(auto i=0; i<myHBFrontEnd.size(); i++)
+  {
+    std::cout
+              //<< "HBGeometry(side,eta,phi,depth): "
+              << " "
+              << std::setw(6) << myHBGeometry.at(i).side * myHBGeometry.at(i).eta << std::setw(6) << myHBGeometry.at(i).phi << std::setw(6) << myHBGeometry.at(i).depth
+              << std::setw(8) << myHBGeometry.at(i).subdet
+              << std::setw(9) << myHBFrontEnd.at(i).rbx << std::setw(6) << myHBFrontEnd.at(i).rm
+              << std::endl;
+  }
+  return ;
+}
+
 void HCALLMapDumper::printngHBLMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower)
 {
   std::cout << "#Dumping ngHB LMap Object..." << std::endl;
@@ -68,7 +112,7 @@ void HCALLMapDumper::printngHBEMapObject(std::vector<ngHBFrontEnd> myngHBFrontEn
 
   for(auto i=0; i<myngHBFrontEnd.size(); i++)
   {
-    if( myngHBGeometry.at(i).subdet == "HEX" ) continue;
+    if( myngHBGeometry.at(i).subdet == "HBX" ) continue;
     std::cout << " "
               << std::setw(10) << "4200458C"
               << std::setw(6) << myngHBBackEnd.at(i).ucrate << std::setw(6) << myngHBBackEnd.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHBBackEnd.at(i).uhtr_fiber << std::setw(12) << myngHBBackEnd.at(i).fiber_ch
@@ -90,7 +134,7 @@ void HCALLMapDumper::printngHBFrontEndMapObject(std::vector<ngHBFrontEnd> myngHB
     
   for(auto i=0; i<myngHBFrontEnd.size(); i++)
   {
-    if( myngHBGeometry.at(i).subdet == "HEX" ) continue;
+    if( myngHBGeometry.at(i).subdet == "HBX" ) continue;
     std::cout
               //<< "ngHBGeometry(side,eta,phi,depth): "
               << " "

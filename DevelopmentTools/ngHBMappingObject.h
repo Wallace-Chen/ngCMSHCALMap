@@ -57,7 +57,7 @@ class ngHBConstant
   static const int NrmngHB = 4;
   //rm fiber 1,2,3,4,5,6,7,8, in total 8 fibers per rm
   static const int Nrm_fiber = 8;
-  //fiber channel is same for both backend electronics and front end electronics, 0,1,2,3,4,5(since software people like start from 0)
+  //fiber channel is same for both backend electronics and front end electronics, 0,1,2,3,4,5,6,7(since software people like start from 0)
   static const int Nfiber_ch = 8;
   
   //4 QIE11s per ngHB front end rbx
