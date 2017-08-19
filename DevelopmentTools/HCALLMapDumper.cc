@@ -83,20 +83,37 @@ void HCALLMapDumper::printHBFrontEndMapObject(std::vector<HBFrontEnd> myHBFrontE
 void HCALLMapDumper::printngHBLMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower)
 {
   std::cout << "#Dumping ngHB LMap Object..." << std::endl;
+  //Side Eta Phi dPhi Depth Det 
+  //RBX 
+  //Wedge Pix 
+  //QIE8 QIECH RM RM_FI FI_CH 
+  //ppCol ppRow ppCpl ppLC dodec 
+  //Crate uHTR uHTR_FI FEDid 
+  //QIE8id
+
   std::cout << "#"
-            << std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
-            << std::setw(9) << "ngRBX" << std::setw(9) << "RM" << std::setw(9) << "RM_FI" << std::setw(9) << "FI_CH"
-            << std::setw(9) << "uCrate" << std::setw(9) << "uHTR" << std::setw(9) << "uHTR_FI" << std::setw(9) << "FI_CH" << std::endl;
+            //<< std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
+            << std::setw(6) << "RBX"
+            //<< std::setw(6) << "Wedge" << std::setw(6) << "Pix"
+            << std::setw(6) << "QIE11" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(15) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI" << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIE11id"
+            << std::endl;
   for(auto i=0; i<myngHBFrontEnd.size(); i++)
   {
-    //if( myngHBFrontEnd.at(i).rbx != "ngHBP02" ) continue;
     std::cout
               << " "
-              << std::setw(6) << myngHBGeometry.at(i).side << std::setw(6) << myngHBGeometry.at(i).eta << std::setw(6) << myngHBGeometry.at(i).phi << std::setw(6) << myngHBGeometry.at(i).depth << std::setw(6) << myngHBGeometry.at(i).subdet
-              << std::setw(9) << myngHBFrontEnd.at(i).rbx << std::setw(9) << myngHBFrontEnd.at(i).rm << std::setw(9) << myngHBFrontEnd.at(i).rm_fiber << std::setw(9) << myngHBFrontEnd.at(i).fiber_ch
-              << std::setw(9) << myngHBBackEnd.at(i).ucrate << std::setw(9) << myngHBBackEnd.at(i).uhtr << std::setw(9) << myngHBBackEnd.at(i).uhtr_fiber << std::setw(9) << myngHBBackEnd.at(i).fiber_ch
+              //<< std::setw(6) << myngHBGeometry.at(i).side << std::setw(6) << myngHBGeometry.at(i).eta << std::setw(6) << myngHBGeometry.at(i).phi << std::setw(6) << myngHBGeometry.at(i).dphi << std::setw(6) << myngHBGeometry.at(i).depth << std::setw(6) << myngHBGeometry.at(i).subdet
+              << std::setw(6) << myngHBFrontEnd.at(i).rbx
+              //<< std::setw(6) << myngHBSiPM.at(i).wedge << std::setw(6) << myngHBSiPM.at(i).pixel
+              << std::setw(6) << myngHBFrontEnd.at(i).qie11 << std::setw(6) << myngHBFrontEnd.at(i).qie11_ch << std::setw(6) << myngHBFrontEnd.at(i).rm << std::setw(6) << myngHBFrontEnd.at(i).rm_fiber << std::setw(6) << myngHBFrontEnd.at(i).fiber_ch
+              << std::setw(6) << myngHBBackEnd.at(i).ppcol << std::setw(6) << myngHBBackEnd.at(i).pprow << std::setw(15) << myngHBBackEnd.at(i).ppcpl << std::setw(6) << myngHBBackEnd.at(i).pplc << std::setw(6) << myngHBBackEnd.at(i).dodec
+              << std::setw(6) << myngHBBackEnd.at(i).ucrate << std::setw(6) << myngHBBackEnd.at(i).uhtr << std::setw(9) << myngHBBackEnd.at(i).uhtr_fiber << std::setw(6) << myngHBBackEnd.at(i).ufedid
+              << std::setw(9) << myngHBFrontEnd.at(i).qie11_id
               << std::endl;
   }
+
   return ;
 }
 

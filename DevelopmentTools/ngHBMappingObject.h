@@ -9,13 +9,23 @@ struct ngHBFrontEnd
   std::string rbx;
   int rm, rm_fiber;
   int qie11_fiber, fiber_ch;
-  int qie11, qie11_ch;
+  int qie11, qie11_ch, qie11_id;
   //variables in ROB/Connector
 };
 
 //Backend electronics struct
 struct ngHBBackEnd
 {
+  //patch panel information
+  int ppcol,pprow,pplc,dodec;
+  std::string ppcpl;
+
+  //old htr info, going to be obsolete after 2018 HB re mapping, but keep it for legacy map dumper information
+  int crate, htr, htr_fiber;
+  std::string fpga;
+  int fedid;
+  int dcc, spigot, dcc_sl;
+
   int ucrate, uhtr, uhtr_fiber;
   std::string ufpga;
   int ufedid;
@@ -23,7 +33,7 @@ struct ngHBBackEnd
   int fiber_ch;
 };
 
-//PMT boxes struct
+//SiPM struct
 struct ngHBSiPM
 {
   int wedge;//1,2,3,4...18

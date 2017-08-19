@@ -38,10 +38,10 @@ void ngHBMappingAlgorithm::ConstructngHBFrontEnd(int sideid, int rbxrmid, int rm
   thisngHBFrontEnd.rm = rbxrmid%NrmngHB + 1;
   thisngHBFrontEnd.rm_fiber = rmfifichid/Nfiber_ch + 2;
   thisngHBFrontEnd.fiber_ch = rmfifichid%Nfiber_ch;
-  //set secondary variables qie8 map
-  //thisngHBFrontEnd.qie8 = (thisngHBFrontEnd.rm_fiber -1)/2+1;
-  //thisngHBFrontEnd.rm_fiber%2 != 0 ? thisngHBFrontEnd.qie8_ch = thisngHBFrontEnd.fiber_ch : thisngHBFrontEnd.qie8_ch = 3 + (thisngHBFrontEnd.fiber_ch+1)%3;
-
+  //set secondary variables qie11 map
+  thisngHBFrontEnd.qie11 = (thisngHBFrontEnd.rm_fiber -1)/2+1;
+  thisngHBFrontEnd.rm_fiber%2 != 0 ? thisngHBFrontEnd.qie11_ch = thisngHBFrontEnd.fiber_ch : thisngHBFrontEnd.qie11_ch = 3 + (thisngHBFrontEnd.fiber_ch+1)%3;
+  thisngHBFrontEnd.qie11_id = 999991;
   myngHBFrontEnd.push_back(thisngHBFrontEnd);
   return ;
 }
@@ -55,9 +55,12 @@ void ngHBMappingAlgorithm::ConstructngHBBackEnd(int sideid, int rbxrmid, int rmf
   //3 types of backend slot : pure HB(1,4,7,10), mixed HB ngHE(2,5,8,11), and pure ngHE(3,6,9,12)
   //mixed ngHB case : rm(rm fiber) 1(23),  2(23),  3(23),  4(23);
   //pure  ngHB case : rm(rm fiber) 1(4567),2(4567),3(4567),4(4567);
-  int rm = rbxrmid%NrmngHB + 1; double rm_fiber = rmfifichid/Nfiber_ch + 2;
+  std::string sideletter; sideid>0 ? sideletter = "P" : sideletter = "M";
+  std::string numberletter; (rbxrmid/NrmngHB + 1) < 10 ? numberletter = "0" + std::to_string(rbxrmid/NrmngHB + 1) : numberletter = std::to_string(rbxrmid/NrmngHB + 1);
+  std::string rbx = "HB" + sideletter + numberletter;
+  int rm = rbxrmid%NrmngHB + 1; int rm_fiber = rmfifichid/Nfiber_ch + 2;
   bool ismixed_ngHB = (rm_fiber==2 || rm_fiber==3);
-  
+
   if(sideid>0)
   { 
     if( ismixed_ngHB ) (rbxrmid/4)%2==0 ? thisngHBBackEnd.uhtr = 11 : thisngHBBackEnd.uhtr = 8;
@@ -71,25 +74,33 @@ void ngHBMappingAlgorithm::ConstructngHBBackEnd(int sideid, int rbxrmid, int rmf
 
   //fpga variable for the backend, used to be useful in old HTR case....but we still keep a position for it now
   thisngHBBackEnd.ufpga = "uHTR";
-  //set uhtr fiber from rm and rm fiber, P and M symmetry, RM1-RM3 and RM2-RM4
-  if(sideid>0)
+  //set uhtr fiber from patch panel
+  //first set patch panel info, from front end side
+  thisngHBBackEnd.ppcol = (rm_fiber-1)/4+3;
+  thisngHBBackEnd.pprow = rm;
+  thisngHBBackEnd.pplc = (rm_fiber-1)%4+1;
+  std::string cplletter;
+  rm_fiber<=4 ? cplletter="A" : cplletter="B";
+  thisngHBBackEnd.ppcpl = rbx+"_RM"+std::to_string(rm)+cplletter;
+  //then set uhtr fiber infomation from patch panel
+  //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/ngHE/optical_patch.txt
+  if( ismixed_ngHB )
   {
-    if     ( rbxrmid%NrmngHB == 0 ){ thisngHBBackEnd.uhtr_fiber = ngHBuhtrInrmfifichidType1[rmfifichid/Nfiber_ch]; } 
-    else if( rbxrmid%NrmngHB == 1 ){ thisngHBBackEnd.uhtr_fiber = ngHBuhtrInrmfifichidType2[rmfifichid/Nfiber_ch]; }
-    else if( rbxrmid%NrmngHB == 2 ){ thisngHBBackEnd.uhtr_fiber = ngHBuhtrInrmfifichidType3[rmfifichid/Nfiber_ch]; }
-    else thisngHBBackEnd.uhtr_fiber = ngHBuhtrInrmfifichidType4[rmfifichid/Nfiber_ch];
+    if     (thisngHBBackEnd.ppcol==3){ thisngHBBackEnd.uhtr_fiber = (thisngHBBackEnd.pprow-1)*2+rm_fiber-2+2; }
+    else{ std::cout << "the ppCol of HB channel is not 3 in mixed HBHE slot for HB??!! Please check!" << std::endl; }
   }
   else
   {
-    if     ( rbxrmid%NrmngHB == 0 ){ thisngHBBackEnd.uhtr_fiber = ngHBuhtrInrmfifichidType3[rmfifichid/Nfiber_ch]; }
-    else if( rbxrmid%NrmngHB == 1 ){ thisngHBBackEnd.uhtr_fiber = ngHBuhtrInrmfifichidType4[rmfifichid/Nfiber_ch]; }
-    else if( rbxrmid%NrmngHB == 2 ){ thisngHBBackEnd.uhtr_fiber = ngHBuhtrInrmfifichidType1[rmfifichid/Nfiber_ch]; }
-    else thisngHBBackEnd.uhtr_fiber = ngHBuhtrInrmfifichidType2[rmfifichid/Nfiber_ch];
+    if     (thisngHBBackEnd.ppcol==3){ thisngHBBackEnd.uhtr_fiber = thisngHBBackEnd.pprow-1; }
+    else if(thisngHBBackEnd.ppcol==4){ thisngHBBackEnd.uhtr_fiber = (thisngHBBackEnd.pprow-1)*3+rm_fiber-5+12; }
+    else{ std::cout << "the ppCol of HB channel is neither 3 nor 4 in pure HB slot??!! Please check!" << std::endl; }
   }
-  
+  //finally set dodec from back end side
+  thisngHBBackEnd.dodec = (thisngHBBackEnd.uhtr_fiber)%12+1;
   //set backend fiber channel : same as the front end one
   thisngHBBackEnd.fiber_ch = rmfifichid%Nfiber_ch;
-  //set secondary variables
+  //set tmp fed id
+  thisngHBBackEnd.ufedid = thisngHBBackEnd.ucrate + 1100 -20;
   myngHBBackEnd.push_back(thisngHBBackEnd);
   return ;
 }
