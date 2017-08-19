@@ -36,7 +36,7 @@ void ngHBMappingAlgorithm::ConstructngHBFrontEnd(int sideid, int rbxrmid, int rm
   //thisngHBFrontEnd.rbx = "ngHB" + sideletter + numberletter;
   thisngHBFrontEnd.rbx = "HB" + sideletter + numberletter;
   thisngHBFrontEnd.rm = rbxrmid%NrmngHB + 1;
-  thisngHBFrontEnd.rm_fiber = rmfifichid/Nfiber_ch + 2;
+  thisngHBFrontEnd.rm_fiber = rmfifichid/Nfiber_ch + 1;
   thisngHBFrontEnd.fiber_ch = rmfifichid%Nfiber_ch;
   //set secondary variables qie11 map
   thisngHBFrontEnd.qie11 = (thisngHBFrontEnd.rm_fiber -1)/2+1;
@@ -58,7 +58,7 @@ void ngHBMappingAlgorithm::ConstructngHBBackEnd(int sideid, int rbxrmid, int rmf
   std::string sideletter; sideid>0 ? sideletter = "P" : sideletter = "M";
   std::string numberletter; (rbxrmid/NrmngHB + 1) < 10 ? numberletter = "0" + std::to_string(rbxrmid/NrmngHB + 1) : numberletter = std::to_string(rbxrmid/NrmngHB + 1);
   std::string rbx = "HB" + sideletter + numberletter;
-  int rm = rbxrmid%NrmngHB + 1; int rm_fiber = rmfifichid/Nfiber_ch + 2;
+  int rm = rbxrmid%NrmngHB + 1; int rm_fiber = rmfifichid/Nfiber_ch + 1;
   bool ismixed_ngHB = (rm_fiber==2 || rm_fiber==3);
 
   if(sideid>0)
@@ -83,7 +83,48 @@ void ngHBMappingAlgorithm::ConstructngHBBackEnd(int sideid, int rbxrmid, int rmf
   rm_fiber<=4 ? cplletter="A" : cplletter="B";
   thisngHBBackEnd.ppcpl = rbx+"_RM"+std::to_string(rm)+cplletter;
   //then set uhtr fiber infomation from patch panel
-  //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/ngHE/optical_patch.txt
+  //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/optical_patch_2018.txt
+  /*
+  The pure HB uHTRs - slots 4 10:
+
+|                 crate 34 slot 10                          |                 crate 34 slot 4                           |
+             HEP17                         HBP17                         HEM17                         HBM17
+| ------------ | ------------ | 04b------08b | 12b04t08t12t | ------------ | ------------ | ------------ | ------------ |  RM4
+| ------------ | ------------ | 03b------07b | 11b03t07t11t | ------------ | ------------ | ------------ | ------------ |  RM3
+| ------------ | ------------ | 02b------06b | 10b02t06t10t | ------------ | ------------ | ------------ | ------------ |  RM2
+| ------------ | ------------ | 01b------05b | 09b01t05t09t | ------------ | ------------ | ------------ | ------------ |  RM1
+
+  The mixed HB/HE uHTRs - slots 5 11:
+
+|                 crate 34 slot 11                          |                 crate 34 slot 5                           |
+             HEP17                         HBP17                          HEM17                        HBM17
+| ---------10t | 11t---12t--- | ---09b10b--- | ------------ | ---------10t | 11t---12t--- | ---09b10b--- | ------------ |  RM4
+| ---07t---08t | ---09t------ | ---07b08b--- | ------------ | ---07t---08t | ---09t------ | ---07b08b--- | ------------ |  RM3
+| ---------04t | 05t---06t--- | ---05b06b--- | ------------ | ---------04t | 05t---06t--- | ---05b06b--- | ------------ |  RM2
+| ---01t---02t | ---03t------ | ---03b04b--- | ------------ | ---01t---02t | ---03t------ | ---03b04b--- | ------------ |  RM1
+
+[1b-12b]:0 to 11 uhtr fiber
+[1t-12t]:12 to 23 uhtr fiber
+
+  The pure HB uHTRs - slots 4 10:
+
+|             crate 34 slot 10              |             crate 34 slot 4               |
+         HEP17                 HBP17                 HEM17                 HBM17
+| -------- | -------- | 03----07 | 11151923 | ---------| ---------| ---------| -------- |  RM4
+| ---------| ---------| 02----06 | 10141822 | ---------| -------- | -------- | -------- |  RM3
+| ---------| -------- | 01----05 | 09131721 | ---------| ---------| -------- | -------- |  RM2
+| ---------| -------- | 00----04 | 08121620 | ---------| ---------| -------- | -------- |  RM1
+
+  The mixed HB/HE uHTRs - slots 5 11:
+
+|             crate 34 slot 11              |             crate 34 slot 5               |
+         HEP17                 HBP17                 HEM17                 HBM17
+| ------21 | 22--23-- | --0809-- | -------- | ------21 | 22--23-- | --0809-- | -------- |  RM4
+| --18--19 | --20---- | --0607-- | -------- | --18--19 | --20---- | --0607-- | -------- |  RM3
+| ------15 | 16--17-- | --0405-- | -------- | ------15 | 16--17-- | --0405-- | -------- |  RM2
+| --12--13 | --14---- | --0203-- | -------- | --12--13 | --14---- | --0203-- | -------- |  RM1
+  */
+
   if( ismixed_ngHB )
   {
     if     (thisngHBBackEnd.ppcol==3){ thisngHBBackEnd.uhtr_fiber = (thisngHBBackEnd.pprow-1)*2+rm_fiber-2+2; }

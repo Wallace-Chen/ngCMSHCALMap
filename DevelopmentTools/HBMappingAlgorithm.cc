@@ -82,6 +82,23 @@ void HBMappingAlgorithm::ConstructHBBackEnd(int sideid, int rbxrmid, int rmfific
   thisHBBackEnd.ppcpl = rbx+"_RM"+std::to_string(rm)+cplletter;
   //then set uhtr fiber infomation from patch panel
   //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/ngHE/optical_patch.txt
+  /*
+  The P-side pure HB uHTR (xx indicates an empty spigot):
+         HEM04                 HBM04                 HEP04                 HBP04
+| -------- | -------- | -------- | -------- | -------- | -------- | xx----03 | 212223xx |  RM4
+| -------- | -------- | -------- | -------- | -------- | -------- | xx----02 | 181920xx |  RM3
+| -------- | -------- | -------- | -------- | -------- | -------- | xx----01 | 151617xx |  RM2
+| -------- | -------- | -------- | -------- | -------- | -------- | xx----00 | 121314xx |  RM1
+
+  The P-side mixed uHTR (xx indicates an empty spigot):
+
+         HEM04                 HBM04                 HEP04                 HBP04
+| -------- | -------- | -------- | -------- | ------17 | 22--23-- | xx0809-- | ------xx |  RM4
+| -------- | -------- | -------- | -------- | --15--16 | --21---- | xx0607-- | ------xx |  RM3
+| -------- | -------- | -------- | -------- | ------14 | 19--20-- | xx0405-- | ------xx |  RM2
+| -------- | -------- | -------- | -------- | --12--13 | --18---- | xx0203-- | ------xx |  RM1
+  */
+
   if( ismixed_HB )
   {
     if     (thisHBBackEnd.ppcol==3){ thisHBBackEnd.uhtr_fiber = (thisHBBackEnd.pprow-1)*2+rm_fiber-2+2; }
