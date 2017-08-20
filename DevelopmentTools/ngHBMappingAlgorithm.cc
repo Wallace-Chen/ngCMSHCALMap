@@ -132,8 +132,9 @@ void ngHBMappingAlgorithm::ConstructngHBBackEnd(int sideid, int rbxrmid, int rmf
   }
   else
   {
-    if     (thisngHBBackEnd.ppcol==3){ thisngHBBackEnd.uhtr_fiber = thisngHBBackEnd.pprow-1; }
-    else if(thisngHBBackEnd.ppcol==4){ thisngHBBackEnd.uhtr_fiber = (thisngHBBackEnd.pprow-1)*3+rm_fiber-5+12; }
+    //notice here we change the order, first rm_fiber then rm!!!
+    if     (thisngHBBackEnd.ppcol==3){ thisngHBBackEnd.uhtr_fiber = (int(rm_fiber)/4)*4+thisngHBBackEnd.pprow-1; }
+    else if(thisngHBBackEnd.ppcol==4){ thisngHBBackEnd.uhtr_fiber = (rm_fiber-5)*4+thisngHBBackEnd.pprow-1+8; }
     else{ std::cout << "the ppCol of HB channel is neither 3 nor 4 in pure HB slot??!! Please check!" << std::endl; }
   }
   //finally set dodec from back end side
