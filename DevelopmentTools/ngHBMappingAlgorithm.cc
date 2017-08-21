@@ -19,7 +19,7 @@ void ngHBMappingAlgorithm::ConstructngHBLMapObject()
           ConstructngHBFrontEnd(sideid,rbxrmid,rmfifichid);      
           ConstructngHBBackEnd(sideid,rbxrmid,rmfifichid);  
           ConstructngHBGeometry(sideid,rbxrmid,rmfifichid);
-          ConstructngHBSiPM();  
+          ConstructngHBSiPM(sideid,rbxrmid,rmfifichid);  
           ConstructngHBTriggerTower();
         }
       }
@@ -153,10 +153,7 @@ void ngHBMappingAlgorithm::ConstructngHBGeometry(int sideid, int rbxrmid, int rm
   //side -> subdet -> eta, depth -> dphi -> phi
   thisngHBGeometry.side = sideid;
   
-  thisngHBGeometry.eta = ngHBetaInrmfifichid[rmfifichid]; 
-  thisngHBGeometry.depth = ngHBdepInrmfifichid[rmfifichid]; 
   thisngHBGeometry.dphi = 1;
-
   if(sideid > 0)
   {
     thisngHBGeometry.phi = ngHBphiInrbxrmid_P[rbxrmid];
@@ -168,6 +165,22 @@ void ngHBMappingAlgorithm::ConstructngHBGeometry(int sideid, int rbxrmid, int rm
   
   thisngHBGeometry.subdet = "HB";
 
+  //set eta and depth, complicate...
+  int tmp_rm = rbxrmid%NrmngHB + 1;
+  int tmp_qie11 = ngHBGetQIEcardch(tmp_rm, rmfifichid/Nfiber_ch + 1, rmfifichid%Nfiber_ch).first;
+  int tmp_qie11_ch = ngHBGetQIEcardch(tmp_rm, rmfifichid/Nfiber_ch + 1, rmfifichid%Nfiber_ch).second;
+  int qiecardchid = (tmp_qie11-1)*Nqie11_ch + tmp_qie11_ch-1;
+  //std::cout << "fuck!" << tmp_qie11 << " " << tmp_qie11_ch << " "<< qiecardchid << std::endl;
+  if(tmp_rm==1 || tmp_rm==3)
+  {
+    thisngHBGeometry.eta = ngHBetaInqiecardchid_RM13[qiecardchid];
+  }
+  else
+  {
+    thisngHBGeometry.eta = ngHBetaInqiecardchid_RM24[qiecardchid]; 
+  }
+
+  thisngHBGeometry.depth = ngHBdepInqiechid[tmp_qie11_ch-1];
   /*
   //No HBX channel in 2017 HB (not ngHB)
   //Over write everything for HBX channels ?
@@ -187,10 +200,23 @@ void ngHBMappingAlgorithm::ConstructngHBGeometry(int sideid, int rbxrmid, int rm
   return ;
 }
 
-void ngHBMappingAlgorithm::ConstructngHBSiPM()
+void ngHBMappingAlgorithm::ConstructngHBSiPM(int sideid, int rbxrmid, int rmfifichid)
 {
   ngHBSiPM thisngHBSiPM;
-  
+  thisngHBSiPM.wedge = rbxrmid/NrmngHB+1;
+  int tmp_rm = rbxrmid%NrmngHB + 1;
+  int tmp_qie11 = ngHBGetQIEcardch(tmp_rm, rmfifichid/Nfiber_ch + 1, rmfifichid%Nfiber_ch).first;
+  int tmp_qie11_ch = ngHBGetQIEcardch(tmp_rm, rmfifichid/Nfiber_ch + 1, rmfifichid%Nfiber_ch).second;
+  int qiecardchid = (tmp_qie11-1)*Nqie11_ch + tmp_qie11_ch-1;
+  //bias voltage is 1 to 64 per rm, same pattern for all rm
+  const int bv_rmall[Nqie11*Nqie11_ch] = 
+  {
+    50,58,54,62,52,60,56,64,25,17,29,21,27,19,31,23,//qie1
+    49,57,53,61,51,59,55,63,26,18,30,22,28,20,32,24,//qie2
+    35,43,39,47,33,41,37,45,12, 4,16, 8,10, 2,14, 6,//qie3
+    36,44,40,48,34,42,38,46,11, 3,15, 7, 9, 1,13, 5 //qie4
+  };
+  thisngHBSiPM.bv = bv_rmall[qiecardchid];
   myngHBSiPM.push_back(thisngHBSiPM);
   return ;
 }

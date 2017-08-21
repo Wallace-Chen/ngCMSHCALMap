@@ -37,7 +37,7 @@ struct ngHBBackEnd
 struct ngHBSiPM
 {
   int wedge;//1,2,3,4...18
-  int pixel;
+  int bv;
 };
 
 //Geometry struct
@@ -73,7 +73,7 @@ class ngHBConstant
   //4 QIE11s per ngHB front end rbx
   static const int Nqie11 = 4;
   //QIE11 fiber
-  static const int Nqie11_fiber = 4;
+  //static const int Nqie11_fiber = 4;
   //12 channels per QIE card, 1 to 12, but qie8 adc is 0 to 5, should we also start from 0 ?
   static const int Nqie11_ch = 16;
 
