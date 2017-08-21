@@ -38,3 +38,17 @@ QIE10_CH	 	S-coax-QIE 	R-coax-QIE 		QIEConnector
 1 wedge = 2PMTs(1 Type A + 1 Type B ) = 8 Connectors(8 winchester cable) = 4 QIEs
 
 24 PINs per winchester cable, 1 QIE10 channel need 2 Pins: one for signal, the other one for reference;  
+
+
+ngHB template, include important qie channel swap:
+http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/ngHB/ngHB_RBX_template_Lmap.xls
+
+The frontend map of the existing prototype ngHE RMs (in columns A-I) has been copied from Sergey's file:
+http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/ngHB/HB-TB2017-QIE-Mapping-July13-2017.xlsx
+
+the ngOptical patches in USC:
+http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/optical_patch_2018.txt
+
+ngHB+ngHE together template:
+http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/ngHE/ngHEP17/HBHEP17_template.xls
+
