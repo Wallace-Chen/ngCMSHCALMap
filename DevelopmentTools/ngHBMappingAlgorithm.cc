@@ -181,21 +181,20 @@ void ngHBMappingAlgorithm::ConstructngHBGeometry(int sideid, int rbxrmid, int rm
   }
 
   thisngHBGeometry.depth = ngHBdepInqiechid[tmp_qie11_ch-1];
-  /*
+  
   //No HBX channel in 2017 HB (not ngHB)
   //Over write everything for HBX channels ?
-  ( (rbxrmid%4==1 && rmfifichid==29 ) || (rbxrmid%4==1 && rmfifichid==37 ) || (rbxrmid%4==2 && rmfifichid==7 ) || (rbxrmid%4==2 && rmfifichid==18 ) ) ? thisngHBGeometry.subdet = "HBX" : thisngHBGeometry.subdet = "HB";
+  ( (thisngHBGeometry.eta==16 && thisngHBGeometry.depth==4 ) ) ? thisngHBGeometry.subdet = "HBX" : thisngHBGeometry.subdet = "HB";
 
   if(thisngHBGeometry.subdet == "HBX") 
   {
-    //cross check HBX channel with ngHBetaInrmfifichid array
-    if(thisngHBGeometry.eta!=0 || thisngHBGeometry.depth!=0) std::cout << "Wrong HBX channel map!" << std::endl;
+    thisngHBGeometry.side = 0;
     thisngHBGeometry.eta = 0;
     thisngHBGeometry.phi = 0;
     thisngHBGeometry.depth = 0;
     thisngHBGeometry.dphi = 0;
   }
-  */
+  
   myngHBGeometry.push_back(thisngHBGeometry);
   return ;
 }
