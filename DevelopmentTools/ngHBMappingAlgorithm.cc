@@ -203,13 +203,15 @@ void ngHBMappingAlgorithm::ConstructngHBTriggerTower()
   return ;
 }
 
-std::pair<int,int> ngHBMappingAlgorithm::ngHBGetQIEcardch(int rm, int final_rm_fiber, int final_fiber_ch)
+std::pair<int,int> ngHBMappingAlgorithm::ngHBGetQIEcardch(int rm, int rm_fiber_final, int fiber_ch_final)
 {
   std::pair<int,int> qie_cardch_pair(-1,-1);
   //first map from final rmfi and fich to natural counterpart
-  int rm_fiber_nature = -1, fiber_ch_nature=-1;
-  (rm==1 || rm==3) ? rm_fiber_nature = (ngHBrmfifinalTonature_rm13.find(final_rm_fiber))->second : rm_fiber_nature = (ngHBrmfifinalTonature_rm24.find(final_rm_fiber))->second;
-  fiber_ch_nature = (ngHBfichfinalTonature.find(final_fiber_ch))->second; //fiber channle from final to natural
+  int rm_fiber_nature = -1, fiber_ch_nature = -1;
+  (rm==1 || rm==3) ? rm_fiber_nature = (ngHBrmfifinalTonature_rm13.find(rm_fiber_final))->second : rm_fiber_nature = (ngHBrmfifinalTonature_rm24.find(rm_fiber_final))->second;
+  fiber_ch_nature = (ngHBfichfinalTonature.find(fiber_ch_final))->second; //fiber channle from final to natural
+  //uncomment the following line and comment out the previous "swap" if Dick ask for back to natural order!
+  //rm_fiber_nature = rm_fiber_final; fiber_ch_nature = fiber_ch_final;
   //Notice here is different from the remapped HB!!! QIE8 ch swap vs rm fi ch swap!!!
   int qie11 = -1, qie11_ch = -1;
   qie_cardch_pair.first = (rm_fiber_nature-1)/2+1;

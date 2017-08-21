@@ -18,7 +18,7 @@ class ngHBMappingAlgorithm : public ngHBConstant
   void ConstructngHBSiPM();
   void ConstructngHBTriggerTower();  
 
-  //we have rm fiber swap and fiber channel swap to give us the ability to design a tp fw within latency
+  //we have rm fiber and fiber channel map to give us the ability to design a tp fw within latency
   /*
   Original input from Dick:
           natural  RM2,4   RM1,3
@@ -37,7 +37,7 @@ class ngHBMappingAlgorithm : public ngHBConstant
   const std::map<int, int> ngHBrmfifinalTonature_rm13 = { {1,2}, {2,1}, {3,8}, {4,3}, {5,6}, {6,5}, {7,4}, {8,7} };
   const std::map<int, int> ngHBrmfifinalTonature_rm24 = { {1,1}, {2,2}, {3,7}, {4,4}, {5,5}, {6,6}, {7,3}, {8,8} };
   /*
-  Original input from Dick, fiber channel swap:
+  Original input from Dick, fiber channel map:
   QIEold Link QIEnew Fib_chnew
   1      0    1      0
   2      0    3      2
@@ -75,7 +75,7 @@ class ngHBMappingAlgorithm : public ngHBConstant
   16     1    16     7         7
   */
   const std::map<int, int> ngHBfichfinalTonature = { {0,0}, {1,2}, {2,1}, {3,3}, {4,4}, {5,6}, {6,5}, {7,7} };
-  std::pair<int,int> ngHBGetQIEcardch(int rm, int final_rm_fiber, int final_fiber_ch);
+  std::pair<int,int> ngHBGetQIEcardch(int rm, int rm_fiber_final, int fiber_ch_final);
 
   const int ngHBucrateInrbxrmid[Ncrate] = {30,24,20,21,25,31,35,37,34};
   
