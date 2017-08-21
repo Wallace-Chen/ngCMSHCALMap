@@ -39,8 +39,14 @@ void ngHBMappingAlgorithm::ConstructngHBFrontEnd(int sideid, int rbxrmid, int rm
   thisngHBFrontEnd.rm_fiber = rmfifichid/Nfiber_ch + 1;
   thisngHBFrontEnd.fiber_ch = rmfifichid%Nfiber_ch;
   //set secondary variables qie11 map
-  thisngHBFrontEnd.qie11 = (thisngHBFrontEnd.rm_fiber -1)/2+1;
-  thisngHBFrontEnd.rm_fiber%2 != 0 ? thisngHBFrontEnd.qie11_ch = thisngHBFrontEnd.fiber_ch : thisngHBFrontEnd.qie11_ch = 3 + (thisngHBFrontEnd.fiber_ch+1)%3;
+  //first map from swapped rmfi and fich to natural counterpart
+  int rm_fiber_nature = -1, fiber_ch_nature=-1;
+  (thisngHBFrontEnd.rm==1 || thisngHBFrontEnd.rm==3) ? rm_fiber_nature = (ngHBrmfiswappedTonature_rm13.find(thisngHBFrontEnd.rm_fiber))->second : rm_fiber_nature = (ngHBrmfiswappedTonature_rm24.find(thisngHBFrontEnd.rm_fiber))->second;
+  fiber_ch_nature = (ngHBfichswappedTonature.find(thisngHBFrontEnd.fiber_ch))->second; //fiber channle from swapped to natural
+  //FIXME
+  //Notice here is different from the remapped HB!!! QIE8 ch swap vs rm fi ch swap!!! 
+  thisngHBFrontEnd.qie11 = (rm_fiber_nature-1)/2+1;
+  rm_fiber_nature%2 != 0 ? thisngHBFrontEnd.qie11_ch = fiber_ch_nature+1 : thisngHBFrontEnd.qie11_ch = 8+fiber_ch_nature+1;
   thisngHBFrontEnd.qie11_id = 999991;
   myngHBFrontEnd.push_back(thisngHBFrontEnd);
   return ;

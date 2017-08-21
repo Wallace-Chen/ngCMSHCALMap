@@ -1,5 +1,7 @@
 #include <vector>
 #include <iostream>
+#include <map>
+#include <utility>
 
 #include "ngHBMappingObject.h"
 
@@ -15,12 +17,68 @@ class ngHBMappingAlgorithm : public ngHBConstant
   void ConstructngHBGeometry(int sideid, int rbxrmid, int rmfifichid);      
   void ConstructngHBSiPM();
   void ConstructngHBTriggerTower();  
+
+  //we have rm fiber swap and fiber channel swap to give us the ability to design a tp fw within latency
+  /*
+  Original input from Dick:
+          natural  RM2,4   RM1,3
+  card Tx rm_fib   rm_fib  rm_fib
   
+   1   1    1        1      2
+   1   2    2        2      1
+   2   1    3        7      4
+   2   2    4        4      7
+   3   1    5        5      6
+   3   2    6        6      5
+   4   1    7        3      8
+   4   2    8        8      3
+  Translate into swapped based coordinates:
+  */
+  const std::map<int, int> ngHBrmfiswappedTonature_rm13 = { {1,2}, {2,1}, {3,8}, {4,3}, {5,6}, {6,5}, {7,4}, {8,7} };
+  const std::map<int, int> ngHBrmfiswappedTonature_rm24 = { {1,1}, {2,2}, {3,7}, {4,4}, {5,5}, {6,6}, {7,3}, {8,8} };
+  /*
+  Original input from Dick, fiber channel swap:
+  QIEold Link QIEnew Fib_chnew
+  1      0    1      0
+  2      0    3      2
+  3      0    2      1
+  4      0    4      3
+  5      0    5      4
+  6      0    7      6
+  7      0    6      5
+  8      0    8      7
+  9      1    9      0
+  10     1    11     2
+  11     1    10     1
+  12     1    12     3
+  13     1    13     4
+  14     1    15     6
+  15     1    14     5
+  16     1    16     7
+  Translate into swapped based coordinates:
+  QIEold Link QIEnew Fib_chnew Fib_old
+  1      0    1      0         0
+  3      0    2      1         2
+  2      0    3      2         1
+  4      0    4      3         3
+  5      0    5      4         4
+  7      0    6      5         6
+  6      0    7      6         5
+  8      0    8      7         7
+  9      1    9      0         0
+  11     1    10     1         2
+  10     1    11     2         1
+  12     1    12     3         3
+  13     1    13     4         4
+  15     1    14     5         6
+  14     1    15     6         5
+  16     1    16     7         7
+  */
+  const std::map<int, int> ngHBfichswappedTonature = { {0,0}, {1,2}, {2,1}, {3,3}, {4,4}, {5,6}, {6,5}, {7,7} };
+  //int ngHBrmfiswap(int swapped_rm_fiber, int rm);
+  //int ngHBfichswap(int swapped_fiber_ch);
+
   const int ngHBucrateInrbxrmid[Ncrate] = {30,24,20,21,25,31,35,37,34};
-  const int ngHBuhtrInrmfifichidType1[Nrm_fiber] = {2, 3, 0, 12,13,14};
-  const int ngHBuhtrInrmfifichidType2[Nrm_fiber] = {4, 5, 1, 15,16,17};
-  const int ngHBuhtrInrmfifichidType3[Nrm_fiber] = {6, 7, 2, 18,19,20};
-  const int ngHBuhtrInrmfifichidType4[Nrm_fiber] = {8, 9, 3, 21,22,23};
 
   //http://cmsdoc.cern.ch/cms/HCAL/document/Calorimeters/HE/ngHB/ODU/ngHB_RM_fib_symmetries.txt
   //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/Arjan-verified_26-aug-2016/HBHEP07_template.xls
