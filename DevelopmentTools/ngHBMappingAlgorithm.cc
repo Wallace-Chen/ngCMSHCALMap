@@ -39,14 +39,8 @@ void ngHBMappingAlgorithm::ConstructngHBFrontEnd(int sideid, int rbxrmid, int rm
   thisngHBFrontEnd.rm_fiber = rmfifichid/Nfiber_ch + 1;
   thisngHBFrontEnd.fiber_ch = rmfifichid%Nfiber_ch;
   //set secondary variables qie11 map
-  //first map from swapped rmfi and fich to natural counterpart
-  int rm_fiber_nature = -1, fiber_ch_nature=-1;
-  (thisngHBFrontEnd.rm==1 || thisngHBFrontEnd.rm==3) ? rm_fiber_nature = (ngHBrmfiswappedTonature_rm13.find(thisngHBFrontEnd.rm_fiber))->second : rm_fiber_nature = (ngHBrmfiswappedTonature_rm24.find(thisngHBFrontEnd.rm_fiber))->second;
-  fiber_ch_nature = (ngHBfichswappedTonature.find(thisngHBFrontEnd.fiber_ch))->second; //fiber channle from swapped to natural
-  //FIXME
-  //Notice here is different from the remapped HB!!! QIE8 ch swap vs rm fi ch swap!!! 
-  thisngHBFrontEnd.qie11 = (rm_fiber_nature-1)/2+1;
-  rm_fiber_nature%2 != 0 ? thisngHBFrontEnd.qie11_ch = fiber_ch_nature+1 : thisngHBFrontEnd.qie11_ch = 8+fiber_ch_nature+1;
+  thisngHBFrontEnd.qie11 = ngHBGetQIEcardch(thisngHBFrontEnd.rm, thisngHBFrontEnd.rm_fiber, thisngHBFrontEnd.fiber_ch).first;
+  thisngHBFrontEnd.qie11_ch = ngHBGetQIEcardch(thisngHBFrontEnd.rm, thisngHBFrontEnd.rm_fiber, thisngHBFrontEnd.fiber_ch).second;
   thisngHBFrontEnd.qie11_id = 999991;
   myngHBFrontEnd.push_back(thisngHBFrontEnd);
   return ;
@@ -208,3 +202,19 @@ void ngHBMappingAlgorithm::ConstructngHBTriggerTower()
   myngHBTriggerTower.push_back(thisngHBTriggerTower);
   return ;
 }
+
+std::pair<int,int> ngHBMappingAlgorithm::ngHBGetQIEcardch(int rm, int final_rm_fiber, int final_fiber_ch)
+{
+  std::pair<int,int> qie_cardch_pair(-1,-1);
+  //first map from final rmfi and fich to natural counterpart
+  int rm_fiber_nature = -1, fiber_ch_nature=-1;
+  (rm==1 || rm==3) ? rm_fiber_nature = (ngHBrmfifinalTonature_rm13.find(final_rm_fiber))->second : rm_fiber_nature = (ngHBrmfifinalTonature_rm24.find(final_rm_fiber))->second;
+  fiber_ch_nature = (ngHBfichfinalTonature.find(final_fiber_ch))->second; //fiber channle from final to natural
+  //Notice here is different from the remapped HB!!! QIE8 ch swap vs rm fi ch swap!!!
+  int qie11 = -1, qie11_ch = -1;
+  qie_cardch_pair.first = (rm_fiber_nature-1)/2+1;
+  rm_fiber_nature%2 != 0 ? qie_cardch_pair.second = fiber_ch_nature+1 : qie_cardch_pair.second = 8+fiber_ch_nature+1;
+
+  return qie_cardch_pair;
+}
+

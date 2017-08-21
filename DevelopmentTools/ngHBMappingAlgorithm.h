@@ -32,10 +32,10 @@ class ngHBMappingAlgorithm : public ngHBConstant
    3   2    6        6      5
    4   1    7        3      8
    4   2    8        8      3
-  Translate into swapped based coordinates:
+  Translate into final based coordinates:
   */
-  const std::map<int, int> ngHBrmfiswappedTonature_rm13 = { {1,2}, {2,1}, {3,8}, {4,3}, {5,6}, {6,5}, {7,4}, {8,7} };
-  const std::map<int, int> ngHBrmfiswappedTonature_rm24 = { {1,1}, {2,2}, {3,7}, {4,4}, {5,5}, {6,6}, {7,3}, {8,8} };
+  const std::map<int, int> ngHBrmfifinalTonature_rm13 = { {1,2}, {2,1}, {3,8}, {4,3}, {5,6}, {6,5}, {7,4}, {8,7} };
+  const std::map<int, int> ngHBrmfifinalTonature_rm24 = { {1,1}, {2,2}, {3,7}, {4,4}, {5,5}, {6,6}, {7,3}, {8,8} };
   /*
   Original input from Dick, fiber channel swap:
   QIEold Link QIEnew Fib_chnew
@@ -55,7 +55,7 @@ class ngHBMappingAlgorithm : public ngHBConstant
   14     1    15     6
   15     1    14     5
   16     1    16     7
-  Translate into swapped based coordinates:
+  Translate into final based coordinates:
   QIEold Link QIEnew Fib_chnew Fib_old
   1      0    1      0         0
   3      0    2      1         2
@@ -74,12 +74,11 @@ class ngHBMappingAlgorithm : public ngHBConstant
   14     1    15     6         5
   16     1    16     7         7
   */
-  const std::map<int, int> ngHBfichswappedTonature = { {0,0}, {1,2}, {2,1}, {3,3}, {4,4}, {5,6}, {6,5}, {7,7} };
-  //int ngHBrmfiswap(int swapped_rm_fiber, int rm);
-  //int ngHBfichswap(int swapped_fiber_ch);
+  const std::map<int, int> ngHBfichfinalTonature = { {0,0}, {1,2}, {2,1}, {3,3}, {4,4}, {5,6}, {6,5}, {7,7} };
+  std::pair<int,int> ngHBGetQIEcardch(int rm, int final_rm_fiber, int final_fiber_ch);
 
   const int ngHBucrateInrbxrmid[Ncrate] = {30,24,20,21,25,31,35,37,34};
-
+  
   //http://cmsdoc.cern.ch/cms/HCAL/document/Calorimeters/HE/ngHB/ODU/ngHB_RM_fib_symmetries.txt
   //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/Arjan-verified_26-aug-2016/HBHEP07_template.xls
   const int ngHBphiInrbxrmid_P[NrbxngHB*NrmngHB] = {71,72,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70};
