@@ -44,6 +44,8 @@ class HCALLMapDumper
   void makedbHBLMapObject(std::string HCALLMapDbStr, std::string HBTableStr,
                           std::vector<HBFrontEnd> myHBFrontEnd, std::vector<HBBackEnd> myHBBackEnd, std::vector<HBHPD> myHBHPD, std::vector<HBGeometry> myHBGeometry, std::vector<HBTriggerTower> myHBTriggerTower);
   //ngHB,db
+  void makedbngHBLMapObject(std::string HCALLMapDbStr, std::string ngHBTableStr,
+                            std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower);
   //HE?,db
   //ngHE,db
   void makedbngHELMapObject(std::string HCALLMapDbStr, std::string ngHETableStr,
