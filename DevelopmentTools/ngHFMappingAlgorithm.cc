@@ -339,11 +339,9 @@ void ngHFMappingAlgorithm::ConstructngHFBackEnd(int sideid, int rbxqie10id, int 
   //set secondary variables
   thisngHFBackEnd.trunk_fiber = (thisngHFBackEnd.yfiber_input-1)*6 + qie10chid/Nfiber_ch + 1;//1 to 12
   //FED 1118,1119,1120,1121,1122,1123
-  //backend slot 7 to 12 to P-side, backend slot 1 to 6 to M-side, 
-  //The odd HF FEDs read P-side, the evens read M-side - - - 1118,1120,1122 for P-side, and 1119,1121,1123 for M-side
-  const std::map<int, int> ngHFufedidInucrate = { {22,1118},{29,1120},{32,1122} };
-  thisngHFBackEnd.ufedid = (ngHFufedidInucrate.find(thisngHFBackEnd.ucrate))->second;
-  if(thisngHFBackEnd.uhtr <= 6){ thisngHFBackEnd.ufedid++; } 
+  //backend slot 7 to 12 odd number backend slot 1 to 6 even number, 
+  const std::map<int, std::pair<int, int> > ngHFufedidInucrate = { {22,{1118,1119}},{29,{1120,1121}},{32,{1122,1123}} };
+  thisngHFBackEnd.uhtr <= 6 ? thisngHFBackEnd.ufedid = ((ngHFufedidInucrate.find(thisngHFBackEnd.ucrate))->second).first : thisngHFBackEnd.ufedid = ((ngHFufedidInucrate.find(thisngHFBackEnd.ucrate))->second).second;
   myngHFBackEnd.push_back(thisngHFBackEnd);
   return ;
 }
