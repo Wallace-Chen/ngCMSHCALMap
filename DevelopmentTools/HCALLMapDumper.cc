@@ -714,7 +714,7 @@ void HCALLMapDumper::makedbngHFLMapObject(std::string HCALLMapDbStr, std::string
   //Trunk_FI nCable MTP 
   //Crate uHTR uHTR_Rx uHTR_FI FEDid 
   //QIE10id QIE10BarCode
-
+  //TP_FI TP_CH
   std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHFTableStr + "(" \
                             "ID INT PRIMARY KEY NOT NULL, " \
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
@@ -725,7 +725,8 @@ void HCALLMapDumper::makedbngHFLMapObject(std::string HCALLMapDbStr, std::string
                             "QIE10 INT NOT NULL, QIETB TEXT NOT NULL, QIECH INT NOT NULL, QIEFI INT NOT NULL, FI_CH INT NOT NULL, " \
                             "Trunk_FI INT NOT NULL, nCable INT NOT NULL, MTP INT NOT NULL, " \
                             "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_Rx INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
-                            "QIE10id INT NOT NULL, QIE10BarCode TEXT NOT NULL);";
+                            "QIE10id INT NOT NULL, QIE10BarCode TEXT NOT NULL, " \
+                            "TP_FI INT NOT NULL, TP_CH INT NOT NULL);";
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
@@ -743,7 +744,8 @@ void HCALLMapDumper::makedbngHFLMapObject(std::string HCALLMapDbStr, std::string
                       "QIE10,QIETB,QIECH,QIEFI,FI_CH," \
                       "Trunk_FI,nCable,MTP," \
                       "Crate,uHTR,uHTR_Rx,uHTR_FI,FEDid," \
-                      "QIE10id,QIE10BarCode) ";
+                      "QIE10id,QIE10BarCode," \
+                      "TP_FI,TP_CH) ";
     std::string two = "VALUES("
                       +std::to_string(i)+","
                       +std::to_string(myngHFGeometry.at(i).side)+","+std::to_string(myngHFGeometry.at(i).eta)+","+std::to_string(myngHFGeometry.at(i).phi)+","+std::to_string(myngHFGeometry.at(i).dphi)+","+std::to_string(myngHFGeometry.at(i).depth)+",'"+myngHFGeometry.at(i).subdet+"','"
@@ -754,7 +756,8 @@ void HCALLMapDumper::makedbngHFLMapObject(std::string HCALLMapDbStr, std::string
                       +std::to_string(myngHFFrontEnd.at(i).qie10)+",'"+myngHFFrontEnd.at(i).qie10_connector+"',"+std::to_string(myngHFFrontEnd.at(i).qie10_ch)+","+std::to_string(myngHFFrontEnd.at(i).qie10_fiber)+","+std::to_string(myngHFFrontEnd.at(i).fiber_ch)+","
                       +std::to_string(myngHFBackEnd.at(i).trunk_fiber)+","+std::to_string(myngHFBackEnd.at(i).trunk_ncable)+","+std::to_string(myngHFBackEnd.at(i).mtp)+","
                       +std::to_string(myngHFBackEnd.at(i).ucrate)+","+std::to_string(myngHFBackEnd.at(i).uhtr)+","+std::to_string(myngHFBackEnd.at(i).uhtr_rx)+","+std::to_string(myngHFBackEnd.at(i).uhtr_fiber)+","+std::to_string(myngHFBackEnd.at(i).ufedid)+","
-                      +std::to_string(myngHFFrontEnd.at(i).qie10_id)+",'"+myngHFFrontEnd.at(i).qie10_barcode+"');";
+                      +std::to_string(myngHFFrontEnd.at(i).qie10_id)+",'"+myngHFFrontEnd.at(i).qie10_barcode+"',"
+                      +std::to_string(myngHFTriggerTower.at(i).trg_fiber)+","+std::to_string(myngHFTriggerTower.at(i).trg_fiber_ch)+");";
 
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
