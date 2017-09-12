@@ -39,6 +39,8 @@ int main(int argc, char* argv[])
       //myHCALLMapDumper.makedbHBLMapObject("officialMap/HCALLogicalMap.db", "HBLogicalMap",
       //                                    myHBMappingAlgorithm.myHBFrontEnd, myHBMappingAlgorithm.myHBBackEnd, myHBMappingAlgorithm.myHBHPD, myHBMappingAlgorithm.myHBGeometry, myHBMappingAlgorithm.myHBTriggerTower);
       myHCALLMapDumper.printngHBLMapObject(myngHBMappingAlgorithm.myngHBFrontEnd, myngHBMappingAlgorithm.myngHBBackEnd, myngHBMappingAlgorithm.myngHBSiPM, myngHBMappingAlgorithm.myngHBGeometry, myngHBMappingAlgorithm.myngHBTriggerTower);
+      myHCALLMapDumper.makedbngHBLMapObject("officialMap/HCALLogicalMap.db", "ngHBLogicalMap",
+                                            myngHBMappingAlgorithm.myngHBFrontEnd, myngHBMappingAlgorithm.myngHBBackEnd, myngHBMappingAlgorithm.myngHBSiPM, myngHBMappingAlgorithm.myngHBGeometry, myngHBMappingAlgorithm.myngHBTriggerTower);
     }
     if( PrdMode == "EMap" )
     {
@@ -77,8 +79,6 @@ int main(int argc, char* argv[])
   {
     //HFMappingAlgorithm myHFMappingAlgorithm;
     //myHFMappingAlgorithm.ConstructHFLMapObject();
-
-    //myHCALLMapDumper.printHFLMapObject(myHFMappingAlgorithm.myHFFrontEnd, myHFMappingAlgorithm.myHFBackEnd, myHFMappingAlgorithm.myHFPMTBox, myHFMappingAlgorithm.myHFGeometry, myHFMappingAlgorithm.myHFTriggerTower);
     
     ngHFMappingAlgorithm myngHFMappingAlgorithm;
     myngHFMappingAlgorithm.ConstructngHFLMapObject();
@@ -86,6 +86,7 @@ int main(int argc, char* argv[])
 
     if( PrdMode == "LMap" )
     {
+      //myHCALLMapDumper.printHFLMapObject(myHFMappingAlgorithm.myHFFrontEnd, myHFMappingAlgorithm.myHFBackEnd, myHFMappingAlgorithm.myHFPMTBox, myHFMappingAlgorithm.myHFGeometry, myHFMappingAlgorithm.myHFTriggerTower);
       myHCALLMapDumper.printngHFLMapObject(myngHFMappingAlgorithm.myngHFFrontEnd, myngHFMappingAlgorithm.myngHFBackEnd, myngHFMappingAlgorithm.myngHFPMTBox, myngHFMappingAlgorithm.myngHFGeometry, myngHFMappingAlgorithm.myngHFTriggerTower);
       myHCALLMapDumper.makedbngHFLMapObject("officialMap/HCALLogicalMap.db", "ngHFLogicalMap",
                                             myngHFMappingAlgorithm.myngHFFrontEnd, myngHFMappingAlgorithm.myngHFBackEnd, myngHFMappingAlgorithm.myngHFPMTBox, myngHFMappingAlgorithm.myngHFGeometry, myngHFMappingAlgorithm.myngHFTriggerTower);
@@ -110,14 +111,16 @@ int main(int argc, char* argv[])
     if( PrdMode == "LMap" )
     {
       myHCALLMapDumper.printHOLMapObject(myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
-      //myHCALLMapDumper.makedbHOLMapObject("officialMap/HCALLogicalMap.db", "HOLogicalMap",
-      //                                    myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
+      myHCALLMapDumper.makedbHOLMapObject("officialMap/HCALLogicalMap.db", "HOLogicalMap",
+                                          myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
     }
     if( PrdMode == "EMap" )
     {
+      myHCALLMapDumper.printHOEMapObject(myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
     }
     if( PrdMode == "FMap" )
     {
+      myHCALLMapDumper.printHOFrontEndMapObject(myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
     }
     return 1;
   }

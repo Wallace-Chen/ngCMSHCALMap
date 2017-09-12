@@ -115,7 +115,9 @@ void HBMappingAlgorithm::ConstructHBBackEnd(int sideid, int rbxrmid, int rmfific
   //set backend fiber channel : same as the front end one
   thisHBBackEnd.fiber_ch = rmfifichid%Nfiber_ch;
   //set tmp fed id
-  thisHBBackEnd.ufedid = thisHBBackEnd.ucrate + 1100 -20;
+  //backend slot 7 to 12 odd number backend slot 1 to 6 even number, 
+  const std::map<int, std::pair<int, int> > HBufedidInucrate = { {20,{1102,1103}},{21,{1104,1105}},{24,{1100,1101}},{25,{1106,1107}},{30,{1116,1117}},{31,{1108,1109}},{34,{1114,1115}},{35,{1110,1111}},{37,{1112,1113}} };
+  thisHBBackEnd.uhtr <= 6 ? thisHBBackEnd.ufedid = ((HBufedidInucrate.find(thisHBBackEnd.ucrate))->second).first : thisHBBackEnd.ufedid = ((HBufedidInucrate.find(thisHBBackEnd.ucrate))->second).second;
   myHBBackEnd.push_back(thisHBBackEnd);
   return ;
 }

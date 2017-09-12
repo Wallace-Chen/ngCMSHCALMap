@@ -154,7 +154,10 @@ void ngHEMappingAlgorithm::ConstructngHEBackEnd(int sideid, int rbxrmid, int rmf
   //set backend fiber channel : same as the front end one
   thisngHEBackEnd.fiber_ch = rmfifichid%Nfiber_ch;
   //set tmp fed id
-  thisngHEBackEnd.ufedid = thisngHEBackEnd.ucrate + 1100 -20;
+  //FED 1102,1103,1104,1105,1100,1101,1106,1107,1116,1117,1108,1109,1114,1115,1110,1111,1112,1113
+  //backend slot 7 to 12 odd number backend slot 1 to 6 even number, 
+  const std::map<int, std::pair<int, int> > ngHEufedidInucrate = { {20,{1102,1103}},{21,{1104,1105}},{24,{1100,1101}},{25,{1106,1107}},{30,{1116,1117}},{31,{1108,1109}},{34,{1114,1115}},{35,{1110,1111}},{37,{1112,1113}} };
+  thisngHEBackEnd.uhtr <= 6 ? thisngHEBackEnd.ufedid = ((ngHEufedidInucrate.find(thisngHEBackEnd.ucrate))->second).first : thisngHEBackEnd.ufedid = ((ngHEufedidInucrate.find(thisngHEBackEnd.ucrate))->second).second;
   //set secondary variables
   myngHEBackEnd.push_back(thisngHEBackEnd);
   return ;

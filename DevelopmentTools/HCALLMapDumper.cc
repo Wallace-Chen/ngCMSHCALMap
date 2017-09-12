@@ -86,10 +86,10 @@ void HCALLMapDumper::printngHBLMapObject(std::vector<ngHBFrontEnd> myngHBFrontEn
   //Side Eta Phi dPhi Depth Det 
   //RBX 
   //Wedge BV 
-  //QIE8 QIECH RM RM_FI FI_CH 
+  //QIE11 QIECH RM RM_FI FI_CH 
   //ppCol ppRow ppCpl ppLC dodec 
   //Crate uHTR uHTR_FI FEDid 
-  //QIE8id
+  //QIE11id
 
   std::cout << "#"
             << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
@@ -169,11 +169,11 @@ void HCALLMapDumper::printngHELMapObject(std::vector<ngHEFrontEnd> myngHEFrontEn
   //Side Eta Phi dPhi Depth Det 
   //RBX 
   //Wedge BV
-  //QIE8 QIECH RM RM_FI FI_CH 
+  //QIE11 QIECH RM RM_FI FI_CH 
   //ppCol ppRow ppCpl ppLC docdec 
   //Crate uHTR uHTR_FI 
   //FEDid 
-  //QIE8id
+  //QIE11id
 
   std::cout << "#"
             << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
@@ -411,6 +411,56 @@ void HCALLMapDumper::printHOLMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std
   return ;
 }
 
+void HCALLMapDumper::printHOEMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower)
+{ 
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  std::cout << "#Dumping HO EMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(10) <<"i"  
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch" 
+            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
+            << std::endl;
+    
+  for(auto i=0; i<myHOFrontEnd.size(); i++)
+  { 
+    std::string emaptb = "";
+    myHOBackEnd.at(i).fpga == "top" ? emaptb="t" : emaptb="b";
+    int emapdepth = 0;
+    myHOGeometry.at(i).subdet == "HOX" ? emapdepth = -999 : emapdepth = myHOGeometry.at(i).depth;
+    std::cout 
+              //<< "HOGeometry(side,eta,phi,depth): "
+              << " " 
+              << std::setw(10) << "4200458C"
+              << std::setw(6) << myHOBackEnd.at(i).crate << std::setw(6) << myHOBackEnd.at(i).htr << std::setw(6) << emaptb << std::setw(6) << myHOBackEnd.at(i).dcc << std::setw(8) << myHOBackEnd.at(i).spigot << std::setw(8) << myHOBackEnd.at(i).htr_fiber << std::setw(12) << myHOBackEnd.at(i).fiber_ch
+              << std::setw(8) << myHOGeometry.at(i).subdet << std::setw(6) << myHOGeometry.at(i).side * myHOGeometry.at(i).eta << std::setw(6) << myHOGeometry.at(i).phi << std::setw(6) << emapdepth
+              << std::endl;
+  }
+  return ;
+}
+
+void HCALLMapDumper::printHOFrontEndMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  std::cout << "#Dumping HO FrontEnd Map Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
+            << std::setw(8) << "subdet"
+            << std::setw(6) << "rbx" << std::setw(6) << "rm"
+            << std::endl;
+
+  for(auto i=0; i<myHOFrontEnd.size(); i++)
+  {
+    std::cout
+              //<< "HOGeometry(side,eta,phi,depth): "
+              << " "
+              << std::setw(6) << myHOGeometry.at(i).side * myHOGeometry.at(i).eta << std::setw(6) << myHOGeometry.at(i).phi << std::setw(6) << myHOGeometry.at(i).depth
+              << std::setw(8) << myHOGeometry.at(i).subdet
+              << std::setw(9) << myHOFrontEnd.at(i).rbx << std::setw(6) << myHOFrontEnd.at(i).rm
+              << std::endl;
+  }
+  return ;
+}
+
 void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string HBTableStr,
                                         std::vector<HBFrontEnd> myHBFrontEnd, std::vector<HBBackEnd> myHBBackEnd, std::vector<HBHPD> myHBHPD, std::vector<HBGeometry> myHBGeometry, std::vector<HBTriggerTower> myHBTriggerTower)
 {
@@ -426,25 +476,6 @@ void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string H
   if(TableExist)
   { 
     std::cout << "#Table: " << HBTableStr <<" already in the database!! Please check!" << std::endl; return ;
-    /*
-    std::cout << "#Table: " << HBTableStr <<" already in the database!! Do you want to drop this table and generate a new one?[Yes/No]" << std::endl;
-    std::string ifdrop="";
-    while( std::cin >> ifdrop && ( (ifdrop.find("Yes")==std::string::npos) && (ifdrop.find("No")==std::string::npos) ) )
-    { 
-      std::cout<<"#Wrong option for table drop, please type Yes or No!"<<std::endl;
-      if( (ifdrop.find("Yes")==std::string::npos) || (ifdrop.find("No")==std::string::npos) ) ifdrop="";
-    }
-    if(ifdrop=="Yes")
-    { 
-      std::cout << "#Drop Table: " << HBTableStr <<" from database..." << std::endl;
-      rc = sqlite3_exec(db, ("DROP TABLE "+HBTableStr).c_str(), 0, 0, &zErrMsg);
-    }
-    else if(ifdrop=="No")
-    {
-      std::cout << "#Table: " << HBTableStr <<" stay unchange in database..." << std::endl;
-      return ;
-    }
-    */
   }
   else{ std::cout << "#Table: " << HBTableStr <<" not in the database... Creating..." << std::endl; }
 
@@ -502,6 +533,75 @@ void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string H
   return ;
 }
 
+void HCALLMapDumper::makedbngHBLMapObject(std::string HCALLMapDbStr, std::string ngHBTableStr,
+                                          std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc;
+
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,ngHBTableStr);
+  if(TableExist){ std::cout << "#Table: " << ngHBTableStr <<" already in the database!! Please check!" << std::endl; return ; }
+  else{ std::cout << "#Table: " << ngHBTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det 
+  //ngRBX 
+  //Wedge Pix 
+  //QIE11 QIECH RM RM_FI FI_CH 
+  //ppCol ppRow ppCpl ppLC dodec 
+  //Crate uHTR uHTR_FI FEDid 
+  //QIE11id
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHBTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "ngRBX TEXT NOT NULL, " \
+                            "Wedge INT NOT NULL, Pix INT NOT NULL, " \
+                            "QIE11 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
+                            "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIE11id INT NOT NULL);";
+                    
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+  
+  for(auto i=0; i<myngHBFrontEnd.size(); i++)
+  {
+    std::string one = "INSERT INTO " + ngHBTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "ngRBX," \
+                      "Wedge,Pix," \
+                      "QIE11,QIECH,RM,RM_FI,FI_CH," \
+                      "ppCol,ppRow,ppCpl,ppLC,dodec," \
+                      "Crate,uHTR,uHTR_FI,FEDid," \
+                      "QIE11id) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myngHBGeometry.at(i).side)+","+std::to_string(myngHBGeometry.at(i).eta)+","+std::to_string(myngHBGeometry.at(i).phi)+","+std::to_string(myngHBGeometry.at(i).dphi)+","+std::to_string(myngHBGeometry.at(i).depth)+",'"+myngHBGeometry.at(i).subdet+"','"
+                      +myngHBFrontEnd.at(i).rbx+"',"
+                      +std::to_string(myngHBSiPM.at(i).wedge)+","+std::to_string(myngHBSiPM.at(i).bv)+","
+                      +std::to_string(myngHBFrontEnd.at(i).qie11)+","+std::to_string(myngHBFrontEnd.at(i).qie11_ch)+","+std::to_string(myngHBFrontEnd.at(i).rm)+","+std::to_string(myngHBFrontEnd.at(i).rm_fiber)+","+std::to_string(myngHBFrontEnd.at(i).fiber_ch)+","
+                      +std::to_string(myngHBBackEnd.at(i).ppcol)+","+std::to_string(myngHBBackEnd.at(i).pprow)+",'"+myngHBBackEnd.at(i).ppcpl+"',"+std::to_string(myngHBBackEnd.at(i).pplc)+","+std::to_string(myngHBBackEnd.at(i).dodec)+","
+                      +std::to_string(myngHBBackEnd.at(i).ucrate)+","+std::to_string(myngHBBackEnd.at(i).uhtr)+","+std::to_string(myngHBBackEnd.at(i).uhtr_fiber)+","+std::to_string(myngHBBackEnd.at(i).ufedid)+","
+                      +std::to_string(myngHBFrontEnd.at(i).qie11_id)+");";
+
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  sqlite3_close(db);
+  
+  return ;
+}
+
 void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string ngHETableStr,
                                           std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower)
 {
@@ -522,20 +622,20 @@ void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string
   //Side Eta Phi dPhi Depth Det 
   //ngRBX 
   //Wedge Pix 
-  //QIE8 QIECH RM RM_FI FI_CH 
+  //QIE11 QIECH RM RM_FI FI_CH 
   //ppCol ppRow ppCpl ppLC dodec 
   //Crate uHTR uHTR_FI FEDid 
-  //QIE8id
+  //QIE11id
 
   std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHETableStr + "(" \
                             "ID INT PRIMARY KEY NOT NULL, " \
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
                             "ngRBX TEXT NOT NULL, " \
                             "Wedge INT NOT NULL, Pix INT NOT NULL, " \
-                            "QIE8 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "QIE11 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
                             "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
                             "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
-                            "QIE8id INT NOT NULL);";
+                            "QIE11id INT NOT NULL);";
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
@@ -548,10 +648,10 @@ void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string
                       "Side,Eta,Phi,dPhi,Depth,Det," \
                       "ngRBX," \
                       "Wedge,Pix," \
-                      "QIE8,QIECH,RM,RM_FI,FI_CH," \
+                      "QIE11,QIECH,RM,RM_FI,FI_CH," \
                       "ppCol,ppRow,ppCpl,ppLC,dodec," \
                       "Crate,uHTR,uHTR_FI,FEDid," \
-                      "QIE8id) ";
+                      "QIE11id) ";
     std::string two = "VALUES("
                       +std::to_string(i)+","
                       +std::to_string(myngHEGeometry.at(i).side)+","+std::to_string(myngHEGeometry.at(i).eta)+","+std::to_string(myngHEGeometry.at(i).phi)+","+std::to_string(myngHEGeometry.at(i).dphi)+","+std::to_string(myngHEGeometry.at(i).depth)+",'"+myngHEGeometry.at(i).subdet+"','"

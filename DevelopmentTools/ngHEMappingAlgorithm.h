@@ -1,5 +1,7 @@
 #include <vector>
 #include <iostream>
+#include <map>
+#include <utility>
 
 #include "ngHEMappingObject.h"
 
