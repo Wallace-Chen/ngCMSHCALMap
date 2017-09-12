@@ -294,6 +294,7 @@ void HCALLMapDumper::printngHFLMapObject(std::vector<ngHFFrontEnd> myngHFFrontEn
             << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_Rx" << std::setw(9) << "uHTR_FI"
             << std::setw(6) << "FEDid"
             << std::setw(9) << "QIE10id" << std::setw(25) << "QIE10BarCode"
+            << std::setw(6) << "TP_FI" << std::setw(6) << "TP_CH"
             << std::endl;
 
   for(auto i=0; i<myngHFFrontEnd.size(); i++)
@@ -325,6 +326,7 @@ void HCALLMapDumper::printngHFLMapObject(std::vector<ngHFFrontEnd> myngHFFrontEn
               << std::setw(6) << myngHFBackEnd.at(i).ufedid
               //<< "ngHFFrontEnd(qie10_id): "
               << std::setw(9) << myngHFFrontEnd.at(i).qie10_id << std::setw(25) << myngHFFrontEnd.at(i).qie10_barcode
+              << std::setw(6) << myngHFTriggerTower.at(i).trg_fiber << std::setw(6) << myngHFTriggerTower.at(i).trg_fiber_ch
               << std::endl;
   }
   return ;

@@ -24,7 +24,7 @@ class ngHFMappingAlgorithm : public ngHFConstant
   void ConstructngHFPMTBox(int sideid, int rbxqie10id, int qie10chid);
   void ConstructngHFBackEnd(int sideid, int rbxqie10id, int qie10chid);
   void ConstructngHFGeometry(int sideid, int pmtbox, std::string tower, int anode);
-  //void ConstructngHFTriggerTower();  
+  void ConstructngHFTriggerTower(int eta, int phi);  
   const int ngHFqie10Inrbxqie10id[Nqie10] = {3,4,5,6,10,11,12,13,14};
   //QIE10 calibration constants
   //LMap add QIE10 ID and QIE10 BarCode

@@ -58,7 +58,7 @@ void HCALTPProducer::printngHEHTEMapObject(std::vector<ngHEFrontEnd> myngHEFront
 
   for(auto i=0; i<myngHEFrontEnd.size(); i++)
   {
-    //sum over depth, 17,18,19,20,21,22,23,24,25,26,27,28, 12*72*2=1728 ngHE HT channels in total.eta 16 go with HB, eta 29 go with HF?, dpho==2 have a split
+    //sum over depth, 17,18,19,20,21,22,23,24,25,26,27,28, 12*72*2=1728 ngHE HT channels in total.eta 16 go with HB, eta 29 is a gap, not exist even in HF, dphi==2 have a split
     if(myngHEGeometry.at(i).eta==17){ if(myngHEGeometry.at(i).depth!=2 ) continue; }
     else if(myngHEGeometry.at(i).eta==29) continue;//rule out eta 29
     else{ if(myngHEGeometry.at(i).depth!=1 ) continue; }//rule out eta 16, sum over depth, and HEX
