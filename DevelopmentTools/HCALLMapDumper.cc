@@ -411,6 +411,56 @@ void HCALLMapDumper::printHOLMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std
   return ;
 }
 
+void HCALLMapDumper::printHOEMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower)
+{ 
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  std::cout << "#Dumping HO EMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(10) <<"i"  
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch" 
+            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
+            << std::endl;
+    
+  for(auto i=0; i<myHOFrontEnd.size(); i++)
+  { 
+    std::string emaptb = "";
+    myHOBackEnd.at(i).fpga == "top" ? emaptb="t" : emaptb="b";
+    int emapdepth = 0;
+    myHOGeometry.at(i).subdet == "HOX" ? emapdepth = -999 : emapdepth = myHOGeometry.at(i).depth;
+    std::cout 
+              //<< "HOGeometry(side,eta,phi,depth): "
+              << " " 
+              << std::setw(10) << "4200458C"
+              << std::setw(6) << myHOBackEnd.at(i).crate << std::setw(6) << myHOBackEnd.at(i).htr << std::setw(6) << emaptb << std::setw(6) << myHOBackEnd.at(i).dcc << std::setw(8) << myHOBackEnd.at(i).spigot << std::setw(8) << myHOBackEnd.at(i).htr_fiber << std::setw(12) << myHOBackEnd.at(i).fiber_ch
+              << std::setw(8) << myHOGeometry.at(i).subdet << std::setw(6) << myHOGeometry.at(i).side * myHOGeometry.at(i).eta << std::setw(6) << myHOGeometry.at(i).phi << std::setw(6) << emapdepth
+              << std::endl;
+  }
+  return ;
+}
+
+void HCALLMapDumper::printHOFrontEndMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  std::cout << "#Dumping HO FrontEnd Map Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
+            << std::setw(8) << "subdet"
+            << std::setw(6) << "rbx" << std::setw(6) << "rm"
+            << std::endl;
+
+  for(auto i=0; i<myHOFrontEnd.size(); i++)
+  {
+    std::cout
+              //<< "HOGeometry(side,eta,phi,depth): "
+              << " "
+              << std::setw(6) << myHOGeometry.at(i).side * myHOGeometry.at(i).eta << std::setw(6) << myHOGeometry.at(i).phi << std::setw(6) << myHOGeometry.at(i).depth
+              << std::setw(8) << myHOGeometry.at(i).subdet
+              << std::setw(9) << myHOFrontEnd.at(i).rbx << std::setw(6) << myHOFrontEnd.at(i).rm
+              << std::endl;
+  }
+  return ;
+}
+
 void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string HBTableStr,
                                         std::vector<HBFrontEnd> myHBFrontEnd, std::vector<HBBackEnd> myHBBackEnd, std::vector<HBHPD> myHBHPD, std::vector<HBGeometry> myHBGeometry, std::vector<HBTriggerTower> myHBTriggerTower)
 {
