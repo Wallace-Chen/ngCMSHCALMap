@@ -250,12 +250,16 @@ void ngHEMappingAlgorithm::ConstructngHESiPM(int sideid, int rbxrmid, int rmfifi
 void ngHEMappingAlgorithm::ConstructngHETriggerTower(int eta, int phi)
 {
   ngHETriggerTower thisngHETriggerTower;
-
   thisngHETriggerTower.trg_fiber = -1;
   if(eta<=0 || phi<=0) 
   {
     thisngHETriggerTower.trg_fiber = -1;
     thisngHETriggerTower.trg_fiber_ch = -1;       
+  }
+  else if(eta==29)//special fix for eta 29 HE, tail go with eta 28. more details in phase 1 upgrade note
+  {
+    thisngHETriggerTower.trg_fiber = -1;
+    thisngHETriggerTower.trg_fiber_ch = -1;
   }
   else
   {

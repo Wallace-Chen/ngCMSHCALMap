@@ -19,7 +19,6 @@ void HBMappingAlgorithm::ConstructHBLMapObject()
           ConstructHBBackEnd(sideid,rbxrmid,rmfifichid);
           ConstructHBGeometry(sideid,rbxrmid,rmfifichid);
           ConstructHBHPD(sideid,rbxrmid,rmfifichid);
-          ConstructHBTriggerTower();
         }
       }
     }
@@ -144,6 +143,7 @@ void HBMappingAlgorithm::ConstructHBGeometry(int sideid, int rbxrmid, int rmfifi
   thisHBGeometry.subdet = "HB";
 
   myHBGeometry.push_back(thisHBGeometry);
+  ConstructHBTriggerTower(thisHBGeometry.eta, thisHBGeometry.phi);
   return ;
 }
 
@@ -167,10 +167,31 @@ void HBMappingAlgorithm::ConstructHBHPD(int sideid, int rbxrmid, int rmfifichid)
   return ;
 }
 
-void HBMappingAlgorithm::ConstructHBTriggerTower()
+void HBMappingAlgorithm::ConstructHBTriggerTower(int eta, int phi)
 {
   HBTriggerTower thisHBTriggerTower;
-
+  thisHBTriggerTower.trg_fiber = -1;
+  if(eta<=0 || phi<=0)
+  {
+    thisHBTriggerTower.trg_fiber = -1;
+    thisHBTriggerTower.trg_fiber_ch = -1;
+  }
+  else
+  {
+    if(eta <= 20)
+    {
+      if     (eta >= 1  && eta <=12) thisHBTriggerTower.trg_fiber = (int)((eta-1)/2);
+      else if(eta >= 13 && eta <=18) thisHBTriggerTower.trg_fiber = (int)((eta-13)/2);
+      else thisHBTriggerTower.trg_fiber = 0;
+    }
+    else
+    {
+      if     (eta >= 21 && eta <=24) thisHBTriggerTower.trg_fiber = (int)((eta-21)/2) + 1;
+      else if(eta >= 25 && eta <=26) thisHBTriggerTower.trg_fiber = 3;
+      else thisHBTriggerTower.trg_fiber = 3;
+    }
+    thisHBTriggerTower.trg_fiber_ch = ((eta-1)%2)*4 + ((phi+69)%72)%4;
+  }
   myHBTriggerTower.push_back(thisHBTriggerTower);
   return ;
 }
