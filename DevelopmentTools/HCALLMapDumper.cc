@@ -174,7 +174,7 @@ void HCALLMapDumper::printngHELMapObject(std::vector<ngHEFrontEnd> myngHEFrontEn
   //Crate uHTR uHTR_FI 
   //FEDid 
   //QIE11id
-
+  //TP_FI TP_CH
   std::cout << "#"
             << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
             << std::setw(6) << "RBX"
@@ -184,6 +184,7 @@ void HCALLMapDumper::printngHELMapObject(std::vector<ngHEFrontEnd> myngHEFrontEn
             << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
             << std::setw(6) << "FEDid"
             << std::setw(9) << "QIE11id"
+            << std::setw(6) << "TP_FI" << std::setw(6) << "TP_CH"
             << std::endl;
   for(auto i=0; i<myngHEFrontEnd.size(); i++)
   {
@@ -197,6 +198,7 @@ void HCALLMapDumper::printngHELMapObject(std::vector<ngHEFrontEnd> myngHEFrontEn
               << std::setw(6) << myngHEBackEnd.at(i).ucrate << std::setw(6) << myngHEBackEnd.at(i).uhtr << std::setw(9) << myngHEBackEnd.at(i).uhtr_fiber
               << std::setw(6) << myngHEBackEnd.at(i).ufedid
               << std::setw(9) << myngHEFrontEnd.at(i).qie11_id
+              << std::setw(6) << myngHETriggerTower.at(i).trg_fiber << std::setw(6) << myngHETriggerTower.at(i).trg_fiber_ch
               << std::endl;
   }
   return ;
@@ -626,7 +628,7 @@ void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string
   //ppCol ppRow ppCpl ppLC dodec 
   //Crate uHTR uHTR_FI FEDid 
   //QIE11id
-
+  //TP_FI TP_CH
   std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHETableStr + "(" \
                             "ID INT PRIMARY KEY NOT NULL, " \
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
@@ -635,7 +637,8 @@ void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string
                             "QIE11 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
                             "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
                             "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
-                            "QIE11id INT NOT NULL);";
+                            "QIE11id INT NOT NULL, " \
+                            "TP_FI INT NOT NULL, TP_CH INT NOT NULL);";
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
@@ -651,7 +654,8 @@ void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string
                       "QIE11,QIECH,RM,RM_FI,FI_CH," \
                       "ppCol,ppRow,ppCpl,ppLC,dodec," \
                       "Crate,uHTR,uHTR_FI,FEDid," \
-                      "QIE11id) ";
+                      "QIE11id," \
+                      "TP_FI,TP_CH) ";
     std::string two = "VALUES("
                       +std::to_string(i)+","
                       +std::to_string(myngHEGeometry.at(i).side)+","+std::to_string(myngHEGeometry.at(i).eta)+","+std::to_string(myngHEGeometry.at(i).phi)+","+std::to_string(myngHEGeometry.at(i).dphi)+","+std::to_string(myngHEGeometry.at(i).depth)+",'"+myngHEGeometry.at(i).subdet+"','"
@@ -660,7 +664,8 @@ void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string
                       +std::to_string(myngHEFrontEnd.at(i).qie11)+","+std::to_string(myngHEFrontEnd.at(i).qie11_ch)+","+std::to_string(myngHEFrontEnd.at(i).rm)+","+std::to_string(myngHEFrontEnd.at(i).rm_fiber)+","+std::to_string(myngHEFrontEnd.at(i).fiber_ch)+","
                       +std::to_string(myngHEBackEnd.at(i).ppcol)+","+std::to_string(myngHEBackEnd.at(i).pprow)+",'"+myngHEBackEnd.at(i).ppcpl+"',"+std::to_string(myngHEBackEnd.at(i).pplc)+","+std::to_string(myngHEBackEnd.at(i).dodec)+","
                       +std::to_string(myngHEBackEnd.at(i).ucrate)+","+std::to_string(myngHEBackEnd.at(i).uhtr)+","+std::to_string(myngHEBackEnd.at(i).uhtr_fiber)+","+std::to_string(myngHEBackEnd.at(i).ufedid)+","
-                      +std::to_string(myngHEFrontEnd.at(i).qie11_id)+");";
+                      +std::to_string(myngHEFrontEnd.at(i).qie11_id)+","
+                      +std::to_string(myngHETriggerTower.at(i).trg_fiber)+","+std::to_string(myngHETriggerTower.at(i).trg_fiber_ch)+");";
 
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }

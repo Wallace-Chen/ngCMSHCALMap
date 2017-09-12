@@ -20,7 +20,6 @@ void ngHEMappingAlgorithm::ConstructngHELMapObject()
           ConstructngHEBackEnd(sideid,rbxrmid,rmfifichid);
           ConstructngHEGeometry(sideid,rbxrmid,rmfifichid);
           ConstructngHESiPM(sideid,rbxrmid,rmfifichid);
-          ConstructngHETriggerTower();
         }
       }
     }
@@ -224,8 +223,8 @@ void ngHEMappingAlgorithm::ConstructngHEGeometry(int sideid, int rbxrmid, int rm
     thisngHEGeometry.depth = 0;
     thisngHEGeometry.dphi = 0;
   }
-
   myngHEGeometry.push_back(thisngHEGeometry);
+  ConstructngHETriggerTower(thisngHEGeometry.eta, thisngHEGeometry.phi);
   return ;
 }
 
@@ -248,10 +247,32 @@ void ngHEMappingAlgorithm::ConstructngHESiPM(int sideid, int rbxrmid, int rmfifi
   return ;
 }
 
-void ngHEMappingAlgorithm::ConstructngHETriggerTower()
+void ngHEMappingAlgorithm::ConstructngHETriggerTower(int eta, int phi)
 {
   ngHETriggerTower thisngHETriggerTower;
 
+  thisngHETriggerTower.trg_fiber = -1;
+  if(eta<=0 || phi<=0) 
+  {
+    thisngHETriggerTower.trg_fiber = -1;
+    thisngHETriggerTower.trg_fiber_ch = -1;       
+  }
+  else
+  {
+    if(eta <= 20)
+    {
+      if     (eta >= 1  && eta <=12) thisngHETriggerTower.trg_fiber = (int)((eta-1)/2);
+      else if(eta >= 13 && eta <=18) thisngHETriggerTower.trg_fiber = (int)((eta-13)/2);
+      else thisngHETriggerTower.trg_fiber = 0;
+    }
+    else
+    {
+      if     (eta >= 21 && eta <=24) thisngHETriggerTower.trg_fiber = (int)((eta-21)/2) + 1;
+      else if(eta >= 25 && eta <=26) thisngHETriggerTower.trg_fiber = 3;
+      else thisngHETriggerTower.trg_fiber = 3;
+    }
+    thisngHETriggerTower.trg_fiber_ch = ((eta-1)%2)*4 + ((phi+69)%72)%4;
+  }
   myngHETriggerTower.push_back(thisngHETriggerTower);
   return ;
 }
