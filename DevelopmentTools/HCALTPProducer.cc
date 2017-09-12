@@ -80,3 +80,28 @@ void HCALTPProducer::printngHEHTEMapObject(std::vector<ngHEFrontEnd> myngHEFront
   }
   return ;
 }
+
+void HCALTPProducer::printngHFHTEMapObject(std::vector<ngHFFrontEnd> myngHFFrontEnd, std::vector<ngHFBackEnd> myngHFBackEnd, std::vector<ngHFPMTBox> myngHFPMTBox, std::vector<ngHFGeometry> myngHFGeometry, std::vector<ngHFTriggerTower> myngHFTriggerTower)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  std::cout << "#Dumping ngHF HT EMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(10) <<"i"
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
+            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep"
+            << std::endl;
+
+  for(auto i=0; i<myngHFFrontEnd.size(); i++)
+  {
+    //sum over depth, 792 channles in total, eta 29 is a gap
+    if(myngHFGeometry.at(i).eta==29) continue;//rule out eta 29
+    else{ if(myngHFGeometry.at(i).depth!=1 ) continue; }//sum over depth
+
+    std::cout << " "
+              << std::setw(10) << "4200458C"
+              << std::setw(6) << myngHFBackEnd.at(i).ucrate << std::setw(6) << myngHFBackEnd.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHFTriggerTower.at(i).trg_fiber << std::setw(12) << myngHFTriggerTower.at(i).trg_fiber_ch
+              << std::setw(8) << "HT" << std::setw(6) << myngHFGeometry.at(i).side * myngHFGeometry.at(i).eta << std::setw(6) << myngHFGeometry.at(i).phi << std::setw(6) << 10
+              << std::endl;
+  }
+  return ;
+}
