@@ -45,7 +45,7 @@ void HCALLMapDumper::printHBEMapObject(std::vector<HBFrontEnd> myHBFrontEnd, std
   std::cout << "#"
             << std::setw(10) <<"i"
             << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
-            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
+            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep"
             << std::endl;
 
   for(auto i=0; i<myHBFrontEnd.size(); i++)
@@ -128,7 +128,7 @@ void HCALLMapDumper::printngHBEMapObject(std::vector<ngHBFrontEnd> myngHBFrontEn
   std::cout << "#"
             << std::setw(10) <<"i"
             << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
-            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
+            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep"
             << std::endl;
 
   for(auto i=0; i<myngHBFrontEnd.size(); i++)
@@ -215,7 +215,7 @@ void HCALLMapDumper::printngHEEMapObject(std::vector<ngHEFrontEnd> myngHEFrontEn
   std::cout << "#"
             << std::setw(10) <<"i"
             << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
-            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
+            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep"
             << std::endl;
 
   for(auto i=0; i<myngHEFrontEnd.size(); i++)
@@ -337,7 +337,7 @@ void HCALLMapDumper::printngHFEMapObject(std::vector<ngHFFrontEnd> myngHFFrontEn
   std::cout << "#"
             << std::setw(10) <<"i" 
             << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch" 
-            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep" 
+            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep" 
             << std::endl;
     
   for(auto i=0; i<myngHFFrontEnd.size(); i++)
@@ -424,7 +424,7 @@ void HCALLMapDumper::printHOEMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std
   std::cout << "#"
             << std::setw(10) <<"i"  
             << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch" 
-            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
+            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep"
             << std::endl;
     
   for(auto i=0; i<myHOFrontEnd.size(); i++)
