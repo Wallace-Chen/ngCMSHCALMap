@@ -55,6 +55,18 @@ To produce the LMap:
 The valid RunMode are: HB,HE,HF,HO
 The valid PrdMode are: LMap,EMap,FMap,HT
 
+# Data visualization
+
+plotly installation and setup
+```
+sudo pip install plotly
+pip install plotly --upgrade
+python
+import plotly
+plotly.tools.set_credentials_file(username='DemoAccount', api_key='lr1c37zw81')
+```
+
+
 # Test of GUI
 
 ```
