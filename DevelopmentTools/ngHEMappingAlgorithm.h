@@ -16,7 +16,7 @@ class ngHEMappingAlgorithm : public ngHEConstant
   void ConstructngHEBackEnd(int sideid, int rbxrmid, int rmfifichid);      
   void ConstructngHEGeometry(int sideid, int rbxrmid, int rmfifichid);      
   void ConstructngHESiPM(int sideid, int rbxrmid, int rmfifichid);
-  void ConstructngHETriggerTower();  
+  void ConstructngHETriggerTower(int eta, int phi);  
   
   const int ngHEucrateInrbxrmid[Ncrate] = {30,24,20,21,25,31,35,37,34};
   //const int ngHEuhtrInrmfifichidType1[Nrm_fiber] = {1,12, 2, 13, 3,14, 4, 5};

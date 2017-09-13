@@ -1,4 +1,5 @@
 #include "HCALLMapProducer.h"
+#include "HCALTPProducer.h"
 #include "HCALLMapLoader.h"
 #include "HCALLMapDumper.h"
 #include "HCALLMapChecker.h"
@@ -18,9 +19,10 @@ int main(int argc, char* argv[])
 
   std::cout << "#The valid run modes are: HB, HE, HF, HO" << std::endl;
   std::cout << "#The run mode we have right now is: " << RunMode << std::endl;
-  std::cout << "#The valid run modes are: LMap, EMap, FMap" << std::endl;
+  std::cout << "#The valid run modes are: LMap, EMap, FMap HT" << std::endl;
   std::cout << "#The produce mode we have right now is: " << PrdMode << std::endl;
 
+  HCALTPProducer myHCALTPProducer;
   HCALLMapLoader myHCALLMapLoader;
   HCALLMapDumper myHCALLMapDumper;
   HCALLMapChecker myHCALLMapChecker;
@@ -52,6 +54,11 @@ int main(int argc, char* argv[])
       //myHCALLMapDumper.printHBFrontEndMapObject(myHBMappingAlgorithm.myHBFrontEnd, myHBMappingAlgorithm.myHBBackEnd, myHBMappingAlgorithm.myHBHPD, myHBMappingAlgorithm.myHBGeometry, myHBMappingAlgorithm.myHBTriggerTower);
       myHCALLMapDumper.printngHBFrontEndMapObject(myngHBMappingAlgorithm.myngHBFrontEnd, myngHBMappingAlgorithm.myngHBBackEnd, myngHBMappingAlgorithm.myngHBSiPM, myngHBMappingAlgorithm.myngHBGeometry, myngHBMappingAlgorithm.myngHBTriggerTower);
     }
+    if( PrdMode == "HT" )
+    {
+      //myHCALTPProducer.printHBHTEMapObject(myHBMappingAlgorithm.myHBFrontEnd, myHBMappingAlgorithm.myHBBackEnd, myHBMappingAlgorithm.myHBHPD, myHBMappingAlgorithm.myHBGeometry, myHBMappingAlgorithm.myHBTriggerTower);
+      myHCALTPProducer.printngHBHTEMapObject(myngHBMappingAlgorithm.myngHBFrontEnd, myngHBMappingAlgorithm.myngHBBackEnd, myngHBMappingAlgorithm.myngHBSiPM, myngHBMappingAlgorithm.myngHBGeometry, myngHBMappingAlgorithm.myngHBTriggerTower);
+    }
     return 1;
   }
   else if( RunMode == "HE" )
@@ -72,6 +79,10 @@ int main(int argc, char* argv[])
     if( PrdMode == "FMap" )
     {
       myHCALLMapDumper.printngHEFrontEndMapObject(myngHEMappingAlgorithm.myngHEFrontEnd, myngHEMappingAlgorithm.myngHEBackEnd, myngHEMappingAlgorithm.myngHESiPM, myngHEMappingAlgorithm.myngHEGeometry, myngHEMappingAlgorithm.myngHETriggerTower);
+    }
+    if( PrdMode == "HT" )
+    {
+      myHCALTPProducer.printngHEHTEMapObject(myngHEMappingAlgorithm.myngHEFrontEnd, myngHEMappingAlgorithm.myngHEBackEnd, myngHEMappingAlgorithm.myngHESiPM, myngHEMappingAlgorithm.myngHEGeometry, myngHEMappingAlgorithm.myngHETriggerTower);
     }
     return 1;
   }
@@ -98,6 +109,10 @@ int main(int argc, char* argv[])
     if( PrdMode == "FMap" )
     {
       myHCALLMapDumper.printngHFFrontEndMapObject(myngHFMappingAlgorithm.myngHFFrontEnd, myngHFMappingAlgorithm.myngHFBackEnd, myngHFMappingAlgorithm.myngHFPMTBox, myngHFMappingAlgorithm.myngHFGeometry, myngHFMappingAlgorithm.myngHFTriggerTower);
+    }
+    if( PrdMode == "HT" )
+    {
+      myHCALTPProducer.printngHFHTEMapObject(myngHFMappingAlgorithm.myngHFFrontEnd, myngHFMappingAlgorithm.myngHFBackEnd, myngHFMappingAlgorithm.myngHFPMTBox, myngHFMappingAlgorithm.myngHFGeometry, myngHFMappingAlgorithm.myngHFTriggerTower);
     }
     return 1;
   }

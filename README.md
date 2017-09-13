@@ -53,8 +53,8 @@ To produce the LMap:
 ```
 
 The valid RunMode are: HB,HE,HF,HO
-The valid PrdMode are: LMap,EMap,FMap
+The valid PrdMode are: LMap,EMap,FMap,HT
 
-###Test of GUI
+# Test of GUI
 javac frm.java
 java frm

@@ -16,7 +16,7 @@ class ngHBMappingAlgorithm : public ngHBConstant
   void ConstructngHBBackEnd(int sideid, int rbxrmid, int rmfifichid);      
   void ConstructngHBGeometry(int sideid, int rbxrmid, int rmfifichid);      
   void ConstructngHBSiPM(int sideid, int rbxrmid, int rmfifichid);
-  void ConstructngHBTriggerTower();  
+  void ConstructngHBTriggerTower(int eta, int phi);
 
   //we have rm fiber and fiber channel map to give us the ability to design a tp fw within latency
   /*

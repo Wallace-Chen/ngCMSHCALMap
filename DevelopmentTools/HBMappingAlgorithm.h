@@ -16,7 +16,7 @@ class HBMappingAlgorithm : public HBConstant
   void ConstructHBBackEnd(int sideid, int rbxrmid, int rmfifichid);
   void ConstructHBGeometry(int sideid, int rbxrmid, int rmfifichid);
   void ConstructHBHPD(int sideid, int rbxrmid, int rmfifichid);
-  void ConstructHBTriggerTower();
+  void ConstructHBTriggerTower(int eta, int phi);
 
   const int HBcrateInrbxrmid[Ncrate] = {10,14,0,1,5,11,15,17,14};
   const int HBucrateInrbxrmid[Ncrate] = {30,24,20,21,25,31,35,37,34};

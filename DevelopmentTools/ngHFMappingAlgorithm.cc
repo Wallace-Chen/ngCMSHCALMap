@@ -377,18 +377,30 @@ void ngHFMappingAlgorithm::ConstructngHFGeometry(int sideid,int pmtbox,std::stri
   else thisngHFGeometry.dphi = 2;
   
   myngHFGeometry.push_back(thisngHFGeometry);
+  ConstructngHFTriggerTower(thisngHFGeometry.eta, thisngHFGeometry.phi);
   return ;
 }
 
-/*
-void ngHFMappingAlgorithm::ConstructngHFTriggerTower()
+void ngHFMappingAlgorithm::ConstructngHFTriggerTower(int eta, int phi)
 {
   ngHFTriggerTower thisngHFTriggerTower;
 
+  thisngHFTriggerTower.trg_fiber = -1;
+  if(eta==29)//special fix for eta 29 HE, tail go with eta 28. more details in phase 1 upgrade note
+  {
+    thisngHFTriggerTower.trg_fiber = -1;
+    thisngHFTriggerTower.trg_fiber_ch = -1;
+  }
+  else
+  {
+    if(phi%4==3){ eta==41 ? thisngHFTriggerTower.trg_fiber=1 : thisngHFTriggerTower.trg_fiber=0; }
+    else if(phi%4==1){ thisngHFTriggerTower.trg_fiber=1; }
+    else{ std::cout << "dPhi is not 2 or 4??" << std::endl; }
+    eta==41 ? thisngHFTriggerTower.trg_fiber_ch=10 : thisngHFTriggerTower.trg_fiber_ch = eta-30;
+  }
   myngHFTriggerTower.push_back(thisngHFTriggerTower);
   return ;
 }
-*/
 
 void ngHFMappingAlgorithm::LoadngHFQIEMap(std::string QIE10CardMapFileName)
 {
