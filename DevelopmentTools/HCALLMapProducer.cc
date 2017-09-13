@@ -65,7 +65,9 @@ int main(int argc, char* argv[])
   {
     ngHEMappingAlgorithm myngHEMappingAlgorithm;
     myngHEMappingAlgorithm.ConstructngHELMapObject();
-
+    bool passCollisionCheck = myHCALLMapChecker.checkngHELMapObject(myngHEMappingAlgorithm.myngHEFrontEnd, myngHEMappingAlgorithm.myngHEBackEnd, myngHEMappingAlgorithm.myngHESiPM, myngHEMappingAlgorithm.myngHEGeometry, myngHEMappingAlgorithm.myngHETriggerTower);
+    if( passCollisionCheck ){ std::cout << "#Map pass collision check, Good!" << std::endl; }
+    else{ std::cout << "#Did not pass collision check! Please check!" << std::endl; return -1;}
     if( PrdMode == "LMap" )
     {
       myHCALLMapDumper.printngHELMapObject(myngHEMappingAlgorithm.myngHEFrontEnd, myngHEMappingAlgorithm.myngHEBackEnd, myngHEMappingAlgorithm.myngHESiPM, myngHEMappingAlgorithm.myngHEGeometry, myngHEMappingAlgorithm.myngHETriggerTower);
