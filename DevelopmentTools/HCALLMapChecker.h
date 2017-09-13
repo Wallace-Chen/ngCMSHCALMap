@@ -2,6 +2,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <algorithm> // std::copy
 
 #include "HBMappingObject.h"
 #include "HEMappingObject.h"
