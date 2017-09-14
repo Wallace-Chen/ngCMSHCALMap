@@ -14,6 +14,8 @@ void HCALTPProducer::printHBHTEMapObject(std::vector<HBFrontEnd> myHBFrontEnd, s
   {
     //sum over depth, 2304 HB HT channels in total. (14*72+2*72)*2=2304
     if(myHBGeometry.at(i).depth!=1) continue;
+    //if( myHBFrontEnd.at(i).rbx != "HBP17" ) continue;
+
     std::cout << " "
               << std::setw(10) << "4200458C"
               << std::setw(6) << myHBBackEnd.at(i).ucrate << std::setw(6) << myHBBackEnd.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myHBTriggerTower.at(i).trg_fiber << std::setw(12) << myHBTriggerTower.at(i).trg_fiber_ch
@@ -62,6 +64,8 @@ void HCALTPProducer::printngHEHTEMapObject(std::vector<ngHEFrontEnd> myngHEFront
     if(myngHEGeometry.at(i).eta==17){ if(myngHEGeometry.at(i).depth!=2 ) continue; }
     else if(myngHEGeometry.at(i).eta==29) continue;//rule out eta 29
     else{ if(myngHEGeometry.at(i).depth!=1 ) continue; }//rule out eta 16, sum over depth, and HEX
+
+    //if( myngHEFrontEnd.at(i).rbx != "HEP17" ) continue;
 
     std::cout << " "
               << std::setw(10) << "4200458C"
