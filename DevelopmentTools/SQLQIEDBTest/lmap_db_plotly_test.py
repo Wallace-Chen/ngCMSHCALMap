@@ -2,6 +2,7 @@ import sys
 import sqlite3
 import plotly.plotly as plt
 import plotly.figure_factory as ff
+#from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 
 def ValidationPlot_HBHE_FEC(subdet,var):
   conn = sqlite3.connect('../officialMap/HCALLogicalMap.db')
@@ -64,9 +65,66 @@ def ValidationPlot_HBHE_FEC(subdet,var):
   fig['layout']['xaxis'].update(side='bottom')
   fig['layout'].update(height=1500, width=1500, title=subdet+' '+var+' in FrontEnd coordiantes')
   plt.plot(fig, filename=subdet+'_'+var+'_in_FrontEnd')
+  #plotly.offline.plot(fig, filename=subdet+'_'+var+'_in_FrontEnd')
+
+def ValidationPlot_HF_FEC(subdet,var):
+  conn = sqlite3.connect('../officialMap/HCALLogicalMap.db')
+  c = conn.cursor()
+  print "Opened database successfully";
+
+  xlist = []
+  ylist = []
+  zlist = []
+
+  rbx_hfp = ['HFP01','HFP02','HFP03','HFP04','HFP05','HFP06','HFP07','HFP08']
+  rbx_hfm = ['HFM01','HFM02','HFM03','HFM04','HFM05','HFM06','HFM07','HFM08']
+
+  if subdet in ('ngHFP'):
+    rbx=rbx_hfp
+  elif subdet in ('ngHFM'):
+    rbx=rbx_hfm
+  
+  qie =[3,4,5,6,10,11,12,13,14]
+
+  for thisrbx in rbx:
+    for thisqie in qie:
+      if (thisqie<10 and thisqie>=0):
+        ylist.append(thisrbx+'QIE0'+str(thisqie))
+      else:
+        ylist.append(thisrbx+'QIE'+str(thisqie))
+
+      if subdet in ('ngHFP','ngHFM'):
+        cursor = c.execute("SELECT ngRBX, QIE10, QIEFI, FI_CH, Crate, uHTR, uHTR_FI, Side, Eta, Phi, Depth from ngHFLogicalMap where ngRBX=? AND QIE10=? ORDER BY QIEFI,FI_CH", (thisrbx,thisqie))
+      zlistrbxqie=[]
+      for row in cursor:
+        if(len(ylist)==1):
+          xlist.append('QIEFI'+str(row[2])+'FICH'+str(row[3]))
+        
+        if var=='Crate':
+          zlistrbxqie.append(row[4])
+        elif var=='uHTR':
+          zlistrbxqie.append(row[5])
+        elif var=='uHTR_FI':
+          zlistrbxqie.append(row[6])
+        elif var=='Eta': 
+          zlistrbxqie.append(row[7]*row[8])
+        elif var=='Phi':
+          zlistrbxqie.append(row[9])
+        elif var=='Depth': 
+          zlistrbxqie.append(row[10])
+      zlist.append(zlistrbxqie)
+  print "Operation done successfully";
+  conn.close()
+
+  fig = ff.create_annotated_heatmap(zlist, x=xlist, y=ylist, colorscale='Viridis')
+  fig['layout']['xaxis'].update(side='bottom')
+  fig['layout'].update(height=1500, width=1500, title=subdet+' '+var+' in FrontEnd coordiantes')
+  plt.plot(fig, filename=subdet+'_'+var+'_in_FrontEnd')
+
 
 def main():
-  ValidationPlot_HBHE_FEC(sys.argv[1],sys.argv[2])
+  #ValidationPlot_HBHE_FEC(sys.argv[1],sys.argv[2])
+  ValidationPlot_HF_FEC(sys.argv[1],sys.argv[2])
   #for arg in sys.argv[1:]:
   #  print arg
 
