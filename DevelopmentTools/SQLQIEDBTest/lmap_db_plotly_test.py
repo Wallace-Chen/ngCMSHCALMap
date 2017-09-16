@@ -121,10 +121,75 @@ def ValidationPlot_HF_FEC(subdet,var):
   fig['layout'].update(height=1500, width=1500, title=subdet+' '+var+' in FrontEnd coordiantes')
   plt.plot(fig, filename=subdet+'_'+var+'_in_FrontEnd')
 
+def ValidationPlot_HO_FEC(subdet,var):
+  conn = sqlite3.connect('../officialMap/HCALLogicalMap.db')
+  c = conn.cursor()
+  print "Opened database successfully";
+
+  xlist = []
+  ylist = []
+  zlist = []
+
+  rbx_ho0 = ['HO001','HO002','HO003','HO004','HO005','HO006','HO007','HO008','HO009','HO010','HO011','HO012']
+  rbx_ho1p = ['HO1P02','HO1P04','HO1P06','HO1P08','HO1P10','HO1P12']
+  rbx_ho1m = ['HO1M02','HO1M04','HO1M06','HO1M08','HO1M10','HO1M12']
+  rbx_ho2p = ['HO2P02','HO2P04','HO2P06','HO2P08','HO2P10','HO2P12']
+  rbx_ho2m = ['HO2M02','HO2M04','HO2M06','HO2M08','HO2M10','HO2M12']
+
+  if subdet in ('HO0'):
+    rbx=rbx_ho0
+  elif subdet in ('HO1P'):
+    rbx=rbx_ho1p
+  elif subdet in ('HO1M'):
+    rbx=rbx_ho1m
+  elif subdet in ('HO2P'):
+    rbx=rbx_ho2p
+  elif subdet in ('HO2M'):
+    rbx=rbx_ho2m
+  rm_ho0=[1,2,3]
+  rm_hopm12=[1,2,3,4]  
+  if subdet in ('HO0'):
+    rm=rm_ho0
+  else:
+    rm=rm_hopm12
+
+  for thisrbx in rbx:
+    for thisrm in rm:
+      if thisrbx in ('HO002','HO003','HO006','HO007','HO010','HO011'):
+        ylist.append(thisrbx+'RM'+str(thisrm+1))
+        cursor = c.execute("SELECT RBX, RM, RM_FI, FI_CH, Crate, HTR, HTR_FI, Side, Eta, Phi, Depth from HOLogicalMap where RBX=? AND RM=? ORDER BY RM_FI,FI_CH", (thisrbx,thisrm+1))
+      else:
+        ylist.append(thisrbx+'RM'+str(thisrm))
+        cursor = c.execute("SELECT RBX, RM, RM_FI, FI_CH, Crate, HTR, HTR_FI, Side, Eta, Phi, Depth from HOLogicalMap where RBX=? AND RM=? ORDER BY RM_FI,FI_CH", (thisrbx,thisrm))
+      zlistrbxqie=[]
+      for row in cursor:
+        if(len(ylist)==1):
+          xlist.append('RMFI'+str(row[2])+'FICH'+str(row[3]))
+        if var=='Crate':
+          zlistrbxqie.append(row[4])
+        elif var=='HTR':
+          zlistrbxqie.append(row[5])
+        elif var=='HTR_FI':
+          zlistrbxqie.append(row[6])
+        elif var=='Eta': 
+          zlistrbxqie.append(row[7]*row[8])
+        elif var=='Phi':
+          zlistrbxqie.append(row[9])
+        elif var=='Depth': 
+          zlistrbxqie.append(row[10])
+      zlist.append(zlistrbxqie)
+  print "Operation done successfully";
+  conn.close()
+
+  fig = ff.create_annotated_heatmap(zlist, x=xlist, y=ylist, colorscale='Viridis')
+  fig['layout']['xaxis'].update(side='bottom')
+  fig['layout'].update(height=1500, width=1500, title=subdet+' '+var+' in FrontEnd coordiantes')
+  plt.plot(fig, filename=subdet+'_'+var+'_in_FrontEnd')
 
 def main():
   #ValidationPlot_HBHE_FEC(sys.argv[1],sys.argv[2])
-  ValidationPlot_HF_FEC(sys.argv[1],sys.argv[2])
+  #ValidationPlot_HF_FEC(sys.argv[1],sys.argv[2])
+  ValidationPlot_HO_FEC(sys.argv[1],sys.argv[2])
   #for arg in sys.argv[1:]:
   #  print arg
 
