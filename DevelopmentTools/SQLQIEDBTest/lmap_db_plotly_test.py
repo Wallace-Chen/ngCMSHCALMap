@@ -129,6 +129,7 @@ def ValidationPlot_HO_FEC(subdet,var):
   xlist = []
   ylist = []
   zlist = []
+  ztext = []
 
   rbx_ho0 = ['HO001','HO002','HO003','HO004','HO005','HO006','HO007','HO008','HO009','HO010','HO011','HO012']
   rbx_ho1p = ['HO1P02','HO1P04','HO1P06','HO1P08','HO1P10','HO1P12']
@@ -160,28 +161,41 @@ def ValidationPlot_HO_FEC(subdet,var):
         cursor = c.execute("SELECT RBX, RM, RM_FI, FI_CH, Crate, HTR, HTR_FI, Side, Eta, Phi, Depth from HOLogicalMap where RBX=? AND RM=? ORDER BY RM_FI,FI_CH", (thisrbx,thisrm+1))
       else:
         ylist.append(thisrbx+'RM'+str(thisrm))
-        cursor = c.execute("SELECT RBX, RM, RM_FI, FI_CH, Crate, HTR, HTR_FI, Side, Eta, Phi, Depth from HOLogicalMap where RBX=? AND RM=? ORDER BY RM_FI,FI_CH", (thisrbx,thisrm))
-      zlistrbxqie=[]
+        cursor = c.execute("SELECT RBX, RM, RM_FI, FI_CH, Crate, HTR, HTR_TB, HTR_FI, Side, Eta, Phi, Depth from HOLogicalMap where RBX=? AND RM=? ORDER BY RM_FI,FI_CH", (thisrbx,thisrm))
+      zlistrbxrm=[]
+      ztextrbxrm=[]
       for row in cursor:
         if(len(ylist)==1):
           xlist.append('RMFI'+str(row[2])+'FICH'+str(row[3]))
         if var=='Crate':
-          zlistrbxqie.append(row[4])
+          zlistrbxrm.append(row[4])
         elif var=='HTR':
-          zlistrbxqie.append(row[5])
+          zlistrbxrm.append(row[5])
+        elif var=='HTR_TB':
+          if row[6]=='top':
+            zlistrbxrm.append(1)
+            ztextrbxrm.append('t')
+          else:
+            zlistrbxrm.append(0)
+            ztextrbxrm.append('b')
         elif var=='HTR_FI':
-          zlistrbxqie.append(row[6])
+          zlistrbxrm.append(row[7])
         elif var=='Eta': 
-          zlistrbxqie.append(row[7]*row[8])
+          zlistrbxrm.append(row[8]*row[9])
         elif var=='Phi':
-          zlistrbxqie.append(row[9])
+          zlistrbxrm.append(row[10])
         elif var=='Depth': 
-          zlistrbxqie.append(row[10])
-      zlist.append(zlistrbxqie)
+          zlistrbxrm.append(row[11])
+      zlist.append(zlistrbxrm)
+      if var=='HTR_TB':
+        ztext.append(ztextrbxrm)
   print "Operation done successfully";
   conn.close()
-
-  fig = ff.create_annotated_heatmap(zlist, x=xlist, y=ylist, colorscale='Viridis')
+  
+  if var=='HTR_TB':
+    fig = ff.create_annotated_heatmap(zlist, x=xlist, y=ylist, annotation_text=ztext, colorscale='Viridis')
+  else:
+    fig = ff.create_annotated_heatmap(zlist, x=xlist, y=ylist, colorscale='Viridis')
   fig['layout']['xaxis'].update(side='bottom')
   fig['layout'].update(height=1500, width=1500, title=subdet+' '+var+' in FrontEnd coordiantes')
   plt.plot(fig, filename=subdet+'_'+var+'_in_FrontEnd')
