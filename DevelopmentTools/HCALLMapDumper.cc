@@ -438,7 +438,7 @@ void HCALLMapDumper::printHOEMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std
               //<< "HOGeometry(side,eta,phi,depth): "
               << " " 
               << std::setw(10) << "4200458C"
-              << std::setw(6) << myHOBackEnd.at(i).crate << std::setw(6) << myHOBackEnd.at(i).htr << std::setw(6) << emaptb << std::setw(6) << myHOBackEnd.at(i).dcc << std::setw(8) << myHOBackEnd.at(i).spigot << std::setw(8) << myHOBackEnd.at(i).htr_fiber << std::setw(12) << myHOBackEnd.at(i).fiber_ch
+              << std::setw(6) << myHOBackEnd.at(i).crate << std::setw(6) << myHOBackEnd.at(i).htr << std::setw(6) << emaptb << std::setw(6) << /*myHOBackEnd.at(i).dcc*/ myHOBackEnd.at(i).fedid-700 << std::setw(8) << myHOBackEnd.at(i).spigot << std::setw(8) << myHOBackEnd.at(i).htr_fiber << std::setw(12) << myHOBackEnd.at(i).fiber_ch
               << std::setw(8) << myHOGeometry.at(i).subdet << std::setw(6) << myHOGeometry.at(i).side * myHOGeometry.at(i).eta << std::setw(6) << myHOGeometry.at(i).phi << std::setw(6) << emapdepth
               << std::endl;
   }
