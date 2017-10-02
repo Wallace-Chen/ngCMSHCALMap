@@ -53,12 +53,12 @@ class ngHFAnalyzer : public ngHFConstant
   "ngHFP07QIE03","ngHFP07QIE04","ngHFP07QIE05","ngHFP07QIE06","ngHFP07QIE10","ngHFP07QIE11","ngHFP07QIE12","ngHFP07QIE13","ngHFP07QIE14",
   "ngHFP08QIE03","ngHFP08QIE04","ngHFP08QIE05","ngHFP08QIE06","ngHFP08QIE10","ngHFP08QIE11","ngHFP08QIE12","ngHFP08QIE13","ngHFP08QIE14"};
 
-  const char *ngHFQIEfiberlabel[Nqie10_fiber*Nfiber_ch] = {"QIEFI1FICH0","QIEFI1FICH1","QIEFI1FICH2","QIEFI1FICH3",
-                                                           "QIEFI2FICH0","QIEFI2FICH1","QIEFI2FICH2","QIEFI2FICH3",
-                                                           "QIEFI3FICH0","QIEFI3FICH1","QIEFI3FICH2","QIEFI3FICH3",
-                                                           "QIEFI4FICH0","QIEFI4FICH1","QIEFI4FICH2","QIEFI4FICH3",
+  const char *ngHFQIEfiberlabel[Nqie10_fiber*Nfiber_ch] = {"QIEFI4FICH0","QIEFI4FICH1","QIEFI4FICH2","QIEFI4FICH3",
                                                            "QIEFI5FICH0","QIEFI5FICH1","QIEFI5FICH2","QIEFI5FICH3",
-                                                           "QIEFI6FICH0","QIEFI6FICH1","QIEFI6FICH2","QIEFI6FICH3"};
+                                                           "QIEFI6FICH0","QIEFI6FICH1","QIEFI6FICH2","QIEFI6FICH3",
+                                                           "QIEFI7FICH0","QIEFI7FICH1","QIEFI7FICH2","QIEFI7FICH3",
+                                                           "QIEFI8FICH0","QIEFI8FICH1","QIEFI8FICH2","QIEFI8FICH3",
+                                                           "QIEFI9FICH0","QIEFI9FICH1","QIEFI9FICH2","QIEFI9FICH3"};
 
   const char *ngHFCrateSlotlabel[Ncrate*Nuhtr] = {
   "Cr22Sl01","Cr22Sl02","Cr22Sl03","Cr22Sl04","Cr22Sl05","Cr22Sl06","Cr22Sl07","Cr22Sl08","Cr22Sl09","Cr22Sl10","Cr22Sl11","Cr22Sl12",
