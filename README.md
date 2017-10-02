@@ -74,3 +74,12 @@ javac frm.java
 java frm
 ```
 
+# Documnetation
+
+```
+doxygen -g Doxyfile
+doxygen Doxyfile
+cd latex
+make
+```
+
