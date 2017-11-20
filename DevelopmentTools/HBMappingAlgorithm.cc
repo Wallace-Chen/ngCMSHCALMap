@@ -80,23 +80,28 @@ void HBMappingAlgorithm::ConstructHBBackEnd(int sideid, int rbxrmid, int rmfific
   rm_fiber<=4 ? cplletter="A" : cplletter="B";
   thisHBBackEnd.ppcpl = rbx+"_RM"+std::to_string(rm)+cplletter;
   //then set uhtr fiber infomation from patch panel
-  //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/ngHE/optical_patch.txt
+  //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/optical_patch_2018calib.txt
   /*
-  The P-side pure HB uHTR (xx indicates an empty spigot):
-         HEM04                 HBM04                 HEP04                 HBP04
-| -------- | -------- | -------- | -------- | -------- | -------- | xx----03 | 212223xx |  RM4
-| -------- | -------- | -------- | -------- | -------- | -------- | xx----02 | 181920xx |  RM3
-| -------- | -------- | -------- | -------- | -------- | -------- | xx----01 | 151617xx |  RM2
-| -------- | -------- | -------- | -------- | -------- | -------- | xx----00 | 121314xx |  RM1
+  The pure HB uHTRs - slots 4 10:
 
-  The P-side mixed uHTR (xx indicates an empty spigot):
+|                 crate 34 slot 10                          |                 crate 34 slot 4                           |  
+             HEP17                         HBP17                         HEM17                         HBM17            
+                              | ------------ |                             | ------------ |                                Calib
+| ------------ | ------------ | 04b------08b | 12b04t08t12t | ------------ | ------------ | 04b------08b | 12b04t08t12t |  RM4
+| ------------ | ------------ | 03b------07b | 11b03t07t11t | ------------ | ------------ | 03b------07b | 11b03t07t11t |  RM3
+| ------------ | ------------ | 02b------06b | 10b02t06t10t | ------------ | ------------ | 02b------06b | 10b02t06t10t |  RM2
+| ------------ | ------------ | 01b------05b | 09b01t05t09t | ------------ | ------------ | 01b------05b | 09b01t05t09t |  RM1
 
-         HEM04                 HBM04                 HEP04                 HBP04
-| -------- | -------- | -------- | -------- | ------17 | 22--23-- | xx0809-- | ------xx |  RM4
-| -------- | -------- | -------- | -------- | --15--16 | --21---- | xx0607-- | ------xx |  RM3
-| -------- | -------- | -------- | -------- | ------14 | 19--20-- | xx0405-- | ------xx |  RM2
-| -------- | -------- | -------- | -------- | --12--13 | --18---- | xx0203-- | ------xx |  RM1
-  */
+
+  The mixed HB/HE uHTRs - slots 5 11:
+
+|                 crate 34 slot 11                          |                 crate 34 slot 5                           |
+             HEP17                         HBP17                          HEM17                        HBM17            
+                              | ------11b12b |                             | ------11b12b |                                Calib
+| ---------10t | 11t---12t--- | ---09b10b--- | ------------ | ---------10t | 11t---12t--- | ---09b10b--- | ------------ |  RM4
+| ---07t---08t | ---09t------ | ---07b08b--- | ------------ | ---07t---08t | ---09t------ | ---07b08b--- | ------------ |  RM3
+| ---------04t | 05t---06t--- | ---05b06b--- | ------------ | ---------04t | 05t---06t--- | ---05b06b--- | ------------ |  RM2
+| ---01t---02t | ---03t------ | ---03b04b--- | ------------ | ---01t---02t | ---03t------ | ---03b04b--- | ------------ |  RM1
 
   if( ismixed_HB )
   {
@@ -109,6 +114,21 @@ void HBMappingAlgorithm::ConstructHBBackEnd(int sideid, int rbxrmid, int rmfific
     else if(thisHBBackEnd.ppcol==4){ thisHBBackEnd.uhtr_fiber = (thisHBBackEnd.pprow-1)*3+rm_fiber-5+12; }
     else{ std::cout << "the ppCol of HB channel is neither 3 nor 4 in pure HB slot??!! Please check!" << std::endl; }
   }
+  */
+
+  if( ismixed_HB )
+    {
+      if     (thisHBBackEnd.ppcol==3){ thisHBBackEnd.uhtr_fiber = (thisHBBackEnd.pprow-1)*2+rm_fiber-2+2; }
+      else{ std::cout << "the ppCol of HB channel is not 3 in mixed HBHE slot for HB??!! Please check!" << std::endl; }
+    }
+  else
+    {
+      //notice here we change the order, first rm_fiber then rm!!!
+      if     (thisHBBackEnd.ppcol==3){ thisHBBackEnd.uhtr_fiber = (int(rm_fiber)/4)*4+thisHBBackEnd.pprow-1; }
+      else if(thisHBBackEnd.ppcol==4){ thisHBBackEnd.uhtr_fiber = (rm_fiber-5)*4+thisHBBackEnd.pprow-1+8; }
+      else{ std::cout << "the ppCol of HB channel is neither 3 nor 4 in pure HB slot??!! Please check!" << std::endl; }
+    }
+
   //finally set dodec from back end side
   thisHBBackEnd.dodec = (thisHBBackEnd.uhtr_fiber)%12+1;
   //set backend fiber channel : same as the front end one
