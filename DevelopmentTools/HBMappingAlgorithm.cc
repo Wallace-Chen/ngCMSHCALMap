@@ -73,12 +73,16 @@ void HBMappingAlgorithm::ConstructHBBackEnd(int sideid, int rbxrmid, int rmfific
   thisHBBackEnd.ufpga = "uHTR";
   //set uhtr fiber from patch panel
   //first set patch panel info, from front end side
-  thisHBBackEnd.ppcol = (rm_fiber-1)/4+3;
+  //  thisHBBackEnd.ppcol = (rm_fiber-1)/4+3;
+  thisHBBackEnd.ppcol = sideid>0 ? (rm_fiber-1)/4+3 : (rm_fiber-1)/4+7;
   thisHBBackEnd.pprow = rm;
   thisHBBackEnd.pplc = (rm_fiber-1)%4+1;
   std::string cplletter;
   rm_fiber<=4 ? cplletter="A" : cplletter="B";
   thisHBBackEnd.ppcpl = rbx+"_RM"+std::to_string(rm)+cplletter;
+
+  //  printf("ppcol = %3d ( or %3d ?), ppcpl = %7s \n",thisHBBackEnd.ppcol, ((rm_fiber-1)/4+1),thisHBBackEnd.ppcpl);
+
   //then set uhtr fiber infomation from patch panel
   //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/optical_patch_2018calib.txt
   /*
@@ -118,14 +122,14 @@ void HBMappingAlgorithm::ConstructHBBackEnd(int sideid, int rbxrmid, int rmfific
 
   if( ismixed_HB )
     {
-      if     (thisHBBackEnd.ppcol==3){ thisHBBackEnd.uhtr_fiber = (thisHBBackEnd.pprow-1)*2+rm_fiber-2+2; }
+      if     (thisHBBackEnd.ppcol==3 || thisHBBackEnd.ppcol==7 ){ thisHBBackEnd.uhtr_fiber = (thisHBBackEnd.pprow-1)*2+rm_fiber-2+2; }
       else{ std::cout << "the ppCol of HB channel is not 3 in mixed HBHE slot for HB??!! Please check!" << std::endl; }
     }
   else
     {
       //notice here we change the order, first rm_fiber then rm!!!
-      if     (thisHBBackEnd.ppcol==3){ thisHBBackEnd.uhtr_fiber = (int(rm_fiber)/4)*4+thisHBBackEnd.pprow-1; }
-      else if(thisHBBackEnd.ppcol==4){ thisHBBackEnd.uhtr_fiber = (rm_fiber-5)*4+thisHBBackEnd.pprow-1+8; }
+      if     (thisHBBackEnd.ppcol==3 || thisHBBackEnd.ppcol==7){ thisHBBackEnd.uhtr_fiber = (int(rm_fiber)/4)*4+thisHBBackEnd.pprow-1; }
+      else if(thisHBBackEnd.ppcol==4 || thisHBBackEnd.ppcol==8){ thisHBBackEnd.uhtr_fiber = (rm_fiber-5)*4+thisHBBackEnd.pprow-1+8; }
       else{ std::cout << "the ppCol of HB channel is neither 3 nor 4 in pure HB slot??!! Please check!" << std::endl; }
     }
 
