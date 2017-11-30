@@ -77,71 +77,81 @@ void ngHEMappingAlgorithm::ConstructngHEBackEnd(int sideid, int rbxrmid, int rmf
   thisngHEBackEnd.ufpga = "uHTR";
   //set uhtr fiber from patch panel
   //first set patch panel info, from front end side
-  thisngHEBackEnd.ppcol = (rm_fiber-1)/4+1;
+  //  thisngHEBackEnd.ppcol = (rm_fiber-1)/4+1;
+  thisngHEBackEnd.ppcol = sideid>0 ? (rm_fiber-1)/4+1 : (rm_fiber-1)/4+5;
   thisngHEBackEnd.pprow = rm;
   thisngHEBackEnd.pplc = (rm_fiber-1)%4+1;
   std::string cplletter;
   rm_fiber<=4 ? cplletter="A" : cplletter="B";
   thisngHEBackEnd.ppcpl = rbx+"_RM"+std::to_string(rm)+cplletter;
   //then set uhtr fiber infomation from patch panel
-  //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/ngHE/optical_patch.txt
+  //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/HBHE/ngHBHE/optical_patch_2018calib.txt
   /*
-    The P-side mixed uHTR (xx indicates an empty spigot):
   
-           HEM04                 HBM04                 HEP04                 HBP04     
-  | -------- | -------- | -------- | -------- | ------17 | 22--23-- | xx0809-- | ------xx |  RM4
-  | -------- | -------- | -------- | -------- | --15--16 | --21---- | xx0607-- | ------xx |  RM3
-  | -------- | -------- | -------- | -------- | ------14 | 19--20-- | xx0405-- | ------xx |  RM2
-  | -------- | -------- | -------- | -------- | --12--13 | --18---- | xx0203-- | ------xx |  RM1
+  The mixed HB/HE uHTRs - slots 5 11:
 
-    The P-side pure ngHE uHTR (xx indicates an empty spigot):
-  
-         HEM04                 HBM04                 HEP04                 HBP04     
-  | -------- | -------- | -------- | -------- | 080910-- | --21--22 | xx------ | ------xx |  RM4
-  | -------- | -------- | -------- | -------- | 06--07-- | 18--1920 | xx------ | ------xx |  RM3
-  | -------- | -------- | -------- | -------- | 030405-- | --16--17 | xx------ | ------xx |  RM2
-  | -------- | -------- | -------- | -------- | 01--02-- | 13--1415 | xx------ | ------xx |  RM1
-  */
-  //comment from mapper: why the hell HE is far more complicate than HB?? ok, i know is trigger link requirement, just want to compliant....
+|                 crate 34 slot 11                          |                 crate 34 slot 5                           |
+             HEP17                         HBP17                          HEM17                        HBM17            
+                              | ------11b12b |                             | ------11b12b |                                Calib
+| ---------10t | 11t---12t--- | ---09b10b--- | ------------ | ---------10t | 11t---12t--- | ---09b10b--- | ------------ |  RM4
+| ---07t---08t | ---09t------ | ---07b08b--- | ------------ | ---07t---08t | ---09t------ | ---07b08b--- | ------------ |  RM3
+| ---------04t | 05t---06t--- | ---05b06b--- | ------------ | ---------04t | 05t---06t--- | ---05b06b--- | ------------ |  RM2
+| ---01t---02t | ---03t------ | ---03b04b--- | ------------ | ---01t---02t | ---03t------ | ---03b04b--- | ------------ |  RM1
+
+
+  The pure HE uHTRs - slots 6 12:
+
+|                 crate 34 slot 12                          |                 crate 34 slot 6                           |  
+             HEP17                         HBP17                          HEM17                        HBM17            
+                              | 12b12t------ |                             | 12b12t------ |                                Calib
+| 07t08t09t--- | ---10t---11t | ------------ | ------------ | 07t08t09t--- | ---10t---11t | ------------ | ------------ |  RM4
+| 02t---03t--- | 04t---05t06t | ------------ | ------------ | 02t---03t--- | 04t---05t06t | ------------ | ------------ |  RM3
+| 07b08b09b--- | ---10b---11b | ------------ | ------------ | 07b08b09b--- | ---10b---11b | ------------ | ------------ |  RM2
+| 02b---03b--- | 04b---05b06b | ------------ | ------------ | 02b---03b--- | 04b---05b06b | ------------ | ------------ |  RM1
+   */
   if( ismixed_ngHE )//FIXME
   {
     const int ngHEuhtrfiInpp_mixed_c1[4][4]=//rm(pprow),rmfiber
     {
-      {-1,12,-1,13},//rm 1 pprow 1
-      {-1,-1,-1,14},//rm 2 pprow 2
-      {-1,15,-1,16},//rm 3 pprow 3
-      {-1,-1,-1,17} //rm 4 pprow 4
+      {-1,1,-1,2},//rm 1 pprow 1
+      {-1,-1,-1,4},//rm 2 pprow 2
+      {-1,7,-1,8},//rm 3 pprow 3
+      {-1,-1,-1,10} //rm 4 pprow 4
     };
     const int ngHEuhtrfiInpp_mixed_c2[4][4]=//rm(pprow),rmfiber
     {
-      {-1,18,-1,-1},//rm 1 pprow 1
-      {19,-1,20,-1},//rm 2 pprow 2
-      {-1,21,-1,-1},//rm 3 pprow 3
-      {22,-1,23,-1} //rm 4 pprow 4
+      {-1,3,-1,-1},//rm 1 pprow 1
+      {5,-1,6,-1},//rm 2 pprow 2
+      {-1,9,-1,-1},//rm 3 pprow 3
+      {11,-1,12,-1} //rm 4 pprow 4
     };
-    if     (thisngHEBackEnd.ppcol==1){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_mixed_c1[thisngHEBackEnd.pprow-1][rm_fiber-1]; }
-    else if(thisngHEBackEnd.ppcol==2){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_mixed_c2[thisngHEBackEnd.pprow-1][rm_fiber-5]; }
+    if     (thisngHEBackEnd.ppcol==1 || thisngHEBackEnd.ppcol==5 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_mixed_c1[thisngHEBackEnd.pprow-1][rm_fiber-1]-1+12; } 
+    else if(thisngHEBackEnd.ppcol==2 || thisngHEBackEnd.ppcol==6 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_mixed_c2[thisngHEBackEnd.pprow-1][rm_fiber-5]-1+12; }
     else{ std::cout << "the ppCol of ngHE channel is neither 1 nor 2 in mixed HBHE slot for ngHE??!! Please check!" << std::endl; }
+
+    // thisngHEBackEnd.dodec = (thisngHEBackEnd.uhtr_fiber)%12+1+12;
   }
   else//FIXME
   {
     const int ngHEuhtrfiInpp_pure_c1[4][4]=//rm(pprow),rmfiber
     {
-      { 1,-1, 2,-1},//rm 1 pprow 1
-      { 3, 4, 5,-1},//rm 2 pprow 2
-      { 6,-1, 7,-1},//rm 3 pprow 3
-      { 8, 9,10,-1} //rm 4 pprow 4
+      { 2,-1, 3,-1},//rm 1 pprow 1
+      { 7, 8, 9,-1},//rm 2 pprow 2
+      { 2,-1, 3,-1},//rm 3 pprow 3
+      { 7, 8, 9,-1} //rm 4 pprow 4
     };
     const int ngHEuhtrfiInpp_pure_c2[4][4]=//rm(pprow),rmfiber
     {
-      {13,-1,14,15},//rm 1 pprow 1
-      {-1,16,-1,17},//rm 2 pprow 2
-      {18,-1,19,20},//rm 3 pprow 3
-      {-1,21,-1,22} //rm 4 pprow 4
+      {4,-1, 5, 6},//rm 1 pprow 1
+      {-1,10,-1,11},//rm 2 pprow 2
+      {4,-1, 5, 6},//rm 3 pprow 3
+      {-1,10,-1,11} //rm 4 pprow 4
     };
-    if     (thisngHEBackEnd.ppcol==1){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_pure_c1[thisngHEBackEnd.pprow-1][rm_fiber-1]; }
-    else if(thisngHEBackEnd.ppcol==2){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_pure_c2[thisngHEBackEnd.pprow-1][rm_fiber-5]; }
+    if     (thisngHEBackEnd.ppcol==1 || thisngHEBackEnd.ppcol==5){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_pure_c1[thisngHEBackEnd.pprow-1][rm_fiber-1]-1; }
+    else if(thisngHEBackEnd.ppcol==2 || thisngHEBackEnd.ppcol==6){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_pure_c2[thisngHEBackEnd.pprow-1][rm_fiber-5]-1; }
     else{ std::cout << "the ppCol of ngHE channel is neither 1 nor 2 in pure ngHE slot??!! Please check!" << std::endl; }
+
+    if (thisngHEBackEnd.pprow==3 || thisngHEBackEnd.pprow==4) thisngHEBackEnd.uhtr_fiber = thisngHEBackEnd.uhtr_fiber + 12;
   }
   if( thisngHEBackEnd.uhtr_fiber<0 )
   { 
