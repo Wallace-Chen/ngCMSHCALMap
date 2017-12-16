@@ -36,7 +36,8 @@ void HBMappingAlgorithm::ConstructHBFrontEnd(int sideid, int rbxrmid, int rmfifi
   thisHBFrontEnd.rm_fiber = rmfifichid/Nfiber_ch + 2;
   thisHBFrontEnd.fiber_ch = rmfifichid%Nfiber_ch;
   //set secondary variables qie8 map
-  thisHBFrontEnd.qie8 = (thisHBFrontEnd.rm_fiber -1)/2+1;
+  //  thisHBFrontEnd.qie8 = (thisHBFrontEnd.rm_fiber -1)/2+1;
+  thisHBFrontEnd.qie8 = int(thisHBFrontEnd.rm_fiber/2);
   thisHBFrontEnd.rm_fiber%2 == 0 ? thisHBFrontEnd.qie8_ch = thisHBFrontEnd.fiber_ch : thisHBFrontEnd.qie8_ch = 3 + (thisHBFrontEnd.fiber_ch+1)%3;
   //set tmp qie8 id
   thisHBFrontEnd.qie8_id = 999991;
