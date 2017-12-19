@@ -46,7 +46,7 @@ class ngHEMappingAlgorithm : public ngHEConstant
   const int ngHEdepInrmfifichid_RM1[Nrm_fiber*Nfiber_ch]=
   {
     2, 3, 3, 3, 2, 2, //RM fiber 1
-    1, 1, 2, 2, 3, 2, //RM fiber 2
+    1, 1, 2, 2, 4, 2, //RM fiber 2
     6, 5, 5, 6, 3, 3, //RM fiber 3
     2, 5, 3, 7, 7, 6, //RM fiber 4
     5, 4, 6, 5, 5, 6, //RM fiber 5
@@ -75,7 +75,7 @@ class ngHEMappingAlgorithm : public ngHEConstant
     1, 4, 5, 3, 4, 3, //RM fiber 4
     7, 3, 5, 6, 3, 0, //RM fiber 5
     5, 5, 6, 5, 3, 3, //RM fiber 6
-    1, 0, 2, 2, 3, 2, //RM fiber 7
+    1, 0, 2, 2, 4, 2, //RM fiber 7
     2, 3, 3, 3, 2, 2  //RM fiber 8
   };
 
@@ -94,7 +94,7 @@ class ngHEMappingAlgorithm : public ngHEConstant
   const int ngHEdepInrmfifichid_RM3[Nrm_fiber*Nfiber_ch]=
   {
     2, 3, 3, 3, 2, 2, //RM fiber 1
-    1, 0, 2, 2, 3, 2, //RM fiber 2
+    1, 0, 2, 2, 4, 2, //RM fiber 2
     6, 5, 5, 6, 3, 3, //RM fiber 3
     0, 5, 3, 7, 3, 6, //RM fiber 4
     5, 4, 6, 5, 5, 6, //RM fiber 5
@@ -123,7 +123,7 @@ class ngHEMappingAlgorithm : public ngHEConstant
     1, 4, 5, 3, 4, 3, //RM fiber 4
     7, 3, 5, 6, 7, 2, //RM fiber 5
     5, 5, 6, 5, 3, 3, //RM fiber 6
-    1, 1, 2, 2, 3, 2, //RM fiber 7
+    1, 1, 2, 2, 4, 2, //RM fiber 7
     2, 3, 3, 3, 2, 2  //RM fiber 8
   };
 };
