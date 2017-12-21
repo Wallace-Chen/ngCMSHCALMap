@@ -83,3 +83,8 @@ cd latex
 make
 ```
 
+# Pandas Test
+```
+pip install xlrd --prefix=$CMSSW_BASE/python
+export PYTHONPATH=$CMSSW_BASE/python/lib/python2.6/site-packages:$PYTHONPATH
+```
