@@ -84,7 +84,10 @@ make
 ```
 
 # Pandas Test
+To read xls file and dump Emap directly:
 ```
+cd $CMSSW_BASE/src/ngCMSHCALMap/DevelopmentTools/PandasTest
 pip install xlrd --prefix=$CMSSW_BASE/python
 export PYTHONPATH=$CMSSW_BASE/python/lib/python2.6/site-packages:$PYTHONPATH
+python DumpEMapfromCalib.py >> HCALEmapCALIB_J.txt
 ```
