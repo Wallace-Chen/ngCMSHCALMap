@@ -50,12 +50,12 @@ class HBMappingAlgorithm : public HBConstant
   //LMap add QIE8 ID
   struct HBQIE8CardMap
   {
-    std::string rbx,rm,qie_id;
+    std::string rbx, rm, qie8, qie_id;
   };
   std::vector<HBQIE8CardMap> myHBQIE8CardMap;
   void LoadHBQIEMap(std::string QIE8CardMapFileName);
   void GetHBQIEInfoToLMap(
-                          std::string rbx, int rm,
+                          std::string rbx, int rm, int qie8,
                           int &qie8_id
                          );
 };

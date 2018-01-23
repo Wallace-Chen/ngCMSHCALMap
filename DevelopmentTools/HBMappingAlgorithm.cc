@@ -1,6 +1,9 @@
 #include "HBMappingAlgorithm.h"
 void HBMappingAlgorithm::ConstructHBLMapObject()
 {
+  std::cout << "#Loading information from QIE allocation file..." << std::endl;
+  LoadHBQIEMap("HBHOQIEInput/RBX_RM_QIE_2016Nov03.txt");
+
   std::cout << "#Constructing HB LMap Object..." << std::endl;
 
   for(int irbx=0;irbx<NrbxHB*2;irbx++)
@@ -40,7 +43,12 @@ void HBMappingAlgorithm::ConstructHBFrontEnd(int sideid, int rbxrmid, int rmfifi
   thisHBFrontEnd.qie8 = int(thisHBFrontEnd.rm_fiber/2);
   thisHBFrontEnd.rm_fiber%2 == 0 ? thisHBFrontEnd.qie8_ch = thisHBFrontEnd.fiber_ch : thisHBFrontEnd.qie8_ch = 3 + (thisHBFrontEnd.fiber_ch+1)%3;
   //set tmp qie8 id
-  thisHBFrontEnd.qie8_id = 999991;
+  //thisHBFrontEnd.qie8_id = 999991;
+  //set qie8 id
+  GetHBQIEInfoToLMap(
+                     thisHBFrontEnd.rbx, thisHBFrontEnd.rm, thisHBFrontEnd.qie8,
+                     thisHBFrontEnd.qie8_id
+                    );
   myHBFrontEnd.push_back(thisHBFrontEnd);
   return ;
 }
@@ -228,26 +236,48 @@ void HBMappingAlgorithm::LoadHBQIEMap(std::string QIE8CardMapFileName)
   while( std::getline(inputFile, line) )
   {
     if(line.at(0) == '#') continue;
-      
+    if(!(line.at(0) == 'H' && line.at(1) == 'B')) continue; 
     //std::istringstream ss(line);
     std::stringstream ss(line);
     HBQIE8CardMap thisHBQIE8CardMap;
-   
-    ss >> thisHBQIE8CardMap.rbx >> thisHBQIE8CardMap.rm >> thisHBQIE8CardMap.qie_id;
+
+    //HBM01 HB19.1.37 RM1 101402 101422 101440
+    //HBM01 HB19.2.53 RM2 100282 100244 100300
+    //HBM01 HB19.3.09 RM3 999999 999999 999999
+    //HBM01 HB19.4.24 RM4 100551 100892 101452
+    //rbx, rm, qie8, qie_id;
+    std::string tmp;
+    std::string rbx_tmp, rm_tmp;
+    std::string qie_id_1, qie_id_2, qie_id_3;
+    ss >> thisHBQIE8CardMap.rbx >> tmp >> rm_tmp >> qie_id_1 >> qie_id_2 >> qie_id_3;
+    //std::cout << qie_id_1 << ", " << qie_id_2 << ", " << qie_id_3 << std::endl;
+    thisHBQIE8CardMap.rm = rm_tmp.back();
+
+    thisHBQIE8CardMap.qie8 = "1";
+    thisHBQIE8CardMap.qie_id = qie_id_1;
     myHBQIE8CardMap.push_back(thisHBQIE8CardMap);
+    thisHBQIE8CardMap.qie8.clear(); thisHBQIE8CardMap.qie_id.clear();
+    thisHBQIE8CardMap.qie8 = "2";
+    thisHBQIE8CardMap.qie_id = qie_id_2;
+    myHBQIE8CardMap.push_back(thisHBQIE8CardMap);
+    thisHBQIE8CardMap.qie8.clear(); thisHBQIE8CardMap.qie_id.clear();
+    thisHBQIE8CardMap.qie8 = "3";
+    thisHBQIE8CardMap.qie_id = qie_id_3;
+    myHBQIE8CardMap.push_back(thisHBQIE8CardMap);
+    thisHBQIE8CardMap.qie8.clear(); thisHBQIE8CardMap.qie_id.clear();
   }
   return ;
 }
 
 void HBMappingAlgorithm::GetHBQIEInfoToLMap(
-                                            std::string rbx, int rm,
+                                            std::string rbx, int rm, int qie8,
                                             int &qie8_id
                                            )
 {
   bool qie8match = false;
   for(auto i=0; i<myHBQIE8CardMap.size(); i++)
   {
-    qie8match = (rbx==myHBQIE8CardMap.at(i).rbx) && (rm==std::stoi(myHBQIE8CardMap.at(i).rm));
+    qie8match = (rbx==myHBQIE8CardMap.at(i).rbx) && (rm==std::stoi(myHBQIE8CardMap.at(i).rm)) && (qie8==std::stoi(myHBQIE8CardMap.at(i).qie8));
     if(qie8match)
     {
       qie8_id = std::stoi(myHBQIE8CardMap.at(i).qie_id);
