@@ -1,3 +1,5 @@
+#include <sstream>
+#include <fstream>
 #include <vector>
 #include <iostream>
 #include <map>
@@ -43,4 +45,17 @@ class HBMappingAlgorithm : public HBConstant
     1, 1, 1, //RM fiber 6
     1, 1, 1, //RM fiber 7
   };
+
+  //Legacy QIE8 calibration constants
+  //LMap add QIE8 ID
+  struct HBQIE8CardMap
+  {
+    std::string rbx,rm,qie_id;
+  };
+  std::vector<HBQIE8CardMap> myHBQIE8CardMap;
+  void LoadHBQIEMap(std::string QIE8CardMapFileName);
+  void GetHBQIEInfoToLMap(
+                          std::string rbx, int rm,
+                          int &qie8_id
+                         );
 };

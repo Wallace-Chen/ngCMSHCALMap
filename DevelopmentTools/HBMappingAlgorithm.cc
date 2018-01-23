@@ -220,3 +220,41 @@ void HBMappingAlgorithm::ConstructHBTriggerTower(int eta, int phi)
   myHBTriggerTower.push_back(thisHBTriggerTower);
   return ;
 }
+
+void HBMappingAlgorithm::LoadHBQIEMap(std::string QIE8CardMapFileName)                                                                                                                                 
+{
+  std::ifstream inputFile(QIE8CardMapFileName.c_str());
+  std::string line;
+  while( std::getline(inputFile, line) )
+  {
+    if(line.at(0) == '#') continue;
+      
+    //std::istringstream ss(line);
+    std::stringstream ss(line);
+    HBQIE8CardMap thisHBQIE8CardMap;
+   
+    ss >> thisHBQIE8CardMap.rbx >> thisHBQIE8CardMap.rm >> thisHBQIE8CardMap.qie_id;
+    myHBQIE8CardMap.push_back(thisHBQIE8CardMap);
+  }
+  return ;
+}
+
+void HBMappingAlgorithm::GetHBQIEInfoToLMap(
+                                            std::string rbx, int rm,
+                                            int &qie8_id
+                                           )
+{
+  bool qie8match = false;
+  for(auto i=0; i<myHBQIE8CardMap.size(); i++)
+  {
+    qie8match = (rbx==myHBQIE8CardMap.at(i).rbx) && (rm==std::stoi(myHBQIE8CardMap.at(i).rm));
+    if(qie8match)
+    {
+      qie8_id = std::stoi(myHBQIE8CardMap.at(i).qie_id);
+      break;
+    }
+    else continue;
+  }
+  if(!qie8match) std::cout << "#QIE 10 card not found in front end coordinates ???!!!" << std::endl;
+  return ;
+}
