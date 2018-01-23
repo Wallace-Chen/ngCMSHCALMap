@@ -1,9 +1,9 @@
 import pandas as pd
-
+import os
 
 if __name__ == '__main__':
-  fn = r'HCALmapCALIB_J.xls'
-  df = pd.read_excel(fn, sheetname = 'uHTR')
+  #fn = os.environ['CMSSW_BASE']+'/src/ngCMSHCALMap/DevelopmentTools/PandasTest/HCALmapCALIB_J.xls'
+  #df = pd.read_excel(fn, sheetname = 'uHTR')
   #print (df.head())
   '''
   print "#i crate slot tb dcc spigot htr_fi fib_ch det eta phi type"
@@ -15,7 +15,7 @@ if __name__ == '__main__':
     else:
       print row['index'], row['crate'], row['HTR'], row['t/b'], row['dcc'], row['spigot'], row['htr_fib'], row['fib_ch'], 'CALIB_'+row['det'], row['eta'], row['phi'], row['type']
   '''
-  fn = r'ngCU_Lmap_template.xls'
+  fn = os.environ['CMSSW_BASE']+'/src/ngCMSHCALMap/DevelopmentTools/PandasTest/ngCU_Lmap_template.xls'
   df = pd.read_excel(fn, sheetname = 'c34fibers')
   print "#HBHE CALIB channels Emap"
   print "#i crate slot tb dcc spigot uhtr_fi fib_ch det eta phi depth"

@@ -49,6 +49,7 @@ void HBMappingAlgorithm::ConstructHBFrontEnd(int sideid, int rbxrmid, int rmfifi
                      thisHBFrontEnd.rbx, thisHBFrontEnd.rm, thisHBFrontEnd.qie8,
                      thisHBFrontEnd.qie8_id
                     );
+  if( thisHBFrontEnd.qie8_id == 999999 ) thisHBFrontEnd.qie8_id = 999991;
   myHBFrontEnd.push_back(thisHBFrontEnd);
   return ;
 }
@@ -130,17 +131,17 @@ void HBMappingAlgorithm::ConstructHBBackEnd(int sideid, int rbxrmid, int rmfific
   */
 
   if( ismixed_HB )
-    {
-      if     (thisHBBackEnd.ppcol==3 || thisHBBackEnd.ppcol==7 ){ thisHBBackEnd.uhtr_fiber = (thisHBBackEnd.pprow-1)*2+rm_fiber-2+2; }
-      else{ std::cout << "the ppCol of HB channel is not 3 in mixed HBHE slot for HB??!! Please check!" << std::endl; }
-    }
+  {
+    if     (thisHBBackEnd.ppcol==3 || thisHBBackEnd.ppcol==7 ){ thisHBBackEnd.uhtr_fiber = (thisHBBackEnd.pprow-1)*2+rm_fiber-2+2; }
+    else{ std::cout << "the ppCol of HB channel is not 3 in mixed HBHE slot for HB??!! Please check!" << std::endl; }
+  }
   else
-    {
-      //notice here we change the order, first rm_fiber then rm!!!
-      if     (thisHBBackEnd.ppcol==3 || thisHBBackEnd.ppcol==7){ thisHBBackEnd.uhtr_fiber = (int(rm_fiber)/4)*4+thisHBBackEnd.pprow-1; }
-      else if(thisHBBackEnd.ppcol==4 || thisHBBackEnd.ppcol==8){ thisHBBackEnd.uhtr_fiber = (rm_fiber-5)*4+thisHBBackEnd.pprow-1+8; }
-      else{ std::cout << "the ppCol of HB channel is neither 3 nor 4 in pure HB slot??!! Please check!" << std::endl; }
-    }
+  {
+    //notice here we change the order, first rm_fiber then rm!!!
+    if     (thisHBBackEnd.ppcol==3 || thisHBBackEnd.ppcol==7){ thisHBBackEnd.uhtr_fiber = (int(rm_fiber)/4)*4+thisHBBackEnd.pprow-1; }
+    else if(thisHBBackEnd.ppcol==4 || thisHBBackEnd.ppcol==8){ thisHBBackEnd.uhtr_fiber = (rm_fiber-5)*4+thisHBBackEnd.pprow-1+8; }
+    else{ std::cout << "the ppCol of HB channel is neither 3 nor 4 in pure HB slot??!! Please check!" << std::endl; }
+  }
 
   //finally set dodec from back end side
   thisHBBackEnd.dodec = (thisHBBackEnd.uhtr_fiber)%12+1;

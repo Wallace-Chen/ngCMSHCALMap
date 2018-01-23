@@ -5,3 +5,4 @@
 ./HCALLMapProducer HB HT
 ./HCALLMapProducer HE HT
 ./HCALLMapProducer HF HT
+python PandasTest/DumpEMapfromCalib.py
