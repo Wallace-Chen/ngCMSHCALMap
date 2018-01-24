@@ -5,7 +5,7 @@ cd CMSSW_8_0_0/src
 cmsenv
 ```
 
-# SQLite c++ Support
+# SQLite C++ Support
 https://www.sqlite.org/download.html
 ```
 cd $CMSSW_BASE/src
@@ -59,8 +59,7 @@ The valid PrdMode are: LMap,EMap,FMap,HT
 
 plotly installation and setup
 ```
-sudo pip install plotly
-pip install plotly --upgrade
+pip install --install-option="--prefix=$CMSSW_BASE/python" plotly
 python
 import plotly
 plotly.tools.set_credentials_file(username='DemoAccount', api_key='lr1c37zw81')
@@ -87,7 +86,7 @@ make
 To read xls file and dump Emap directly:
 ```
 cd $CMSSW_BASE/src/ngCMSHCALMap/DevelopmentTools/PandasTest
-pip install xlrd --prefix=$CMSSW_BASE/python
+pip install --install-option="--prefix=$CMSSW_BASE/python" xlrd
 export PYTHONPATH=$CMSSW_BASE/python/lib/python2.6/site-packages:$PYTHONPATH
 python DumpEMapfromCalib.py >> HCALEmapCALIB_J.txt
 ```
