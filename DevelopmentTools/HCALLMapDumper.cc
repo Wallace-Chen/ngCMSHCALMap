@@ -494,7 +494,7 @@ void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string H
   //QIEcd QIEch RM RM_FI FI_CH 
   //ppCol ppRow ppCpl ppLC dodec 
   //Crate uHTR uHTR_FI FEDid 
-  //QIEid
+  //QIE8id
   //TP_FI TP_CH
   std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + HBTableStr + "(" \
                             "ID INT PRIMARY KEY NOT NULL, " \
@@ -504,7 +504,7 @@ void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string H
                             "QIEcd INT NOT NULL, QIEch INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
                             "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
                             "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
-                            "QIEid INT NOT NULL, " \
+                            "QIE8id INT NOT NULL, " \
                             "TP_FI INT NOT NULL, TP_CH INT NOT NULL);";
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
@@ -521,7 +521,7 @@ void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string H
                       "QIEcd,QIEch,RM,RM_FI,FI_CH," \
                       "ppCol,ppRow,ppCpl,ppLC,dodec," \
                       "Crate,uHTR,uHTR_FI,FEDid," \
-                      "QIEid," \
+                      "QIE8id," \
                       "TP_FI,TP_CH) ";
     std::string two = "VALUES("
                       +std::to_string(i)+","
