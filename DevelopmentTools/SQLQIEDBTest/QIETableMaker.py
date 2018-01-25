@@ -135,8 +135,8 @@ if __name__ == '__main__':
   # load lmap HB, HE, HF, HO
   df_HBsublmap, df_HEsublmap, df_HFsublmap, df_HOsublmap = GetLMapDataFrame( 'sqlite:///../officialMap/HCALLogicalMap.db' )
   #print (df_HBsublmap.head())
-  print (df_HEsublmap.head())
-  print (df_HFsublmap.head())
+  #print (df_HEsublmap.head())
+  #print (df_HFsublmap.head())
   #print (df_HOsublmap.head())
 
   # load qie8 tables offsets and slopes
@@ -146,9 +146,9 @@ if __name__ == '__main__':
   
   # load qie10 tables offsets and slopes
   df_qie10_offset_pv, df_qie10_slope_pv = GetQIE10DataFrame( 'sqlite:///qie10_database/qieCalibrationParameters_HF_2017-04-24.db' )
-  print (df_qie10_offset_pv.head())
-  print (df_qie10_slope_pv.head())
+  #print (df_qie10_offset_pv.head())
+  #print (df_qie10_slope_pv.head())
 
-  #DumpHBQIE8Table( df_HBsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
+  DumpHBQIE8Table( df_HBsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
   DumpHFQIE10Table( df_HFsublmap, df_qie10_offset_pv, df_qie10_slope_pv )
-  #DumpHOQIE8Table( df_HOsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
+  DumpHOQIE8Table( df_HOsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
