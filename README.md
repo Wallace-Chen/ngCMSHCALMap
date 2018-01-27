@@ -90,3 +90,9 @@ pip install --install-option="--prefix=$CMSSW_BASE/python" xlrd
 export PYTHONPATH=$CMSSW_BASE/python/lib/python2.6/site-packages:$PYTHONPATH
 python DumpEMapfromCalib.py >> HCALEmapCALIB_J.txt
 ```
+
+# Generate QIE tables from Database
+```
+cd $CMSSW_BASE/src/ngCMSHCALMap/DevelopmentTools/SQLQIEDBTest
+python QIETableMaker.py
+```

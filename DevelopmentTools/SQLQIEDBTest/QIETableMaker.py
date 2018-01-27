@@ -49,6 +49,19 @@ def GetQIE10DataFrame( rel_qie10_path ):
   sql_con_qie10.close()
   return df_qie10_offset_pv, df_qie10_slope_pv
 
+def GetQIE11DataFrame( rel_qie11_path, shuntAndGsel):
+  sql_engine_qie11 = create_engine( rel_qie11_path )
+  sql_con_qie11 = sql_engine_qie11.raw_connection()
+  SQLQuery = "SELECT * FROM qieshuntparams WHERE " + shuntAndGsel
+  #df_qie11 = pd.read_sql("SELECT * FROM qieshuntparams WHERE shunt=1 AND Gsel=0", con = sql_con_qie11)
+  df_qie11 = pd.read_sql(SQLQuery, con = sql_con_qie11)
+  df_qie11.drop(['id', 'shunt', 'Gsel', 'uncertainty'], axis=1, inplace=True)
+  df_qie11_offset_pv = pd.pivot_table(df_qie11, index = ['barcode', 'qie'], columns=['capID','range'], values='offset')
+  df_qie11_slope_pv = pd.pivot_table(df_qie11, index = ['barcode', 'qie'], columns=['capID','range'], values='slope')
+
+  sql_con_qie11.close()
+  return df_qie11_offset_pv, df_qie11_slope_pv
+
 def DumpHBQIE8Table( df_HBsublmap, df_qie8_offset_pv, df_qie8_slope_pv ):
 
   df_HBQIE_res = df_HBsublmap[['Side', 'Eta', 'Phi', 'Depth', 'Det']]
@@ -140,15 +153,22 @@ if __name__ == '__main__':
   #print (df_HOsublmap.head())
 
   # load qie8 tables offsets and slopes
-  df_qie8_offset_pv, df_qie8_slope_pv = GetQIE8DataFrame( 'sqlite:///qie8_database/QIE8ConstantFNALNormal_DropFcs.db' )
+  #df_qie8_offset_pv, df_qie8_slope_pv = GetQIE8DataFrame( 'sqlite:///qie8_database/QIE8ConstantFNALNormal_DropFcs.db' )
+  df_qie8_offset_pv, df_qie8_slope_pv = GetQIE8DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie8_database/QIE8ConstantFNALNormal_DropFcs.db' )
   #print (df_qie8_offset_pv.head())
   #print (df_qie8_slope_pv.head())
   
   # load qie10 tables offsets and slopes
-  df_qie10_offset_pv, df_qie10_slope_pv = GetQIE10DataFrame( 'sqlite:///qie10_database/qieCalibrationParameters_HF_2017-04-24.db' )
+  #df_qie10_offset_pv, df_qie10_slope_pv = GetQIE10DataFrame( 'sqlite:///qie10_database/qieCalibrationParameters_HF_2017-04-24.db' )
+  df_qie10_offset_pv, df_qie10_slope_pv = GetQIE10DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie10_database/qieCalibrationParameters_HF_2017-04-24.db' )
   #print (df_qie10_offset_pv.head())
   #print (df_qie10_slope_pv.head())
 
-  DumpHBQIE8Table( df_HBsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
-  DumpHFQIE10Table( df_HFsublmap, df_qie10_offset_pv, df_qie10_slope_pv )
-  DumpHOQIE8Table( df_HOsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
+  # load qie11 tables offsets and slopes
+  df_qie11_offset_pv, df_qie11_slope_pv = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=1 AND Gsel=0" )
+  print (df_qie11_offset_pv.head())
+  print (df_qie11_slope_pv.head())
+
+  #DumpHBQIE8Table( df_HBsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
+  #DumpHFQIE10Table( df_HFsublmap, df_qie10_offset_pv, df_qie10_slope_pv )
+  #DumpHOQIE8Table( df_HOsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
