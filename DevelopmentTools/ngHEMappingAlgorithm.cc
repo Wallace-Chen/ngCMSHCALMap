@@ -3,6 +3,7 @@
 void ngHEMappingAlgorithm::ConstructngHELMapObject()
 {
   std::cout << "#Constructing ngHE LMap Object..." << std::endl;
+  LoadngHEQIEMap("ngHEQIEInput/HE_QIE11_CardMap_26Jan2018_Fake.txt");
 
   for(int irbx=0;irbx<NrbxngHE*2;irbx++)
   {
@@ -41,7 +42,11 @@ void ngHEMappingAlgorithm::ConstructngHEFrontEnd(int sideid, int rbxrmid, int rm
   thisngHEFrontEnd.qie11 = (thisngHEFrontEnd.rm_fiber-1)/2+1;
   thisngHEFrontEnd.qie11_ch = ((thisngHEFrontEnd.rm_fiber-1)%2)*6+thisngHEFrontEnd.fiber_ch+1;
   //set tmp qie11 id
-  thisngHEFrontEnd.qie11_id = 500000;
+  GetngHEQIEInfoToLMap(
+                       thisngHEFrontEnd.rbx, thisngHEFrontEnd.rm, thisngHEFrontEnd.qie11,
+                       thisngHEFrontEnd.qie11_id
+                      );
+  //thisngHEFrontEnd.qie11_id = 600000;
 
   myngHEFrontEnd.push_back(thisngHEFrontEnd);
   return ;
