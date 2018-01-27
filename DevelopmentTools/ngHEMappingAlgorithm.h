@@ -126,4 +126,17 @@ class ngHEMappingAlgorithm : public ngHEConstant
     1, 1, 2, 2, 4, 2, //RM fiber 7
     2, 3, 3, 3, 2, 2  //RM fiber 8
   };
+
+  //QIE11 calibration constants
+  //LMap add QIE11 ID
+  struct ngHEQIE11CardMap
+  {
+    std::string rbx, rm, qie, qie_id;
+  };
+  std::vector<ngHEQIE11CardMap> myngHEQIE11CardMap;
+  void LoadngHEQIEMap(std::string QIE11CardMapFileName);
+  void GetngHEQIEInfoToLMap(
+                            std::string rbx, int rm, int qie,
+                            int &qie11_id
+                           );
 };
