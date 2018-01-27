@@ -92,6 +92,7 @@ python DumpEMapfromCalib.py >> HCALEmapCALIB_J.txt
 ```
 
 # Generate QIE tables from Database
+Location of QIE database files: /eos/user/h/hua/QIEDB
 ```
 cd $CMSSW_BASE/src/ngCMSHCALMap/DevelopmentTools/SQLQIEDBTest
 python QIETableMaker.py
