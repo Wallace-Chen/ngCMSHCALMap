@@ -290,3 +290,46 @@ void ngHEMappingAlgorithm::ConstructngHETriggerTower(int eta, int phi)
   myngHETriggerTower.push_back(thisngHETriggerTower);
   return ;
 }
+
+void ngHEMappingAlgorithm::LoadngHEQIEMap(std::string QIE11CardMapFileName)
+{
+  std::ifstream inputFile(QIE11CardMapFileName.c_str());
+  std::string line;
+  while( std::getline(inputFile, line) )
+  {
+    if(line.at(0) == '#') continue;
+
+    //std::istringstream ss(line);
+    std::stringstream ss(line);
+    ngHEQIE11CardMap thisngHEQIE11CardMap;
+    std::string barcode1,barcode2;
+
+    ss >> thisngHEQIE11CardMap.rbx >> thisngHEQIE11CardMap.rm >> thisngHEQIE11CardMap.qie >> thisngHEQIE11CardMap.qie_id;
+    //std::cout << thisngHEQIE11CardMap.rbx << std::endl;
+    //std::cout << thisngHEQIE11CardMap.rm << std::endl;
+    //std::cout << thisngHEQIE11CardMap.qie << std::endl;
+    //std::cout << thisngHEQIE11CardMap.qie_id << std::endl;
+    myngHEQIE11CardMap.push_back(thisngHEQIE11CardMap);
+  }
+  return ;
+}
+
+void ngHEMappingAlgorithm::GetngHEQIEInfoToLMap(
+                                                std::string rbx, int rm, int qie,
+                                                int &qie11_id
+                                               )
+{
+  bool qie11match = false;
+  for(auto i=0; i<myngHEQIE11CardMap.size(); i++)
+  {
+    qie11match = (rbx==myngHEQIE11CardMap.at(i).rbx) && (qie==std::stoi(myngHEQIE11CardMap.at(i).qie));
+    if(qie11match)
+    {
+      qie11_id = std::stoi(myngHEQIE11CardMap.at(i).qie_id);
+      break;
+    }
+    else continue;
+  }
+  if(!qie11match) std::cout << "#QIE 11 card not found in front end coordinates ???!!!" << std::endl;
+  return ;
+}                                                                                                                                                                                                           
