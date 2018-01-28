@@ -12,13 +12,15 @@ class ngHEMappingAlgorithm : public ngHEConstant
  public:
   //the variables we need to fill into the LMap
   std::vector<ngHEFrontEnd> myngHEFrontEnd; std::vector<ngHEBackEnd> myngHEBackEnd; std::vector<ngHESiPM> myngHESiPM; std::vector<ngHEGeometry> myngHEGeometry; std::vector<ngHETriggerTower> myngHETriggerTower;
-  void ConstructngHELMapObject();
+  std::vector<ngHECalib> myngHECalib;
+  void ConstructngHELMapObject(std::string Mode);
  private:
   void ConstructngHEFrontEnd(int sideid, int rbxrmid, int rmfifichid);
   void ConstructngHEBackEnd(int sideid, int rbxrmid, int rmfifichid);      
   void ConstructngHEGeometry(int sideid, int rbxrmid, int rmfifichid);      
   void ConstructngHESiPM(int sideid, int rbxrmid, int rmfifichid);
-  void ConstructngHETriggerTower(int eta, int phi);  
+  void ConstructngHETriggerTower(int eta, int phi);
+  void ConstructngHECalib(int sideid, int rbxrmid, int rmfifichid);
   
   const int ngHEucrateInrbxrmid[Ncrate] = {30,24,20,21,25,31,35,37,34};
   //const int ngHEuhtrInrmfifichidType1[Nrm_fiber] = {1,12, 2, 13, 3,14, 4, 5};

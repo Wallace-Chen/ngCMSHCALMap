@@ -233,7 +233,7 @@ void HCALLMapDumper::printngHEEMapObject(std::vector<ngHEFrontEnd> myngHEFrontEn
 
 void HCALLMapDumper::printngHEFrontEndMapObject(std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower)
 {
-  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  //# eta phi depth det rbx rm
   std::cout << "#Dumping ngHE FrontEnd Map Object..." << std::endl;
   std::cout << "#"
             << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
@@ -252,6 +252,32 @@ void HCALLMapDumper::printngHEFrontEndMapObject(std::vector<ngHEFrontEnd> myngHE
               << std::setw(9) << myngHEFrontEnd.at(i).rbx << std::setw(6) << myngHEFrontEnd.at(i).rm
               << std::endl;
   }
+  return ;
+}
+
+void HCALLMapDumper::printngHECalibLMapObject(std::vector<ngHECalib> myngHECalib)
+{
+  //# rbx qie11 qie11_ch rm rm_fiber fiber_ch
+  std::cout << "#Dumping ngHE Calib LMap Object..." << std::endl; 
+  std::cout << "#"
+            //<< std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
+            << std::setw(6) << "RBX"
+            << std::setw(6) << "QIE11" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            //<< std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(15) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
+            //<< std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+            //<< std::setw(6) << "FEDid"
+            //<< std::setw(9) << "QIE11id"
+            << std::endl;
+
+  for(auto i=0; i<myngHECalib.size(); i++)
+  {
+    std::cout
+              << " "
+              << std::setw(6) << myngHECalib.at(i).rbx                                                                                                                                                   
+              << std::setw(6) << myngHECalib.at(i).qie11 << std::setw(6) << myngHECalib.at(i).qie11_ch << std::setw(6) << myngHECalib.at(i).rm << std::setw(6) << myngHECalib.at(i).rm_fiber << std::setw(6) << myngHECalib.at(i).fiber_ch
+              << std::endl;
+  }
+
   return ;
 }
 

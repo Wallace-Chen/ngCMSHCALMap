@@ -1,30 +1,61 @@
 #include "ngHEMappingAlgorithm.h"
 
-void ngHEMappingAlgorithm::ConstructngHELMapObject()
+void ngHEMappingAlgorithm::ConstructngHELMapObject(std::string Mode)
 {
-  std::cout << "#Constructing ngHE LMap Object..." << std::endl;
-  LoadngHEQIEMap("ngHEQIEInput/HE_QIE11_CardMap_26Jan2018_Fake.txt");
-
-  for(int irbx=0;irbx<NrbxngHE*2;irbx++)
+  if(Mode == "Normal")
   {
-    for(int irm=0;irm<NrmngHE;irm++)
-    {
-      for(int irmfi=0;irmfi<Nrm_fiber;irmfi++)
-      {
-        for(int ifich=0;ifich<Nfiber_ch;ifich++)
-        {
-          int sideid; irbx<NrbxngHE ? sideid = 1 : sideid = -1;//0..to 17 is P side, while 17 to 35 is M side
-          int rbxrmid; irbx<NrbxngHE ? rbxrmid = irbx*NrmngHE+irm : rbxrmid = (irbx-NrbxngHE)*NrmngHE+irm;//ngHE 0...to 71
-          int rmfifichid = irmfi*Nfiber_ch+ifich;//ngHE 0...to 47
+    std::cout << "#Constructing ngHE LMap Object..." << std::endl;
+    LoadngHEQIEMap("ngHEQIEInput/HE_QIE11_CardMap_26Jan2018_Fake.txt");
 
-          ConstructngHEFrontEnd(sideid,rbxrmid,rmfifichid);
-          ConstructngHEBackEnd(sideid,rbxrmid,rmfifichid);
-          ConstructngHEGeometry(sideid,rbxrmid,rmfifichid);
-          ConstructngHESiPM(sideid,rbxrmid,rmfifichid);
+    for(int irbx=0;irbx<NrbxngHE*2;irbx++)
+    {
+      for(int irm=0;irm<NrmngHE;irm++)
+      {
+        for(int irmfi=0;irmfi<Nrm_fiber;irmfi++)
+        {
+          for(int ifich=0;ifich<Nfiber_ch;ifich++)
+          {
+            int sideid; irbx<NrbxngHE ? sideid = 1 : sideid = -1;//0..to 17 is P side, while 17 to 35 is M side
+            int rbxrmid; irbx<NrbxngHE ? rbxrmid = irbx*NrmngHE+irm : rbxrmid = (irbx-NrbxngHE)*NrmngHE+irm;//ngHE 0...to 71
+            int rmfifichid = irmfi*Nfiber_ch+ifich;//ngHE 0...to 47
+
+            ConstructngHEFrontEnd(sideid,rbxrmid,rmfifichid);
+            ConstructngHEBackEnd(sideid,rbxrmid,rmfifichid);
+            ConstructngHEGeometry(sideid,rbxrmid,rmfifichid);
+            ConstructngHESiPM(sideid,rbxrmid,rmfifichid);
+          }
         }
       }
     }
   }
+  else if(Mode == "Calib")
+  {
+    std::cout << "#Constructing ngHE Calib LMap Object..." << std::endl;
+
+    for(int irbx=0;irbx<NrbxngHE*2;irbx++)
+    {
+      for(int irm=0;irm<NrmngHECalib;irm++)
+      {
+        for(int irmfi=0;irmfi<Nrm_fiberCalib;irmfi++)
+        {
+          for(int ifich=0;ifich<Nfiber_ch;ifich++)
+          {
+            int sideid; irbx<NrbxngHE ? sideid = 1 : sideid = -1;//0..to 17 is P side, while 17 to 35 is M side
+            int rbxrmid; irbx<NrbxngHE ? rbxrmid = irbx*NrmngHECalib+irm : rbxrmid = (irbx-NrbxngHE)*NrmngHECalib+irm;//ngHE 0...to 71
+            int rmfifichid = irmfi*Nfiber_ch+ifich;//ngHE 0...to 47
+            //std::cout << "#Side: " << sideid << "; RBXRM: " << rbxrmid << "; RMFIFICH: " << rmfifichid << std::endl;
+            ConstructngHECalib(sideid,rbxrmid,rmfifichid);
+          }
+        }
+      }
+    }
+  }
+  else
+  {
+    std::cout << "#Invalid generate mode for ngHE Logical map!" << std::endl;
+    return ;
+  }
+  
   return ;
 }
 
@@ -296,6 +327,33 @@ void ngHEMappingAlgorithm::ConstructngHETriggerTower(int eta, int phi)
   return ;
 }
 
+void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfifichid)
+{
+  ngHECalib thisngHECalib;
+  //set up frontend part
+  std::string sideletter; sideid>0 ? sideletter = "P" : sideletter = "M";
+  std::string numberletter; (rbxrmid/NrmngHECalib + 1) < 10 ? numberletter = "0" + std::to_string(rbxrmid/NrmngHECalib + 1) : numberletter = std::to_string(rbxrmid/NrmngHECalib + 1); 
+  thisngHECalib.rbx = "HE" + sideletter + numberletter;
+  thisngHECalib.rm = rbxrmid%NrmngHECalib + 1;
+  thisngHECalib.rm_fiber = rmfifichid/Nfiber_ch + 1;
+  thisngHECalib.fiber_ch = rmfifichid%Nfiber_ch;
+  //set secondary variables qie11 map
+  thisngHECalib.qie11 = (thisngHECalib.rm_fiber-1)/2+1;
+  thisngHECalib.qie11_ch = ((thisngHECalib.rm_fiber-1)%2)*6+thisngHECalib.fiber_ch+1;
+  //set tmp qie11 id                                                                                                                                                                                        
+  thisngHECalib.qie11_id = 600000;
+
+  //set up ngCU patch part
+
+  //set up backend part
+
+  //set up Geometry part
+
+  myngHECalib.push_back(thisngHECalib);
+  
+  return ;
+}
+
 void ngHEMappingAlgorithm::LoadngHEQIEMap(std::string QIE11CardMapFileName)
 {
   std::ifstream inputFile(QIE11CardMapFileName.c_str());
@@ -304,11 +362,9 @@ void ngHEMappingAlgorithm::LoadngHEQIEMap(std::string QIE11CardMapFileName)
   {
     if(line.at(0) == '#') continue;
 
-    //std::istringstream ss(line);
     std::stringstream ss(line);
     ngHEQIE11CardMap thisngHEQIE11CardMap;
-    std::string barcode1,barcode2;
-
+    
     ss >> thisngHEQIE11CardMap.rbx >> thisngHEQIE11CardMap.rm >> thisngHEQIE11CardMap.qie >> thisngHEQIE11CardMap.qie_id;
     //std::cout << thisngHEQIE11CardMap.rbx << std::endl;
     //std::cout << thisngHEQIE11CardMap.rm << std::endl;
