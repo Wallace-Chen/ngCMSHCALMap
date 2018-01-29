@@ -361,12 +361,15 @@ void HBMappingAlgorithm::ConstructHBCalib(int sideid, int rbxrmid, int rmfifichi
    rm_fib_1 = LC1 = 1-2
    rm_fib 2 = LC2 = 1-1
   */
-  int HBtrunkSectorInWedge[NrbxHB] = {1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2};
+  int HBtrunkSectorInWedge[NrbxHB] = {2, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3};
   int HBcpColInWedge[NrbxHB] = {4, 4, 5, 1, 1, 2, 2, 3, 3, 5, 6, 6, 7, 7, 8, 8, 9, 9};
-  thisHBCalib.trunk = std::to_string(HBtrunkSectorInWedge[thisHBCalib.wedge-1]);
+  std::string trunk_sector_str = std::to_string(HBtrunkSectorInWedge[thisHBCalib.wedge-1]);
+  thisHBCalib.trunk = trunk_sector_str + "-" + std::to_string( thisHBCalib.rm_fiber );
   thisHBCalib.cpcol = HBcpColInWedge[thisHBCalib.wedge-1];
   sideid < 0 ? thisHBCalib.cprow = 1 : thisHBCalib.cprow = 3;
-  thisHBCalib.cplc = thisHBCalib.rm_fiber;
+  bool if12InxyzWedge = (trunk_sector_str == "1" && thisHBCalib.wedge%2 == 0) || (trunk_sector_str == "2" && thisHBCalib.wedge%2 == 1) || (trunk_sector_str == "3" && thisHBCalib.wedge%2 == 1);
+  if( if12InxyzWedge ) thisHBCalib.cplc = thisHBCalib.rm_fiber;                                                                                                                                         
+  else thisHBCalib.cplc = thisHBCalib.rm_fiber + 2;
   thisHBCalib.cpoct = (4-thisHBCalib.cprow)*2 + thisHBCalib.rm_fiber;
   const std::map<int, std::string > HBcpCplInCpCol = { 
                                                       {1,"04-05"}, {2,"06-07"}, {3,"08-09"},

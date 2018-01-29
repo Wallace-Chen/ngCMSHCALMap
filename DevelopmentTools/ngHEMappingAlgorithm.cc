@@ -429,12 +429,15 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
    rm_fib_1 = LC1 = 1-2
    rm_fib 2 = LC2 = 1-1
   */
-  int ngHEtrunkSectorInWedge[NrbxngHE] = {1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2};
+  int ngHEtrunkSectorInWedge[NrbxngHE] = {2, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3};
   int ngHEcpColInWedge[NrbxngHE] = {4, 4, 5, 1, 1, 2, 2, 3, 3, 5, 6, 6, 7, 7, 8, 8, 9, 9};
-  thisngHECalib.trunk = std::to_string(ngHEtrunkSectorInWedge[thisngHECalib.wedge-1]) + "-" + std::to_string( ((thisngHECalib.wedge-1)%3)*2 + thisngHECalib.rm_fiber );
+  std::string trunk_sector_str = std::to_string(ngHEtrunkSectorInWedge[thisngHECalib.wedge-1]);
+  thisngHECalib.trunk = trunk_sector_str + "-" + std::to_string( thisngHECalib.rm_fiber );
   thisngHECalib.cpcol = ngHEcpColInWedge[thisngHECalib.wedge-1];
   sideid < 0 ? thisngHECalib.cprow = 2 : thisngHECalib.cprow = 4;
-  thisngHECalib.cplc = thisngHECalib.rm_fiber;
+  bool if12InxyzWedge = (trunk_sector_str == "1" && thisngHECalib.wedge%2 == 0) || (trunk_sector_str == "2" && thisngHECalib.wedge%2 == 1) || (trunk_sector_str == "3" && thisngHECalib.wedge%2 == 1);
+  if( if12InxyzWedge ) thisngHECalib.cplc = thisngHECalib.rm_fiber;
+  else thisngHECalib.cplc = thisngHECalib.rm_fiber + 2;
   thisngHECalib.cpoct = (4-thisngHECalib.cprow)*2 + thisngHECalib.rm_fiber;
   const std::map<int, std::string > ngHEcpCplInCpCol = { 
                                                         {1,"04-05"}, {2,"06-07"}, {3,"08-09"},
@@ -515,7 +518,7 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
     //thisngHECalib.phi = ngHEphiInrbxrmid_M_dphi1[(thisngHECalib.wedge-1)*4+thisngHECalib.rm-5];
   //}
   thisngHECalib.subdet = "CALIB_HE";
-  if(thisngHECalib.rm_fiber == 1 && thisngHECalib.fiber_ch != 0) return ; //do not fill the calibration channel when calibration pedestal
+  //if(thisngHECalib.rm_fiber == 1 && thisngHECalib.fiber_ch != 0) return ; //do not fill the calibration channel when calibration pedestal
 
   myngHECalib.push_back(thisngHECalib);
   return ;
