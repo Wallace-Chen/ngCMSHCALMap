@@ -265,7 +265,7 @@ void HBMappingAlgorithm::ConstructHBCalib(int sideid, int rbxrmid, int rmfifichi
   //set up frontend part
   std::string sideletter; sideid>0 ? sideletter = "P" : sideletter = "M";
   std::string numberletter; (rbxrmid/NrmHBCalib + 1) < 10 ? numberletter = "0" + std::to_string(rbxrmid/NrmHBCalib + 1) : numberletter = std::to_string(rbxrmid/NrmHBCalib + 1); 
-  thisHBCalib.rbx = "HE" + sideletter + numberletter;
+  thisHBCalib.rbx = "HB" + sideletter + numberletter;
   thisHBCalib.rm = rbxrmid%NrmHBCalib + 5; //rm=5 for calibration channels
   thisHBCalib.rm_fiber = rmfifichid/Nfiber_ch + 1;
   thisHBCalib.fiber_ch = rmfifichid%Nfiber_ch;
