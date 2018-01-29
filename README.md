@@ -41,9 +41,8 @@ To analyze the LMap:
 ./HCALLMapAnalyzer RunMode
 ```
 
-The valid RunMode are: HBHEHFVME, HBHEHFuTCA, HOVME, ngHEuTCA, ngHFuTCA
-
-Plots To be fixed: HBHE VME FE vs BE plot, crate 0 not showed, fpga how to show in letter ?
+The valid RunMode are: HBHEHFVME, HBHEHFuTCA, HOVME, ngHEuTCA, ngHFuTCA.
+Plots To be fixed: HBHE VME FE vs BE plot, crate 0 not showed, fpga how to show in letter?
 
 To produce the LMap:
 
@@ -52,8 +51,8 @@ To produce the LMap:
 ./HCALLMapProducer HF LMap
 ```
 
-The valid RunMode are: HB, HE, HF, HO
-The valid PrdMode are: LMap, EMap, FMap, HT, LMapCalib
+The valid RunMode are: HB, HE, HF, HO.
+The valid PrdMode are: LMap, EMap, FMap, HT, LMapCalib.
 
 # Data visualization
 
@@ -92,7 +91,7 @@ python DumpEMapfromCalib.py >> HCALEmapCALIB_J.txt
 ```
 
 # Generate QIE tables from Database
-Location of QIE database files: /eos/user/h/hua/QIEDB
+Location of QIE database files: /eos/user/h/hua/QIEDB/.
 ```
 cd $CMSSW_BASE/src/ngCMSHCALMap/DevelopmentTools/SQLQIEDBTest
 python QIETableMaker.py
