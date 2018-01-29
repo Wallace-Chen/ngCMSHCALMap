@@ -271,8 +271,8 @@ void HBMappingAlgorithm::ConstructHBCalib(int sideid, int rbxrmid, int rmfifichi
   thisHBCalib.rm_fiber = rmfifichid/Nfiber_ch + 1;
   thisHBCalib.fiber_ch = rmfifichid%Nfiber_ch;
   //set secondary variables qie8 map
-  thisHBCalib.qie8 = (thisHBCalib.rm_fiber-1)/2+1;
-  thisHBCalib.qie8_ch = ((thisHBCalib.rm_fiber-1)%2)*6+thisHBCalib.fiber_ch+1;
+  thisHBCalib.qie8 = int(thisHBCalib.rm_fiber/2);                                                                                                                                                     
+  thisHBCalib.qie8_ch = thisHBCalib.fiber_ch;
   //set tmp qie8 id                                                                                                                                                                                        
   thisHBCalib.qie8_id = 100000;
   thisHBCalib.wedge = rbxrmid/NrmHBCalib + 1; //1,...,18
@@ -363,18 +363,17 @@ void HBMappingAlgorithm::ConstructHBCalib(int sideid, int rbxrmid, int rmfifichi
   */
   int HBtrunkSectorInWedge[NrbxHB] = {1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2};
   int HBcpColInWedge[NrbxHB] = {4, 4, 5, 1, 1, 2, 2, 3, 3, 5, 6, 6, 7, 7, 8, 8, 9, 9};
-  thisHBCalib.trunk = std::to_string(HBtrunkSectorInWedge[thisHBCalib.wedge-1]) + "-" + std::to_string( ((thisHBCalib.wedge-1)%3)*2 + thisHBCalib.rm_fiber );
+  thisHBCalib.trunk = std::to_string(HBtrunkSectorInWedge[thisHBCalib.wedge-1]);
   thisHBCalib.cpcol = HBcpColInWedge[thisHBCalib.wedge-1];
-  sideid < 0 ? thisHBCalib.cprow = 2 : thisHBCalib.cprow = 4;
+  sideid < 0 ? thisHBCalib.cprow = 1 : thisHBCalib.cprow = 3;
   thisHBCalib.cplc = thisHBCalib.rm_fiber;
   thisHBCalib.cpoct = (4-thisHBCalib.cprow)*2 + thisHBCalib.rm_fiber;
   const std::map<int, std::string > HBcpCplInCpCol = { 
-                                                        {1,"04-05"}, {2,"06-07"}, {3,"08-09"},
-                                                        {4,"01-02"}, {5,"03-10"}, {6,"11-12"},
-                                                        {7,"13-14"}, {8,"15-16"}, {9,"17-18"}
-                                                       };
-  thisHBCalib.cpcpl = "HE" + sideletter + HBcpCplInCpCol.find(thisHBCalib.cpcol)->second;
-  //thisHBCalib.cpcpl = "HE" + sideletter + "03-10";
+                                                      {1,"04-05"}, {2,"06-07"}, {3,"08-09"},
+                                                      {4,"01-02"}, {5,"03-10"}, {6,"11-12"},
+                                                      {7,"13-14"}, {8,"15-16"}, {9,"17-18"}
+                                                     };
+  thisHBCalib.cpcpl = "HB" + sideletter + HBcpCplInCpCol.find(thisHBCalib.cpcol)->second;
   //set up patch panel
   /*
 - the calib fibers for each patch arrive in a single 8-fiber octopus, terminated LC
@@ -392,9 +391,9 @@ void HBMappingAlgorithm::ConstructHBCalib(int sideid, int rbxrmid, int rmfifichi
   sideid < 0 ? thisHBCalib.ppcol = 6 : thisHBCalib.ppcol = 3;
   thisHBCalib.pprow = 5;
   //thisHBCalib.pplc = (thisHBCalib.rm_fiber-1)%4+1;
-  thisHBCalib.pplc = thisHBCalib.rm_fiber;
+  thisHBCalib.pplc = thisHBCalib.rm_fiber + 2;
   //thisHBCalib.dodec = (thisHBCalib.uhtr_fiber)%12+1;
-  thisHBCalib.dodec = 12;
+  thisHBCalib.dodec = 11;
   thisHBCalib.ppcpl = "EB" + sideletter + numberletter + "_CU";
 
   //set up backend part
@@ -418,19 +417,18 @@ void HBMappingAlgorithm::ConstructHBCalib(int sideid, int rbxrmid, int rmfifichi
   */
   int HBuCrateInWedge[NrbxHB] = {30, 24, 24, 20, 20, 21, 21, 25, 25, 31, 31, 35, 35, 37, 37, 34, 34, 30};
   thisHBCalib.ucrate = HBuCrateInWedge[thisHBCalib.wedge-1];
-  if     (thisHBCalib.ppcol == 6) thisHBCalib.uhtr = 6;
-  else if(thisHBCalib.ppcol == 3) thisHBCalib.uhtr = 12;
+  if     (thisHBCalib.ppcol == 6) thisHBCalib.uhtr = 5;
+  else if(thisHBCalib.ppcol == 3) thisHBCalib.uhtr = 11;
   else{ std::cout << "#HB Calib channel not in ppcol 6 nor ppcol 3, please check!!" << std::endl; thisHBCalib.uhtr = 0; }
-  if     (thisHBCalib.rm_fiber == 1) thisHBCalib.uhtr_fiber = 11;
-  else if(thisHBCalib.rm_fiber == 2) thisHBCalib.uhtr_fiber = 23;
-  else{ std::cout << "#HB Calib channel not in RM fiber 1 nor RM fiber 2, please check!!" << std::endl; thisHBCalib.uhtr_fiber = -1; }
+  if     (thisHBCalib.rm_fiber == 1) thisHBCalib.uhtr_fiber = 10;
+  else{ std::cout << "#HB Calib channel not in RM fiber 1, please check!!" << std::endl; thisHBCalib.uhtr_fiber = -1; }
   const std::map<int, std::pair<int, int> > HBufedidInucrate = { {20,{1102,1103}},{21,{1104,1105}},{24,{1100,1101}},{25,{1106,1107}},{30,{1116,1117}},{31,{1108,1109}},{34,{1114,1115}},{35,{1110,1111}},{37,{1112,1113}} };
   thisHBCalib.uhtr <= 6 ? thisHBCalib.ufedid = ((HBufedidInucrate.find(thisHBCalib.ucrate))->second).first : thisHBCalib.ufedid = ((HBufedidInucrate.find(thisHBCalib.ucrate))->second).second;
 
   //set up Geometry part
   thisHBCalib.side = sideid;
   thisHBCalib.eta = 1;
-  thisHBCalib.rm_fiber == 1 ? thisHBCalib.depth = 6 : thisHBCalib.depth = thisHBCalib.fiber_ch;
+  thisHBCalib.depth = thisHBCalib.fiber_ch;
   thisHBCalib.dphi = 4;
   //if(sideid > 0)
   //{
@@ -441,7 +439,7 @@ void HBMappingAlgorithm::ConstructHBCalib(int sideid, int rbxrmid, int rmfifichi
   //{
     //thisHBCalib.phi = HBphiInrbxrmid_M_dphi1[(thisHBCalib.wedge-1)*4+thisHBCalib.rm-5];
   //}
-  thisHBCalib.subdet = "CALIB_HE";
+  thisHBCalib.subdet = "CALIB_HB";
 
   myHBCalib.push_back(thisHBCalib);
   return ;

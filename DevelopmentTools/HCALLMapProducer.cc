@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
     }
     if( PrdMode == "LMapCalib")
     {
-
+      myHCALLMapDumper.printHBCalibLMapObject(myHBMappingAlgorithm.myHBCalib);
     }
     return 1;
   }

@@ -82,6 +82,39 @@ void HCALLMapDumper::printHBFrontEndMapObject(std::vector<HBFrontEnd> myHBFrontE
   return ;
 }
 
+void HCALLMapDumper::printHBCalibLMapObject(std::vector<HBCalib> myHBCalib)
+{
+  //# rbx qie8 qie8_ch rm rm_fiber fiber_ch
+  std::cout << "#Dumping HB Calib LMap Object..." << std::endl; 
+  std::cout << "#"
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(10) << "Det"
+            << std::setw(6) << "RBX" << std::setw(6) << "Wedge"
+            << std::setw(6) << "QIE8" << std::setw(6) << "QIECH" << std::setw(3) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "Trunk" << std::setw(6) << "cpCol" << std::setw(6) << "cpRow" << std::setw(9) << "cpCpl" << std::setw(6) << "cpLC" << std::setw(6) << "cpOct"
+            << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(9) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+            << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIE8id"
+            << std::endl;
+
+  for(auto i=0; i<myHBCalib.size(); i++)
+  {
+    std::cout
+              << " "
+              << std::setw(6) << myHBCalib.at(i).side << std::setw(6) << myHBCalib.at(i).eta << std::setw(6) << myHBCalib.at(i).phi << std::setw(6) << myHBCalib.at(i).dphi << std::setw(6) << myHBCalib.at(i).depth << std::setw(10) << myHBCalib.at(i).subdet
+              << std::setw(6) << myHBCalib.at(i).rbx << std::setw(6) << myHBCalib.at(i).wedge
+              << std::setw(6) << myHBCalib.at(i).qie8 << std::setw(6) << myHBCalib.at(i).qie8_ch << std::setw(3) << myHBCalib.at(i).rm << std::setw(6) << myHBCalib.at(i).rm_fiber << std::setw(6) << myHBCalib.at(i).fiber_ch
+              << std::setw(6) << myHBCalib.at(i).trunk << std::setw(6) << myHBCalib.at(i).cpcol << std::setw(6) << myHBCalib.at(i).cprow << std::setw(9) << myHBCalib.at(i).cpcpl << std::setw(6) << myHBCalib.at(i).cplc << std::setw(6) << myHBCalib.at(i).cpoct
+              << std::setw(6) << myHBCalib.at(i).ppcol << std::setw(6) << myHBCalib.at(i).pprow << std::setw(9) << myHBCalib.at(i).ppcpl << std::setw(6) << myHBCalib.at(i).pplc << std::setw(6) << myHBCalib.at(i).dodec
+              << std::setw(6) << myHBCalib.at(i).ucrate << std::setw(6) << myHBCalib.at(i).uhtr << std::setw(9) << myHBCalib.at(i).uhtr_fiber
+              << std::setw(6) << myHBCalib.at(i).ufedid
+              << std::setw(9) << myHBCalib.at(i).qie8_id
+              << std::endl;
+  }
+
+  return ;
+}
+
 void HCALLMapDumper::printngHBLMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower)
 {
   std::cout << "#Dumping ngHB LMap Object..." << std::endl;

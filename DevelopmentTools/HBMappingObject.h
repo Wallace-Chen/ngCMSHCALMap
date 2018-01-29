@@ -118,7 +118,7 @@ class HBConstant
 
   //2 fibers per rm in calibration module, rm 1,2
   static const int NrmHBCalib = 1;
-  static const int Nrm_fiberCalib = 2;
+  static const int Nrm_fiberCalib = 1;
 };
 
 #endif
