@@ -515,6 +515,7 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
     //thisngHECalib.phi = ngHEphiInrbxrmid_M_dphi1[(thisngHECalib.wedge-1)*4+thisngHECalib.rm-5];
   //}
   thisngHECalib.subdet = "CALIB_HE";
+  if(thisngHECalib.rm_fiber == 1 && thisngHECalib.fiber_ch != 0) return ; //do not fill the calibration channel when calibration pedestal
 
   myngHECalib.push_back(thisngHECalib);
   return ;

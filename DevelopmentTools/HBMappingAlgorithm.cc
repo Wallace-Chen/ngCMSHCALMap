@@ -421,6 +421,7 @@ void HBMappingAlgorithm::ConstructHBCalib(int sideid, int rbxrmid, int rmfifichi
   else if(thisHBCalib.ppcol == 3) thisHBCalib.uhtr = 11;
   else{ std::cout << "#HB Calib channel not in ppcol 6 nor ppcol 3, please check!!" << std::endl; thisHBCalib.uhtr = 0; }
   if     (thisHBCalib.rm_fiber == 1) thisHBCalib.uhtr_fiber = 10;
+  else if(thisHBCalib.rm_fiber == 2) thisHBCalib.uhtr_fiber = 11; //this is only for ngHB
   else{ std::cout << "#HB Calib channel not in RM fiber 1, please check!!" << std::endl; thisHBCalib.uhtr_fiber = -1; }
   const std::map<int, std::pair<int, int> > HBufedidInucrate = { {20,{1102,1103}},{21,{1104,1105}},{24,{1100,1101}},{25,{1106,1107}},{30,{1116,1117}},{31,{1108,1109}},{34,{1114,1115}},{35,{1110,1111}},{37,{1112,1113}} };
   thisHBCalib.uhtr <= 6 ? thisHBCalib.ufedid = ((HBufedidInucrate.find(thisHBCalib.ucrate))->second).first : thisHBCalib.ufedid = ((HBufedidInucrate.find(thisHBCalib.ucrate))->second).second;
