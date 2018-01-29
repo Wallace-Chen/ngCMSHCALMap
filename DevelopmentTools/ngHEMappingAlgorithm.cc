@@ -4,8 +4,8 @@ void ngHEMappingAlgorithm::ConstructngHELMapObject(std::string Mode)
 {
   if(Mode == "Normal")
   {
-    std::cout << "#Constructing ngHE LMap Object..." << std::endl;
     LoadngHEQIEMap("ngHEQIEInput/HE_QIE11_CardMap_26Jan2018_Fake.txt");
+    std::cout << "#Constructing ngHE LMap Object..." << std::endl;
 
     for(int irbx=0;irbx<NrbxngHE*2;irbx++)
     {
@@ -520,7 +520,7 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
     //thisngHECalib.phi = ngHEphiInrbxrmid_M_dphi1[(thisngHECalib.wedge-1)*4+thisngHECalib.rm-5];
   //}
   thisngHECalib.subdet = "CALIB_HE";
-  //if(thisngHECalib.rm_fiber == 1 && thisngHECalib.fiber_ch != 0) return ; //do not fill the calibration channel when calibration pedestal
+  if(thisngHECalib.rm_fiber == 1 && thisngHECalib.fiber_ch != 0) return ; //do not fill the calibration channel when calibration pedestal
 
   myngHECalib.push_back(thisngHECalib);
   return ;
