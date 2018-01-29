@@ -52,8 +52,8 @@ To produce the LMap:
 ./HCALLMapProducer HF LMap
 ```
 
-The valid RunMode are: HB,HE,HF,HO
-The valid PrdMode are: LMap,EMap,FMap,HT,LMapCalib
+The valid RunMode are: HB, HE, HF, HO
+The valid PrdMode are: LMap, EMap, FMap, HT, LMapCalib
 
 # Data visualization
 

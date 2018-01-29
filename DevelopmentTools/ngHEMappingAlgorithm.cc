@@ -4,6 +4,7 @@ void ngHEMappingAlgorithm::ConstructngHELMapObject(std::string Mode)
 {
   if(Mode == "Normal")
   {
+    std::cout << "#Loading information from QIE allocation file..." << std::endl;
     LoadngHEQIEMap("ngHEQIEInput/HE_QIE11_CardMap_26Jan2018_Fake.txt");
     std::cout << "#Constructing ngHE LMap Object..." << std::endl;
 
