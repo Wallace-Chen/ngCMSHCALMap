@@ -433,6 +433,8 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
   int ngHEcpColInWedge[NrbxngHE] = {4, 4, 5, 1, 1, 2, 2, 3, 3, 5, 6, 6, 7, 7, 8, 8, 9, 9};
   std::string trunk_sector_str = std::to_string(ngHEtrunkSectorInWedge[thisngHECalib.wedge-1]);
   thisngHECalib.trunk = trunk_sector_str + "-" + std::to_string( thisngHECalib.rm_fiber );
+  //special fix for trunk fiber in HEP01
+  if( thisngHECalib.rbx == "HEP01" ){ thisngHECalib.trunk.clear(); thisngHECalib.trunk = trunk_sector_str + "-" + std::to_string( 3-thisngHECalib.rm_fiber ); }
   thisngHECalib.cpcol = ngHEcpColInWedge[thisngHECalib.wedge-1];
   sideid < 0 ? thisngHECalib.cprow = 2 : thisngHECalib.cprow = 4;
   bool if12InxyzWedge = (trunk_sector_str == "1" && thisngHECalib.wedge%2 == 0) || (trunk_sector_str == "2" && thisngHECalib.wedge%2 == 1) || (trunk_sector_str == "3" && thisngHECalib.wedge%2 == 1);
