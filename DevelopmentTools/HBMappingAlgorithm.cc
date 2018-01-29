@@ -1,31 +1,63 @@
 #include "HBMappingAlgorithm.h"
-void HBMappingAlgorithm::ConstructHBLMapObject()
+void HBMappingAlgorithm::ConstructHBLMapObject(std::string Mode)
 {
-  std::cout << "#Loading information from QIE allocation file..." << std::endl;
-  LoadHBQIEMap("HBHOQIEInput/RBX_RM_QIE_2016Nov03.txt");
-
-  std::cout << "#Constructing HB LMap Object..." << std::endl;
-
-  for(int irbx=0;irbx<NrbxHB*2;irbx++)
+  if(Mode == "Normal")
   {
-    for(int irm=0;irm<NrmHB;irm++)
-    {
-      for(int irmfi=0;irmfi<Nrm_fiber;irmfi++)
-      {
-        for(int ifich=0;ifich<Nfiber_ch;ifich++)
-        {
-          int sideid; irbx<NrbxHB ? sideid = 1 : sideid = -1;//0..to 11 is P side, while 12 to 23 is M side
-          int rbxrmid; irbx<NrbxHB ? rbxrmid = irbx*NrmHB+irm : rbxrmid = (irbx-NrbxHB)*NrmHB+irm;//HB 0...to 35
-          int rmfifichid = irmfi*Nfiber_ch+ifich;//HB 0...to 23
+    std::cout << "#Loading information from QIE allocation file..." << std::endl;
+    LoadHBQIEMap("HBHOQIEInput/RBX_RM_QIE_2016Nov03.txt");
 
-          ConstructHBFrontEnd(sideid,rbxrmid,rmfifichid);
-          ConstructHBBackEnd(sideid,rbxrmid,rmfifichid);
-          ConstructHBGeometry(sideid,rbxrmid,rmfifichid);
-          ConstructHBHPD(sideid,rbxrmid,rmfifichid);
+    std::cout << "#Constructing HB LMap Object..." << std::endl;
+
+    for(int irbx=0;irbx<NrbxHB*2;irbx++)
+    {
+      for(int irm=0;irm<NrmHB;irm++)
+      {
+        for(int irmfi=0;irmfi<Nrm_fiber;irmfi++)
+        {
+          for(int ifich=0;ifich<Nfiber_ch;ifich++)
+          {
+            int sideid; irbx<NrbxHB ? sideid = 1 : sideid = -1;//0..to 11 is P side, while 12 to 23 is M side
+            int rbxrmid; irbx<NrbxHB ? rbxrmid = irbx*NrmHB+irm : rbxrmid = (irbx-NrbxHB)*NrmHB+irm;//HB 0...to 35
+            int rmfifichid = irmfi*Nfiber_ch+ifich;//HB 0...to 23
+
+            ConstructHBFrontEnd(sideid,rbxrmid,rmfifichid);
+            ConstructHBBackEnd(sideid,rbxrmid,rmfifichid);
+            ConstructHBGeometry(sideid,rbxrmid,rmfifichid);
+            ConstructHBHPD(sideid,rbxrmid,rmfifichid);
+          }
         }
       }
     }
   }
+  else if(Mode == "Calib")
+  {
+    std::cout << "#Constructing HB Calib LMap Object..." << std::endl;
+    /*
+    for(int irbx=0;irbx<NrbxngHE*2;irbx++)
+    {
+      for(int irm=0;irm<NrmngHECalib;irm++)
+      {
+        for(int irmfi=0;irmfi<Nrm_fiberCalib;irmfi++)
+        {
+          for(int ifich=0;ifich<Nfiber_ch;ifich++)
+          {
+            int sideid; irbx<NrbxngHE ? sideid = 1 : sideid = -1;//0..to 17 is P side, while 17 to 35 is M side
+            int rbxrmid; irbx<NrbxngHE ? rbxrmid = irbx*NrmngHECalib+irm : rbxrmid = (irbx-NrbxngHE)*NrmngHECalib+irm;//ngHE 0...to 71
+            int rmfifichid = irmfi*Nfiber_ch+ifich;//ngHE 0...to 47
+            //std::cout << "#Side: " << sideid << "; RBXRM: " << rbxrmid << "; RMFIFICH: " << rmfifichid << std::endl;
+            ConstructngHECalib(sideid,rbxrmid,rmfifichid);
+          }
+        }
+      }
+    }
+    */
+  }
+  else
+  {
+    std::cout << "#Invalid generate mode for HB Logical map!" << std::endl;
+    return ;
+  }
+
   return ;
 }
 

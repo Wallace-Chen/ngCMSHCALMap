@@ -30,7 +30,8 @@ int main(int argc, char* argv[])
   if( RunMode == "HB" )
   {
     HBMappingAlgorithm myHBMappingAlgorithm;
-    myHBMappingAlgorithm.ConstructHBLMapObject();
+    myHBMappingAlgorithm.ConstructHBLMapObject("Normal");
+    myHBMappingAlgorithm.ConstructHBLMapObject("Calib");
     bool passCollisionCheck = myHCALLMapChecker.checkHBLMapObject(myHBMappingAlgorithm.myHBFrontEnd, myHBMappingAlgorithm.myHBBackEnd, myHBMappingAlgorithm.myHBHPD, myHBMappingAlgorithm.myHBGeometry, myHBMappingAlgorithm.myHBTriggerTower);
     if( passCollisionCheck ){ std::cout << "#Map pass collision check, Good!" << std::endl; }
     else{ std::cout << "#Did not pass collision check! Please check!" << std::endl; return -1;}
@@ -67,6 +68,10 @@ int main(int argc, char* argv[])
       myHCALTPProducer.printHBHTEMapObject(myHBMappingAlgorithm.myHBFrontEnd, myHBMappingAlgorithm.myHBBackEnd, myHBMappingAlgorithm.myHBHPD, myHBMappingAlgorithm.myHBGeometry, myHBMappingAlgorithm.myHBTriggerTower);
       //myHCALTPProducer.printngHBHTEMapObject(myngHBMappingAlgorithm.myngHBFrontEnd, myngHBMappingAlgorithm.myngHBBackEnd, myngHBMappingAlgorithm.myngHBSiPM, myngHBMappingAlgorithm.myngHBGeometry, myngHBMappingAlgorithm.myngHBTriggerTower);
     }
+    if( PrdMode == "LMapCalib")
+    {
+
+    }
     return 1;
   }
   else if( RunMode == "HE" )
@@ -79,7 +84,7 @@ int main(int argc, char* argv[])
     else{ std::cout << "#Did not pass collision check! Please check!" << std::endl; return -1;}
     if( PrdMode == "LMap" )
     {
-      //myHCALLMapDumper.printngHELMapObject(myngHEMappingAlgorithm.myngHEFrontEnd, myngHEMappingAlgorithm.myngHEBackEnd, myngHEMappingAlgorithm.myngHESiPM, myngHEMappingAlgorithm.myngHEGeometry, myngHEMappingAlgorithm.myngHETriggerTower);
+      myHCALLMapDumper.printngHELMapObject(myngHEMappingAlgorithm.myngHEFrontEnd, myngHEMappingAlgorithm.myngHEBackEnd, myngHEMappingAlgorithm.myngHESiPM, myngHEMappingAlgorithm.myngHEGeometry, myngHEMappingAlgorithm.myngHETriggerTower);
       myHCALLMapDumper.makedbngHELMapObject("officialMap/HCALLogicalMap.db", "ngHELogicalMap",
                                             myngHEMappingAlgorithm.myngHEFrontEnd, myngHEMappingAlgorithm.myngHEBackEnd, myngHEMappingAlgorithm.myngHESiPM, myngHEMappingAlgorithm.myngHEGeometry, myngHEMappingAlgorithm.myngHETriggerTower);
     }
