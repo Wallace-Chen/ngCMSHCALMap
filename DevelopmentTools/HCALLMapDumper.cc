@@ -260,21 +260,28 @@ void HCALLMapDumper::printngHECalibLMapObject(std::vector<ngHECalib> myngHECalib
   //# rbx qie11 qie11_ch rm rm_fiber fiber_ch
   std::cout << "#Dumping ngHE Calib LMap Object..." << std::endl; 
   std::cout << "#"
-            //<< std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
-            << std::setw(6) << "RBX"
-            << std::setw(6) << "QIE11" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
-            //<< std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(15) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
-            //<< std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
-            //<< std::setw(6) << "FEDid"
-            //<< std::setw(9) << "QIE11id"
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(10) << "Det"
+            << std::setw(6) << "RBX" << std::setw(6) << "Wedge"
+            << std::setw(6) << "QIE11" << std::setw(6) << "QIECH" << std::setw(3) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "Trunk" << std::setw(6) << "cpCol" << std::setw(6) << "cpRow" << std::setw(9) << "cpCpl" << std::setw(6) << "cpLC" << std::setw(6) << "cpOct"
+            << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(9) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+            << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIE11id"
             << std::endl;
 
   for(auto i=0; i<myngHECalib.size(); i++)
   {
     std::cout
               << " "
-              << std::setw(6) << myngHECalib.at(i).rbx                                                                                                                                                   
-              << std::setw(6) << myngHECalib.at(i).qie11 << std::setw(6) << myngHECalib.at(i).qie11_ch << std::setw(6) << myngHECalib.at(i).rm << std::setw(6) << myngHECalib.at(i).rm_fiber << std::setw(6) << myngHECalib.at(i).fiber_ch
+              << std::setw(6) << myngHECalib.at(i).side << std::setw(6) << myngHECalib.at(i).eta << std::setw(6) << myngHECalib.at(i).phi << std::setw(6) << myngHECalib.at(i).dphi << std::setw(6) << myngHECalib.at(i).depth << std::setw(10) << myngHECalib.at(i).subdet
+              << std::setw(6) << myngHECalib.at(i).rbx << std::setw(6) << myngHECalib.at(i).wedge
+              << std::setw(6) << myngHECalib.at(i).qie11 << std::setw(6) << myngHECalib.at(i).qie11_ch << std::setw(3) << myngHECalib.at(i).rm << std::setw(6) << myngHECalib.at(i).rm_fiber << std::setw(6) << myngHECalib.at(i).fiber_ch
+              << std::setw(6) << myngHECalib.at(i).trunk << std::setw(6) << myngHECalib.at(i).cpcol << std::setw(6) << myngHECalib.at(i).cprow << std::setw(9) << myngHECalib.at(i).cpcpl << std::setw(6) << myngHECalib.at(i).cplc << std::setw(6) << myngHECalib.at(i).cpoct
+              << std::setw(6) << myngHECalib.at(i).ppcol << std::setw(6) << myngHECalib.at(i).pprow << std::setw(9) << myngHECalib.at(i).ppcpl << std::setw(6) << myngHECalib.at(i).pplc << std::setw(6) << myngHECalib.at(i).dodec
+              << std::setw(6) << myngHECalib.at(i).ucrate << std::setw(6) << myngHECalib.at(i).uhtr << std::setw(9) << myngHECalib.at(i).uhtr_fiber
+              << std::setw(6) << myngHECalib.at(i).ufedid
+              << std::setw(9) << myngHECalib.at(i).qie11_id
               << std::endl;
   }
 

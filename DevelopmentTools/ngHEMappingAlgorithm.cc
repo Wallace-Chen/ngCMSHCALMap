@@ -164,8 +164,6 @@ void ngHEMappingAlgorithm::ConstructngHEBackEnd(int sideid, int rbxrmid, int rmf
     if     (thisngHEBackEnd.ppcol==1 || thisngHEBackEnd.ppcol==5 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_mixed_c1[thisngHEBackEnd.pprow-1][rm_fiber-1]-1+12; } 
     else if(thisngHEBackEnd.ppcol==2 || thisngHEBackEnd.ppcol==6 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_mixed_c2[thisngHEBackEnd.pprow-1][rm_fiber-5]-1+12; }
     else{ std::cout << "the ppCol of ngHE channel is neither 1 nor 2 in mixed HBHE slot for ngHE??!! Please check!" << std::endl; }
-
-    // thisngHEBackEnd.dodec = (thisngHEBackEnd.uhtr_fiber)%12+1+12;
   }
   else//FIXME
   {
@@ -334,7 +332,7 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
   std::string sideletter; sideid>0 ? sideletter = "P" : sideletter = "M";
   std::string numberletter; (rbxrmid/NrmngHECalib + 1) < 10 ? numberletter = "0" + std::to_string(rbxrmid/NrmngHECalib + 1) : numberletter = std::to_string(rbxrmid/NrmngHECalib + 1); 
   thisngHECalib.rbx = "HE" + sideletter + numberletter;
-  thisngHECalib.rm = rbxrmid%NrmngHECalib + 1;
+  thisngHECalib.rm = rbxrmid%NrmngHECalib + 5; //rm=5 for calibration channels
   thisngHECalib.rm_fiber = rmfifichid/Nfiber_ch + 1;
   thisngHECalib.fiber_ch = rmfifichid%Nfiber_ch;
   //set secondary variables qie11 map
@@ -342,15 +340,183 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
   thisngHECalib.qie11_ch = ((thisngHECalib.rm_fiber-1)%2)*6+thisngHECalib.fiber_ch+1;
   //set tmp qie11 id                                                                                                                                                                                        
   thisngHECalib.qie11_id = 600000;
-
+  thisngHECalib.wedge = rbxrmid/NrmngHECalib + 1; //1,...,18
   //set up ngCU patch part
+  //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/Calib/ngCU_patch/ngCU_HBHE_patch_2018-jan-17.txt
+  /*
+ Input side of the patch blocks
+ 
+ - the ngCUpatch x-block:
+ 
+           cpCol 1                   cpCol 2                   cpCol 3                    
+           Hxx04-05                  Hxx06-07                  Hxx08-09           coupler block label
+ | 04ep1 04ep2 05ep1 05ep2 | 06ep1 06ep2 07ep1 07ep2 | 08ep1 08ep2 09ep1 09ep2 |
+ | 04bp1 04bp2 05bp1 05bp2 | 06bp1 06bp2 07bp1 07bp2 | 08bp1 08bp2 09bp1 09bp2 | 
+ | 04em1 04em2 05em1 05em2 | 06em1 06em2 07em1 07em2 | 08em1 08em2 09em1 09em2 |
+ | 04bm1 04bm2 05bm1 05bm2 | 06bm1 06bm2 07bm1 07bm2 | 08bm1 08bm2 09bm1 09bm2 |
+ 
+ - the ngCUpatch y-block:
+ 
+           cpCol 4                   cpCol 5                   cpCol 6           
+           Hxx01-02                  Hxx03-10                  Hxx11-12           coupler block label
+ | 01ep1 01ep2 02ep1 02ep2 | 03ep1 03ep2 10ep1 10ep2 | 11ep1 11ep2 12ep1 12ep2 |
+ | 01bp1 01bp2 02bp1 02bp2 | 03bp1 03bp2 10bp1 10bp2 | 11bp1 11bp2 12bp1 12bp2 | 
+ | 01em1 01em2 02em1 02em2 | 03em1 03em2 10em1 10em2 | 11em1 11em2 12em1 12em2 |
+ | 01bm1 01bm2 02bm1 02bm2 | 03bm1 03bm2 10bm1 10bm2 | 11bm1 11bm2 12bm1 12bm2 |
+ 
+ - the ngCUpatch z-block:
+ 
+           cpCol 7                   cpCol 8                   cpCol 9         
+           Hxx13-14                  Hxx15-16                  Hxx17-18           coupler block label
+ | 13ep1 13ep2 14ep1 14ep2 | 15ep1 15ep2 16ep1 16ep2 | 17ep1 17ep2 18ep1 18ep2 | 
+ | 13bp1 13bp2 14bp1 14bp2 | 15bp1 15bp2 16bp1 16bp2 | 17bp1 17bp2 18bp1 18bp2 | 
+ | 13em1 13em2 14em1 14em2 | 15em1 15em2 16em1 16em2 | 17em1 17em2 18em1 18em2 |
+ | 13bm1 13bm2 14bm1 14bm2 | 15bm1 15bm2 16bm1 16bm2 | 17bm1 17bm2 18bm1 18bm2 |
+
+ - the octopus fibers at the ngCU patch then also follow a simple pattern:
+  1   2
+  -   -
+  1   2   ep
+  3   4   bp
+  5   6   em
+  7   8   bm
+
+ Output side of the patch blocks
+ 
+            cpCol 1                   cpCol 2                   cpCol 3                    
+           Hxx04-05                  Hxx06-07                  Hxx08-09           coupler block label
+    crate 20     crate 20     crate 21    crate 21      crate 25    crate 25
+ | 01b20 02b20 01t20 02t20 | 01b21 02b21 01t21 02t21 | 01b25 02b25 01t25 02t25 |
+ | 03b20 04b20 03t20 04t20 | 03b21 04b21 03t21 04t21 | 03b25 04b25 03t25 04t25 | 
+ | 05b20 06b20 05t20 06t20 | 05b21 06b21 05t21 06t21 | 05b25 06b25 05t25 06t25 |
+ | 07b20 08b20 07t20 08t20 | 07b21 08b21 07t21 08t21 | 07b25 08b25 07t25 08t25 |
+ 
+ - the ngCUpatch y-block:
+ 
+           cpCol 4                   cpCol 5                   cpCol 6           
+           Hxx01-02                  Hxx03-10                  Hxx11-12           coupler block label
+    crate 30     crate 24     crate 24    crate 31      crate 31    crate 35          
+ | 01t30 02t30 01b24 02b24 | 01t24 02t24 01b31 02b31 | 01t31 02t31 01b35 02b35 |
+ | 03t30 04t30 03b24 04b24 | 03t24 04t24 03b31 04b31 | 03t31 04t31 03b35 04b35 | 
+ | 05t30 06t30 05b24 06b24 | 05t24 06t24 05b31 06b31 | 05t31 06t31 05b35 06b35 |
+ | 07t30 08t30 07b24 08b24 | 07t24 08t24 07b31 08b31 | 07t31 08t31 07b35 08b35 |
+ 
+ - the ngCUpatch z-block:
+ 
+           cpCol 7                   cpCol 8                   cpCol 9         
+           Hxx13-14                  Hxx15-16                  Hxx17-18           coupler block label
+    crate 35     crate 37     crate 37    crate 34      crate 34    crate 30          
+ | 01t35 02t35 01b37 02b37 | 01t37 02t37 01b34 02b34 | 01t34 02t34 01b30 02b30 | 
+ | 03t35 04t35 03b37 04b37 | 03t37 04t37 03b34 04b34 | 03t34 04t34 03b30 04b30 | 
+ | 05t35 06t35 05b37 06b37 | 05t37 06t37 05b34 06b34 | 05t34 06t34 05b30 06b30 |
+ | 07t35 08t35 07b37 08b37 | 07t37 08t37 07b34 08b34 | 07t34 08t34 07b30 08b30 |
+
+ - there are exceptions:
+   HEP01 CU: 
+   rm_fib_1 = LC1 = 1-2
+   rm_fib 2 = LC2 = 1-1
+  */
+  /*
+ - all the HE CU trunks are duplex 8-fiber ribbons in which 12 fibers are active (6 RBXes x 2 fibers)
+   Although adjacent triplets of RBXes always share a bundle, the two triplets in a bundle are not
+   always adjacent, and the triplets often cross partition boundaries, since the triplets start
+   with sector 1 rather than sector 2.  There are 3 bundles per det-hemisphere, eg, for HBM:
+ HEMx   4  5  6  7  8  9
+ HEMy   1  2  3 10 11 12 
+ HEMz  13 14 15 16 17 18
+ - there are exceptions:
+   HEP01 CU: 
+   rm_fib_1 = LC1 = 1-2
+   rm_fib 2 = LC2 = 1-1
+  */
+  int ngHEtrunkSectorInWedge[NrbxngHE] = {1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2};
+  int ngHEcpColInWedge[NrbxngHE] = {4, 4, 5, 1, 1, 2, 2, 3, 3, 5, 6, 6, 7, 7, 8, 8, 9, 9};
+  thisngHECalib.trunk = std::to_string(ngHEtrunkSectorInWedge[thisngHECalib.wedge-1]) + "-" + std::to_string( ((thisngHECalib.wedge-1)%3)*2 + thisngHECalib.rm_fiber );
+  thisngHECalib.cpcol = ngHEcpColInWedge[thisngHECalib.wedge-1];
+  sideid < 0 ? thisngHECalib.cprow = 2 : thisngHECalib.cprow = 4;
+  thisngHECalib.cplc = thisngHECalib.rm_fiber;
+  thisngHECalib.cpoct = (4-thisngHECalib.cprow)*2 + thisngHECalib.rm_fiber;
+  const std::map<int, std::string > ngHEcpCplInCpCol = { 
+                                                        {1,"04-05"}, {2,"06-07"}, {3,"08-09"},
+                                                        {4,"01-02"}, {5,"03-10"}, {6,"11-12"},
+                                                        {7,"13-14"}, {8,"15-16"}, {9,"17-18"}
+                                                       };
+  thisngHECalib.cpcpl = "HE" + sideletter + ngHEcpCplInCpCol.find(thisngHECalib.cpcol)->second;
+  //thisngHECalib.cpcpl = "HE" + sideletter + "03-10";
+  //set up patch panel
+  /*
+- the calib fibers for each patch arrive in a single 8-fiber octopus, terminated LC
+  from a central calib fiber patch, which receives all the calib fibers from the entirety of HBHE
+- There are two fibers from each ngHE RBX, and one fiber from each legacy HB RBX, meaning that 6 (or perhaps 8)
+  of the 8 fibers are used (I allow here the possibility that ngHB RBXes may have two fibers).
+- The P-side RBXes come to coupler column 3, the M-side to coupler column 6:
+
+         HEP17                 HBP17                 HEM17                 HBM17     
+                      | e1e2b1b2 |                     | e1e2b1b2 |                        calib |HBEP16| |HBEP17|
+| 01020304 | 05060708 | 01020304 | 05060708 | 01020304 | 05060708 | 01020304 | 05060708 |  RM4
+| 01020304 | 05060708 | 01020304 | 05060708 | 01020304 | 05060708 | 01020304 | 05060708 |  RM3
+| 01020304 | 05060708 | 01020304 | 05060708 | 01020304 | 05060708 | 01020304 | 05060708 |  RM2
+| 01020304 | 05060708 | 01020304 | 05060708 | 01020304 | 05060708 | 01020304 | 05060708 |  RM1
+  */
+  sideid < 0 ? thisngHECalib.ppcol = 6 : thisngHECalib.ppcol = 3;
+  thisngHECalib.pprow = 5;
+  //thisngHECalib.pplc = (thisngHECalib.rm_fiber-1)%4+1;
+  thisngHECalib.pplc = thisngHECalib.rm_fiber;
+  //thisngHECalib.dodec = (thisngHECalib.uhtr_fiber)%12+1;
+  thisngHECalib.dodec = 12;
+  thisngHECalib.ppcpl = "EB" + sideletter + numberletter + "_CU";
 
   //set up backend part
+  /*
+  The mixed HB/HE uHTRs - slots 5 11:
+
+|                 crate 34 slot 11                          |                 crate 34 slot 5                           |
+             HEP17                         HBP17                          HEM17                        HBM17            
+                              | ------11b12b |                             | ------11b12b |                                Calib
+| ---------10t | 11t---12t--- | ---09b10b--- | ------------ | ---------10t | 11t---12t--- | ---09b10b--- | ------------ |  RM4
+| ---07t---08t | ---09t------ | ---07b08b--- | ------------ | ---07t---08t | ---09t------ | ---07b08b--- | ------------ |  RM3
+| ---------04t | 05t---06t--- | ---05b06b--- | ------------ | ---------04t | 05t---06t--- | ---05b06b--- | ------------ |  RM2
+| ---01t---02t | ---03t------ | ---03b04b--- | ------------ | ---01t---02t | ---03t------ | ---03b04b--- | ------------ |  RM1
+
+
+  The pure HE uHTRs - slots 6 12:
+
+|                 crate 34 slot 12                          |                 crate 34 slot 6                           |  
+             HEP17                         HBP17                          HEM17                        HBM17            
+                              | 12b12t------ |                             | 12b12t------ |                                Calib
+| 07t08t09t--- | ---10t---11t | ------------ | ------------ | 07t08t09t--- | ---10t---11t | ------------ | ------------ |  RM4
+| 02t---03t--- | 04t---05t06t | ------------ | ------------ | 02t---03t--- | 04t---05t06t | ------------ | ------------ |  RM3
+| 07b08b09b--- | ---10b---11b | ------------ | ------------ | 07b08b09b--- | ---10b---11b | ------------ | ------------ |  RM2
+| 02b---03b--- | 04b---05b06b | ------------ | ------------ | 02b---03b--- | 04b---05b06b | ------------ | ------------ |  RM1
+  */
+  int ngHEuCrateInWedge[NrbxngHE] = {30, 24, 24, 20, 20, 21, 21, 25, 25, 31, 31, 35, 35, 37, 37, 34, 34, 30};
+  thisngHECalib.ucrate = ngHEuCrateInWedge[thisngHECalib.wedge-1];
+  if     (thisngHECalib.ppcol == 6) thisngHECalib.uhtr = 6;
+  else if(thisngHECalib.ppcol == 3) thisngHECalib.uhtr = 12;
+  else{ std::cout << "#ngHE Calib channel not in ppcol 6 nor ppcol 3, please check!!" << std::endl; thisngHECalib.uhtr = 0; }
+  if     (thisngHECalib.rm_fiber == 1) thisngHECalib.uhtr_fiber = 11;
+  else if(thisngHECalib.rm_fiber == 2) thisngHECalib.uhtr_fiber = 23;
+  else{ std::cout << "#ngHE Calib channel not in RM fiber 1 nor RM fiber 2, please check!!" << std::endl; thisngHECalib.uhtr_fiber = -1; }
+  const std::map<int, std::pair<int, int> > ngHEufedidInucrate = { {20,{1102,1103}},{21,{1104,1105}},{24,{1100,1101}},{25,{1106,1107}},{30,{1116,1117}},{31,{1108,1109}},{34,{1114,1115}},{35,{1110,1111}},{37,{1112,1113}} };
+  thisngHECalib.uhtr <= 6 ? thisngHECalib.ufedid = ((ngHEufedidInucrate.find(thisngHECalib.ucrate))->second).first : thisngHECalib.ufedid = ((ngHEufedidInucrate.find(thisngHECalib.ucrate))->second).second;
 
   //set up Geometry part
+  thisngHECalib.side = sideid;
+  thisngHECalib.eta = 1;
+  thisngHECalib.rm_fiber == 1 ? thisngHECalib.depth = 6 : thisngHECalib.depth = thisngHECalib.fiber_ch;
+  thisngHECalib.dphi = 4;
+  //if(sideid > 0)
+  //{
+  //follow ngHE P side rm 1
+  thisngHECalib.phi = ngHEphiInrbxrmid_P_dphi1[(thisngHECalib.wedge-1)*4+thisngHECalib.rm-5];
+  //}
+  //else
+  //{
+    //thisngHECalib.phi = ngHEphiInrbxrmid_M_dphi1[(thisngHECalib.wedge-1)*4+thisngHECalib.rm-5];
+  //}
+  thisngHECalib.subdet = "CALIB_HE";
 
   myngHECalib.push_back(thisngHECalib);
-  
   return ;
 }
 
