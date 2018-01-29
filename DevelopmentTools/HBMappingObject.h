@@ -115,6 +115,10 @@ class HBConstant
 
   static const int NHBeta1516 = 2; static const int NHBeta1to14 = 14;
   static const int NHBdeptheta1516 = 2; static const int NHBdeptheta1to14 = 1;
+
+  //2 fibers per rm in calibration module, rm 1,2
+  static const int NrmHBCalib = 1;
+  static const int Nrm_fiberCalib = 2;
 };
 
 #endif
