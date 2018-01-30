@@ -430,15 +430,17 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
    rm_fib_1 = LC1 = 1-2
    rm_fib 2 = LC2 = 1-1
   */
-  int ngHEtrunkSectorInWedge[NrbxngHE] = {2, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3};
-  int ngHEcpColInWedge[NrbxngHE] = {4, 4, 5, 1, 1, 2, 2, 3, 3, 5, 6, 6, 7, 7, 8, 8, 9, 9};
-  std::string trunk_sector_str = std::to_string(ngHEtrunkSectorInWedge[thisngHECalib.wedge-1]);
-  thisngHECalib.trunk = trunk_sector_str + "-" + std::to_string( thisngHECalib.rm_fiber );
+  int ngHEtrunkInWedge[NrbxngHE] = {1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2};
+  thisngHECalib.trunk = std::to_string( ngHEtrunkInWedge[thisngHECalib.wedge-1] ) + "-" + std::to_string( ((thisngHECalib.wedge-1)%3)*2 + thisngHECalib.rm_fiber );
   //special fix for trunk fiber in HEP01
-  if( thisngHECalib.rbx == "HEP01" ){ thisngHECalib.trunk.clear(); thisngHECalib.trunk = trunk_sector_str + "-" + std::to_string( 3-thisngHECalib.rm_fiber ); }
+  if( thisngHECalib.rbx == "HEP01" ){ thisngHECalib.trunk.clear(); thisngHECalib.trunk = std::to_string( ngHEtrunkInWedge[thisngHECalib.wedge-1] ) + "-" + std::to_string( ((thisngHECalib.wedge-1)%3)*2 + 3 - thisngHECalib.rm_fiber ); } //swap 1,2 in HEP01 only
+  //if( thisngHECalib.rbx == "HEP01" ){ thisngHECalib.trunk.clear(); thisngHECalib.trunk = trunk_sector_str + "-" + std::to_string( 3-thisngHECalib.rm_fiber ); }
+  int ngHEcpColInWedge[NrbxngHE] = {4, 4, 5, 1, 1, 2, 2, 3, 3, 5, 6, 6, 7, 7, 8, 8, 9, 9};
   thisngHECalib.cpcol = ngHEcpColInWedge[thisngHECalib.wedge-1];
   sideid < 0 ? thisngHECalib.cprow = 2 : thisngHECalib.cprow = 4;
-  bool if12InxyzWedge = (trunk_sector_str == "1" && thisngHECalib.wedge%2 == 0) || (trunk_sector_str == "2" && thisngHECalib.wedge%2 == 1) || (trunk_sector_str == "3" && thisngHECalib.wedge%2 == 1);
+  int ngHESectorInWedge[NrbxngHE] = {2, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3};
+  std::string sector_str = std::to_string(ngHESectorInWedge[thisngHECalib.wedge-1]);
+  bool if12InxyzWedge = (sector_str == "1" && thisngHECalib.wedge%2 == 0) || (sector_str == "2" && thisngHECalib.wedge%2 == 1) || (sector_str == "3" && thisngHECalib.wedge%2 == 1);
   if( if12InxyzWedge ) thisngHECalib.cplc = thisngHECalib.rm_fiber;
   else thisngHECalib.cplc = thisngHECalib.rm_fiber + 2;
   thisngHECalib.cpoct = (4-thisngHECalib.cprow)*2 + thisngHECalib.rm_fiber;
