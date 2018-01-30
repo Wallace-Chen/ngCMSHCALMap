@@ -71,6 +71,7 @@ int main(int argc, char* argv[])
     if( PrdMode == "LMapCalib")
     {
       myHCALLMapDumper.printHBCalibLMapObject(myHBMappingAlgorithm.myHBCalib);
+      //myHCALLMapDumper.makedbHBCalibLMapObject("officialMap/HCALLogicalMap.db", "HBCalibLogicalMap", myHBMappingAlgorithm.myHBCalib);
     }
     if( PrdMode == "EMapCalib" )
     {
@@ -107,7 +108,7 @@ int main(int argc, char* argv[])
     if( PrdMode == "LMapCalib" )
     {
       myHCALLMapDumper.printngHECalibLMapObject(myngHEMappingAlgorithm.myngHECalib);
-      //myHCALLMapDumper.;
+      myHCALLMapDumper.makedbngHECalibLMapObject("officialMap/HCALLogicalMap.db", "ngHECalibLogicalMap", myngHEMappingAlgorithm.myngHECalib);
     }
     if( PrdMode == "EMapCalib" )
     {

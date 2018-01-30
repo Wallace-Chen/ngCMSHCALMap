@@ -651,6 +651,12 @@ void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string H
   return ;
 }
 
+void HCALLMapDumper::makedbHBCalibLMapObject(std::string HCALLMapDbStr, std::string HBCalibTableStr, std::vector<HBCalib> myHBCalib)
+{
+
+  return ;
+}
+
 void HCALLMapDumper::makedbngHBLMapObject(std::string HCALLMapDbStr, std::string ngHBTableStr,
                                           std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower)
 {
@@ -792,6 +798,12 @@ void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string
   }
   sqlite3_close(db);
   
+  return ;
+}
+
+void HCALLMapDumper::makedbngHECalibLMapObject(std::string HCALLMapDbStr, std::string ngHECalibTableStr, std::vector<ngHECalib> myngHECalib)
+{
+
   return ;
 }
 
