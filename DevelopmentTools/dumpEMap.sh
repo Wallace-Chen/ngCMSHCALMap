@@ -2,7 +2,10 @@
 ./HCALLMapProducer HE EMap
 ./HCALLMapProducer HF EMap
 ./HCALLMapProducer HO EMap
-./HCALLMapProducer HB HT
-./HCALLMapProducer HE HT
-./HCALLMapProducer HF HT
-python PandasTest/DumpEMapfromCalib.py
+./HCALLMapProducer HB EMapHT
+./HCALLMapProducer HE EMapHT
+./HCALLMapProducer HF EMapHT
+./HCALLMapProducer HB EMapCalib
+./HCALLMapProducer HE EMapCalib
+#./HCALLMapProducer HF EMapCalib
+#./HCALLMapProducer HO EMapCalib
