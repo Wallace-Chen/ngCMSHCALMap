@@ -311,7 +311,14 @@ void HCALLMapDumper::printngHEFrontEndMapObject(std::vector<ngHEFrontEnd> myngHE
 
 void HCALLMapDumper::printngHECalibLMapObject(std::vector<ngHECalib> myngHECalib)
 {
-  //# rbx qie11 qie11_ch rm rm_fiber fiber_ch
+  //Side Eta Phi dPhi Depth Det 
+  //RBX Wedge
+  //QIE11 QIECH RM RM_FI FI_CH 
+  //Trunk cpCol cpRow cpCpl cpLC cpOct
+  //ppCol ppRow ppCpl ppLC docdec 
+  //Crate uHTR uHTR_FI 
+  //FEDid 
+  //QIE11id
   std::cout << "#Dumping ngHE Calib LMap Object..." << std::endl; 
   std::cout << "#"
             << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "CH_TYPE" << std::setw(10) << "Det"
@@ -803,6 +810,73 @@ void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string
 
 void HCALLMapDumper::makedbngHECalibLMapObject(std::string HCALLMapDbStr, std::string ngHECalibTableStr, std::vector<ngHECalib> myngHECalib)
 {
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc;
+                                                                                                                                                                                                            
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,ngHECalibTableStr);
+  if(TableExist){ std::cout << "#Table: " << ngHECalibTableStr <<" already in the database!! Please check!" << std::endl; return ; }
+  else{ std::cout << "#Table: " << ngHECalibTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det 
+  //RBX Wedge
+  //QIE11 QIECH RM RM_FI FI_CH 
+  //Trunk cpCol cpRow cpCpl cpLC cpOct
+  //ppCol ppRow ppCpl ppLC docdec 
+  //Crate uHTR uHTR_FI 
+  //FEDid 
+  //QIE11id
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHECalibTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "ngRBX TEXT NOT NULL, Wedge INT NOT NULL, " \
+                            "QIE11 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "Trunk TEXT NOT NULL, cpCol INT NOT NULL, cpRow INT NOT NULL, cpCpl TEXT NOT NULL, cpLC INT NOT NULL, cpOct INT NOT NULL, " \
+                            "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
+                            "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIE11id INT NOT NULL);";
+
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+
+  for(auto i=0; i<myngHECalib.size(); i++)
+  {
+    std::string one = "INSERT INTO " + ngHECalibTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "ngRBX,Wedge," \
+                      "QIE11,QIECH,RM,RM_FI,FI_CH," \
+                      "Trunk,cpCol,cpRow,cpCpl,cpLC,cpOct," \
+                      "ppCol,ppRow,ppCpl,ppLC,dodec," \
+                      "Crate,uHTR,uHTR_FI,FEDid," \
+                      "QIE11id) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myngHECalib.at(i).side)+","+std::to_string(myngHECalib.at(i).eta)+","+std::to_string(myngHECalib.at(i).phi)+","+std::to_string(myngHECalib.at(i).dphi)+","+std::to_string(myngHECalib.at(i).depth)+",'"+myngHECalib.at(i).subdet+"','"
+                      +myngHECalib.at(i).rbx+"',"+std::to_string(myngHECalib.at(i).wedge)+","
+                      +std::to_string(myngHECalib.at(i).qie11)+","+std::to_string(myngHECalib.at(i).qie11_ch)+","+std::to_string(myngHECalib.at(i).rm)+","+std::to_string(myngHECalib.at(i).rm_fiber)+","+std::to_string(myngHECalib.at(i).fiber_ch)+",'"
+                      +myngHECalib.at(i).trunk+"',"+std::to_string(myngHECalib.at(i).cpcol)+","+std::to_string(myngHECalib.at(i).cprow)+",'"+myngHECalib.at(i).cpcpl+"',"+std::to_string(myngHECalib.at(i).cplc)+","+std::to_string(myngHECalib.at(i).cpoct)+","
+                      +std::to_string(myngHECalib.at(i).ppcol)+","+std::to_string(myngHECalib.at(i).pprow)+",'"+myngHECalib.at(i).ppcpl+"',"+std::to_string(myngHECalib.at(i).pplc)+","+std::to_string(myngHECalib.at(i).dodec)+","
+                      +std::to_string(myngHECalib.at(i).ucrate)+","+std::to_string(myngHECalib.at(i).uhtr)+","+std::to_string(myngHECalib.at(i).uhtr_fiber)+","+std::to_string(myngHECalib.at(i).ufedid)+","
+                      +std::to_string(myngHECalib.at(i).qie11_id)+");";
+    
+  int cpcol, cprow, cplc, cpoct;
+  std::string cpcpl;
+
+
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  sqlite3_close(db);
 
   return ;
 }
