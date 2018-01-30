@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
     }
     if( PrdMode == "EMapCalib" )
     {
-
+      myHCALLMapDumper.printHBCalibEMapObject(myHBMappingAlgorithm.myHBCalib);
     }
     return 1;
   }
@@ -111,7 +111,7 @@ int main(int argc, char* argv[])
     }
     if( PrdMode == "EMapCalib" )
     {
-
+      myHCALLMapDumper.printngHECalibEMapObject(myngHEMappingAlgorithm.myngHECalib);
     }
     return 1;
   }

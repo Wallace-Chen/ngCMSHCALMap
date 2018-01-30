@@ -115,6 +115,27 @@ void HCALLMapDumper::printHBCalibLMapObject(std::vector<HBCalib> myHBCalib)
   return ;
 }
 
+void HCALLMapDumper::printHBCalibEMapObject(std::vector<HBCalib> myHBCalib)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  std::cout << "#Dumping HBCalib EMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(10) <<"i"
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
+            << std::setw(9) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep"
+            << std::endl;
+
+  for(auto i=0; i<myHBCalib.size(); i++)
+  {
+    std::cout << " "
+              << std::setw(10) << "4200458C"
+              << std::setw(6) << myHBCalib.at(i).ucrate << std::setw(6) << myHBCalib.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myHBCalib.at(i).uhtr_fiber << std::setw(12) << myHBCalib.at(i).fiber_ch
+              << std::setw(9) << myHBCalib.at(i).subdet << std::setw(6) << myHBCalib.at(i).side * myHBCalib.at(i).eta << std::setw(6) << myHBCalib.at(i).phi << std::setw(6) << myHBCalib.at(i).depth
+              << std::endl;
+  }
+  return ;
+}
+
 void HCALLMapDumper::printngHBLMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower)
 {
   std::cout << "#Dumping ngHB LMap Object..." << std::endl;
@@ -318,6 +339,27 @@ void HCALLMapDumper::printngHECalibLMapObject(std::vector<ngHECalib> myngHECalib
               << std::endl;
   }
 
+  return ;
+}
+
+void HCALLMapDumper::printngHECalibEMapObject(std::vector<ngHECalib> myngHECalib)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth                                                                                                                 
+  std::cout << "#Dumping ngHECalib EMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(10) <<"i"
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
+            << std::setw(9) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep"
+            << std::endl;
+  
+  for(auto i=0; i<myngHECalib.size(); i++)
+  { 
+    std::cout << " "
+              << std::setw(10) << "4200458C"
+              << std::setw(6) << myngHECalib.at(i).ucrate << std::setw(6) << myngHECalib.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHECalib.at(i).uhtr_fiber << std::setw(12) << myngHECalib.at(i).fiber_ch 
+              << std::setw(9) << myngHECalib.at(i).subdet << std::setw(6) << myngHECalib.at(i).side * myngHECalib.at(i).eta << std::setw(6) << myngHECalib.at(i).phi << std::setw(6) << myngHECalib.at(i).depth
+              << std::endl;
+  }
   return ;
 }
 
