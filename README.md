@@ -53,6 +53,12 @@ To produce the LMap:<br />
 The valid RunMode are: HB, HE, HF, HO.<br />
 The valid PrdMode are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib.<br />
 
+Shell script to dump the LMap and EMap:<br />
+```
+sh dumpLMap.sh K 20180501
+sh dumpEMap.sh >> HCALEMap_K_all_20180501.txt
+```
+
 # Data visualization
 
 plotly installation and setup
