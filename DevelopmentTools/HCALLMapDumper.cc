@@ -535,6 +535,27 @@ void HCALLMapDumper::printngHFCalibLMapObject(std::vector<ngHFCalib> myngHFCalib
   return ;
 }
 
+void HCALLMapDumper::printngHFCalibEMapObject(std::vector<ngHFCalib> myngHFCalib)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth                                                                                                                 
+  std::cout << "#Dumping ngHFCalib EMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(10) <<"i"
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
+            << std::setw(9) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep"
+            << std::endl;
+  
+  for(auto i=0; i<myngHFCalib.size(); i++)
+  { 
+    std::cout << " "
+              << std::setw(10) << "4200458C"
+              << std::setw(6) << myngHFCalib.at(i).ucrate << std::setw(6) << myngHFCalib.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHFCalib.at(i).uhtr_fiber << std::setw(12) << myngHFCalib.at(i).fiber_ch 
+              << std::setw(9) << myngHFCalib.at(i).subdet << std::setw(6) << myngHFCalib.at(i).side * myngHFCalib.at(i).eta << std::setw(6) << myngHFCalib.at(i).phi << std::setw(6) << myngHFCalib.at(i).depth
+              << std::endl;
+  }
+  return ;
+}
+
 void HCALLMapDumper::printHOLMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower)
 {
   //Side Eta Phi dPhi Depth Det

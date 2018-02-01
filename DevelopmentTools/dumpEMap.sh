@@ -7,5 +7,5 @@
 ./HCALLMapProducer HF EMapHT
 ./HCALLMapProducer HB EMapCalib
 ./HCALLMapProducer HE EMapCalib
-#./HCALLMapProducer HF EMapCalib
+./HCALLMapProducer HF EMapCalib
 #./HCALLMapProducer HO EMapCalib

@@ -154,7 +154,7 @@ int main(int argc, char* argv[])
     }
     if( PrdMode == "EMapCalib" )
     {
-      //myHCALLMapDumper.printngHFCalibEMapObject(myngHFMappingAlgorithm.myngHFCalib);
+      myHCALLMapDumper.printngHFCalibEMapObject(myngHFMappingAlgorithm.myngHFCalib);
     }
     return 1;
   }

@@ -6,5 +6,5 @@
 ./HCALLMapProducer HO LMap >> 2018HCALLMap_HO_$1_$2.txt
 ./HCALLMapProducer HB LMapCalib >> 2018HCALLMap_HBCalib_$1_$2.txt
 ./HCALLMapProducer HE LMapCalib >> 2018HCALLMap_ngHECalib_$1_$2.txt
-#./HCALLMapProducer HF LMapCalib >> 2018HCALLMap_ngHFCalib_$1_$2.txt
+./HCALLMapProducer HF LMapCalib >> 2018HCALLMap_ngHFCalib_$1_$2.txt
 #./HCALLMapProducer HO LMapCalib >> 2018HCALLMap_HOCalib_$1_$2.txt
