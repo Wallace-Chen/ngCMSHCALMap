@@ -9,3 +9,5 @@
 ./HCALLMapProducer HE EMapCalib
 ./HCALLMapProducer HF EMapCalib
 #./HCALLMapProducer HO EMapCalib
+echo "#Dumping ngHB EMap Object..."
+cat PandasTest/HCALEmapCALIB_J.txt | grep "CALIB_HO"
