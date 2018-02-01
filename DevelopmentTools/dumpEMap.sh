@@ -11,4 +11,4 @@
 #./HCALLMapProducer HO EMapCalib
 echo "#Dumping HOCalib EMap Object..."
 echo "#         i    cr    sl    tb   dcc  spigot fib/slb fibch/slbch   subdet   eta   phi   dep"
-cat PandasTest/HCALEmapCALIB_J.txt | grep "CALIB_HO"
+cat officialMap/HO_CU_emap_2018_K.txt | grep "CALIB_HO"
