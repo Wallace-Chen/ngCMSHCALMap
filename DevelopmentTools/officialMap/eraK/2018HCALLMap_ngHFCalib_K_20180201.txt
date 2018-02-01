@@ -1,5 +1,36 @@
 #The valid run modes are: HB, HE, HF, HO
-#The run mode we have right now is: ngHF
+#The run mode we have right now is: HF
 #The valid run modes are: LMap, EMap, FMap HT
 #The produce mode we have right now is: LMapCalib
-#Invalide Run Mode, the the fuck is going on!
+#Loading information from QIE allocation file...
+#Constructing ngHF LMap Object...
+#Loading information from QIE allocation file...
+#Constructing ngHF Calib LMap Object...
+#Map pass collision check, Good!
+#Dumping ngHF Calib LMap Object...
+#  Side   Eta   Phi  dPhi  CH_TYPE       Det   RBX Sector QIE10 QIECH QIE10_FI FI_CH dodec Crate  uHTR  uHTR_FI FEDid  QIE10id
+      1     1     1    18        8  CALIB_HF HFP01      1     1     1        1     0     1    38     6        0  1132   500627
+      1     1     1    18        0  CALIB_HF HFP01      1     1     2        1     1     1    38     6        0  1132   500627
+      1     1     1    18        1  CALIB_HF HFP01      1     1     3        1     2     1    38     6        0  1132   500627
+      1     1    19    18        8  CALIB_HF HFP03      2     1     1        1     0     2    38     6        1  1132   500690
+      1     1    19    18        0  CALIB_HF HFP03      2     1     2        1     1     2    38     6        1  1132   500690
+      1     1    19    18        1  CALIB_HF HFP03      2     1     3        1     2     2    38     6        1  1132   500690
+      1     1    37    18        8  CALIB_HF HFP05      3     1     1        1     0     3    38     6        2  1132   500594
+      1     1    37    18        0  CALIB_HF HFP05      3     1     2        1     1     3    38     6        2  1132   500594
+      1     1    37    18        1  CALIB_HF HFP05      3     1     3        1     2     3    38     6        2  1132   500594
+      1     1    55    18        8  CALIB_HF HFP07      4     1     1        1     0     4    38     6        3  1132   500721
+      1     1    55    18        0  CALIB_HF HFP07      4     1     2        1     1     4    38     6        3  1132   500721
+      1     1    55    18        1  CALIB_HF HFP07      4     1     3        1     2     4    38     6        3  1132   500721
+     -1     1     1    18        8  CALIB_HF HFM01      1     1     1        1     0     5    38     6        4  1132   500776
+     -1     1     1    18        0  CALIB_HF HFM01      1     1     2        1     1     5    38     6        4  1132   500776
+     -1     1     1    18        1  CALIB_HF HFM01      1     1     3        1     2     5    38     6        4  1132   500776
+     -1     1    19    18        8  CALIB_HF HFM03      2     1     1        1     0     6    38     6        5  1132   500612
+     -1     1    19    18        0  CALIB_HF HFM03      2     1     2        1     1     6    38     6        5  1132   500612
+     -1     1    19    18        1  CALIB_HF HFM03      2     1     3        1     2     6    38     6        5  1132   500612
+     -1     1    37    18        8  CALIB_HF HFM05      3     1     1        1     0     7    38     6        6  1132   500780
+     -1     1    37    18        0  CALIB_HF HFM05      3     1     2        1     1     7    38     6        6  1132   500780
+     -1     1    37    18        1  CALIB_HF HFM05      3     1     3        1     2     7    38     6        6  1132   500780
+     -1     1    55    18        8  CALIB_HF HFM07      4     1     1        1     0     8    38     6        7  1132   500653
+     -1     1    55    18        0  CALIB_HF HFM07      4     1     2        1     1     8    38     6        7  1132   500653
+     -1     1    55    18        1  CALIB_HF HFM07      4     1     3        1     2     8    38     6        7  1132   500653
+#Table: ngHFCalibLogicalMap already in the database!! Please check!
