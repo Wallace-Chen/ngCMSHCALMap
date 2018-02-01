@@ -150,7 +150,7 @@ int main(int argc, char* argv[])
     if( PrdMode == "LMapCalib" )                                                                                                                                                                            
     {
       myHCALLMapDumper.printngHFCalibLMapObject(myngHFMappingAlgorithm.myngHFCalib);
-      //myHCALLMapDumper.makedbngHFCalibLMapObject("officialMap/HCALLogicalMap.db", "ngHFCalibLogicalMap", myngHFMappingAlgorithm.myngHFCalib);
+      myHCALLMapDumper.makedbngHFCalibLMapObject("officialMap/HCALLogicalMap.db", "ngHFCalibLogicalMap", myngHFMappingAlgorithm.myngHFCalib);
     }
     if( PrdMode == "EMapCalib" )
     {

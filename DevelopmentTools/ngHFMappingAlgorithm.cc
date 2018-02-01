@@ -442,7 +442,6 @@ void ngHFMappingAlgorithm::ConstructngHFCalib(int sideid, int rbxqie10id, int qi
   thisngHFCalib.qie10_id = 500000;
   thisngHFCalib.sector = rbxqie10id/Nqie10Calib + 1;
 
-  thisngHFCalib.dodec = 0;
   //set up backend part
   thisngHFCalib.ucrate = 38;
   thisngHFCalib.uhtr = 6;
@@ -459,7 +458,6 @@ void ngHFMappingAlgorithm::ConstructngHFCalib(int sideid, int rbxqie10id, int qi
 
   thisngHFCalib.subdet = "CALIB_HF";
   if(thisngHFCalib.fiber_ch == 3) return ; //do not fill the calibration channel when fiber channel is 3
-
   myngHFCalib.push_back(thisngHFCalib);
 
   return ;

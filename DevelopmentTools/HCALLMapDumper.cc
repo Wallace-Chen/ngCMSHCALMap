@@ -997,10 +997,6 @@ void HCALLMapDumper::makedbngHECalibLMapObject(std::string HCALLMapDbStr, std::s
                       +std::to_string(myngHECalib.at(i).ucrate)+","+std::to_string(myngHECalib.at(i).uhtr)+","+std::to_string(myngHECalib.at(i).uhtr_fiber)+","+std::to_string(myngHECalib.at(i).ufedid)+","
                       +std::to_string(myngHECalib.at(i).qie11_id)+");";
     
-  int cpcol, cprow, cplc, cpoct;
-  std::string cpcpl;
-
-
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
     else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
@@ -1087,6 +1083,71 @@ void HCALLMapDumper::makedbngHFLMapObject(std::string HCALLMapDbStr, std::string
   }
   sqlite3_close(db);
   
+  return ;
+}
+
+void HCALLMapDumper::makedbngHFCalibLMapObject(std::string HCALLMapDbStr, std::string ngHFCalibTableStr, std::vector<ngHFCalib> myngHFCalib)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc;
+                                                                                                                                                                                                            
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,ngHFCalibTableStr);
+  if(TableExist){ std::cout << "#Table: " << ngHFCalibTableStr <<" already in the database!! Please check!" << std::endl; return ; }
+  else{ std::cout << "#Table: " << ngHFCalibTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det 
+  //RBX Sector
+  //QIE10 QIECH QIE10_FI FI_CH 
+  //docdec 
+  //Crate uHTR uHTR_FI 
+  //FEDid 
+  //QIE10id
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHFCalibTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "ngRBX TEXT NOT NULL, Sector INT NOT NULL, " \
+                            "QIE10 INT NOT NULL, QIECH INT NOT NULL, QIE10_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "dodec INT NOT NULL, " \
+                            "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIE10id INT NOT NULL);";
+
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+
+  for(auto i=0; i<myngHFCalib.size(); i++)
+  {
+    std::string one = "INSERT INTO " + ngHFCalibTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "ngRBX,Sector," \
+                      "QIE10,QIECH,QIE10_FI,FI_CH," \
+                      "dodec," \
+                      "Crate,uHTR,uHTR_FI,FEDid," \
+                      "QIE10id) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myngHFCalib.at(i).side)+","+std::to_string(myngHFCalib.at(i).eta)+","+std::to_string(myngHFCalib.at(i).phi)+","+std::to_string(myngHFCalib.at(i).dphi)+","+std::to_string(myngHFCalib.at(i).depth)+",'"+myngHFCalib.at(i).subdet+"','"
+                      +myngHFCalib.at(i).rbx+"',"+std::to_string(myngHFCalib.at(i).sector)+","
+                      +std::to_string(myngHFCalib.at(i).qie10)+","+std::to_string(myngHFCalib.at(i).qie10_ch)+","+std::to_string(myngHFCalib.at(i).qie10_fiber)+","+std::to_string(myngHFCalib.at(i).fiber_ch)+","
+                      +std::to_string(myngHFCalib.at(i).dodec)+","
+                      +std::to_string(myngHFCalib.at(i).ucrate)+","+std::to_string(myngHFCalib.at(i).uhtr)+","+std::to_string(myngHFCalib.at(i).uhtr_fiber)+","+std::to_string(myngHFCalib.at(i).ufedid)+","
+                      +std::to_string(myngHFCalib.at(i).qie10_id)+");";
+    
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  sqlite3_close(db);
+
   return ;
 }
 
