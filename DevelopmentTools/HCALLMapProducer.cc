@@ -162,7 +162,7 @@ int main(int argc, char* argv[])
   {
     HOMappingAlgorithm myHOMappingAlgorithm;
     //so sorry no HO mapping algorithm for now... in a mess... directly load from generation G mapping algotrithm
-    int NChannel = myHCALLMapLoader.GetHOFromLMap("officialMap/HCALmapHO_G.txt", myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
+    int NChannel = myHCALLMapLoader.GetHOFromLMap("officialMap/eraG/HCALmapHO_G.txt", myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
     //myHOMappingAlgorithm.ConstructHOLMapObject();
 
     if( PrdMode == "LMap" )

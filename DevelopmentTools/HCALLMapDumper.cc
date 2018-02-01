@@ -511,7 +511,7 @@ void HCALLMapDumper::printngHFCalibLMapObject(std::vector<ngHFCalib> myngHFCalib
   std::cout << "#"
             << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "CH_TYPE" << std::setw(10) << "Det"
             << std::setw(6) << "RBX" << std::setw(7) << "Sector"
-            << std::setw(6) << "QIE11" << std::setw(6) << "QIECH" << std::setw(9) << "QIE10_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "QIE10" << std::setw(6) << "QIECH" << std::setw(9) << "QIE10_FI" << std::setw(6) << "FI_CH"
             << std::setw(6) << "dodec"
             << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
             << std::setw(6) << "FEDid"

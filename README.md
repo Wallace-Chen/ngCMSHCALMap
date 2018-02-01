@@ -56,7 +56,7 @@ The valid PrdMode are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib.<br />
 Shell script to dump the LMap and EMap:<br />
 ```
 sh dumpLMap.sh K 20180501
-sh dumpEMap.sh >> 2018HCALEMap_K_all_20180501.txt
+sh dumpEMap.sh >> 2018HCALEMap_All_K_20180501.txt
 ```
 
 # Data visualization

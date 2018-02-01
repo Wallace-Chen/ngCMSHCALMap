@@ -436,8 +436,8 @@ void ngHFMappingAlgorithm::ConstructngHFCalib(int sideid, int rbxqie10id, int qi
   std::string numberletter; ((rbxqie10id/Nqie10Calib)*2 + 1) < 10 ? numberletter = "0" + std::to_string((rbxqie10id/Nqie10Calib)*2 + 1) : numberletter = std::to_string((rbxqie10id/Nqie10Calib)*2 + 1); 
   thisngHFCalib.rbx = "HF" + sideletter + numberletter;
   thisngHFCalib.qie10 = 1; //QIE10 in the ngHF CU
-  thisngHFCalib.qie10_fiber = qie10chid/Nqie10_fiberCalib + 1;//
-  thisngHFCalib.qie10_ch = qie10chid%Nqie10_fiberCalib + 1;
+  thisngHFCalib.qie10_fiber = qie10chid%Nqie10_fiberCalib + 1;//
+  thisngHFCalib.qie10_ch = qie10chid%Nfiber_ch + 1;
   thisngHFCalib.fiber_ch = qie10chid%Nfiber_ch;
   thisngHFCalib.qie10_id = 500000;
   thisngHFCalib.sector = rbxqie10id/Nqie10Calib + 1;
