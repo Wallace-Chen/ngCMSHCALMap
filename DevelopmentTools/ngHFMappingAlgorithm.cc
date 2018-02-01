@@ -82,10 +82,13 @@ void ngHFMappingAlgorithm::SplitngHFfromOldHF(
 
 void ngHFMappingAlgorithm::ConstructngHFLMapObject(std::string Mode)
 {
+  myngHFQIE10CardMap.clear();
+  std::cout << "#Loading information from QIE allocation file..." << std::endl;
+  LoadngHFQIEMap("ngHFQIEInput/HF_QIE10_CardMap_26May2017.txt");
+  //std::cout << myngHFQIE10CardMap.size() << std::endl;
+
   if(Mode == "Normal")
   {
-    std::cout << "#Loading information from QIE allocation file..." << std::endl;
-    LoadngHFQIEMap("ngHFQIEInput/HF_QIE10_CardMap_26May2017.txt");
     std::cout << "#Constructing ngHF LMap Object..." << std::endl;
 
     for(int irbx=0;irbx<NrbxngHF*2;irbx++)//8 rbx per side for ngHF
@@ -155,7 +158,7 @@ void ngHFMappingAlgorithm::ConstructngHFFrontEnd(int sideid, int rbxqie10id, int
   thisngHFFrontEnd.qie10_ch<13 ? thisngHFFrontEnd.qie10_connector = "TOP" : thisngHFFrontEnd.qie10_connector = "BOT";
   
   //QIE id ... need to set from a huge xls file
-  //thisngHFFrontEnd.qie10_id = 999999;
+  //thisngHFFrontEnd.qie10_id = 500000;
   //thisngHFFrontEnd.qie10_barcode = "0x3e000000 0xba22f270";
   GetngHFQIEInfoToLMap(
                        thisngHFFrontEnd.rbx, thisngHFFrontEnd.qie10,
@@ -439,7 +442,12 @@ void ngHFMappingAlgorithm::ConstructngHFCalib(int sideid, int rbxqie10id, int qi
   thisngHFCalib.qie10_fiber = qie10chid%Nqie10_fiberCalib + 1;//
   thisngHFCalib.qie10_ch = qie10chid%Nfiber_ch + 1;
   thisngHFCalib.fiber_ch = qie10chid%Nfiber_ch;
-  thisngHFCalib.qie10_id = 500000;
+  //thisngHFCalib.qie10_id = 500000;
+  std::string qie10_barcode = "0x3e000000 0xba22f270";
+  GetngHFQIEInfoToLMap(
+                       thisngHFCalib.rbx, thisngHFCalib.qie10,
+                       thisngHFCalib.qie10_id, qie10_barcode
+                      );
   thisngHFCalib.sector = rbxqie10id/Nqie10Calib + 1;
 
   //set up backend part
