@@ -147,6 +147,15 @@ int main(int argc, char* argv[])
     {
       myHCALTPProducer.printngHFHTEMapObject(myngHFMappingAlgorithm.myngHFFrontEnd, myngHFMappingAlgorithm.myngHFBackEnd, myngHFMappingAlgorithm.myngHFPMTBox, myngHFMappingAlgorithm.myngHFGeometry, myngHFMappingAlgorithm.myngHFTriggerTower);
     }
+    if( PrdMode == "LMapCalib" )                                                                                                                                                                            
+    {
+      myHCALLMapDumper.printngHFCalibLMapObject(myngHFMappingAlgorithm.myngHFCalib);
+      //myHCALLMapDumper.makedbngHFCalibLMapObject("officialMap/HCALLogicalMap.db", "ngHFCalibLogicalMap", myngHFMappingAlgorithm.myngHFCalib);
+    }
+    if( PrdMode == "EMapCalib" )
+    {
+      //myHCALLMapDumper.printngHFCalibEMapObject(myngHFMappingAlgorithm.myngHFCalib);
+    }
     return 1;
   }
   else if( RunMode == "HO" )

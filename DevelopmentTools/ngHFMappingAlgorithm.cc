@@ -108,21 +108,18 @@ void ngHFMappingAlgorithm::ConstructngHFLMapObject(std::string Mode)
   else if(Mode == "Calib")
   {
     std::cout << "#Constructing ngHF Calib LMap Object..." << std::endl;
-    for(int irbx=0;irbx<NrbxngHF*2;irbx++)//8 rbx per side for ngHF
+    for(int irbx=0;irbx<NrbxngHFCalib*2;irbx++)//4 rbx per side for ngHF
     {
-      for(int iqie10=0;iqie10<Nqie10Calib;iqie10++)//9 QIE10 cards per rbx
+      for(int iqie10=0;iqie10<Nqie10Calib;iqie10++)//1 QIE10 cards for ngHF CU
       {
-        for(int iqie10fi=0;iqie10fi<Nqie10_fiberCalib;iqie10fi++)
+        for(int iqie10fi=0;iqie10fi<Nqie10_fiberCalib;iqie10fi++)//only 1 QIE10 fiber
         {
-          for(int ifich=0;ifich<Nfiber_ch;ifich++)
+          for(int ifich=0;ifich<Nfiber_ch;ifich++)//4 QIE10 fiber per fiber
           {
-          //for(int iqie10ch=0;iqie10ch<Nqie10_ch;iqie10ch++)//24 qie10 channels per qie card
-          //{
-            int sideid; irbx<NrbxngHF ? sideid = 1 : sideid = -1;//0..to 7 is P side, while 8 to 15 is M side
-            int rbxqie10id; irbx<NrbxngHF ? rbxqie10id = irbx*Nqie10+iqie10 : rbxqie10id = (irbx-NrbxngHF)*Nqie10+iqie10;//ngHF 0...to 71
-            //int qie10chid = iqie10ch;//ngHF 0...to 23
+            int sideid; irbx<NrbxngHFCalib ? sideid = 1 : sideid = -1;//0..to 7 is P side, while 8 to 15 is M side
+            int rbxqie10id; irbx<NrbxngHFCalib ? rbxqie10id = irbx*Nqie10Calib+iqie10 : rbxqie10id = (irbx-NrbxngHFCalib)*Nqie10Calib+iqie10;//
             int qie10chid = iqie10fi*Nfiber_ch + ifich;
-            ConstructngHFCalib(sideid,rbxqie10id,qie10chid);
+            ConstructngHFCalib(sideid, rbxqie10id, qie10chid);
           }
         }                                                                                                                                                                                                   
       }
@@ -433,6 +430,37 @@ void ngHFMappingAlgorithm::ConstructngHFTriggerTower(int eta, int phi)
 
 void ngHFMappingAlgorithm::ConstructngHFCalib(int sideid, int rbxqie10id, int qie10chid)
 {
+  ngHFCalib thisngHFCalib;                                                                                                                                                                                  
+  //set up frontend part
+  std::string sideletter; sideid>0 ? sideletter = "P" : sideletter = "M";
+  std::string numberletter; ((rbxqie10id/Nqie10Calib)*2 + 1) < 10 ? numberletter = "0" + std::to_string((rbxqie10id/Nqie10Calib)*2 + 1) : numberletter = std::to_string((rbxqie10id/Nqie10Calib)*2 + 1); 
+  thisngHFCalib.rbx = "HF" + sideletter + numberletter;
+  thisngHFCalib.qie10 = 1; //QIE10 in the ngHF CU
+  thisngHFCalib.qie10_fiber = qie10chid/Nqie10_fiberCalib + 1;//
+  thisngHFCalib.qie10_ch = qie10chid%Nqie10_fiberCalib + 1;
+  thisngHFCalib.fiber_ch = qie10chid%Nfiber_ch;
+  thisngHFCalib.qie10_id = 500000;
+  thisngHFCalib.sector = rbxqie10id/Nqie10Calib + 1;
+
+  thisngHFCalib.dodec = 0;
+  //set up backend part
+  thisngHFCalib.ucrate = 38;
+  thisngHFCalib.uhtr = 6;
+  sideid>0 ? thisngHFCalib.uhtr_fiber = rbxqie10id/Nqie10Calib : thisngHFCalib.uhtr_fiber = rbxqie10id/Nqie10Calib + 4;
+  thisngHFCalib.ufedid = 1132;
+  thisngHFCalib.dodec = thisngHFCalib.uhtr_fiber + 1;
+
+  //set up Geometry part
+  thisngHFCalib.side = sideid;
+  thisngHFCalib.eta = 1;
+  thisngHFCalib.fiber_ch == 0 ? thisngHFCalib.depth = 8 : thisngHFCalib.depth = thisngHFCalib.fiber_ch - 1;
+  thisngHFCalib.dphi = 18;
+  thisngHFCalib.phi = (rbxqie10id/Nqie10Calib)*18 + 1;
+
+  thisngHFCalib.subdet = "CALIB_HF";
+  if(thisngHFCalib.fiber_ch == 3) return ; //do not fill the calibration channel when fiber channel is 3
+
+  myngHFCalib.push_back(thisngHFCalib);
 
   return ;
 }

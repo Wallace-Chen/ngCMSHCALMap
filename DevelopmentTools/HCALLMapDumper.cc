@@ -498,6 +498,43 @@ void HCALLMapDumper::printngHFFrontEndMapObject(std::vector<ngHFFrontEnd> myngHF
   return ;
 }
 
+void HCALLMapDumper::printngHFCalibLMapObject(std::vector<ngHFCalib> myngHFCalib)
+{
+  //Side Eta Phi dPhi Depth Det 
+  //RBX Sector
+  //QIE10 QIECH QIE10_FI FI_CH 
+  //docdec 
+  //Crate uHTR uHTR_FI 
+  //FEDid 
+  //QIE11id
+  std::cout << "#Dumping ngHF Calib LMap Object..." << std::endl; 
+  std::cout << "#"
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "CH_TYPE" << std::setw(10) << "Det"
+            << std::setw(6) << "RBX" << std::setw(7) << "Sector"
+            << std::setw(6) << "QIE11" << std::setw(6) << "QIECH" << std::setw(9) << "QIE10_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "dodec"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+            << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIE10id"
+            << std::endl;
+
+  for(auto i=0; i<myngHFCalib.size(); i++)
+  {
+    std::cout
+              << " "
+              << std::setw(6) << myngHFCalib.at(i).side << std::setw(6) << myngHFCalib.at(i).eta << std::setw(6) << myngHFCalib.at(i).phi << std::setw(6) << myngHFCalib.at(i).dphi << std::setw(9) << myngHFCalib.at(i).depth << std::setw(10) << myngHFCalib.at(i).subdet
+              << std::setw(6) << myngHFCalib.at(i).rbx << std::setw(7) << myngHFCalib.at(i).sector
+              << std::setw(6) << myngHFCalib.at(i).qie10 << std::setw(6) << myngHFCalib.at(i).qie10_ch << std::setw(9) << myngHFCalib.at(i).qie10_fiber << std::setw(6) << myngHFCalib.at(i).fiber_ch
+              << std::setw(6) << myngHFCalib.at(i).dodec
+              << std::setw(6) << myngHFCalib.at(i).ucrate << std::setw(6) << myngHFCalib.at(i).uhtr << std::setw(9) << myngHFCalib.at(i).uhtr_fiber
+              << std::setw(6) << myngHFCalib.at(i).ufedid
+              << std::setw(9) << myngHFCalib.at(i).qie10_id
+              << std::endl;
+  }
+
+  return ;
+}
+
 void HCALLMapDumper::printHOLMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower)
 {
   //Side Eta Phi dPhi Depth Det

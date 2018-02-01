@@ -81,19 +81,20 @@ struct ngHFCalib
 {
   //FE
   std::string rbx;
-  int fiber_ch;
+  int qie10_fiber, fiber_ch;
   int qie10, qie10_ch, qie10_id;
-  int wedge;
+  int sector;
   
   //Calibration patch
-  std::string trunk;
-  int cpcol, cprow, cplc, cpoct;
-  std::string cpcpl;
+  //std::string trunk;
+  //int cpcol, cprow, cplc, cpoct;
+  //std::string cpcpl;
   
   //patch panel
-  int ppcol, pprow, pplc, dodec;
-  std::string ppcpl;
-  
+  //int ppcol, pprow, pplc, dodec;
+  //std::string ppcpl;
+  int dodec;
+
   //backend
   int ucrate, uhtr, uhtr_fiber;
   int ufedid;
@@ -141,6 +142,7 @@ class ngHFConstant
   static const int NngHFdepth = 4;
 
   //Calibration channels
+  static const int NrbxngHFCalib = 4;
   static const int Nqie10Calib = 1;
   static const int Nqie10_fiberCalib = 1;
 };
