@@ -80,31 +80,60 @@ void ngHFMappingAlgorithm::SplitngHFfromOldHF(
   return ;
 }
 
-void ngHFMappingAlgorithm::ConstructngHFLMapObject()
+void ngHFMappingAlgorithm::ConstructngHFLMapObject(std::string Mode)
 {
-  std::cout << "#Loading information from QIE allocation file..." << std::endl;
-  LoadngHFQIEMap("ngHFQIEInput/HF_QIE10_CardMap_26May2017.txt");
-
-  std::cout << "#Constructing ngHF LMap Object..." << std::endl;
-
-  for(int irbx=0;irbx<NrbxngHF*2;irbx++)//8 rbx per side for ngHF
+  if(Mode == "Normal")
   {
-    for(int iqie10=0;iqie10<Nqie10;iqie10++)//9 QIE10 cards per rbx
-    {
-      for(int iqie10ch=0;iqie10ch<Nqie10_ch;iqie10ch++)//24 qie10 channels per qie card
-      {
-        int sideid; irbx<NrbxngHF ? sideid = 1 : sideid = -1;//0..to 7 is P side, while 8 to 15 is M side
-        int rbxqie10id; irbx<NrbxngHF ? rbxqie10id = irbx*Nqie10+iqie10 : rbxqie10id = (irbx-NrbxngHF)*Nqie10+iqie10;//ngHF 0...to 71
-        int qie10chid = iqie10ch;//ngHF 0...to 23
+    std::cout << "#Loading information from QIE allocation file..." << std::endl;
+    LoadngHFQIEMap("ngHFQIEInput/HF_QIE10_CardMap_26May2017.txt");
+    std::cout << "#Constructing ngHF LMap Object..." << std::endl;
 
-        ConstructngHFFrontEnd(sideid,rbxqie10id,qie10chid);
-        ConstructngHFPMTBox(sideid,rbxqie10id,qie10chid); //Also construct Geometry
-        ConstructngHFBackEnd(sideid,rbxqie10id,qie10chid);
-        //ConstructngHFGeometry(sideid,pmtbox,tower,anode); //Geometry is include into the PMT box construcion function, since it is not directly from FrontEnd variable
-        //ConstructngHFTriggerTower();
+    for(int irbx=0;irbx<NrbxngHF*2;irbx++)//8 rbx per side for ngHF
+    {
+      for(int iqie10=0;iqie10<Nqie10;iqie10++)//9 QIE10 cards per rbx
+      {
+        for(int iqie10ch=0;iqie10ch<Nqie10_ch;iqie10ch++)//24 qie10 channels per qie card
+        {
+          int sideid; irbx<NrbxngHF ? sideid = 1 : sideid = -1;//0..to 7 is P side, while 8 to 15 is M side
+          int rbxqie10id; irbx<NrbxngHF ? rbxqie10id = irbx*Nqie10+iqie10 : rbxqie10id = (irbx-NrbxngHF)*Nqie10+iqie10;//ngHF 0...to 71
+          int qie10chid = iqie10ch;//ngHF 0...to 23
+
+          ConstructngHFFrontEnd(sideid,rbxqie10id,qie10chid);
+          ConstructngHFPMTBox(sideid,rbxqie10id,qie10chid); //Also construct Geometry
+          ConstructngHFBackEnd(sideid,rbxqie10id,qie10chid);
+        }
       }
     }
   }
+  else if(Mode == "Calib")
+  {
+    std::cout << "#Constructing ngHF Calib LMap Object..." << std::endl;
+    for(int irbx=0;irbx<NrbxngHF*2;irbx++)//8 rbx per side for ngHF
+    {
+      for(int iqie10=0;iqie10<Nqie10Calib;iqie10++)//9 QIE10 cards per rbx
+      {
+        for(int iqie10fi=0;iqie10fi<Nqie10_fiberCalib;iqie10fi++)
+        {
+          for(int ifich=0;ifich<Nfiber_ch;ifich++)
+          {
+          //for(int iqie10ch=0;iqie10ch<Nqie10_ch;iqie10ch++)//24 qie10 channels per qie card
+          //{
+            int sideid; irbx<NrbxngHF ? sideid = 1 : sideid = -1;//0..to 7 is P side, while 8 to 15 is M side
+            int rbxqie10id; irbx<NrbxngHF ? rbxqie10id = irbx*Nqie10+iqie10 : rbxqie10id = (irbx-NrbxngHF)*Nqie10+iqie10;//ngHF 0...to 71
+            //int qie10chid = iqie10ch;//ngHF 0...to 23
+            int qie10chid = iqie10fi*Nfiber_ch + ifich;
+            ConstructngHFCalib(sideid,rbxqie10id,qie10chid);
+          }
+        }                                                                                                                                                                                                   
+      }
+    }
+  }
+  else
+  {
+    std::cout << "#Invalid generate mode for ngHF Logical map!" << std::endl;
+    return ;
+  }
+
   return ;
 }
 
@@ -399,6 +428,12 @@ void ngHFMappingAlgorithm::ConstructngHFTriggerTower(int eta, int phi)
     eta==41 ? thisngHFTriggerTower.trg_fiber_ch=10 : thisngHFTriggerTower.trg_fiber_ch = eta-30;
   }
   myngHFTriggerTower.push_back(thisngHFTriggerTower);
+  return ;
+}
+
+void ngHFMappingAlgorithm::ConstructngHFCalib(int sideid, int rbxqie10id, int qie10chid)
+{
+
   return ;
 }
 

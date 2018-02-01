@@ -122,7 +122,8 @@ int main(int argc, char* argv[])
     //myHFMappingAlgorithm.ConstructHFLMapObject();
     
     ngHFMappingAlgorithm myngHFMappingAlgorithm;
-    myngHFMappingAlgorithm.ConstructngHFLMapObject();
+    myngHFMappingAlgorithm.ConstructngHFLMapObject("Normal");
+    myngHFMappingAlgorithm.ConstructngHFLMapObject("Calib");
     //myngHFMappingAlgorithm.SplitngHFfromOldHF(myHFMappingAlgorithm.myHFFrontEnd, myHFMappingAlgorithm.myHFBackEnd, myHFMappingAlgorithm.myHFPMTBox, myHFMappingAlgorithm.myHFGeometry, myHFMappingAlgorithm.myHFTriggerTower);
     bool passCollisionCheck = myHCALLMapChecker.checkngHFLMapObject(myngHFMappingAlgorithm.myngHFFrontEnd, myngHFMappingAlgorithm.myngHFBackEnd, myngHFMappingAlgorithm.myngHFPMTBox, myngHFMappingAlgorithm.myngHFGeometry, myngHFMappingAlgorithm.myngHFTriggerTower);
     if( passCollisionCheck ){ std::cout << "#Map pass collision check, Good!" << std::endl; }

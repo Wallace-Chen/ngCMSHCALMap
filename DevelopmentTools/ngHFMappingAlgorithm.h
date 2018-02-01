@@ -17,14 +17,16 @@ class ngHFMappingAlgorithm : public ngHFConstant
  public:
   //the variables we need to fill into the LMap
   std::vector<ngHFFrontEnd> myngHFFrontEnd; std::vector<ngHFBackEnd> myngHFBackEnd; std::vector<ngHFPMTBox> myngHFPMTBox; std::vector<ngHFGeometry> myngHFGeometry; std::vector<ngHFTriggerTower> myngHFTriggerTower;
+  std::vector<ngHFCalib> myngHFCalib;
   void SplitngHFfromOldHF(std::vector<HFFrontEnd> myHFFrontEnd, std::vector<HFBackEnd> myHFBackEnd, std::vector<HFPMTBox> myHFPMTBox, std::vector<HFGeometry> myHFGeometry, std::vector<HFTriggerTower> myHFTriggerTower);
-  void ConstructngHFLMapObject();
+  void ConstructngHFLMapObject(std::string Mode);
  private:
   void ConstructngHFFrontEnd(int sideid, int rbxqie10id, int qie10chid);
   void ConstructngHFPMTBox(int sideid, int rbxqie10id, int qie10chid);
   void ConstructngHFBackEnd(int sideid, int rbxqie10id, int qie10chid);
   void ConstructngHFGeometry(int sideid, int pmtbox, std::string tower, int anode);
-  void ConstructngHFTriggerTower(int eta, int phi);  
+  void ConstructngHFTriggerTower(int eta, int phi);
+  void ConstructngHFCalib(int sideid, int rbxqie10id, int qie10chid);
   const int ngHFqie10Inrbxqie10id[Nqie10] = {3,4,5,6,10,11,12,13,14};
   //QIE10 calibration constants
   //LMap add QIE10 ID and QIE10 BarCode
