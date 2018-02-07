@@ -57,7 +57,7 @@ git push
 cd $CMSSW_BASE/src/ngCMSHCALMap/DevelopmentTools
 make
 ```
-
+<!---
 - To analyze the LMap:<br />
 
 ```
@@ -65,6 +65,7 @@ make
 ```
 The valid RunMode are: HBHEHFVME, HBHEHFuTCA, HOVME, ngHEuTCA, ngHFuTCA.<br />
 Plots To be fixed: HBHE VME FE vs BE plot, crate 0 not showed, fpga how to show in letter?<br />
+-->
 
 - To produce the LMap:<br />
 ```
