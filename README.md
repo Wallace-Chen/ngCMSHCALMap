@@ -20,13 +20,13 @@ make test
 ```
 
 # CMS HCAL Logical Map
-For package owner:<br />
+**For package owner:<br /> **
 ```
 cd $CMSSW_BASE/src
 git clone git@github.com:weihuacern/ngCMSHCALMap.git
 ```
 
-For package developer:<br />
+**For package developer:<br /> **
 - Fork the code with your personal github ID. See [details](https://help.github.com/articles/fork-a-repo/). <br />
 - Make a clean git clone in the src directory. <br />
 ```
@@ -81,8 +81,7 @@ sh dumpEMap.sh >> 2018HCALEMap_All_K_20180501.txt
 
 
 # Data visualization
-
-plotly installation and setup
+- plotly installation and setup
 ```
 pip install --install-option="--prefix=$CMSSW_BASE/python" plotly
 python
@@ -92,14 +91,12 @@ plotly.tools.set_credentials_file(username='DemoAccount', api_key='lr1c37zw81')
 
 
 # Test of GUI
-
 ```
 javac frm.java
 java frm
 ```
 
 # Documnetation
-
 ```
 doxygen -g Doxyfile
 doxygen Doxyfile
@@ -108,7 +105,7 @@ make
 ```
 
 # Pandas Test
-To read xls file and dump Emap directly:<br />
+- To read xls file and dump Emap directly:<br />
 ```
 cd $CMSSW_BASE/src/ngCMSHCALMap/DevelopmentTools/PandasTest
 pip install --install-option="--prefix=$CMSSW_BASE/python" xlrd
@@ -117,7 +114,7 @@ python DumpEMapfromCalib.py >> HCALEmapCALIB_J.txt
 ```
 
 # Generate QIE tables from Database
-Location of QIE database files: /eos/user/h/hua/QIEDB<br />
+- Location of QIE database files: /eos/user/h/hua/QIEDB<br />
 ```
 cd $CMSSW_BASE/src/ngCMSHCALMap/DevelopmentTools/SQLQIEDBTest
 python QIETableMaker.py
