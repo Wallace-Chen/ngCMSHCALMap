@@ -1,4 +1,4 @@
-# Checkout CMSSW
+# Setup CMSSW
 ```
 cmsrel CMSSW_8_0_0
 cd CMSSW_8_0_0/src
@@ -24,8 +24,6 @@ For package owner:<br />
 ```
 cd $CMSSW_BASE/src
 git clone git@github.com:weihuacern/ngCMSHCALMap.git
-cmsenv
-scram b -j 10
 ```
 
 For package developer:<br />
@@ -52,36 +50,35 @@ git push
 
 - Make a pull request against the ngCMSHCALMap. See [details](https://help.github.com/articles/using-pull-requests/).<br />
 
-To run the code in DevelopmentTools directory:<br />
+- To run the code in DevelopmentTools directory:<br />
 
 ```
 cd $CMSSW_BASE/src/ngCMSHCALMap/DevelopmentTools
 make
 ```
 
-To analyze the LMap:<br />
+- To analyze the LMap:<br />
 
 ```
 ./HCALLMapAnalyzer RunMode
 ```
-
 The valid RunMode are: HBHEHFVME, HBHEHFuTCA, HOVME, ngHEuTCA, ngHFuTCA.<br />
 Plots To be fixed: HBHE VME FE vs BE plot, crate 0 not showed, fpga how to show in letter?<br />
-To produce the LMap:<br />
 
+- To produce the LMap:<br />
 ```
 ./HCALLMapProducer RunMode PrdMode
 ./HCALLMapProducer HF LMap
 ```
-
 The valid RunMode are: HB, HE, HF, HO.<br />
 The valid PrdMode are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib.<br />
 
-Shell script to dump the LMap and EMap:<br />
+- Shell script to dump the LMap and EMap:<br />
 ```
 sh dumpLMap.sh K 20180501
 sh dumpEMap.sh >> 2018HCALEMap_All_K_20180501.txt
 ```
+
 
 # Data visualization
 
