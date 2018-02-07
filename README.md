@@ -20,13 +20,13 @@ make test
 ```
 
 # CMS HCAL Logical Map
-**For package owner:<br /> **
+## For package owner
 ```
 cd $CMSSW_BASE/src
 git clone git@github.com:weihuacern/ngCMSHCALMap.git
 ```
 
-**For package developer:<br /> **
+## For package developer
 - Fork the code with your personal github ID. See [details](https://help.github.com/articles/fork-a-repo/). <br />
 - Make a clean git clone in the src directory. <br />
 ```
