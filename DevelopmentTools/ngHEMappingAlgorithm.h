@@ -1,3 +1,5 @@
+#include <sstream>
+#include <fstream>
 #include <vector>
 #include <iostream>
 #include <map>
@@ -10,13 +12,15 @@ class ngHEMappingAlgorithm : public ngHEConstant
  public:
   //the variables we need to fill into the LMap
   std::vector<ngHEFrontEnd> myngHEFrontEnd; std::vector<ngHEBackEnd> myngHEBackEnd; std::vector<ngHESiPM> myngHESiPM; std::vector<ngHEGeometry> myngHEGeometry; std::vector<ngHETriggerTower> myngHETriggerTower;
-  void ConstructngHELMapObject();
+  std::vector<ngHECalib> myngHECalib;
+  void ConstructngHELMapObject(std::string Mode);
  private:
   void ConstructngHEFrontEnd(int sideid, int rbxrmid, int rmfifichid);
   void ConstructngHEBackEnd(int sideid, int rbxrmid, int rmfifichid);      
   void ConstructngHEGeometry(int sideid, int rbxrmid, int rmfifichid);      
   void ConstructngHESiPM(int sideid, int rbxrmid, int rmfifichid);
-  void ConstructngHETriggerTower(int eta, int phi);  
+  void ConstructngHETriggerTower(int eta, int phi);
+  void ConstructngHECalib(int sideid, int rbxrmid, int rmfifichid);
   
   const int ngHEucrateInrbxrmid[Ncrate] = {30,24,20,21,25,31,35,37,34};
   //const int ngHEuhtrInrmfifichidType1[Nrm_fiber] = {1,12, 2, 13, 3,14, 4, 5};
@@ -126,4 +130,17 @@ class ngHEMappingAlgorithm : public ngHEConstant
     1, 1, 2, 2, 4, 2, //RM fiber 7
     2, 3, 3, 3, 2, 2  //RM fiber 8
   };
+
+  //QIE11 calibration constants
+  //LMap add QIE11 ID
+  struct ngHEQIE11CardMap
+  {
+    std::string rbx, rm, qie, qie_id;
+  };
+  std::vector<ngHEQIE11CardMap> myngHEQIE11CardMap;
+  void LoadngHEQIEMap(std::string QIE11CardMapFileName);
+  void GetngHEQIEInfoToLMap(
+                            std::string rbx, int rm, int qie,
+                            int &qie11_id
+                           );
 };

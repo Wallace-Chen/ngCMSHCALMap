@@ -6,7 +6,7 @@ void HCALLMapDumper::printHBLMapObject(std::vector<HBFrontEnd> myHBFrontEnd, std
   //Side Eta Phi dPhi Depth Det 
   //RBX 
   //Wedge Pix 
-  //QIEcd QIECH RM RM_FI FI_CH 
+  //QIE8 QIECH RM RM_FI FI_CH 
   //ppCol ppRow ppCpl ppLC dodec 
   //Crate uHTR uHTR_FI FEDid 
   //QIE8id
@@ -15,7 +15,7 @@ void HCALLMapDumper::printHBLMapObject(std::vector<HBFrontEnd> myHBFrontEnd, std
             << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
             << std::setw(6) << "RBX"
             << std::setw(6) << "Wedge" << std::setw(6) << "Pix"
-            << std::setw(6) << "QIEcd" << std::setw(6) << "QIEch" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "QIE8" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
             << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(15) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
             << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI" << std::setw(6) << "FEDid"
             << std::setw(9) << "QIE8id"
@@ -77,6 +77,66 @@ void HCALLMapDumper::printHBFrontEndMapObject(std::vector<HBFrontEnd> myHBFrontE
               << std::setw(6) << myHBGeometry.at(i).side * myHBGeometry.at(i).eta << std::setw(6) << myHBGeometry.at(i).phi << std::setw(6) << myHBGeometry.at(i).depth
               << std::setw(8) << myHBGeometry.at(i).subdet
               << std::setw(9) << myHBFrontEnd.at(i).rbx << std::setw(6) << myHBFrontEnd.at(i).rm
+              << std::endl;
+  }
+  return ;
+}
+
+void HCALLMapDumper::printHBCalibLMapObject(std::vector<HBCalib> myHBCalib)
+{
+  //Side Eta Phi dPhi Depth Det
+  //RBX Wedge
+  //QIE8 QIECH RM RM_FI FI_CH
+  //Trunk cpCol cpRow cpCpl cpLC cpOct
+  //ppCol ppRow ppCpl ppLC dodec
+  //Crate uHTR uHTR_FI FEDid
+  //QIE8id
+  std::cout << "#Dumping HB Calib LMap Object..." << std::endl; 
+  std::cout << "#"
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "CH_TYPE" << std::setw(10) << "Det"
+            << std::setw(6) << "RBX" << std::setw(6) << "Wedge"
+            << std::setw(6) << "QIE8" << std::setw(6) << "QIECH" << std::setw(3) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "Trunk" << std::setw(6) << "cpCol" << std::setw(6) << "cpRow" << std::setw(9) << "cpCpl" << std::setw(6) << "cpLC" << std::setw(6) << "cpOct"
+            << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(9) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+            << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIE8id"
+            << std::endl;
+
+  for(auto i=0; i<myHBCalib.size(); i++)
+  {
+    std::cout
+              << " "
+              << std::setw(6) << myHBCalib.at(i).side << std::setw(6) << myHBCalib.at(i).eta << std::setw(6) << myHBCalib.at(i).phi << std::setw(6) << myHBCalib.at(i).dphi << std::setw(9) << myHBCalib.at(i).depth << std::setw(10) << myHBCalib.at(i).subdet
+              << std::setw(6) << myHBCalib.at(i).rbx << std::setw(6) << myHBCalib.at(i).wedge
+              << std::setw(6) << myHBCalib.at(i).qie8 << std::setw(6) << myHBCalib.at(i).qie8_ch << std::setw(3) << myHBCalib.at(i).rm << std::setw(6) << myHBCalib.at(i).rm_fiber << std::setw(6) << myHBCalib.at(i).fiber_ch
+              << std::setw(6) << myHBCalib.at(i).trunk << std::setw(6) << myHBCalib.at(i).cpcol << std::setw(6) << myHBCalib.at(i).cprow << std::setw(9) << myHBCalib.at(i).cpcpl << std::setw(6) << myHBCalib.at(i).cplc << std::setw(6) << myHBCalib.at(i).cpoct
+              << std::setw(6) << myHBCalib.at(i).ppcol << std::setw(6) << myHBCalib.at(i).pprow << std::setw(9) << myHBCalib.at(i).ppcpl << std::setw(6) << myHBCalib.at(i).pplc << std::setw(6) << myHBCalib.at(i).dodec
+              << std::setw(6) << myHBCalib.at(i).ucrate << std::setw(6) << myHBCalib.at(i).uhtr << std::setw(9) << myHBCalib.at(i).uhtr_fiber
+              << std::setw(6) << myHBCalib.at(i).ufedid
+              << std::setw(9) << myHBCalib.at(i).qie8_id
+              << std::endl;
+  }
+
+  return ;
+}
+
+void HCALLMapDumper::printHBCalibEMapObject(std::vector<HBCalib> myHBCalib)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  std::cout << "#Dumping HBCalib EMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(10) <<"i"
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
+            << std::setw(9) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep"
+            << std::endl;
+
+  for(auto i=0; i<myHBCalib.size(); i++)
+  {
+    std::cout << " "
+              << std::setw(10) << "4200458C"
+              << std::setw(6) << myHBCalib.at(i).ucrate << std::setw(6) << myHBCalib.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myHBCalib.at(i).uhtr_fiber << std::setw(12) << myHBCalib.at(i).fiber_ch
+              << std::setw(9) << myHBCalib.at(i).subdet << std::setw(6) << myHBCalib.at(i).side * myHBCalib.at(i).eta << std::setw(6) << myHBCalib.at(i).phi << std::setw(6) << myHBCalib.at(i).depth
               << std::endl;
   }
   return ;
@@ -233,7 +293,7 @@ void HCALLMapDumper::printngHEEMapObject(std::vector<ngHEFrontEnd> myngHEFrontEn
 
 void HCALLMapDumper::printngHEFrontEndMapObject(std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower)
 {
-  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  //# eta phi depth det rbx rm
   std::cout << "#Dumping ngHE FrontEnd Map Object..." << std::endl;
   std::cout << "#"
             << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(9) << "dep"
@@ -250,6 +310,67 @@ void HCALLMapDumper::printngHEFrontEndMapObject(std::vector<ngHEFrontEnd> myngHE
               << std::setw(6) << myngHEGeometry.at(i).side * myngHEGeometry.at(i).eta << std::setw(6) << myngHEGeometry.at(i).phi << std::setw(6) << myngHEGeometry.at(i).depth
               << std::setw(8) << myngHEGeometry.at(i).subdet
               << std::setw(9) << myngHEFrontEnd.at(i).rbx << std::setw(6) << myngHEFrontEnd.at(i).rm
+              << std::endl;
+  }
+  return ;
+}
+
+void HCALLMapDumper::printngHECalibLMapObject(std::vector<ngHECalib> myngHECalib)
+{
+  //Side Eta Phi dPhi Depth Det 
+  //RBX Wedge
+  //QIE11 QIECH RM RM_FI FI_CH 
+  //Trunk cpCol cpRow cpCpl cpLC cpOct
+  //ppCol ppRow ppCpl ppLC docdec 
+  //Crate uHTR uHTR_FI 
+  //FEDid 
+  //QIE11id
+  std::cout << "#Dumping ngHE Calib LMap Object..." << std::endl; 
+  std::cout << "#"
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "CH_TYPE" << std::setw(10) << "Det"
+            << std::setw(6) << "RBX" << std::setw(6) << "Wedge"
+            << std::setw(6) << "QIE11" << std::setw(6) << "QIECH" << std::setw(3) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "Trunk" << std::setw(6) << "cpCol" << std::setw(6) << "cpRow" << std::setw(9) << "cpCpl" << std::setw(6) << "cpLC" << std::setw(6) << "cpOct"
+            << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(9) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+            << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIE11id"
+            << std::endl;
+
+  for(auto i=0; i<myngHECalib.size(); i++)
+  {
+    std::cout
+              << " "
+              << std::setw(6) << myngHECalib.at(i).side << std::setw(6) << myngHECalib.at(i).eta << std::setw(6) << myngHECalib.at(i).phi << std::setw(6) << myngHECalib.at(i).dphi << std::setw(9) << myngHECalib.at(i).depth << std::setw(10) << myngHECalib.at(i).subdet
+              << std::setw(6) << myngHECalib.at(i).rbx << std::setw(6) << myngHECalib.at(i).wedge
+              << std::setw(6) << myngHECalib.at(i).qie11 << std::setw(6) << myngHECalib.at(i).qie11_ch << std::setw(3) << myngHECalib.at(i).rm << std::setw(6) << myngHECalib.at(i).rm_fiber << std::setw(6) << myngHECalib.at(i).fiber_ch
+              << std::setw(6) << myngHECalib.at(i).trunk << std::setw(6) << myngHECalib.at(i).cpcol << std::setw(6) << myngHECalib.at(i).cprow << std::setw(9) << myngHECalib.at(i).cpcpl << std::setw(6) << myngHECalib.at(i).cplc << std::setw(6) << myngHECalib.at(i).cpoct
+              << std::setw(6) << myngHECalib.at(i).ppcol << std::setw(6) << myngHECalib.at(i).pprow << std::setw(9) << myngHECalib.at(i).ppcpl << std::setw(6) << myngHECalib.at(i).pplc << std::setw(6) << myngHECalib.at(i).dodec
+              << std::setw(6) << myngHECalib.at(i).ucrate << std::setw(6) << myngHECalib.at(i).uhtr << std::setw(9) << myngHECalib.at(i).uhtr_fiber
+              << std::setw(6) << myngHECalib.at(i).ufedid
+              << std::setw(9) << myngHECalib.at(i).qie11_id
+              << std::endl;
+  }
+
+  return ;
+}
+
+void HCALLMapDumper::printngHECalibEMapObject(std::vector<ngHECalib> myngHECalib)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth                                                                                                                 
+  std::cout << "#Dumping ngHECalib EMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(10) <<"i"
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
+            << std::setw(9) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep"
+            << std::endl;
+  
+  for(auto i=0; i<myngHECalib.size(); i++)
+  { 
+    std::cout << " "
+              << std::setw(10) << "4200458C"
+              << std::setw(6) << myngHECalib.at(i).ucrate << std::setw(6) << myngHECalib.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHECalib.at(i).uhtr_fiber << std::setw(12) << myngHECalib.at(i).fiber_ch 
+              << std::setw(9) << myngHECalib.at(i).subdet << std::setw(6) << myngHECalib.at(i).side * myngHECalib.at(i).eta << std::setw(6) << myngHECalib.at(i).phi << std::setw(6) << myngHECalib.at(i).depth
               << std::endl;
   }
   return ;
@@ -377,6 +498,64 @@ void HCALLMapDumper::printngHFFrontEndMapObject(std::vector<ngHFFrontEnd> myngHF
   return ;
 }
 
+void HCALLMapDumper::printngHFCalibLMapObject(std::vector<ngHFCalib> myngHFCalib)
+{
+  //Side Eta Phi dPhi Depth Det 
+  //RBX Sector
+  //QIE10 QIECH QIE10_FI FI_CH 
+  //docdec 
+  //Crate uHTR uHTR_FI 
+  //FEDid 
+  //QIE11id
+  std::cout << "#Dumping ngHF Calib LMap Object..." << std::endl; 
+  std::cout << "#"
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "CH_TYPE" << std::setw(10) << "Det"
+            << std::setw(6) << "RBX" << std::setw(7) << "Sector"
+            << std::setw(6) << "QIE10" << std::setw(6) << "QIECH" << std::setw(9) << "QIE10_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "dodec"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+            << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIE10id"
+            << std::endl;
+
+  for(auto i=0; i<myngHFCalib.size(); i++)
+  {
+    std::cout
+              << " "
+              << std::setw(6) << myngHFCalib.at(i).side << std::setw(6) << myngHFCalib.at(i).eta << std::setw(6) << myngHFCalib.at(i).phi << std::setw(6) << myngHFCalib.at(i).dphi << std::setw(9) << myngHFCalib.at(i).depth << std::setw(10) << myngHFCalib.at(i).subdet
+              << std::setw(6) << myngHFCalib.at(i).rbx << std::setw(7) << myngHFCalib.at(i).sector
+              << std::setw(6) << myngHFCalib.at(i).qie10 << std::setw(6) << myngHFCalib.at(i).qie10_ch << std::setw(9) << myngHFCalib.at(i).qie10_fiber << std::setw(6) << myngHFCalib.at(i).fiber_ch
+              << std::setw(6) << myngHFCalib.at(i).dodec
+              << std::setw(6) << myngHFCalib.at(i).ucrate << std::setw(6) << myngHFCalib.at(i).uhtr << std::setw(9) << myngHFCalib.at(i).uhtr_fiber
+              << std::setw(6) << myngHFCalib.at(i).ufedid
+              << std::setw(9) << myngHFCalib.at(i).qie10_id
+              << std::endl;
+  }
+
+  return ;
+}
+
+void HCALLMapDumper::printngHFCalibEMapObject(std::vector<ngHFCalib> myngHFCalib)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth                                                                                                                 
+  std::cout << "#Dumping ngHFCalib EMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(10) <<"i"
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
+            << std::setw(9) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep"
+            << std::endl;
+  
+  for(auto i=0; i<myngHFCalib.size(); i++)
+  { 
+    std::cout << " "
+              << std::setw(10) << "4200458C"
+              << std::setw(6) << myngHFCalib.at(i).ucrate << std::setw(6) << myngHFCalib.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHFCalib.at(i).uhtr_fiber << std::setw(12) << myngHFCalib.at(i).fiber_ch 
+              << std::setw(9) << myngHFCalib.at(i).subdet << std::setw(6) << myngHFCalib.at(i).side * myngHFCalib.at(i).eta << std::setw(6) << myngHFCalib.at(i).phi << std::setw(6) << myngHFCalib.at(i).depth
+              << std::endl;
+  }
+  return ;
+}
+
 void HCALLMapDumper::printHOLMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower)
 {
   //Side Eta Phi dPhi Depth Det
@@ -491,20 +670,20 @@ void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string H
   //Side Eta Phi dPhi Depth Det 
   //RBX 
   //Wedge Pix 
-  //QIEcd QIEch RM RM_FI FI_CH 
+  //QIE8 QIECH RM RM_FI FI_CH 
   //ppCol ppRow ppCpl ppLC dodec 
   //Crate uHTR uHTR_FI FEDid 
-  //QIEid
+  //QIE8id
   //TP_FI TP_CH
   std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + HBTableStr + "(" \
                             "ID INT PRIMARY KEY NOT NULL, " \
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
                             "RBX TEXT NOT NULL, " \
                             "Wedge INT NOT NULL, Pix INT NOT NULL, " \
-                            "QIEcd INT NOT NULL, QIEch INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "QIE8 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
                             "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
                             "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
-                            "QIEid INT NOT NULL, " \
+                            "QIE8id INT NOT NULL, " \
                             "TP_FI INT NOT NULL, TP_CH INT NOT NULL);";
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
@@ -518,10 +697,10 @@ void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string H
                       "Side,Eta,Phi,dPhi,Depth,Det," \
                       "RBX," \
                       "Wedge,Pix," \
-                      "QIEcd,QIEch,RM,RM_FI,FI_CH," \
+                      "QIE8,QIECH,RM,RM_FI,FI_CH," \
                       "ppCol,ppRow,ppCpl,ppLC,dodec," \
                       "Crate,uHTR,uHTR_FI,FEDid," \
-                      "QIEid," \
+                      "QIE8id," \
                       "TP_FI,TP_CH) ";
     std::string two = "VALUES("
                       +std::to_string(i)+","
@@ -540,6 +719,77 @@ void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string H
   }
   sqlite3_close(db);
   
+  return ;
+}
+
+void HCALLMapDumper::makedbHBCalibLMapObject(std::string HCALLMapDbStr, std::string HBCalibTableStr, std::vector<HBCalib> myHBCalib)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc;
+
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,HBCalibTableStr);
+  if(TableExist)
+  { 
+    std::cout << "#Table: " << HBCalibTableStr <<" already in the database!! Please check!" << std::endl; return ;
+  }
+  else{ std::cout << "#Table: " << HBCalibTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det
+  //RBX Wedge
+  //QIE8 QIECH RM RM_FI FI_CH
+  //Trunk cpCol cpRow cpCpl cpLC cpOct
+  //ppCol ppRow ppCpl ppLC dodec
+  //Crate uHTR uHTR_FI FEDid
+  //QIE8id
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + HBCalibTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "RBX TEXT NOT NULL, Wedge INT NOT NULL, " \
+                            "QIE8 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "Trunk TEXT NOT NULL, cpCol INT NOT NULL, cpRow INT NOT NULL, cpCpl TEXT NOT NULL, cpLC INT NOT NULL, cpOct INT NOT NULL, " \
+                            "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
+                            "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIE8id INT NOT NULL);";
+                    
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+  
+  for(auto i=0; i<myHBCalib.size(); i++)
+  { 
+    std::string one = "INSERT INTO " + HBCalibTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "RBX,Wedge," \
+                      "Trunk,cpCol,cpRow,cpCpl,cpLC,cpOct," \
+                      "QIE8,QIECH,RM,RM_FI,FI_CH," \
+                      "ppCol,ppRow,ppCpl,ppLC,dodec," \
+                      "Crate,uHTR,uHTR_FI,FEDid," \
+                      "QIE8id) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myHBCalib.at(i).side)+","+std::to_string(myHBCalib.at(i).eta)+","+std::to_string(myHBCalib.at(i).phi)+","+std::to_string(myHBCalib.at(i).dphi)+","+std::to_string(myHBCalib.at(i).depth)+",'"+myHBCalib.at(i).subdet+"','"
+                      +myHBCalib.at(i).rbx+"',"+std::to_string(myHBCalib.at(i).wedge)+","
+                      +std::to_string(myHBCalib.at(i).qie8)+","+std::to_string(myHBCalib.at(i).qie8_ch)+","+std::to_string(myHBCalib.at(i).rm)+","+std::to_string(myHBCalib.at(i).rm_fiber)+","+std::to_string(myHBCalib.at(i).fiber_ch)+",'"
+                      +myHBCalib.at(i).trunk+"',"+std::to_string(myHBCalib.at(i).cpcol)+","+std::to_string(myHBCalib.at(i).cprow)+",'"+myHBCalib.at(i).cpcpl+"',"+std::to_string(myHBCalib.at(i).cplc)+","+std::to_string(myHBCalib.at(i).cpoct)+","
+                      +std::to_string(myHBCalib.at(i).ppcol)+","+std::to_string(myHBCalib.at(i).pprow)+",'"+myHBCalib.at(i).ppcpl+"',"+std::to_string(myHBCalib.at(i).pplc)+","+std::to_string(myHBCalib.at(i).dodec)+","
+                      +std::to_string(myHBCalib.at(i).ucrate)+","+std::to_string(myHBCalib.at(i).uhtr)+","+std::to_string(myHBCalib.at(i).uhtr_fiber)+","+std::to_string(myHBCalib.at(i).ufedid)+","
+                      +std::to_string(myHBCalib.at(i).qie8_id)+");";
+ 
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  sqlite3_close(db);
+
   return ;
 }
 
@@ -687,6 +937,75 @@ void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string
   return ;
 }
 
+void HCALLMapDumper::makedbngHECalibLMapObject(std::string HCALLMapDbStr, std::string ngHECalibTableStr, std::vector<ngHECalib> myngHECalib)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc;
+                                                                                                                                                                                                            
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,ngHECalibTableStr);
+  if(TableExist){ std::cout << "#Table: " << ngHECalibTableStr <<" already in the database!! Please check!" << std::endl; return ; }
+  else{ std::cout << "#Table: " << ngHECalibTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det 
+  //RBX Wedge
+  //QIE11 QIECH RM RM_FI FI_CH 
+  //Trunk cpCol cpRow cpCpl cpLC cpOct
+  //ppCol ppRow ppCpl ppLC docdec 
+  //Crate uHTR uHTR_FI 
+  //FEDid 
+  //QIE11id
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHECalibTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "ngRBX TEXT NOT NULL, Wedge INT NOT NULL, " \
+                            "QIE11 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "Trunk TEXT NOT NULL, cpCol INT NOT NULL, cpRow INT NOT NULL, cpCpl TEXT NOT NULL, cpLC INT NOT NULL, cpOct INT NOT NULL, " \
+                            "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
+                            "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIE11id INT NOT NULL);";
+
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+
+  for(auto i=0; i<myngHECalib.size(); i++)
+  {
+    std::string one = "INSERT INTO " + ngHECalibTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "ngRBX,Wedge," \
+                      "QIE11,QIECH,RM,RM_FI,FI_CH," \
+                      "Trunk,cpCol,cpRow,cpCpl,cpLC,cpOct," \
+                      "ppCol,ppRow,ppCpl,ppLC,dodec," \
+                      "Crate,uHTR,uHTR_FI,FEDid," \
+                      "QIE11id) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myngHECalib.at(i).side)+","+std::to_string(myngHECalib.at(i).eta)+","+std::to_string(myngHECalib.at(i).phi)+","+std::to_string(myngHECalib.at(i).dphi)+","+std::to_string(myngHECalib.at(i).depth)+",'"+myngHECalib.at(i).subdet+"','"
+                      +myngHECalib.at(i).rbx+"',"+std::to_string(myngHECalib.at(i).wedge)+","
+                      +std::to_string(myngHECalib.at(i).qie11)+","+std::to_string(myngHECalib.at(i).qie11_ch)+","+std::to_string(myngHECalib.at(i).rm)+","+std::to_string(myngHECalib.at(i).rm_fiber)+","+std::to_string(myngHECalib.at(i).fiber_ch)+",'"
+                      +myngHECalib.at(i).trunk+"',"+std::to_string(myngHECalib.at(i).cpcol)+","+std::to_string(myngHECalib.at(i).cprow)+",'"+myngHECalib.at(i).cpcpl+"',"+std::to_string(myngHECalib.at(i).cplc)+","+std::to_string(myngHECalib.at(i).cpoct)+","
+                      +std::to_string(myngHECalib.at(i).ppcol)+","+std::to_string(myngHECalib.at(i).pprow)+",'"+myngHECalib.at(i).ppcpl+"',"+std::to_string(myngHECalib.at(i).pplc)+","+std::to_string(myngHECalib.at(i).dodec)+","
+                      +std::to_string(myngHECalib.at(i).ucrate)+","+std::to_string(myngHECalib.at(i).uhtr)+","+std::to_string(myngHECalib.at(i).uhtr_fiber)+","+std::to_string(myngHECalib.at(i).ufedid)+","
+                      +std::to_string(myngHECalib.at(i).qie11_id)+");";
+    
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  sqlite3_close(db);
+
+  return ;
+}
+
 void HCALLMapDumper::makedbngHFLMapObject(std::string HCALLMapDbStr, std::string ngHFTableStr,
                                           std::vector<ngHFFrontEnd> myngHFFrontEnd, std::vector<ngHFBackEnd> myngHFBackEnd, std::vector<ngHFPMTBox> myngHFPMTBox, std::vector<ngHFGeometry> myngHFGeometry, std::vector<ngHFTriggerTower> myngHFTriggerTower)
 {
@@ -764,6 +1083,71 @@ void HCALLMapDumper::makedbngHFLMapObject(std::string HCALLMapDbStr, std::string
   }
   sqlite3_close(db);
   
+  return ;
+}
+
+void HCALLMapDumper::makedbngHFCalibLMapObject(std::string HCALLMapDbStr, std::string ngHFCalibTableStr, std::vector<ngHFCalib> myngHFCalib)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc;
+                                                                                                                                                                                                            
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,ngHFCalibTableStr);
+  if(TableExist){ std::cout << "#Table: " << ngHFCalibTableStr <<" already in the database!! Please check!" << std::endl; return ; }
+  else{ std::cout << "#Table: " << ngHFCalibTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det 
+  //RBX Sector
+  //QIE10 QIECH QIE10_FI FI_CH 
+  //docdec 
+  //Crate uHTR uHTR_FI 
+  //FEDid 
+  //QIE10id
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHFCalibTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "ngRBX TEXT NOT NULL, Sector INT NOT NULL, " \
+                            "QIE10 INT NOT NULL, QIECH INT NOT NULL, QIE10_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "dodec INT NOT NULL, " \
+                            "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIE10id INT NOT NULL);";
+
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+
+  for(auto i=0; i<myngHFCalib.size(); i++)
+  {
+    std::string one = "INSERT INTO " + ngHFCalibTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "ngRBX,Sector," \
+                      "QIE10,QIECH,QIE10_FI,FI_CH," \
+                      "dodec," \
+                      "Crate,uHTR,uHTR_FI,FEDid," \
+                      "QIE10id) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myngHFCalib.at(i).side)+","+std::to_string(myngHFCalib.at(i).eta)+","+std::to_string(myngHFCalib.at(i).phi)+","+std::to_string(myngHFCalib.at(i).dphi)+","+std::to_string(myngHFCalib.at(i).depth)+",'"+myngHFCalib.at(i).subdet+"','"
+                      +myngHFCalib.at(i).rbx+"',"+std::to_string(myngHFCalib.at(i).sector)+","
+                      +std::to_string(myngHFCalib.at(i).qie10)+","+std::to_string(myngHFCalib.at(i).qie10_ch)+","+std::to_string(myngHFCalib.at(i).qie10_fiber)+","+std::to_string(myngHFCalib.at(i).fiber_ch)+","
+                      +std::to_string(myngHFCalib.at(i).dodec)+","
+                      +std::to_string(myngHFCalib.at(i).ucrate)+","+std::to_string(myngHFCalib.at(i).uhtr)+","+std::to_string(myngHFCalib.at(i).uhtr_fiber)+","+std::to_string(myngHFCalib.at(i).ufedid)+","
+                      +std::to_string(myngHFCalib.at(i).qie10_id)+");";
+    
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  sqlite3_close(db);
+
   return ;
 }
 

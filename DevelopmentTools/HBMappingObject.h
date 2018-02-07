@@ -53,6 +53,33 @@ struct HBTriggerTower
   int trg_fiber, trg_fiber_ch;
 };
 
+struct HBCalib
+{
+  //FE
+  std::string rbx;
+  int rm, rm_fiber, fiber_ch;
+  int qie8, qie8_ch, qie8_id;
+  int wedge;
+
+  //Calibration patch
+  std::string trunk;
+  int cpcol, cprow, cplc, cpoct;
+  std::string cpcpl;
+
+  //patch panel
+  int ppcol, pprow, pplc, dodec;
+  std::string ppcpl;
+
+  //backend
+  int ucrate, uhtr, uhtr_fiber;
+  int ufedid;
+
+  //Geo
+  int side, eta, phi, depth; //eta is always 1, phi go with rm 1. Depth 0 to 2
+  int dphi; //dphi is always 4
+  std::string subdet;
+};
+
 class HBConstant
 {
  public:
@@ -88,6 +115,10 @@ class HBConstant
 
   static const int NHBeta1516 = 2; static const int NHBeta1to14 = 14;
   static const int NHBdeptheta1516 = 2; static const int NHBdeptheta1to14 = 1;
+
+  //2 fibers per rm in calibration module, rm 1,2
+  static const int NrmHBCalib = 1;
+  static const int Nrm_fiberCalib = 1;
 };
 
 #endif

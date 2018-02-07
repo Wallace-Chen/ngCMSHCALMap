@@ -47,6 +47,33 @@ struct ngHETriggerTower
   int trg_fiber, trg_fiber_ch;
 };
 
+struct ngHECalib
+{
+  //FE
+  std::string rbx;
+  int rm, rm_fiber, fiber_ch;
+  int qie11, qie11_ch, qie11_id;
+  int wedge;
+
+  //Calibration patch
+  std::string trunk;
+  int cpcol, cprow, cplc, cpoct;
+  std::string cpcpl;
+
+  //patch panel
+  int ppcol, pprow, pplc, dodec;
+  std::string ppcpl;
+
+  //backend
+  int ucrate, uhtr, uhtr_fiber;
+  int ufedid;
+
+  //Geo
+  int side, eta, phi, depth; //eta is always 1, phi go with rm 1. Depth 0 to 5, or only 6
+  int dphi; //dphi is always 4
+  std::string subdet;
+};
+
 class ngHEConstant
 {
  public:
@@ -55,7 +82,7 @@ class ngHEConstant
   //Front End variables
   //rbx in ngHE, 18 for each side
   static const int NrbxngHE = 18;
-  //1,2,3,4 rm per ngHE RBX
+  //1,2,3,4 rm per ngHE RBX, 5 for calibration channel
   static const int NrmngHE = 4;
   //rm fiber 1,2,3,4,5,6,7,8, in total 8 fibers per rm
   static const int Nrm_fiber = 8;
@@ -88,5 +115,12 @@ class ngHEConstant
   static const int NngHEdeptheta16to20 = 1+2+5+6+6;//20
   static const int NngHEdeptheta21to29 = 6+6+6+6+6+7+7+7+3;//54
   static const int NngHECalibChannel = 144;
+
+  //ngHE calibration channels, 12 channels per rbx, 12*36=432 logical map channels. But emap channels is different (1+6)*36=252. Because rm_fiber 1 have 6 readout all to be pedestal, therefore only readout 1 should be enough
+  //rm = 5 for calibration channels
+  //static const int NrmngHECalib = 1;
+  //2 fibers per rm in calibration module, rm 1,2
+  static const int NrmngHECalib = 1;
+  static const int Nrm_fiberCalib = 2;
 };
 #endif

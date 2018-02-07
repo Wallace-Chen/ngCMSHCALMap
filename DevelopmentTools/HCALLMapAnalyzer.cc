@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
   
   if( RunMode == "HBHEHFVME" )
   {
-    std::string txtfilename = "officialMap/HCALmapHBEF_G.txt";
+    std::string txtfilename = "officialMap/eraG/HCALmapHBEF_G.txt";
     int NChannel = myHCALLMapLoader.GetHBHEHFromLMap(
                                                      txtfilename,
                                                      myHBFrontEnd, myHBBackEnd, myHBHPD, myHBGeometry, myHBTriggerTower,
@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
   }
   else if( RunMode == "HBHEHFuTCA" )
   {
-    std::string txtfilename = "officialMap/HCALmapHBEF_G_uHTR.txt";
+    std::string txtfilename = "officialMap/eraG/HCALmapHBEF_G_uHTR.txt";
     int NChannel = myHCALLMapLoader.GetHBHEHFromLMap(
                                                      txtfilename,
                                                      myHBFrontEnd, myHBBackEnd, myHBHPD, myHBGeometry, myHBTriggerTower,
@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
   else if( RunMode == "HOVME" )
   {
     HOAnalyzer myHOAnalyzer;
-    std::string txtfilename = "officialMap/HCALmapHO_G.txt";
+    std::string txtfilename = "officialMap/eraG/HCALmapHO_G.txt";
     int NChannel = myHCALLMapLoader.GetHOFromLMap(txtfilename, myHOFrontEnd, myHOBackEnd, myHOSiPM, myHOGeometry, myHOTriggerTower);
     if(NChannel == myHOAnalyzer.NchHO_all){ std::cout << "#The number of channels we get from Lmap text file equals to the Number of channel we expected, Good!" << std::endl; }
     else{ std::cout << "#We have " << NChannel << " channels from txt Lmap while we have " << myHOAnalyzer.NchHO_all << " channels expected in HO, something must be wrong!" << std::endl; return -1; }
@@ -105,7 +105,7 @@ int main(int argc, char* argv[])
   }
   else if( RunMode == "ngHEuTCA" )
   {
-    std::string txtfilename = "officialMap/ngHELMap_v0.txt";
+    std::string txtfilename = "officialMap/eraK/2018HCALLMap_ngHE_K_20180131.txt";
     int NChannel = myHCALLMapLoader.GetngHEromLMap(
                                                    txtfilename,
                                                    myngHEFrontEnd, myngHEBackEnd, myngHESiPM, myngHEGeometry, myngHETriggerTower
@@ -119,7 +119,7 @@ int main(int argc, char* argv[])
   }
   else if( RunMode == "ngHFuTCA" )
   {
-    std::string txtfilename = "officialMap/ngHF2017LMap_20170505_pre06.txt";
+    std::string txtfilename = "officialMap/eraK/2018HCALLMap_ngHF_K_20180131.txt";
     int NChannel = myHCALLMapLoader.GetngHFromLMap(
                                                    txtfilename,
                                                    myngHFFrontEnd, myngHFBackEnd, myngHFPMTBox, myngHFGeometry, myngHFTriggerTower

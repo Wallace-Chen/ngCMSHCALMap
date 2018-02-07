@@ -2,6 +2,13 @@
 ./HCALLMapProducer HE EMap
 ./HCALLMapProducer HF EMap
 ./HCALLMapProducer HO EMap
-./HCALLMapProducer HB HT
-./HCALLMapProducer HE HT
-./HCALLMapProducer HF HT
+./HCALLMapProducer HB EMapHT
+./HCALLMapProducer HE EMapHT
+./HCALLMapProducer HF EMapHT
+./HCALLMapProducer HB EMapCalib
+./HCALLMapProducer HE EMapCalib
+./HCALLMapProducer HF EMapCalib
+#./HCALLMapProducer HO EMapCalib
+echo "#Dumping HOCalib EMap Object..."
+echo "#         i    cr    sl    tb   dcc  spigot fib/slb fibch/slbch   subdet   eta   phi   dep"
+cat officialMap/HO_CU_emap_2018_K.txt | grep "CALIB_HO"

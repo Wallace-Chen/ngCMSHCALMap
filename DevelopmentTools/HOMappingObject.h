@@ -85,5 +85,9 @@ class HOConstant
   //144 normal HOX channels,only in side -1, eta 4 and eta 15, for all phis
   static const int NnormalHOX = 2*72;
   //72 special HOX channels, only in side +1, eta 15, for all phis
+
+  //Calibration channels
+  static const int NrmHOCalib = 1;
+  static const int Nrm_fiberCalib = 1;
 };
 #endif

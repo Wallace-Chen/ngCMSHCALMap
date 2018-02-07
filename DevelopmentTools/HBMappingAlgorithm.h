@@ -1,3 +1,5 @@
+#include <sstream>
+#include <fstream>
 #include <vector>
 #include <iostream>
 #include <map>
@@ -10,13 +12,15 @@ class HBMappingAlgorithm : public HBConstant
  public:
   //the variables we need to fill into the LMap
   std::vector<HBFrontEnd> myHBFrontEnd; std::vector<HBBackEnd> myHBBackEnd; std::vector<HBHPD> myHBHPD; std::vector<HBGeometry> myHBGeometry; std::vector<HBTriggerTower> myHBTriggerTower;
-  void ConstructHBLMapObject();
+  std::vector<HBCalib> myHBCalib;
+  void ConstructHBLMapObject(std::string Mode);
  private:
   void ConstructHBFrontEnd(int sideid, int rbxrmid, int rmfifichid);
   void ConstructHBBackEnd(int sideid, int rbxrmid, int rmfifichid);
   void ConstructHBGeometry(int sideid, int rbxrmid, int rmfifichid);
   void ConstructHBHPD(int sideid, int rbxrmid, int rmfifichid);
   void ConstructHBTriggerTower(int eta, int phi);
+  void ConstructHBCalib(int sideid, int rbxrmid, int rmfifichid);
 
   const int HBcrateInrbxrmid[Ncrate] = {10,14,0,1,5,11,15,17,14};
   const int HBucrateInrbxrmid[Ncrate] = {30,24,20,21,25,31,35,37,34};
@@ -43,4 +47,17 @@ class HBMappingAlgorithm : public HBConstant
     1, 1, 1, //RM fiber 6
     1, 1, 1, //RM fiber 7
   };
+
+  //Legacy QIE8 calibration constants
+  //LMap add QIE8 ID
+  struct HBQIE8CardMap
+  {
+    std::string rbx, rm, qie8, qie_id;
+  };
+  std::vector<HBQIE8CardMap> myHBQIE8CardMap;
+  void LoadHBQIEMap(std::string QIE8CardMapFileName);
+  void GetHBQIEInfoToLMap(
+                          std::string rbx, int rm, int qie8,
+                          int &qie8_id
+                         );
 };

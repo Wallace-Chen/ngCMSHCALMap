@@ -77,10 +77,38 @@ struct ngHFTriggerTower
   int trg_fiber, trg_fiber_ch;
 };
 
+struct ngHFCalib
+{
+  //FE
+  std::string rbx;
+  int qie10_fiber, fiber_ch;
+  int qie10, qie10_ch, qie10_id;
+  int sector;
+  
+  //Calibration patch
+  //std::string trunk;
+  //int cpcol, cprow, cplc, cpoct;
+  //std::string cpcpl;
+  
+  //patch panel
+  //int ppcol, pprow, pplc, dodec;
+  //std::string ppcpl;
+  int dodec;
+
+  //backend
+  int ucrate, uhtr, uhtr_fiber;
+  int ufedid;
+  
+  //Geo
+  int side, eta, phi, depth; //eta is always 1
+  int dphi; //dphi is always 18
+  std::string subdet;
+};
+
 class ngHFConstant
 {
  public:
-  // channels in ngHF
+  //Channels in ngHF
   static const int NchngHF_all = 3456;
   //Front End variables
   //rbx in ngHF, 8 for each side
@@ -112,5 +140,10 @@ class ngHFConstant
   static const int NngHFphidphi2 = 36;
   static const int NngHFphidphi4 = 18;
   static const int NngHFdepth = 4;
+
+  //Calibration channels
+  static const int NrbxngHFCalib = 4;
+  static const int Nqie10Calib = 1;
+  static const int Nqie10_fiberCalib = 1;
 };
 #endif

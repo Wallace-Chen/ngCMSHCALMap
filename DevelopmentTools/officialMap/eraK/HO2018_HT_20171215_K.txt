@@ -1,4 +1,0 @@
-#The valid run modes are: HB, HE, HF, HO
-#The run mode we have right now is: HO
-#The valid run modes are: LMap, EMap, FMap HT
-#The produce mode we have right now is: HT
