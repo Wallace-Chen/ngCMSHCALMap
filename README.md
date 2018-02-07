@@ -1,4 +1,4 @@
-# CMSSW
+# Checkout CMSSW
 ```
 cmsrel CMSSW_8_0_0
 cd CMSSW_8_0_0/src
@@ -20,12 +20,32 @@ make test
 ```
 
 # CMS HCAL Logical Map
-
+For package owner:<br />
 ```
 cd $CMSSW_BASE/src
 git clone git@github.com:weihuacern/ngCMSHCALMap.git
 cmsenv
 scram b -j 10
+```
+
+For package developer:<br />
+```
+- Fork the code with your personal github ID. See [details](https://help.github.com/articles/fork-a-repo/)
+- Make a clean git clone in the src directory
+cd $CMSSW_BASE/src/
+git clone git@github.com:yourgithubid/ngCMSHCALMap.git ngCMSHCALMap
+cd ngCMSHCALMap
+git remote add upstream git@github.com:weihuacern/ngCMSHCALMap.git
+
+- Update your repository to be exactly same like master branch before start your changes:
+git remote update
+git merge upstream/master
+
+- Make your own change and commit
+git commit -a -m "Added feature A, B, C"
+git push
+
+- Make a pull request against the bsmAnalysis. See [details](https://help.github.com/articles/using-pull-requests/)
 ```
 
 To run the code in DevelopmentTools directory:<br />
