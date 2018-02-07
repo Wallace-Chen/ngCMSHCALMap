@@ -29,9 +29,9 @@ git clone git@github.com:weihuacern/ngCMSHCALMap.git
 ## For package developer
 - Fork the code with your personal github ID. See [details](https://help.github.com/articles/fork-a-repo/). <br />
 - Make a clean git clone in the src directory. <br />
-```
+```diff
 cd $CMSSW_BASE/src/
-git clone git@github.com:yourgithubid/ngCMSHCALMap.git ngCMSHCALMap
+- git clone git@github.com:yourgithubid/ngCMSHCALMap.git ngCMSHCALMap
 cd ngCMSHCALMap
 git remote add upstream git@github.com:weihuacern/ngCMSHCALMap.git
 ```
