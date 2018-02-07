@@ -72,8 +72,8 @@ Plots To be fixed: HBHE VME FE vs BE plot, crate 0 not showed, fpga how to show 
 ./HCALLMapProducer RunMode PrdMode
 ./HCALLMapProducer HF LMap
 ```
-The valid RunMode are: HB, HE, HF, HO.<br />
-The valid PrdMode are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib.<br />
+  - The valid RunMode are: HB, HE, HF, HO.<br />
+  - The valid PrdMode are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib.<br />
 
 - Shell script to dump the LMap and EMap:<br />
 ```
@@ -81,7 +81,7 @@ sh dumpLMap.sh K 20180501
 sh dumpEMap.sh >> 2018HCALEMap_All_K_20180501.txt
 ```
 
-
+<!---
 # Data visualization
 - plotly installation and setup
 ```
@@ -90,7 +90,6 @@ python
 import plotly
 plotly.tools.set_credentials_file(username='DemoAccount', api_key='lr1c37zw81')
 ```
-
 
 # Test of GUI
 ```
@@ -114,6 +113,7 @@ pip install --install-option="--prefix=$CMSSW_BASE/python" xlrd
 export PYTHONPATH=$CMSSW_BASE/python/lib/python2.6/site-packages:$PYTHONPATH
 python DumpEMapfromCalib.py >> HCALEmapCALIB_J.txt
 ```
+-->
 
 # Generate QIE tables from Database
 - Location of QIE database files: /eos/user/h/hua/QIEDB<br />
