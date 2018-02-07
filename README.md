@@ -29,24 +29,28 @@ scram b -j 10
 ```
 
 For package developer:<br />
+- Fork the code with your personal github ID. See [details](https://help.github.com/articles/fork-a-repo/). <br />
+- Make a clean git clone in the src directory. <br />
 ```
-- Fork the code with your personal github ID. See [details](https://help.github.com/articles/fork-a-repo/)
-- Make a clean git clone in the src directory
 cd $CMSSW_BASE/src/
 git clone git@github.com:yourgithubid/ngCMSHCALMap.git ngCMSHCALMap
 cd ngCMSHCALMap
 git remote add upstream git@github.com:weihuacern/ngCMSHCALMap.git
+```
 
-- Update your repository to be exactly same like master branch before start your changes:
+- Update your repository to be exactly same like master branch before start your changes: <br />
+```
 git remote update
 git merge upstream/master
+```
 
-- Make your own change and commit
+- Make your own change and commit. <br />
+```
 git commit -a -m "Added feature A, B, C"
 git push
-
-- Make a pull request against the bsmAnalysis. See [details](https://help.github.com/articles/using-pull-requests/)
 ```
+
+- Make a pull request against the ngCMSHCALMap. See [details](https://help.github.com/articles/using-pull-requests/).<br />
 
 To run the code in DevelopmentTools directory:<br />
 
