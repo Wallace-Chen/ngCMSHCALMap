@@ -35,6 +35,16 @@ cd $CMSSW_BASE/src/
 cd ngCMSHCALMap
 git remote add upstream git@github.com:weihuacern/ngCMSHCALMap.git
 ```
+``` diff
+diff --git a/filea.extension b/fileb.extension
+index d28nd309d..b3nu834uj 111111
+--- a/filea.extension
++++ b/fileb.extension
+@@ -1,6 +1,6 @@
+-oldLine
++newLine
+```
+
 
 - Update your repository to be exactly same like master branch before start your changes: <br />
 ```
