@@ -9,7 +9,7 @@ cmsenv
 - For more details about sqlite/C++ API, see [details](https://www.sqlite.org/download.html). <br />
 ```
 cd $CMSSW_BASE/src
-wget https://www.sqlite.org/src/tarball/sqlite.tar.gz .
+wget https://www.sqlite.org/src/tarball/sqlite.tar.gz
 tar xzf sqlite.tar.gz
 mkdir bld
 cd bld
