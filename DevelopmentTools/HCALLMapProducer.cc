@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
 
   std::cout << "#The valid run modes are: HB, HE, HF, HO" << std::endl;
   std::cout << "#The run mode we have right now is: " << RunMode << std::endl;
-  std::cout << "#The valid run modes are: LMap, EMap, FMap HT" << std::endl;
+  std::cout << "#The valid run modes are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib" << std::endl;
   std::cout << "#The produce mode we have right now is: " << PrdMode << std::endl;
 
   HCALTPProducer myHCALTPProducer;
