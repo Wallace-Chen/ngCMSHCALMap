@@ -769,8 +769,8 @@ void HCALLMapDumper::makedbHBCalibLMapObject(std::string HCALLMapDbStr, std::str
                       "ID," \
                       "Side,Eta,Phi,dPhi,Depth,Det," \
                       "RBX,Wedge," \
-                      "Trunk,cpCol,cpRow,cpCpl,cpLC,cpOct," \
                       "QIE8,QIECH,RM,RM_FI,FI_CH," \
+                      "Trunk,cpCol,cpRow,cpCpl,cpLC,cpOct," \
                       "ppCol,ppRow,ppCpl,ppLC,dodec," \
                       "Crate,uHTR,uHTR_FI,FEDid," \
                       "QIE8id) ";
