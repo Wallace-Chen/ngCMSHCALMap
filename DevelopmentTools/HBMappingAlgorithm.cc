@@ -1,10 +1,12 @@
 #include "HBMappingAlgorithm.h"
 void HBMappingAlgorithm::ConstructHBLMapObject(std::string Mode)
 {
+  myHBQIE8CardMap.clear();
+  std::cout << "#Loading information from QIE allocation file..." << std::endl;
+  LoadHBQIEMap("HBHOQIEInput/RBX_RM_QIE_2016Nov03.txt");
+
   if(Mode == "Normal")
   {
-    std::cout << "#Loading information from QIE allocation file..." << std::endl;
-    LoadHBQIEMap("HBHOQIEInput/RBX_RM_QIE_2016Nov03.txt");
     std::cout << "#Constructing HB LMap Object..." << std::endl;
 
     for(int irbx=0;irbx<NrbxHB*2;irbx++)
@@ -272,8 +274,8 @@ void HBMappingAlgorithm::ConstructHBCalib(int sideid, int rbxrmid, int rmfifichi
   //set secondary variables qie8 map
   thisHBCalib.qie8 = int(thisHBCalib.rm_fiber/2) + 1;                                                                                                                                                     
   thisHBCalib.qie8_ch = thisHBCalib.fiber_ch;
-  //set tmp qie8 id                                                                                                                                                                                        
-  thisHBCalib.qie8_id = 100000;
+  //set qie8 id, always use averaged qieid for QIE8 when calib case. HB, 999991
+  thisHBCalib.qie8_id = 999991;
   thisHBCalib.wedge = rbxrmid/NrmHBCalib + 1; //1,...,18
   //set up ngCU patch part
   //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/Calib/ngCU_patch/ngCU_HBHE_patch_2018-jan-17.txt
