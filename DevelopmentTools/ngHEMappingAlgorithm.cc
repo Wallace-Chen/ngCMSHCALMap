@@ -2,10 +2,12 @@
 
 void ngHEMappingAlgorithm::ConstructngHELMapObject(std::string Mode)
 {
+  myngHEQIE11CardMap.clear();
+  std::cout << "#Loading information from QIE allocation file..." << std::endl;                                                                                                                           
+  LoadngHEQIEMap("ngHEQIEInput/HE_QIE11_CardMap_26Jan2018_Fake.txt");
+
   if(Mode == "Normal")
   {
-    std::cout << "#Loading information from QIE allocation file..." << std::endl;
-    LoadngHEQIEMap("ngHEQIEInput/HE_QIE11_CardMap_26Jan2018_Fake.txt");
     std::cout << "#Constructing ngHE LMap Object..." << std::endl;
 
     for(int irbx=0;irbx<NrbxngHE*2;irbx++)
