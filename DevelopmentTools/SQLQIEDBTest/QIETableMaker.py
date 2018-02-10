@@ -7,23 +7,29 @@ def GetLMapDataFrame( rel_lmap_path ):
   sql_con_lmap = sql_engine_lmap.raw_connection()
 
   df_HBlmap = pd.read_sql("SELECT * FROM HBLogicalMap", con = sql_con_lmap, index_col = ['ID'])
+  df_HBclmap = pd.read_sql("SELECT * FROM HBCalibLogicalMap", con = sql_con_lmap, index_col = ['ID'])
   HBlmaplist = ['Side', 'Eta', 'Phi', 'Depth', 'Det', 'QIECH', 'QIE8id']
   df_HBsublmap = df_HBlmap[HBlmaplist]
+  df_HBsubclmap = df_HBclmap[HBlmaplist]
 
   df_HElmap = pd.read_sql("SELECT * FROM ngHELogicalMap", con = sql_con_lmap, index_col = ['ID'])
+  df_HEclmap = pd.read_sql("SELECT * FROM ngHECalibLogicalMap", con = sql_con_lmap, index_col = ['ID'])
   HElmaplist = ['Side', 'Eta', 'Phi', 'Depth', 'Det', 'QIECH', 'QIE11id']
   df_HEsublmap = df_HElmap[HElmaplist]
+  df_HEsubclmap = df_HEclmap[HElmaplist]
 
   df_HFlmap = pd.read_sql("SELECT * FROM ngHFLogicalMap", con = sql_con_lmap, index_col = ['ID'])
+  df_HFclmap = pd.read_sql("SELECT * FROM ngHFCalibLogicalMap", con = sql_con_lmap, index_col = ['ID'])
   HFlmaplist = ['Side', 'Eta', 'Phi', 'Depth', 'Det', 'QIECH', 'QIE10id']
   df_HFsublmap = df_HFlmap[HFlmaplist]
+  df_HFsubclmap = df_HFclmap[HFlmaplist]
 
   df_HOlmap = pd.read_sql("SELECT * FROM HOLogicalMap", con = sql_con_lmap, index_col = ['ID'])                                                                                                             
   HOlmaplist = ['Side', 'Eta', 'Phi', 'Depth', 'Det', 'QIECH', 'QIE8id']
   df_HOsublmap = df_HOlmap[HOlmaplist]
 
   sql_con_lmap.close()
-  return df_HBsublmap, df_HEsublmap, df_HFsublmap, df_HOsublmap
+  return df_HBsublmap, df_HEsublmap, df_HFsublmap, df_HOsublmap, df_HBsubclmap, df_HEsubclmap, df_HFsubclmap
 
 def GetQIE8DataFrame( rel_qie8_path ):
   sql_engine_qie8 = create_engine( rel_qie8_path )
@@ -99,10 +105,11 @@ def DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv, df_qie11_slope_pv ):
   #ngHE have a good db, therefore no missing entries. So no average card
   for index, row in df_HEsublmap.iterrows():
     thisindex = (row['QIE11id'], row['QIECH'])                                                                                                                                                              
-    #if thisindex in df_qie11_offset_pv.index:
-    offsets.append(df_qie11_offset_pv.loc[thisindex, :].values)
-    slopes.append(df_qie11_slope_pv.loc[thisindex, :].values)
-    #else:
+    if thisindex in df_qie11_offset_pv.index:
+      offsets.append(df_qie11_offset_pv.loc[thisindex, :].values)
+      slopes.append(df_qie11_slope_pv.loc[thisindex, :].values)
+    else:
+      print(thisindex)
     #  offsets.append(df_qie8_offset_pv.loc[(999994, row['QIECH']), :].values)
     #  slopes.append(df_qie8_slope_pv.loc[(999994, row['QIECH']), :].values)
 
@@ -126,10 +133,11 @@ def DumpHFQIE10Table( df_HFsublmap, df_qie10_offset_pv, df_qie10_slope_pv ):
   #ngHF have a good db, therefore no missing entries. So no average card
   for index, row in df_HFsublmap.iterrows():
     thisindex = (row['QIE10id'], row['QIECH'])
-    #if thisindex in df_qie10_offset_pv.index:
-    offsets.append(df_qie10_offset_pv.loc[thisindex, :].values)
-    slopes.append(df_qie10_slope_pv.loc[thisindex, :].values)
-    #else:
+    if thisindex in df_qie10_offset_pv.index:
+      offsets.append(df_qie10_offset_pv.loc[thisindex, :].values)
+      slopes.append(df_qie10_slope_pv.loc[thisindex, :].values)
+    else:
+      print(thisindex)
     #  offsets.append(df_qie10_offset_pv.loc[(999994, row['QIECH']), :].values)
     #  slopes.append(df_qie10_slope_pv.loc[(999994, row['QIECH']), :].values)
 
@@ -173,11 +181,14 @@ def DumpHOQIE8Table( df_HOsublmap, df_qie8_offset_pv, df_qie8_slope_pv ):
 
 if __name__ == '__main__':
   # load lmap HB, HE, HF, HO
-  df_HBsublmap, df_HEsublmap, df_HFsublmap, df_HOsublmap = GetLMapDataFrame( 'sqlite:///../officialMap/HCALLogicalMap.db' )
+  df_HBsublmap, df_HEsublmap, df_HFsublmap, df_HOsublmap, df_HBsubclmap, df_HEsubclmap, df_HFsubclmap = GetLMapDataFrame( 'sqlite:///../officialMap/HCALLogicalMap.db' )
   #print (df_HBsublmap.head())
   #print (df_HEsublmap.head())
   #print (df_HFsublmap.head())
   #print (df_HOsublmap.head())
+  #print (df_HBsubclmap.head())
+  #print (df_HEsubclmap.head())
+  #print (df_HFsubclmap.head())
 
   # load qie8 tables offsets and slopes
   #df_qie8_offset_pv, df_qie8_slope_pv = GetQIE8DataFrame( 'sqlite:///qie8_database/QIE8ConstantFNALNormal_DropFcs.db' )
@@ -193,6 +204,7 @@ if __name__ == '__main__':
 
   # load qie11 tables offsets and slopes
   df_qie11_offset_pv, df_qie11_slope_pv = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=1 AND Gsel=0" )
+  #df_qie11_offset_pv, df_qie11_slope_pv = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=6 AND Gsel=18" )
   #print (df_qie11_offset_pv.head())
   #print (df_qie11_slope_pv.head())
 
@@ -200,3 +212,6 @@ if __name__ == '__main__':
   DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv, df_qie11_slope_pv )
   DumpHFQIE10Table( df_HFsublmap, df_qie10_offset_pv, df_qie10_slope_pv )
   DumpHOQIE8Table( df_HOsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
+  #DumpHBQIE8Table( df_HBsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
+  #DumpHEQIE11Table( df_HEsubclmap, df_qie11_offset_pv, df_qie11_slope_pv )
+  #DumpHFQIE10Table( df_HFsubclmap, df_qie10_offset_pv, df_qie10_slope_pv )
