@@ -4,7 +4,7 @@ void ngHEMappingAlgorithm::ConstructngHELMapObject(std::string Mode)
 {
   myngHEQIE11CardMap.clear();
   std::cout << "#Loading information from QIE allocation file..." << std::endl;                                                                                                                           
-  LoadngHEQIEMap("ngHEQIEInput/HE_QIE11_CardMap_26Jan2018_Fake.txt");
+  LoadngHEQIEMap("ngHEQIEInput/HE_QIE11_CardMap_09Feb2018.txt");
 
   if(Mode == "Normal")
   {
@@ -339,10 +339,15 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
   thisngHECalib.rm_fiber = rmfifichid/Nfiber_ch + 1;
   thisngHECalib.fiber_ch = rmfifichid%Nfiber_ch;
   //set secondary variables qie11 map
-  thisngHECalib.qie11 = (thisngHECalib.rm_fiber-1)/2+1;
+  //thisngHECalib.qie11 = (thisngHECalib.rm_fiber-1)/2+1;
+  thisngHECalib.qie11 = 0;
   thisngHECalib.qie11_ch = ((thisngHECalib.rm_fiber-1)%2)*6+thisngHECalib.fiber_ch+1;
   //set tmp qie11 id                                                                                                                                                                                        
-  thisngHECalib.qie11_id = 600000;
+  GetngHEQIEInfoToLMap(
+                       thisngHECalib.rbx, thisngHECalib.rm, thisngHECalib.qie11,
+                       thisngHECalib.qie11_id
+                      );
+
   thisngHECalib.wedge = rbxrmid/NrmngHECalib + 1; //1,...,18
   //set up ngCU patch part
   //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/Calib/ngCU_patch/ngCU_HBHE_patch_2018-jan-17.txt
@@ -541,8 +546,12 @@ void ngHEMappingAlgorithm::LoadngHEQIEMap(std::string QIE11CardMapFileName)
 
     std::stringstream ss(line);
     ngHEQIE11CardMap thisngHEQIE11CardMap;
-    
-    ss >> thisngHEQIE11CardMap.rbx >> thisngHEQIE11CardMap.rm >> thisngHEQIE11CardMap.qie >> thisngHEQIE11CardMap.qie_id;
+ 
+    //#RBX RM Slot UID S/N
+    //HEP01 1 1 0xaa000000 0xeac80170 600069
+    //HEP01 1 2 0xc5000000 0xead4a370 600416
+    std::string barcode1,barcode2;
+    ss >> thisngHEQIE11CardMap.rbx >> thisngHEQIE11CardMap.rm >> thisngHEQIE11CardMap.qie >> barcode1 >> barcode2 >> thisngHEQIE11CardMap.qie_id;
     //std::cout << thisngHEQIE11CardMap.rbx << std::endl;
     //std::cout << thisngHEQIE11CardMap.rm << std::endl;
     //std::cout << thisngHEQIE11CardMap.qie << std::endl;
