@@ -179,9 +179,82 @@ def DumpHOQIE8Table( df_HOsublmap, df_qie8_offset_pv, df_qie8_slope_pv ):
 
   return ;
 
+def TempHOsubclmap():
+  
+  ID_HO0_list = list(range(0, 25))
+  Side_HO0_list = [0] * len(ID_HO0_list)
+  Eta_HO0_list = [0] * len(ID_HO0_list)
+  Phi_HO0_list = [ 71, 71, 5, 5, 11, 11, 17, 17, 23, 23, 29, 29, 35, 35, 41, 41, 47, 47, 53, 53, 53, 59, 59, 65, 65 ]
+  Depth_HO0_list = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 7, 0, 1, 0, 1]
+  Det_HO0_list = ["CALIB_HO"] * len(ID_HO0_list)
+  QIECH_HO0_list = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 2, 0, 1, 0, 1]
+  QIE8id_HO0_list = [999994] * len(ID_HO0_list)
+
+  HO0_dict = {
+              "ID":    ID_HO0_list,
+              "Side":  Side_HO0_list,
+              "Eta":   Eta_HO0_list,
+              "Phi":   Phi_HO0_list,
+              "Depth": Depth_HO0_list,
+              "Det":   Det_HO0_list,
+              "QIECH": QIECH_HO0_list,
+              "QIE8id":QIE8id_HO0_list
+             }
+
+  ID_HO1_list = list(range(25, 51))
+  Side_HO1_list = [-1] * (len(ID_HO1_list)/2) + [1] * (len(ID_HO1_list)/2)
+  Eta_HO1_list = [1] * len(ID_HO1_list)
+  Phi_HO1_list = [ 71, 71, 11, 11, 23, 23, 35, 35, 47, 47, 47, 59, 59 ] * 2
+  Depth_HO1_list = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 7, 0, 1] * 2
+  Det_HO1_list = ["CALIB_HO"] * len(ID_HO1_list)
+  QIECH_HO1_list = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 2, 0, 1] * 2 
+  QIE8id_HO1_list = [999994] * len(ID_HO1_list)
+
+  HO1_dict = {
+              "ID":    ID_HO1_list,
+              "Side":  Side_HO1_list,
+              "Eta":   Eta_HO1_list,
+              "Phi":   Phi_HO1_list,
+              "Depth": Depth_HO1_list,
+              "Det":   Det_HO1_list,
+              "QIECH": QIECH_HO1_list,
+              "QIE8id":QIE8id_HO1_list
+             }
+
+  ID_HO2_list = list(range(51, 77))
+  Side_HO2_list = [-1] * (len(ID_HO2_list)/2) + [1] * (len(ID_HO2_list)/2)
+  Eta_HO2_list = [2] * len(ID_HO2_list)
+  Phi_HO2_list = [ 71, 71, 11, 11, 23, 23, 35, 35, 47, 47, 59, 59, 59 ] + [ 71, 71, 11, 11, 23, 23, 35, 35, 47, 47, 47, 59, 59 ]
+  Depth_HO2_list = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 7] + [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 7, 0, 1]
+  Det_HO2_list = ["CALIB_HO"] * len(ID_HO2_list)
+  QIECH_HO2_list = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 2] + [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 2, 0, 1]
+  QIE8id_HO2_list = [999994] * len(ID_HO2_list)
+
+  HO2_dict = {
+              "ID":    ID_HO2_list,
+              "Side":  Side_HO2_list,
+              "Eta":   Eta_HO2_list,
+              "Phi":   Phi_HO2_list,
+              "Depth": Depth_HO2_list,
+              "Det":   Det_HO2_list,
+              "QIECH": QIECH_HO2_list,
+              "QIE8id":QIE8id_HO2_list
+             }
+
+  df_HO0 = pd.DataFrame( HO0_dict, columns = ["ID", "Side", "Eta", "Phi", "Depth", "Det", "QIECH", "QIE8id"])
+  df_HO1 = pd.DataFrame( HO1_dict, columns = ["ID", "Side", "Eta", "Phi", "Depth", "Det", "QIECH", "QIE8id"])
+  df_HO2 = pd.DataFrame( HO2_dict, columns = ["ID", "Side", "Eta", "Phi", "Depth", "Det", "QIECH", "QIE8id"])
+  df_HO = pd.concat( [df_HO0, df_HO1, df_HO2] )
+
+  df_HO.set_index("ID", inplace=True) 
+  return df_HO
+
+
 if __name__ == '__main__':
   # load lmap HB, HE, HF, HO
   df_HBsublmap, df_HEsublmap, df_HFsublmap, df_HOsublmap, df_HBsubclmap, df_HEsubclmap, df_HFsubclmap = GetLMapDataFrame( 'sqlite:///../officialMap/HCALLogicalMap.db' )
+  # Temp solution for HO calib before official code complete
+  df_HOsubclmap = TempHOsubclmap()
   #print (df_HBsublmap.head())
   #print (df_HEsublmap.head())
   #print (df_HFsublmap.head())
@@ -189,6 +262,7 @@ if __name__ == '__main__':
   #print (df_HBsubclmap.head())
   #print (df_HEsubclmap.head())
   #print (df_HFsubclmap.head())
+  #print (df_HOsubclmap.head())
 
   # load qie8 tables offsets and slopes
   #df_qie8_offset_pv, df_qie8_slope_pv = GetQIE8DataFrame( 'sqlite:///qie8_database/QIE8ConstantFNALNormal_DropFcs.db' )
@@ -208,10 +282,11 @@ if __name__ == '__main__':
   #print (df_qie11_offset_pv.head())
   #print (df_qie11_slope_pv.head())
 
-  DumpHBQIE8Table( df_HBsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
-  DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv, df_qie11_slope_pv )
-  DumpHFQIE10Table( df_HFsublmap, df_qie10_offset_pv, df_qie10_slope_pv )
-  DumpHOQIE8Table( df_HOsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
+  #DumpHBQIE8Table( df_HBsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
+  #DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv, df_qie11_slope_pv )
+  #DumpHFQIE10Table( df_HFsublmap, df_qie10_offset_pv, df_qie10_slope_pv )
+  #DumpHOQIE8Table( df_HOsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
   #DumpHBQIE8Table( df_HBsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
   #DumpHEQIE11Table( df_HEsubclmap, df_qie11_offset_pv, df_qie11_slope_pv )
   #DumpHFQIE10Table( df_HFsubclmap, df_qie10_offset_pv, df_qie10_slope_pv )
+  DumpHOQIE8Table( df_HOsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
