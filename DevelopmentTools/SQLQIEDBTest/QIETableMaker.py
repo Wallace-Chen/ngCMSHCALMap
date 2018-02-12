@@ -12,6 +12,7 @@ def GetLMapDataFrame( rel_lmap_path ):
   df_HBsublmap = df_HBlmap[HBlmaplist]
   df_HBsubclmap = df_HBclmap[HBlmaplist]
 
+  #df_HElmap = pd.read_sql("SELECT * FROM ngHELogicalMap WHERE ngRBX='HEP17'", con = sql_con_lmap, index_col = ['ID'])
   df_HElmap = pd.read_sql("SELECT * FROM ngHELogicalMap", con = sql_con_lmap, index_col = ['ID'])
   df_HEclmap = pd.read_sql("SELECT * FROM ngHECalibLogicalMap", con = sql_con_lmap, index_col = ['ID'])
   HElmaplist = ['Side', 'Eta', 'Phi', 'Depth', 'Det', 'QIECH', 'QIE11id']
@@ -283,10 +284,10 @@ if __name__ == '__main__':
   #print (df_qie11_slope_pv.head())
 
   #DumpHBQIE8Table( df_HBsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
-  #DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv, df_qie11_slope_pv )
+  DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv, df_qie11_slope_pv )
   #DumpHFQIE10Table( df_HFsublmap, df_qie10_offset_pv, df_qie10_slope_pv )
   #DumpHOQIE8Table( df_HOsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
   #DumpHBQIE8Table( df_HBsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
   #DumpHEQIE11Table( df_HEsubclmap, df_qie11_offset_pv, df_qie11_slope_pv )
   #DumpHFQIE10Table( df_HFsubclmap, df_qie10_offset_pv, df_qie10_slope_pv )
-  DumpHOQIE8Table( df_HOsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
+  #DumpHOQIE8Table( df_HOsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
