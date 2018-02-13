@@ -53,10 +53,22 @@ def GetQIE10DataFrame( rel_qie10_path ):
   df_qie10_offset_pv = pd.pivot_table(df_qie10, index = ['serial', 'qie'], columns=['capID','range'], values='offset')
   df_qie10_slope_pv = pd.pivot_table(df_qie10, index = ['serial', 'qie'], columns=['capID','range'], values='slope')
 
+  df_qie10_offset_pv_ave = df_qie10_offset_pv.groupby([df_qie10_offset_pv.index.get_level_values(1)], axis=0).mean()
+  df_qie10_offset_pv_ave.reset_index(inplace = True)
+  df_qie10_offset_pv_ave['serial'] = [999993] * df_qie10_offset_pv_ave.shape[0]
+  df_qie10_offset_pv_ave.set_index(['serial', 'qie'], inplace = True)
+  
+  df_qie10_slope_pv_ave = df_qie10_slope_pv.groupby([df_qie10_offset_pv.index.get_level_values(1)], axis=0).mean()
+  df_qie10_slope_pv_ave.reset_index(inplace = True)
+  df_qie10_slope_pv_ave['serial'] = [999993] * df_qie10_slope_pv_ave.shape[0]
+  df_qie10_slope_pv_ave.set_index(['serial', 'qie'], inplace = True)
+
+  df_qie10_offset_pv = df_qie10_offset_pv.append(df_qie10_offset_pv_ave)
+  df_qie10_slope_pv = df_qie10_slope_pv.append(df_qie10_slope_pv_ave)
   sql_con_qie10.close()
   return df_qie10_offset_pv, df_qie10_slope_pv
 
-def GetQIE11DataFrame( rel_qie11_path, shuntAndGsel):
+def GetQIE11DataFrame( rel_qie11_path, shuntAndGsel ):
   sql_engine_qie11 = create_engine( rel_qie11_path )
   sql_con_qie11 = sql_engine_qie11.raw_connection()
   SQLQuery = "SELECT * FROM qieshuntparams WHERE " + shuntAndGsel
@@ -66,6 +78,18 @@ def GetQIE11DataFrame( rel_qie11_path, shuntAndGsel):
   df_qie11_offset_pv = pd.pivot_table(df_qie11, index = ['barcode', 'qie'], columns=['capID','range'], values='offset')
   df_qie11_slope_pv = pd.pivot_table(df_qie11, index = ['barcode', 'qie'], columns=['capID','range'], values='slope')
 
+  df_qie11_offset_pv_ave = df_qie11_offset_pv.groupby([df_qie11_offset_pv.index.get_level_values(1)], axis=0).mean()
+  df_qie11_offset_pv_ave.reset_index(inplace = True)
+  df_qie11_offset_pv_ave['barcode'] = [999992] * df_qie11_offset_pv_ave.shape[0]
+  df_qie11_offset_pv_ave.set_index(['barcode', 'qie'], inplace = True)
+  
+  df_qie11_slope_pv_ave = df_qie11_slope_pv.groupby([df_qie11_offset_pv.index.get_level_values(1)], axis=0).mean()
+  df_qie11_slope_pv_ave.reset_index(inplace = True)
+  df_qie11_slope_pv_ave['barcode'] = [999992] * df_qie11_slope_pv_ave.shape[0]
+  df_qie11_slope_pv_ave.set_index(['barcode', 'qie'], inplace = True)
+
+  df_qie11_offset_pv = df_qie11_offset_pv.append(df_qie11_offset_pv_ave)
+  df_qie11_slope_pv = df_qie11_slope_pv.append(df_qie11_slope_pv_ave)
   sql_con_qie11.close()
   return df_qie11_offset_pv, df_qie11_slope_pv
 
@@ -97,22 +121,28 @@ def DumpHBQIE8Table( df_HBsublmap, df_qie8_offset_pv, df_qie8_slope_pv ):
 
   return ;
 
-def DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv, df_qie11_slope_pv ):
+def DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv, df_qie11_slope_pv, debug = False ):
 
   df_HEQIE_res = df_HEsublmap[['Side', 'Eta', 'Phi', 'Depth', 'Det']]
   offsets = []
   slopes = []
-
-  #ngHE have a good db, therefore no missing entries. So no average card
+  QIE11_dbmissing = []
+  
+  #ngHE em... need to deal with missing QIE11ID
   for index, row in df_HEsublmap.iterrows():
     thisindex = (row['QIE11id'], row['QIECH'])                                                                                                                                                              
     if thisindex in df_qie11_offset_pv.index:
       offsets.append(df_qie11_offset_pv.loc[thisindex, :].values)
       slopes.append(df_qie11_slope_pv.loc[thisindex, :].values)
     else:
-      print(thisindex)
-    #  offsets.append(df_qie8_offset_pv.loc[(999994, row['QIECH']), :].values)
-    #  slopes.append(df_qie8_slope_pv.loc[(999994, row['QIECH']), :].values)
+      QIE11_dbmissing.append(thisindex[0])
+      offsets.append(df_qie11_offset_pv.loc[(999992, row['QIECH']), :].values)
+      slopes.append(df_qie11_slope_pv.loc[(999992, row['QIECH']), :].values)
+
+  if( debug ):
+    print('# Missing QIE11 IDs in the database are: ')
+    print(list(set(QIE11_dbmissing)))
+    return ;
 
   pd.options.mode.chained_assignment = None  # default='warn'
   df_HEQIE_res['Offsets'] = pd.Series(offsets).values
@@ -126,22 +156,28 @@ def DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv, df_qie11_slope_pv ):
 
   return ;
 
-def DumpHFQIE10Table( df_HFsublmap, df_qie10_offset_pv, df_qie10_slope_pv ):
+def DumpHFQIE10Table( df_HFsublmap, df_qie10_offset_pv, df_qie10_slope_pv, debug = False):
 
   df_HFQIE_res = df_HFsublmap[['Side', 'Eta', 'Phi', 'Depth', 'Det']]
   offsets = []
   slopes = []
+  QIE10_dbmissing = []
 
-  #ngHF have a good db, therefore no missing entries. So no average card
+  #ngHF have a good db for normal channels, therefore no missing entries. So no average card. But missing some calibration channels
   for index, row in df_HFsublmap.iterrows():
     thisindex = (row['QIE10id'], row['QIECH'])
     if thisindex in df_qie10_offset_pv.index:
       offsets.append(df_qie10_offset_pv.loc[thisindex, :].values)
       slopes.append(df_qie10_slope_pv.loc[thisindex, :].values)
     else:
-      print(thisindex)
-    #  offsets.append(df_qie10_offset_pv.loc[(999994, row['QIECH']), :].values)
-    #  slopes.append(df_qie10_slope_pv.loc[(999994, row['QIECH']), :].values)
+      QIE10_dbmissing.append(thisindex[0])
+      offsets.append(df_qie10_offset_pv.loc[(999993, row['QIECH']), :].values)
+      slopes.append(df_qie10_slope_pv.loc[(999993, row['QIECH']), :].values)
+  
+  if( debug ):
+    print('# Missing QIE10 IDs in the database are: ')
+    print(list(set(QIE10_dbmissing)))
+    return ;
 
   pd.options.mode.chained_assignment = None  # default='warn'
   df_HFQIE_res['Offsets'] = pd.Series(offsets).values
@@ -287,21 +323,21 @@ if __name__ == '__main__':
   # load qie10 tables offsets and slopes
   #df_qie10_offset_pv, df_qie10_slope_pv = GetQIE10DataFrame( 'sqlite:///qie10_database/qieCalibrationParameters_HF_2017-04-24.db' )
   df_qie10_offset_pv, df_qie10_slope_pv = GetQIE10DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie10_database/qieCalibrationParameters_HF_2017-04-24.db' )
-  #print (df_qie10_offset_pv.head())
-  #print (df_qie10_slope_pv.head())
+  #print (df_qie10_offset_pv.tail())
+  #print (df_qie10_slope_pv.tail())
 
   # load qie11 tables offsets and slopes
   df_qie11_offset_pv, df_qie11_slope_pv = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=1 AND Gsel=0" )
   #df_qie11_offset_pv, df_qie11_slope_pv = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=6 AND Gsel=18" )
-  #print (df_qie11_offset_pv.head())
-  #print (df_qie11_slope_pv.head())
+  #print (df_qie11_offset_pv.tail(12))
+  #print (df_qie11_slope_pv.tail(12))
 
   #DumpHBQIE8Table( df_HBsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
-  #DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv, df_qie11_slope_pv )
-  #DumpHFQIE10Table( df_HFsublmap, df_qie10_offset_pv, df_qie10_slope_pv )
+  DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv, df_qie11_slope_pv, debug = True )
+  DumpHFQIE10Table( df_HFsublmap, df_qie10_offset_pv, df_qie10_slope_pv, debug = True )
   #DumpHOQIE8Table( df_HOsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
   #DumpHBQIE8Table( df_HBsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
-  #DumpHEQIE11Table( df_HEsubclmap, df_qie11_offset_pv, df_qie11_slope_pv )
-  #DumpHFQIE10Table( df_HFsubclmap, df_qie10_offset_pv, df_qie10_slope_pv )
+  DumpHEQIE11Table( df_HEsubclmap, df_qie11_offset_pv, df_qie11_slope_pv, debug = True )
+  DumpHFQIE10Table( df_HFsubclmap, df_qie10_offset_pv, df_qie10_slope_pv, debug = True )
   #DumpHOQIE8Table( df_HOsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
-  DumpHEQIE11Table( df_HEP17sublmap, df_qie11_offset_pv, df_qie11_slope_pv )
+  #DumpHEQIE11Table( df_HEP17sublmap, df_qie11_offset_pv, df_qie11_slope_pv )
