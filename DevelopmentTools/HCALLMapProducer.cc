@@ -83,6 +83,7 @@ int main(int argc, char* argv[])
   {
     ngHEMappingAlgorithm myngHEMappingAlgorithm;
     myngHEMappingAlgorithm.ConstructngHELMapObject("Normal");
+    //myngHEMappingAlgorithm.ConstructngHELMapObject("2017HEP17");
     myngHEMappingAlgorithm.ConstructngHELMapObject("Calib");
     bool passCollisionCheck = myHCALLMapChecker.checkngHELMapObject(myngHEMappingAlgorithm.myngHEFrontEnd, myngHEMappingAlgorithm.myngHEBackEnd, myngHEMappingAlgorithm.myngHESiPM, myngHEMappingAlgorithm.myngHEGeometry, myngHEMappingAlgorithm.myngHETriggerTower);
     if( passCollisionCheck ){ std::cout << "#Map pass collision check, Good!" << std::endl; }
@@ -92,6 +93,8 @@ int main(int argc, char* argv[])
       myHCALLMapDumper.printngHELMapObject(myngHEMappingAlgorithm.myngHEFrontEnd, myngHEMappingAlgorithm.myngHEBackEnd, myngHEMappingAlgorithm.myngHESiPM, myngHEMappingAlgorithm.myngHEGeometry, myngHEMappingAlgorithm.myngHETriggerTower);
       myHCALLMapDumper.makedbngHELMapObject("officialMap/HCALLogicalMap.db", "ngHELogicalMap",
                                             myngHEMappingAlgorithm.myngHEFrontEnd, myngHEMappingAlgorithm.myngHEBackEnd, myngHEMappingAlgorithm.myngHESiPM, myngHEMappingAlgorithm.myngHEGeometry, myngHEMappingAlgorithm.myngHETriggerTower);
+      //myHCALLMapDumper.makedbngHELMapObject("officialMap/HCALLogicalMap.db", "ngHEP172017LogicalMap",
+      //                                      myngHEMappingAlgorithm.myngHEFrontEnd, myngHEMappingAlgorithm.myngHEBackEnd, myngHEMappingAlgorithm.myngHESiPM, myngHEMappingAlgorithm.myngHEGeometry, myngHEMappingAlgorithm.myngHETriggerTower);
     }
     if( PrdMode == "EMap" )
     {

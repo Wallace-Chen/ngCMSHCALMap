@@ -3,10 +3,17 @@
 void ngHEMappingAlgorithm::ConstructngHELMapObject(std::string Mode)
 {
   myngHEQIE11CardMap.clear();
-  std::cout << "#Loading information from QIE allocation file..." << std::endl;                                                                                                                           
-  LoadngHEQIEMap("ngHEQIEInput/HE_QIE11_CardMap_09Feb2018.txt");
+  std::cout << "#Loading information from QIE allocation file..." << std::endl;
+  if(Mode == "2017HEP17")
+  {
+    LoadngHEQIEMap("ngHEQIEInput/HEP17_QIE11_CardMap_2017Rework.txt");
+  }
+  else
+  {
+    LoadngHEQIEMap("ngHEQIEInput/HE_QIE11_CardMap_09Feb2018.txt");
+  }
 
-  if(Mode == "Normal")
+  if(Mode == "Normal" || Mode == "2017HEP17")
   {
     std::cout << "#Constructing ngHE LMap Object..." << std::endl;
 
@@ -21,7 +28,7 @@ void ngHEMappingAlgorithm::ConstructngHELMapObject(std::string Mode)
             int sideid; irbx<NrbxngHE ? sideid = 1 : sideid = -1;//0..to 17 is P side, while 17 to 35 is M side
             int rbxrmid; irbx<NrbxngHE ? rbxrmid = irbx*NrmngHE+irm : rbxrmid = (irbx-NrbxngHE)*NrmngHE+irm;//ngHE 0...to 71
             int rmfifichid = irmfi*Nfiber_ch+ifich;//ngHE 0...to 47
-
+            if( Mode == "2017HEP17" && !( sideid == 1 && rbxrmid >= 64 && rbxrmid <= 67 ) ) continue;
             ConstructngHEFrontEnd(sideid,rbxrmid,rmfifichid);
             ConstructngHEBackEnd(sideid,rbxrmid,rmfifichid);
             ConstructngHEGeometry(sideid,rbxrmid,rmfifichid);
@@ -569,7 +576,7 @@ void ngHEMappingAlgorithm::GetngHEQIEInfoToLMap(
   bool qie11match = false;
   for(auto i=0; i<myngHEQIE11CardMap.size(); i++)
   {
-    qie11match = (rbx==myngHEQIE11CardMap.at(i).rbx) && (qie==std::stoi(myngHEQIE11CardMap.at(i).qie));
+    qie11match = (rbx==myngHEQIE11CardMap.at(i).rbx) && (rm==std::stoi(myngHEQIE11CardMap.at(i).rm)) && (qie==std::stoi(myngHEQIE11CardMap.at(i).qie));
     if(qie11match)
     {
       qie11_id = std::stoi(myngHEQIE11CardMap.at(i).qie_id);
@@ -577,6 +584,10 @@ void ngHEMappingAlgorithm::GetngHEQIEInfoToLMap(
     }
     else continue;
   }
-  if(!qie11match) std::cout << "#QIE 11 card not found in front end coordinates ???!!!" << std::endl;
+  if(!qie11match)
+  { 
+    //std::cout << "# QIE 11 card not found in front end coordinates ???!!! Let's put default QIE11 id as 999992," << std::endl;
+    qie11_id = 999992;
+  }
   return ;
 }                                                                                                                                                                                                           
