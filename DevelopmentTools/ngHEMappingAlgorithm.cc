@@ -513,8 +513,8 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
   */
   int ngHEuCrateInWedge[NrbxngHE] = {30, 24, 24, 20, 20, 21, 21, 25, 25, 31, 31, 35, 35, 37, 37, 34, 34, 30};
   thisngHECalib.ucrate = ngHEuCrateInWedge[thisngHECalib.wedge-1];
-  if     (thisngHECalib.ppcol == 6) thisngHECalib.uhtr = 6;
-  else if(thisngHECalib.ppcol == 3) thisngHECalib.uhtr = 12;
+  if     (thisngHECalib.ppcol == 6) thisngHECalib.wedge%2 != 0 ? thisngHECalib.uhtr = 6 : thisngHECalib.uhtr = 3; //FIXME
+  else if(thisngHECalib.ppcol == 3) thisngHECalib.wedge%2 != 0 ? thisngHECalib.uhtr = 12 : thisngHECalib.uhtr = 9; //FIXME
   else{ std::cout << "#ngHE Calib channel not in ppcol 6 nor ppcol 3, please check!!" << std::endl; thisngHECalib.uhtr = 0; }
   if     (thisngHECalib.rm_fiber == 1) thisngHECalib.uhtr_fiber = 11;
   else if(thisngHECalib.rm_fiber == 2) thisngHECalib.uhtr_fiber = 23;
