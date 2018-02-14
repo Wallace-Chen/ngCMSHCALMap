@@ -1,9 +1,10 @@
 #The valid run modes are: HB, HE, HF, HO
 #The run mode we have right now is: HB
-#The valid run modes are: LMap, EMap, FMap HT
+#The valid run modes are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib
 #The produce mode we have right now is: EMap
 #Loading information from QIE allocation file...
 #Constructing HB LMap Object...
+#Loading information from QIE allocation file...
 #Constructing HB Calib LMap Object...
 #Map pass collision check, Good!
 #Dumping HB EMap Object...
@@ -2602,10 +2603,11 @@
    4200458C    30     1     u     0       0      19           2      HB    -9    67     1
 #The valid run modes are: HB, HE, HF, HO
 #The run mode we have right now is: HE
-#The valid run modes are: LMap, EMap, FMap HT
+#The valid run modes are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib
 #The produce mode we have right now is: EMap
 #Loading information from QIE allocation file...
 #Constructing ngHE LMap Object...
+#Loading information from QIE allocation file...
 #Constructing ngHE Calib LMap Object...
 #Map pass collision check, Good!
 #Dumping ngHE EMap Object...
@@ -9380,10 +9382,11 @@
    4200458C    30     3     u     0       0      22           5      HE   -26    67     2
 #The valid run modes are: HB, HE, HF, HO
 #The run mode we have right now is: HF
-#The valid run modes are: LMap, EMap, FMap HT
+#The valid run modes are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib
 #The produce mode we have right now is: EMap
 #Loading information from QIE allocation file...
 #Constructing ngHF LMap Object...
+#Loading information from QIE allocation file...
 #Constructing ngHF Calib LMap Object...
 #Map pass collision check, Good!
 #Dumping ngHF EMap Object...
@@ -12846,7 +12849,7 @@
    4200458C    32     4     u     0       0      17           3      HF   -29    63     4
 #The valid run modes are: HB, HE, HF, HO
 #The run mode we have right now is: HO
-#The valid run modes are: LMap, EMap, FMap HT
+#The valid run modes are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib
 #The produce mode we have right now is: EMap
 #Dumping HO EMap Object...
 #         i    cr    sl    tb   dcc  spigot fib/slb fibch/slbch  subdet   eta   phi   dep
@@ -15228,10 +15231,11 @@
    4200458C     6    21     t    29      12       2           1     HOX    15    72  -999
 #The valid run modes are: HB, HE, HF, HO
 #The run mode we have right now is: HB
-#The valid run modes are: LMap, EMap, FMap HT
+#The valid run modes are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib
 #The produce mode we have right now is: EMapHT
 #Loading information from QIE allocation file...
 #Constructing HB LMap Object...
+#Loading information from QIE allocation file...
 #Constructing HB Calib LMap Object...
 #Map pass collision check, Good!
 #Dumping HB HT EMap Object...
@@ -17542,10 +17546,11 @@
    4200458C    30     1     u     0       0       4           0      HT    -9    67     0
 #The valid run modes are: HB, HE, HF, HO
 #The run mode we have right now is: HE
-#The valid run modes are: LMap, EMap, FMap HT
+#The valid run modes are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib
 #The produce mode we have right now is: EMapHT
 #Loading information from QIE allocation file...
 #Constructing ngHE LMap Object...
+#Loading information from QIE allocation file...
 #Constructing ngHE Calib LMap Object...
 #Map pass collision check, Good!
 #Dumping ngHE HT EMap Object...
@@ -19280,10 +19285,11 @@
    4200458C    30     2     u     0       0       2           0      HT   -17    67     0
 #The valid run modes are: HB, HE, HF, HO
 #The run mode we have right now is: HF
-#The valid run modes are: LMap, EMap, FMap HT
+#The valid run modes are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib
 #The produce mode we have right now is: EMapHT
 #Loading information from QIE allocation file...
 #Constructing ngHF LMap Object...
+#Loading information from QIE allocation file...
 #Constructing ngHF Calib LMap Object...
 #Map pass collision check, Good!
 #Dumping ngHF HT EMap Object...
@@ -20082,10 +20088,11 @@
    4200458C    32     4     u     0       0       0           1      HT   -31    63    10
 #The valid run modes are: HB, HE, HF, HO
 #The run mode we have right now is: HB
-#The valid run modes are: LMap, EMap, FMap HT
+#The valid run modes are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib
 #The produce mode we have right now is: EMapCalib
 #Loading information from QIE allocation file...
 #Constructing HB LMap Object...
+#Loading information from QIE allocation file...
 #Constructing HB Calib LMap Object...
 #Map pass collision check, Good!
 #Dumping HBCalib EMap Object...
@@ -20093,117 +20100,118 @@
    4200458C    30    11     u     0       0      10           0 CALIB_HB     1    71     0
    4200458C    30    11     u     0       0      10           1 CALIB_HB     1    71     1
    4200458C    30    11     u     0       0      10           2 CALIB_HB     1    71     2
-   4200458C    24    11     u     0       0      10           0 CALIB_HB     1     3     0
-   4200458C    24    11     u     0       0      10           1 CALIB_HB     1     3     1
-   4200458C    24    11     u     0       0      10           2 CALIB_HB     1     3     2
+   4200458C    24     8     u     0       0      10           0 CALIB_HB     1     3     0
+   4200458C    24     8     u     0       0      10           1 CALIB_HB     1     3     1
+   4200458C    24     8     u     0       0      10           2 CALIB_HB     1     3     2
    4200458C    24    11     u     0       0      10           0 CALIB_HB     1     7     0
    4200458C    24    11     u     0       0      10           1 CALIB_HB     1     7     1
    4200458C    24    11     u     0       0      10           2 CALIB_HB     1     7     2
-   4200458C    20    11     u     0       0      10           0 CALIB_HB     1    11     0
-   4200458C    20    11     u     0       0      10           1 CALIB_HB     1    11     1
-   4200458C    20    11     u     0       0      10           2 CALIB_HB     1    11     2
+   4200458C    20     8     u     0       0      10           0 CALIB_HB     1    11     0
+   4200458C    20     8     u     0       0      10           1 CALIB_HB     1    11     1
+   4200458C    20     8     u     0       0      10           2 CALIB_HB     1    11     2
    4200458C    20    11     u     0       0      10           0 CALIB_HB     1    15     0
    4200458C    20    11     u     0       0      10           1 CALIB_HB     1    15     1
    4200458C    20    11     u     0       0      10           2 CALIB_HB     1    15     2
-   4200458C    21    11     u     0       0      10           0 CALIB_HB     1    19     0
-   4200458C    21    11     u     0       0      10           1 CALIB_HB     1    19     1
-   4200458C    21    11     u     0       0      10           2 CALIB_HB     1    19     2
+   4200458C    21     8     u     0       0      10           0 CALIB_HB     1    19     0
+   4200458C    21     8     u     0       0      10           1 CALIB_HB     1    19     1
+   4200458C    21     8     u     0       0      10           2 CALIB_HB     1    19     2
    4200458C    21    11     u     0       0      10           0 CALIB_HB     1    23     0
    4200458C    21    11     u     0       0      10           1 CALIB_HB     1    23     1
    4200458C    21    11     u     0       0      10           2 CALIB_HB     1    23     2
-   4200458C    25    11     u     0       0      10           0 CALIB_HB     1    27     0
-   4200458C    25    11     u     0       0      10           1 CALIB_HB     1    27     1
-   4200458C    25    11     u     0       0      10           2 CALIB_HB     1    27     2
+   4200458C    25     8     u     0       0      10           0 CALIB_HB     1    27     0
+   4200458C    25     8     u     0       0      10           1 CALIB_HB     1    27     1
+   4200458C    25     8     u     0       0      10           2 CALIB_HB     1    27     2
    4200458C    25    11     u     0       0      10           0 CALIB_HB     1    31     0
    4200458C    25    11     u     0       0      10           1 CALIB_HB     1    31     1
    4200458C    25    11     u     0       0      10           2 CALIB_HB     1    31     2
-   4200458C    31    11     u     0       0      10           0 CALIB_HB     1    35     0
-   4200458C    31    11     u     0       0      10           1 CALIB_HB     1    35     1
-   4200458C    31    11     u     0       0      10           2 CALIB_HB     1    35     2
+   4200458C    31     8     u     0       0      10           0 CALIB_HB     1    35     0
+   4200458C    31     8     u     0       0      10           1 CALIB_HB     1    35     1
+   4200458C    31     8     u     0       0      10           2 CALIB_HB     1    35     2
    4200458C    31    11     u     0       0      10           0 CALIB_HB     1    39     0
    4200458C    31    11     u     0       0      10           1 CALIB_HB     1    39     1
    4200458C    31    11     u     0       0      10           2 CALIB_HB     1    39     2
-   4200458C    35    11     u     0       0      10           0 CALIB_HB     1    43     0
-   4200458C    35    11     u     0       0      10           1 CALIB_HB     1    43     1
-   4200458C    35    11     u     0       0      10           2 CALIB_HB     1    43     2
+   4200458C    35     8     u     0       0      10           0 CALIB_HB     1    43     0
+   4200458C    35     8     u     0       0      10           1 CALIB_HB     1    43     1
+   4200458C    35     8     u     0       0      10           2 CALIB_HB     1    43     2
    4200458C    35    11     u     0       0      10           0 CALIB_HB     1    47     0
    4200458C    35    11     u     0       0      10           1 CALIB_HB     1    47     1
    4200458C    35    11     u     0       0      10           2 CALIB_HB     1    47     2
-   4200458C    37    11     u     0       0      10           0 CALIB_HB     1    51     0
-   4200458C    37    11     u     0       0      10           1 CALIB_HB     1    51     1
-   4200458C    37    11     u     0       0      10           2 CALIB_HB     1    51     2
+   4200458C    37     8     u     0       0      10           0 CALIB_HB     1    51     0
+   4200458C    37     8     u     0       0      10           1 CALIB_HB     1    51     1
+   4200458C    37     8     u     0       0      10           2 CALIB_HB     1    51     2
    4200458C    37    11     u     0       0      10           0 CALIB_HB     1    55     0
    4200458C    37    11     u     0       0      10           1 CALIB_HB     1    55     1
    4200458C    37    11     u     0       0      10           2 CALIB_HB     1    55     2
-   4200458C    34    11     u     0       0      10           0 CALIB_HB     1    59     0
-   4200458C    34    11     u     0       0      10           1 CALIB_HB     1    59     1
-   4200458C    34    11     u     0       0      10           2 CALIB_HB     1    59     2
+   4200458C    34     8     u     0       0      10           0 CALIB_HB     1    59     0
+   4200458C    34     8     u     0       0      10           1 CALIB_HB     1    59     1
+   4200458C    34     8     u     0       0      10           2 CALIB_HB     1    59     2
    4200458C    34    11     u     0       0      10           0 CALIB_HB     1    63     0
    4200458C    34    11     u     0       0      10           1 CALIB_HB     1    63     1
    4200458C    34    11     u     0       0      10           2 CALIB_HB     1    63     2
-   4200458C    30    11     u     0       0      10           0 CALIB_HB     1    67     0
-   4200458C    30    11     u     0       0      10           1 CALIB_HB     1    67     1
-   4200458C    30    11     u     0       0      10           2 CALIB_HB     1    67     2
+   4200458C    30     8     u     0       0      10           0 CALIB_HB     1    67     0
+   4200458C    30     8     u     0       0      10           1 CALIB_HB     1    67     1
+   4200458C    30     8     u     0       0      10           2 CALIB_HB     1    67     2
    4200458C    30     5     u     0       0      10           0 CALIB_HB    -1    71     0
    4200458C    30     5     u     0       0      10           1 CALIB_HB    -1    71     1
    4200458C    30     5     u     0       0      10           2 CALIB_HB    -1    71     2
-   4200458C    24     5     u     0       0      10           0 CALIB_HB    -1     3     0
-   4200458C    24     5     u     0       0      10           1 CALIB_HB    -1     3     1
-   4200458C    24     5     u     0       0      10           2 CALIB_HB    -1     3     2
+   4200458C    24     2     u     0       0      10           0 CALIB_HB    -1     3     0
+   4200458C    24     2     u     0       0      10           1 CALIB_HB    -1     3     1
+   4200458C    24     2     u     0       0      10           2 CALIB_HB    -1     3     2
    4200458C    24     5     u     0       0      10           0 CALIB_HB    -1     7     0
    4200458C    24     5     u     0       0      10           1 CALIB_HB    -1     7     1
    4200458C    24     5     u     0       0      10           2 CALIB_HB    -1     7     2
-   4200458C    20     5     u     0       0      10           0 CALIB_HB    -1    11     0
-   4200458C    20     5     u     0       0      10           1 CALIB_HB    -1    11     1
-   4200458C    20     5     u     0       0      10           2 CALIB_HB    -1    11     2
+   4200458C    20     2     u     0       0      10           0 CALIB_HB    -1    11     0
+   4200458C    20     2     u     0       0      10           1 CALIB_HB    -1    11     1
+   4200458C    20     2     u     0       0      10           2 CALIB_HB    -1    11     2
    4200458C    20     5     u     0       0      10           0 CALIB_HB    -1    15     0
    4200458C    20     5     u     0       0      10           1 CALIB_HB    -1    15     1
    4200458C    20     5     u     0       0      10           2 CALIB_HB    -1    15     2
-   4200458C    21     5     u     0       0      10           0 CALIB_HB    -1    19     0
-   4200458C    21     5     u     0       0      10           1 CALIB_HB    -1    19     1
-   4200458C    21     5     u     0       0      10           2 CALIB_HB    -1    19     2
+   4200458C    21     2     u     0       0      10           0 CALIB_HB    -1    19     0
+   4200458C    21     2     u     0       0      10           1 CALIB_HB    -1    19     1
+   4200458C    21     2     u     0       0      10           2 CALIB_HB    -1    19     2
    4200458C    21     5     u     0       0      10           0 CALIB_HB    -1    23     0
    4200458C    21     5     u     0       0      10           1 CALIB_HB    -1    23     1
    4200458C    21     5     u     0       0      10           2 CALIB_HB    -1    23     2
-   4200458C    25     5     u     0       0      10           0 CALIB_HB    -1    27     0
-   4200458C    25     5     u     0       0      10           1 CALIB_HB    -1    27     1
-   4200458C    25     5     u     0       0      10           2 CALIB_HB    -1    27     2
+   4200458C    25     2     u     0       0      10           0 CALIB_HB    -1    27     0
+   4200458C    25     2     u     0       0      10           1 CALIB_HB    -1    27     1
+   4200458C    25     2     u     0       0      10           2 CALIB_HB    -1    27     2
    4200458C    25     5     u     0       0      10           0 CALIB_HB    -1    31     0
    4200458C    25     5     u     0       0      10           1 CALIB_HB    -1    31     1
    4200458C    25     5     u     0       0      10           2 CALIB_HB    -1    31     2
-   4200458C    31     5     u     0       0      10           0 CALIB_HB    -1    35     0
-   4200458C    31     5     u     0       0      10           1 CALIB_HB    -1    35     1
-   4200458C    31     5     u     0       0      10           2 CALIB_HB    -1    35     2
+   4200458C    31     2     u     0       0      10           0 CALIB_HB    -1    35     0
+   4200458C    31     2     u     0       0      10           1 CALIB_HB    -1    35     1
+   4200458C    31     2     u     0       0      10           2 CALIB_HB    -1    35     2
    4200458C    31     5     u     0       0      10           0 CALIB_HB    -1    39     0
    4200458C    31     5     u     0       0      10           1 CALIB_HB    -1    39     1
    4200458C    31     5     u     0       0      10           2 CALIB_HB    -1    39     2
-   4200458C    35     5     u     0       0      10           0 CALIB_HB    -1    43     0
-   4200458C    35     5     u     0       0      10           1 CALIB_HB    -1    43     1
-   4200458C    35     5     u     0       0      10           2 CALIB_HB    -1    43     2
+   4200458C    35     2     u     0       0      10           0 CALIB_HB    -1    43     0
+   4200458C    35     2     u     0       0      10           1 CALIB_HB    -1    43     1
+   4200458C    35     2     u     0       0      10           2 CALIB_HB    -1    43     2
    4200458C    35     5     u     0       0      10           0 CALIB_HB    -1    47     0
    4200458C    35     5     u     0       0      10           1 CALIB_HB    -1    47     1
    4200458C    35     5     u     0       0      10           2 CALIB_HB    -1    47     2
-   4200458C    37     5     u     0       0      10           0 CALIB_HB    -1    51     0
-   4200458C    37     5     u     0       0      10           1 CALIB_HB    -1    51     1
-   4200458C    37     5     u     0       0      10           2 CALIB_HB    -1    51     2
+   4200458C    37     2     u     0       0      10           0 CALIB_HB    -1    51     0
+   4200458C    37     2     u     0       0      10           1 CALIB_HB    -1    51     1
+   4200458C    37     2     u     0       0      10           2 CALIB_HB    -1    51     2
    4200458C    37     5     u     0       0      10           0 CALIB_HB    -1    55     0
    4200458C    37     5     u     0       0      10           1 CALIB_HB    -1    55     1
    4200458C    37     5     u     0       0      10           2 CALIB_HB    -1    55     2
-   4200458C    34     5     u     0       0      10           0 CALIB_HB    -1    59     0
-   4200458C    34     5     u     0       0      10           1 CALIB_HB    -1    59     1
-   4200458C    34     5     u     0       0      10           2 CALIB_HB    -1    59     2
+   4200458C    34     2     u     0       0      10           0 CALIB_HB    -1    59     0
+   4200458C    34     2     u     0       0      10           1 CALIB_HB    -1    59     1
+   4200458C    34     2     u     0       0      10           2 CALIB_HB    -1    59     2
    4200458C    34     5     u     0       0      10           0 CALIB_HB    -1    63     0
    4200458C    34     5     u     0       0      10           1 CALIB_HB    -1    63     1
    4200458C    34     5     u     0       0      10           2 CALIB_HB    -1    63     2
-   4200458C    30     5     u     0       0      10           0 CALIB_HB    -1    67     0
-   4200458C    30     5     u     0       0      10           1 CALIB_HB    -1    67     1
-   4200458C    30     5     u     0       0      10           2 CALIB_HB    -1    67     2
+   4200458C    30     2     u     0       0      10           0 CALIB_HB    -1    67     0
+   4200458C    30     2     u     0       0      10           1 CALIB_HB    -1    67     1
+   4200458C    30     2     u     0       0      10           2 CALIB_HB    -1    67     2
 #The valid run modes are: HB, HE, HF, HO
 #The run mode we have right now is: HE
-#The valid run modes are: LMap, EMap, FMap HT
+#The valid run modes are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib
 #The produce mode we have right now is: EMapCalib
 #Loading information from QIE allocation file...
 #Constructing ngHE LMap Object...
+#Loading information from QIE allocation file...
 #Constructing ngHE Calib LMap Object...
 #Map pass collision check, Good!
 #Dumping ngHECalib EMap Object...
@@ -20215,13 +20223,13 @@
    4200458C    30    12     u     0       0      23           3 CALIB_HE     1    71     3
    4200458C    30    12     u     0       0      23           4 CALIB_HE     1    71     4
    4200458C    30    12     u     0       0      23           5 CALIB_HE     1    71     5
-   4200458C    24    12     u     0       0      11           0 CALIB_HE     1     3     6
-   4200458C    24    12     u     0       0      23           0 CALIB_HE     1     3     0
-   4200458C    24    12     u     0       0      23           1 CALIB_HE     1     3     1
-   4200458C    24    12     u     0       0      23           2 CALIB_HE     1     3     2
-   4200458C    24    12     u     0       0      23           3 CALIB_HE     1     3     3
-   4200458C    24    12     u     0       0      23           4 CALIB_HE     1     3     4
-   4200458C    24    12     u     0       0      23           5 CALIB_HE     1     3     5
+   4200458C    24     9     u     0       0      11           0 CALIB_HE     1     3     6
+   4200458C    24     9     u     0       0      23           0 CALIB_HE     1     3     0
+   4200458C    24     9     u     0       0      23           1 CALIB_HE     1     3     1
+   4200458C    24     9     u     0       0      23           2 CALIB_HE     1     3     2
+   4200458C    24     9     u     0       0      23           3 CALIB_HE     1     3     3
+   4200458C    24     9     u     0       0      23           4 CALIB_HE     1     3     4
+   4200458C    24     9     u     0       0      23           5 CALIB_HE     1     3     5
    4200458C    24    12     u     0       0      11           0 CALIB_HE     1     7     6
    4200458C    24    12     u     0       0      23           0 CALIB_HE     1     7     0
    4200458C    24    12     u     0       0      23           1 CALIB_HE     1     7     1
@@ -20229,13 +20237,13 @@
    4200458C    24    12     u     0       0      23           3 CALIB_HE     1     7     3
    4200458C    24    12     u     0       0      23           4 CALIB_HE     1     7     4
    4200458C    24    12     u     0       0      23           5 CALIB_HE     1     7     5
-   4200458C    20    12     u     0       0      11           0 CALIB_HE     1    11     6
-   4200458C    20    12     u     0       0      23           0 CALIB_HE     1    11     0
-   4200458C    20    12     u     0       0      23           1 CALIB_HE     1    11     1
-   4200458C    20    12     u     0       0      23           2 CALIB_HE     1    11     2
-   4200458C    20    12     u     0       0      23           3 CALIB_HE     1    11     3
-   4200458C    20    12     u     0       0      23           4 CALIB_HE     1    11     4
-   4200458C    20    12     u     0       0      23           5 CALIB_HE     1    11     5
+   4200458C    20     9     u     0       0      11           0 CALIB_HE     1    11     6
+   4200458C    20     9     u     0       0      23           0 CALIB_HE     1    11     0
+   4200458C    20     9     u     0       0      23           1 CALIB_HE     1    11     1
+   4200458C    20     9     u     0       0      23           2 CALIB_HE     1    11     2
+   4200458C    20     9     u     0       0      23           3 CALIB_HE     1    11     3
+   4200458C    20     9     u     0       0      23           4 CALIB_HE     1    11     4
+   4200458C    20     9     u     0       0      23           5 CALIB_HE     1    11     5
    4200458C    20    12     u     0       0      11           0 CALIB_HE     1    15     6
    4200458C    20    12     u     0       0      23           0 CALIB_HE     1    15     0
    4200458C    20    12     u     0       0      23           1 CALIB_HE     1    15     1
@@ -20243,13 +20251,13 @@
    4200458C    20    12     u     0       0      23           3 CALIB_HE     1    15     3
    4200458C    20    12     u     0       0      23           4 CALIB_HE     1    15     4
    4200458C    20    12     u     0       0      23           5 CALIB_HE     1    15     5
-   4200458C    21    12     u     0       0      11           0 CALIB_HE     1    19     6
-   4200458C    21    12     u     0       0      23           0 CALIB_HE     1    19     0
-   4200458C    21    12     u     0       0      23           1 CALIB_HE     1    19     1
-   4200458C    21    12     u     0       0      23           2 CALIB_HE     1    19     2
-   4200458C    21    12     u     0       0      23           3 CALIB_HE     1    19     3
-   4200458C    21    12     u     0       0      23           4 CALIB_HE     1    19     4
-   4200458C    21    12     u     0       0      23           5 CALIB_HE     1    19     5
+   4200458C    21     9     u     0       0      11           0 CALIB_HE     1    19     6
+   4200458C    21     9     u     0       0      23           0 CALIB_HE     1    19     0
+   4200458C    21     9     u     0       0      23           1 CALIB_HE     1    19     1
+   4200458C    21     9     u     0       0      23           2 CALIB_HE     1    19     2
+   4200458C    21     9     u     0       0      23           3 CALIB_HE     1    19     3
+   4200458C    21     9     u     0       0      23           4 CALIB_HE     1    19     4
+   4200458C    21     9     u     0       0      23           5 CALIB_HE     1    19     5
    4200458C    21    12     u     0       0      11           0 CALIB_HE     1    23     6
    4200458C    21    12     u     0       0      23           0 CALIB_HE     1    23     0
    4200458C    21    12     u     0       0      23           1 CALIB_HE     1    23     1
@@ -20257,13 +20265,13 @@
    4200458C    21    12     u     0       0      23           3 CALIB_HE     1    23     3
    4200458C    21    12     u     0       0      23           4 CALIB_HE     1    23     4
    4200458C    21    12     u     0       0      23           5 CALIB_HE     1    23     5
-   4200458C    25    12     u     0       0      11           0 CALIB_HE     1    27     6
-   4200458C    25    12     u     0       0      23           0 CALIB_HE     1    27     0
-   4200458C    25    12     u     0       0      23           1 CALIB_HE     1    27     1
-   4200458C    25    12     u     0       0      23           2 CALIB_HE     1    27     2
-   4200458C    25    12     u     0       0      23           3 CALIB_HE     1    27     3
-   4200458C    25    12     u     0       0      23           4 CALIB_HE     1    27     4
-   4200458C    25    12     u     0       0      23           5 CALIB_HE     1    27     5
+   4200458C    25     9     u     0       0      11           0 CALIB_HE     1    27     6
+   4200458C    25     9     u     0       0      23           0 CALIB_HE     1    27     0
+   4200458C    25     9     u     0       0      23           1 CALIB_HE     1    27     1
+   4200458C    25     9     u     0       0      23           2 CALIB_HE     1    27     2
+   4200458C    25     9     u     0       0      23           3 CALIB_HE     1    27     3
+   4200458C    25     9     u     0       0      23           4 CALIB_HE     1    27     4
+   4200458C    25     9     u     0       0      23           5 CALIB_HE     1    27     5
    4200458C    25    12     u     0       0      11           0 CALIB_HE     1    31     6
    4200458C    25    12     u     0       0      23           0 CALIB_HE     1    31     0
    4200458C    25    12     u     0       0      23           1 CALIB_HE     1    31     1
@@ -20271,13 +20279,13 @@
    4200458C    25    12     u     0       0      23           3 CALIB_HE     1    31     3
    4200458C    25    12     u     0       0      23           4 CALIB_HE     1    31     4
    4200458C    25    12     u     0       0      23           5 CALIB_HE     1    31     5
-   4200458C    31    12     u     0       0      11           0 CALIB_HE     1    35     6
-   4200458C    31    12     u     0       0      23           0 CALIB_HE     1    35     0
-   4200458C    31    12     u     0       0      23           1 CALIB_HE     1    35     1
-   4200458C    31    12     u     0       0      23           2 CALIB_HE     1    35     2
-   4200458C    31    12     u     0       0      23           3 CALIB_HE     1    35     3
-   4200458C    31    12     u     0       0      23           4 CALIB_HE     1    35     4
-   4200458C    31    12     u     0       0      23           5 CALIB_HE     1    35     5
+   4200458C    31     9     u     0       0      11           0 CALIB_HE     1    35     6
+   4200458C    31     9     u     0       0      23           0 CALIB_HE     1    35     0
+   4200458C    31     9     u     0       0      23           1 CALIB_HE     1    35     1
+   4200458C    31     9     u     0       0      23           2 CALIB_HE     1    35     2
+   4200458C    31     9     u     0       0      23           3 CALIB_HE     1    35     3
+   4200458C    31     9     u     0       0      23           4 CALIB_HE     1    35     4
+   4200458C    31     9     u     0       0      23           5 CALIB_HE     1    35     5
    4200458C    31    12     u     0       0      11           0 CALIB_HE     1    39     6
    4200458C    31    12     u     0       0      23           0 CALIB_HE     1    39     0
    4200458C    31    12     u     0       0      23           1 CALIB_HE     1    39     1
@@ -20285,13 +20293,13 @@
    4200458C    31    12     u     0       0      23           3 CALIB_HE     1    39     3
    4200458C    31    12     u     0       0      23           4 CALIB_HE     1    39     4
    4200458C    31    12     u     0       0      23           5 CALIB_HE     1    39     5
-   4200458C    35    12     u     0       0      11           0 CALIB_HE     1    43     6
-   4200458C    35    12     u     0       0      23           0 CALIB_HE     1    43     0
-   4200458C    35    12     u     0       0      23           1 CALIB_HE     1    43     1
-   4200458C    35    12     u     0       0      23           2 CALIB_HE     1    43     2
-   4200458C    35    12     u     0       0      23           3 CALIB_HE     1    43     3
-   4200458C    35    12     u     0       0      23           4 CALIB_HE     1    43     4
-   4200458C    35    12     u     0       0      23           5 CALIB_HE     1    43     5
+   4200458C    35     9     u     0       0      11           0 CALIB_HE     1    43     6
+   4200458C    35     9     u     0       0      23           0 CALIB_HE     1    43     0
+   4200458C    35     9     u     0       0      23           1 CALIB_HE     1    43     1
+   4200458C    35     9     u     0       0      23           2 CALIB_HE     1    43     2
+   4200458C    35     9     u     0       0      23           3 CALIB_HE     1    43     3
+   4200458C    35     9     u     0       0      23           4 CALIB_HE     1    43     4
+   4200458C    35     9     u     0       0      23           5 CALIB_HE     1    43     5
    4200458C    35    12     u     0       0      11           0 CALIB_HE     1    47     6
    4200458C    35    12     u     0       0      23           0 CALIB_HE     1    47     0
    4200458C    35    12     u     0       0      23           1 CALIB_HE     1    47     1
@@ -20299,13 +20307,13 @@
    4200458C    35    12     u     0       0      23           3 CALIB_HE     1    47     3
    4200458C    35    12     u     0       0      23           4 CALIB_HE     1    47     4
    4200458C    35    12     u     0       0      23           5 CALIB_HE     1    47     5
-   4200458C    37    12     u     0       0      11           0 CALIB_HE     1    51     6
-   4200458C    37    12     u     0       0      23           0 CALIB_HE     1    51     0
-   4200458C    37    12     u     0       0      23           1 CALIB_HE     1    51     1
-   4200458C    37    12     u     0       0      23           2 CALIB_HE     1    51     2
-   4200458C    37    12     u     0       0      23           3 CALIB_HE     1    51     3
-   4200458C    37    12     u     0       0      23           4 CALIB_HE     1    51     4
-   4200458C    37    12     u     0       0      23           5 CALIB_HE     1    51     5
+   4200458C    37     9     u     0       0      11           0 CALIB_HE     1    51     6
+   4200458C    37     9     u     0       0      23           0 CALIB_HE     1    51     0
+   4200458C    37     9     u     0       0      23           1 CALIB_HE     1    51     1
+   4200458C    37     9     u     0       0      23           2 CALIB_HE     1    51     2
+   4200458C    37     9     u     0       0      23           3 CALIB_HE     1    51     3
+   4200458C    37     9     u     0       0      23           4 CALIB_HE     1    51     4
+   4200458C    37     9     u     0       0      23           5 CALIB_HE     1    51     5
    4200458C    37    12     u     0       0      11           0 CALIB_HE     1    55     6
    4200458C    37    12     u     0       0      23           0 CALIB_HE     1    55     0
    4200458C    37    12     u     0       0      23           1 CALIB_HE     1    55     1
@@ -20313,13 +20321,13 @@
    4200458C    37    12     u     0       0      23           3 CALIB_HE     1    55     3
    4200458C    37    12     u     0       0      23           4 CALIB_HE     1    55     4
    4200458C    37    12     u     0       0      23           5 CALIB_HE     1    55     5
-   4200458C    34    12     u     0       0      11           0 CALIB_HE     1    59     6
-   4200458C    34    12     u     0       0      23           0 CALIB_HE     1    59     0
-   4200458C    34    12     u     0       0      23           1 CALIB_HE     1    59     1
-   4200458C    34    12     u     0       0      23           2 CALIB_HE     1    59     2
-   4200458C    34    12     u     0       0      23           3 CALIB_HE     1    59     3
-   4200458C    34    12     u     0       0      23           4 CALIB_HE     1    59     4
-   4200458C    34    12     u     0       0      23           5 CALIB_HE     1    59     5
+   4200458C    34     9     u     0       0      11           0 CALIB_HE     1    59     6
+   4200458C    34     9     u     0       0      23           0 CALIB_HE     1    59     0
+   4200458C    34     9     u     0       0      23           1 CALIB_HE     1    59     1
+   4200458C    34     9     u     0       0      23           2 CALIB_HE     1    59     2
+   4200458C    34     9     u     0       0      23           3 CALIB_HE     1    59     3
+   4200458C    34     9     u     0       0      23           4 CALIB_HE     1    59     4
+   4200458C    34     9     u     0       0      23           5 CALIB_HE     1    59     5
    4200458C    34    12     u     0       0      11           0 CALIB_HE     1    63     6
    4200458C    34    12     u     0       0      23           0 CALIB_HE     1    63     0
    4200458C    34    12     u     0       0      23           1 CALIB_HE     1    63     1
@@ -20327,13 +20335,13 @@
    4200458C    34    12     u     0       0      23           3 CALIB_HE     1    63     3
    4200458C    34    12     u     0       0      23           4 CALIB_HE     1    63     4
    4200458C    34    12     u     0       0      23           5 CALIB_HE     1    63     5
-   4200458C    30    12     u     0       0      11           0 CALIB_HE     1    67     6
-   4200458C    30    12     u     0       0      23           0 CALIB_HE     1    67     0
-   4200458C    30    12     u     0       0      23           1 CALIB_HE     1    67     1
-   4200458C    30    12     u     0       0      23           2 CALIB_HE     1    67     2
-   4200458C    30    12     u     0       0      23           3 CALIB_HE     1    67     3
-   4200458C    30    12     u     0       0      23           4 CALIB_HE     1    67     4
-   4200458C    30    12     u     0       0      23           5 CALIB_HE     1    67     5
+   4200458C    30     9     u     0       0      11           0 CALIB_HE     1    67     6
+   4200458C    30     9     u     0       0      23           0 CALIB_HE     1    67     0
+   4200458C    30     9     u     0       0      23           1 CALIB_HE     1    67     1
+   4200458C    30     9     u     0       0      23           2 CALIB_HE     1    67     2
+   4200458C    30     9     u     0       0      23           3 CALIB_HE     1    67     3
+   4200458C    30     9     u     0       0      23           4 CALIB_HE     1    67     4
+   4200458C    30     9     u     0       0      23           5 CALIB_HE     1    67     5
    4200458C    30     6     u     0       0      11           0 CALIB_HE    -1    71     6
    4200458C    30     6     u     0       0      23           0 CALIB_HE    -1    71     0
    4200458C    30     6     u     0       0      23           1 CALIB_HE    -1    71     1
@@ -20341,13 +20349,13 @@
    4200458C    30     6     u     0       0      23           3 CALIB_HE    -1    71     3
    4200458C    30     6     u     0       0      23           4 CALIB_HE    -1    71     4
    4200458C    30     6     u     0       0      23           5 CALIB_HE    -1    71     5
-   4200458C    24     6     u     0       0      11           0 CALIB_HE    -1     3     6
-   4200458C    24     6     u     0       0      23           0 CALIB_HE    -1     3     0
-   4200458C    24     6     u     0       0      23           1 CALIB_HE    -1     3     1
-   4200458C    24     6     u     0       0      23           2 CALIB_HE    -1     3     2
-   4200458C    24     6     u     0       0      23           3 CALIB_HE    -1     3     3
-   4200458C    24     6     u     0       0      23           4 CALIB_HE    -1     3     4
-   4200458C    24     6     u     0       0      23           5 CALIB_HE    -1     3     5
+   4200458C    24     3     u     0       0      11           0 CALIB_HE    -1     3     6
+   4200458C    24     3     u     0       0      23           0 CALIB_HE    -1     3     0
+   4200458C    24     3     u     0       0      23           1 CALIB_HE    -1     3     1
+   4200458C    24     3     u     0       0      23           2 CALIB_HE    -1     3     2
+   4200458C    24     3     u     0       0      23           3 CALIB_HE    -1     3     3
+   4200458C    24     3     u     0       0      23           4 CALIB_HE    -1     3     4
+   4200458C    24     3     u     0       0      23           5 CALIB_HE    -1     3     5
    4200458C    24     6     u     0       0      11           0 CALIB_HE    -1     7     6
    4200458C    24     6     u     0       0      23           0 CALIB_HE    -1     7     0
    4200458C    24     6     u     0       0      23           1 CALIB_HE    -1     7     1
@@ -20355,13 +20363,13 @@
    4200458C    24     6     u     0       0      23           3 CALIB_HE    -1     7     3
    4200458C    24     6     u     0       0      23           4 CALIB_HE    -1     7     4
    4200458C    24     6     u     0       0      23           5 CALIB_HE    -1     7     5
-   4200458C    20     6     u     0       0      11           0 CALIB_HE    -1    11     6
-   4200458C    20     6     u     0       0      23           0 CALIB_HE    -1    11     0
-   4200458C    20     6     u     0       0      23           1 CALIB_HE    -1    11     1
-   4200458C    20     6     u     0       0      23           2 CALIB_HE    -1    11     2
-   4200458C    20     6     u     0       0      23           3 CALIB_HE    -1    11     3
-   4200458C    20     6     u     0       0      23           4 CALIB_HE    -1    11     4
-   4200458C    20     6     u     0       0      23           5 CALIB_HE    -1    11     5
+   4200458C    20     3     u     0       0      11           0 CALIB_HE    -1    11     6
+   4200458C    20     3     u     0       0      23           0 CALIB_HE    -1    11     0
+   4200458C    20     3     u     0       0      23           1 CALIB_HE    -1    11     1
+   4200458C    20     3     u     0       0      23           2 CALIB_HE    -1    11     2
+   4200458C    20     3     u     0       0      23           3 CALIB_HE    -1    11     3
+   4200458C    20     3     u     0       0      23           4 CALIB_HE    -1    11     4
+   4200458C    20     3     u     0       0      23           5 CALIB_HE    -1    11     5
    4200458C    20     6     u     0       0      11           0 CALIB_HE    -1    15     6
    4200458C    20     6     u     0       0      23           0 CALIB_HE    -1    15     0
    4200458C    20     6     u     0       0      23           1 CALIB_HE    -1    15     1
@@ -20369,13 +20377,13 @@
    4200458C    20     6     u     0       0      23           3 CALIB_HE    -1    15     3
    4200458C    20     6     u     0       0      23           4 CALIB_HE    -1    15     4
    4200458C    20     6     u     0       0      23           5 CALIB_HE    -1    15     5
-   4200458C    21     6     u     0       0      11           0 CALIB_HE    -1    19     6
-   4200458C    21     6     u     0       0      23           0 CALIB_HE    -1    19     0
-   4200458C    21     6     u     0       0      23           1 CALIB_HE    -1    19     1
-   4200458C    21     6     u     0       0      23           2 CALIB_HE    -1    19     2
-   4200458C    21     6     u     0       0      23           3 CALIB_HE    -1    19     3
-   4200458C    21     6     u     0       0      23           4 CALIB_HE    -1    19     4
-   4200458C    21     6     u     0       0      23           5 CALIB_HE    -1    19     5
+   4200458C    21     3     u     0       0      11           0 CALIB_HE    -1    19     6
+   4200458C    21     3     u     0       0      23           0 CALIB_HE    -1    19     0
+   4200458C    21     3     u     0       0      23           1 CALIB_HE    -1    19     1
+   4200458C    21     3     u     0       0      23           2 CALIB_HE    -1    19     2
+   4200458C    21     3     u     0       0      23           3 CALIB_HE    -1    19     3
+   4200458C    21     3     u     0       0      23           4 CALIB_HE    -1    19     4
+   4200458C    21     3     u     0       0      23           5 CALIB_HE    -1    19     5
    4200458C    21     6     u     0       0      11           0 CALIB_HE    -1    23     6
    4200458C    21     6     u     0       0      23           0 CALIB_HE    -1    23     0
    4200458C    21     6     u     0       0      23           1 CALIB_HE    -1    23     1
@@ -20383,13 +20391,13 @@
    4200458C    21     6     u     0       0      23           3 CALIB_HE    -1    23     3
    4200458C    21     6     u     0       0      23           4 CALIB_HE    -1    23     4
    4200458C    21     6     u     0       0      23           5 CALIB_HE    -1    23     5
-   4200458C    25     6     u     0       0      11           0 CALIB_HE    -1    27     6
-   4200458C    25     6     u     0       0      23           0 CALIB_HE    -1    27     0
-   4200458C    25     6     u     0       0      23           1 CALIB_HE    -1    27     1
-   4200458C    25     6     u     0       0      23           2 CALIB_HE    -1    27     2
-   4200458C    25     6     u     0       0      23           3 CALIB_HE    -1    27     3
-   4200458C    25     6     u     0       0      23           4 CALIB_HE    -1    27     4
-   4200458C    25     6     u     0       0      23           5 CALIB_HE    -1    27     5
+   4200458C    25     3     u     0       0      11           0 CALIB_HE    -1    27     6
+   4200458C    25     3     u     0       0      23           0 CALIB_HE    -1    27     0
+   4200458C    25     3     u     0       0      23           1 CALIB_HE    -1    27     1
+   4200458C    25     3     u     0       0      23           2 CALIB_HE    -1    27     2
+   4200458C    25     3     u     0       0      23           3 CALIB_HE    -1    27     3
+   4200458C    25     3     u     0       0      23           4 CALIB_HE    -1    27     4
+   4200458C    25     3     u     0       0      23           5 CALIB_HE    -1    27     5
    4200458C    25     6     u     0       0      11           0 CALIB_HE    -1    31     6
    4200458C    25     6     u     0       0      23           0 CALIB_HE    -1    31     0
    4200458C    25     6     u     0       0      23           1 CALIB_HE    -1    31     1
@@ -20397,13 +20405,13 @@
    4200458C    25     6     u     0       0      23           3 CALIB_HE    -1    31     3
    4200458C    25     6     u     0       0      23           4 CALIB_HE    -1    31     4
    4200458C    25     6     u     0       0      23           5 CALIB_HE    -1    31     5
-   4200458C    31     6     u     0       0      11           0 CALIB_HE    -1    35     6
-   4200458C    31     6     u     0       0      23           0 CALIB_HE    -1    35     0
-   4200458C    31     6     u     0       0      23           1 CALIB_HE    -1    35     1
-   4200458C    31     6     u     0       0      23           2 CALIB_HE    -1    35     2
-   4200458C    31     6     u     0       0      23           3 CALIB_HE    -1    35     3
-   4200458C    31     6     u     0       0      23           4 CALIB_HE    -1    35     4
-   4200458C    31     6     u     0       0      23           5 CALIB_HE    -1    35     5
+   4200458C    31     3     u     0       0      11           0 CALIB_HE    -1    35     6
+   4200458C    31     3     u     0       0      23           0 CALIB_HE    -1    35     0
+   4200458C    31     3     u     0       0      23           1 CALIB_HE    -1    35     1
+   4200458C    31     3     u     0       0      23           2 CALIB_HE    -1    35     2
+   4200458C    31     3     u     0       0      23           3 CALIB_HE    -1    35     3
+   4200458C    31     3     u     0       0      23           4 CALIB_HE    -1    35     4
+   4200458C    31     3     u     0       0      23           5 CALIB_HE    -1    35     5
    4200458C    31     6     u     0       0      11           0 CALIB_HE    -1    39     6
    4200458C    31     6     u     0       0      23           0 CALIB_HE    -1    39     0
    4200458C    31     6     u     0       0      23           1 CALIB_HE    -1    39     1
@@ -20411,13 +20419,13 @@
    4200458C    31     6     u     0       0      23           3 CALIB_HE    -1    39     3
    4200458C    31     6     u     0       0      23           4 CALIB_HE    -1    39     4
    4200458C    31     6     u     0       0      23           5 CALIB_HE    -1    39     5
-   4200458C    35     6     u     0       0      11           0 CALIB_HE    -1    43     6
-   4200458C    35     6     u     0       0      23           0 CALIB_HE    -1    43     0
-   4200458C    35     6     u     0       0      23           1 CALIB_HE    -1    43     1
-   4200458C    35     6     u     0       0      23           2 CALIB_HE    -1    43     2
-   4200458C    35     6     u     0       0      23           3 CALIB_HE    -1    43     3
-   4200458C    35     6     u     0       0      23           4 CALIB_HE    -1    43     4
-   4200458C    35     6     u     0       0      23           5 CALIB_HE    -1    43     5
+   4200458C    35     3     u     0       0      11           0 CALIB_HE    -1    43     6
+   4200458C    35     3     u     0       0      23           0 CALIB_HE    -1    43     0
+   4200458C    35     3     u     0       0      23           1 CALIB_HE    -1    43     1
+   4200458C    35     3     u     0       0      23           2 CALIB_HE    -1    43     2
+   4200458C    35     3     u     0       0      23           3 CALIB_HE    -1    43     3
+   4200458C    35     3     u     0       0      23           4 CALIB_HE    -1    43     4
+   4200458C    35     3     u     0       0      23           5 CALIB_HE    -1    43     5
    4200458C    35     6     u     0       0      11           0 CALIB_HE    -1    47     6
    4200458C    35     6     u     0       0      23           0 CALIB_HE    -1    47     0
    4200458C    35     6     u     0       0      23           1 CALIB_HE    -1    47     1
@@ -20425,13 +20433,13 @@
    4200458C    35     6     u     0       0      23           3 CALIB_HE    -1    47     3
    4200458C    35     6     u     0       0      23           4 CALIB_HE    -1    47     4
    4200458C    35     6     u     0       0      23           5 CALIB_HE    -1    47     5
-   4200458C    37     6     u     0       0      11           0 CALIB_HE    -1    51     6
-   4200458C    37     6     u     0       0      23           0 CALIB_HE    -1    51     0
-   4200458C    37     6     u     0       0      23           1 CALIB_HE    -1    51     1
-   4200458C    37     6     u     0       0      23           2 CALIB_HE    -1    51     2
-   4200458C    37     6     u     0       0      23           3 CALIB_HE    -1    51     3
-   4200458C    37     6     u     0       0      23           4 CALIB_HE    -1    51     4
-   4200458C    37     6     u     0       0      23           5 CALIB_HE    -1    51     5
+   4200458C    37     3     u     0       0      11           0 CALIB_HE    -1    51     6
+   4200458C    37     3     u     0       0      23           0 CALIB_HE    -1    51     0
+   4200458C    37     3     u     0       0      23           1 CALIB_HE    -1    51     1
+   4200458C    37     3     u     0       0      23           2 CALIB_HE    -1    51     2
+   4200458C    37     3     u     0       0      23           3 CALIB_HE    -1    51     3
+   4200458C    37     3     u     0       0      23           4 CALIB_HE    -1    51     4
+   4200458C    37     3     u     0       0      23           5 CALIB_HE    -1    51     5
    4200458C    37     6     u     0       0      11           0 CALIB_HE    -1    55     6
    4200458C    37     6     u     0       0      23           0 CALIB_HE    -1    55     0
    4200458C    37     6     u     0       0      23           1 CALIB_HE    -1    55     1
@@ -20439,13 +20447,13 @@
    4200458C    37     6     u     0       0      23           3 CALIB_HE    -1    55     3
    4200458C    37     6     u     0       0      23           4 CALIB_HE    -1    55     4
    4200458C    37     6     u     0       0      23           5 CALIB_HE    -1    55     5
-   4200458C    34     6     u     0       0      11           0 CALIB_HE    -1    59     6
-   4200458C    34     6     u     0       0      23           0 CALIB_HE    -1    59     0
-   4200458C    34     6     u     0       0      23           1 CALIB_HE    -1    59     1
-   4200458C    34     6     u     0       0      23           2 CALIB_HE    -1    59     2
-   4200458C    34     6     u     0       0      23           3 CALIB_HE    -1    59     3
-   4200458C    34     6     u     0       0      23           4 CALIB_HE    -1    59     4
-   4200458C    34     6     u     0       0      23           5 CALIB_HE    -1    59     5
+   4200458C    34     3     u     0       0      11           0 CALIB_HE    -1    59     6
+   4200458C    34     3     u     0       0      23           0 CALIB_HE    -1    59     0
+   4200458C    34     3     u     0       0      23           1 CALIB_HE    -1    59     1
+   4200458C    34     3     u     0       0      23           2 CALIB_HE    -1    59     2
+   4200458C    34     3     u     0       0      23           3 CALIB_HE    -1    59     3
+   4200458C    34     3     u     0       0      23           4 CALIB_HE    -1    59     4
+   4200458C    34     3     u     0       0      23           5 CALIB_HE    -1    59     5
    4200458C    34     6     u     0       0      11           0 CALIB_HE    -1    63     6
    4200458C    34     6     u     0       0      23           0 CALIB_HE    -1    63     0
    4200458C    34     6     u     0       0      23           1 CALIB_HE    -1    63     1
@@ -20453,19 +20461,20 @@
    4200458C    34     6     u     0       0      23           3 CALIB_HE    -1    63     3
    4200458C    34     6     u     0       0      23           4 CALIB_HE    -1    63     4
    4200458C    34     6     u     0       0      23           5 CALIB_HE    -1    63     5
-   4200458C    30     6     u     0       0      11           0 CALIB_HE    -1    67     6
-   4200458C    30     6     u     0       0      23           0 CALIB_HE    -1    67     0
-   4200458C    30     6     u     0       0      23           1 CALIB_HE    -1    67     1
-   4200458C    30     6     u     0       0      23           2 CALIB_HE    -1    67     2
-   4200458C    30     6     u     0       0      23           3 CALIB_HE    -1    67     3
-   4200458C    30     6     u     0       0      23           4 CALIB_HE    -1    67     4
-   4200458C    30     6     u     0       0      23           5 CALIB_HE    -1    67     5
+   4200458C    30     3     u     0       0      11           0 CALIB_HE    -1    67     6
+   4200458C    30     3     u     0       0      23           0 CALIB_HE    -1    67     0
+   4200458C    30     3     u     0       0      23           1 CALIB_HE    -1    67     1
+   4200458C    30     3     u     0       0      23           2 CALIB_HE    -1    67     2
+   4200458C    30     3     u     0       0      23           3 CALIB_HE    -1    67     3
+   4200458C    30     3     u     0       0      23           4 CALIB_HE    -1    67     4
+   4200458C    30     3     u     0       0      23           5 CALIB_HE    -1    67     5
 #The valid run modes are: HB, HE, HF, HO
 #The run mode we have right now is: HF
-#The valid run modes are: LMap, EMap, FMap HT
+#The valid run modes are: LMap, EMap, FMap, HT, LMapCalib, EMapCalib
 #The produce mode we have right now is: EMapCalib
 #Loading information from QIE allocation file...
 #Constructing ngHF LMap Object...
+#Loading information from QIE allocation file...
 #Constructing ngHF Calib LMap Object...
 #Map pass collision check, Good!
 #Dumping ngHFCalib EMap Object...

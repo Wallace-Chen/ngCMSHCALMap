@@ -422,8 +422,8 @@ void HBMappingAlgorithm::ConstructHBCalib(int sideid, int rbxrmid, int rmfifichi
   */
   int HBuCrateInWedge[NrbxHB] = {30, 24, 24, 20, 20, 21, 21, 25, 25, 31, 31, 35, 35, 37, 37, 34, 34, 30};
   thisHBCalib.ucrate = HBuCrateInWedge[thisHBCalib.wedge-1];
-  if     (thisHBCalib.ppcol == 6) thisHBCalib.wedge != 0 ? thisHBCalib.uhtr = 5 : thisHBCalib.uhtr = 2;
-  else if(thisHBCalib.ppcol == 3) thisHBCalib.wedge != 0 ? thisHBCalib.uhtr = 11 : thisHBCalib.uhtr = 8;
+  if     (thisHBCalib.ppcol == 6) thisHBCalib.wedge%2 != 0 ? thisHBCalib.uhtr = 5 : thisHBCalib.uhtr = 2;
+  else if(thisHBCalib.ppcol == 3) thisHBCalib.wedge%2 != 0 ? thisHBCalib.uhtr = 11 : thisHBCalib.uhtr = 8;
   else{ std::cout << "#HB Calib channel not in ppcol 6 nor ppcol 3, please check!!" << std::endl; thisHBCalib.uhtr = 0; }
   if     (thisHBCalib.rm_fiber == 1) thisHBCalib.uhtr_fiber = 10;
   else if(thisHBCalib.rm_fiber == 2) thisHBCalib.uhtr_fiber = 11; //this is only for ngHB
