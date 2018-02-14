@@ -364,6 +364,8 @@ void HBMappingAlgorithm::ConstructHBCalib(int sideid, int rbxrmid, int rmfifichi
   */
   int HBtrunkInWedge[NrbxHB] = {1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3};
   thisHBCalib.trunk = std::to_string(HBtrunkInWedge[thisHBCalib.wedge-1]);
+  //This is a special fix, http://cmsonline.cern.ch/cms-elog/1028505, trunk 5 for HBP08
+  if (thisHBCalib.rbx == "HBP08") thisHBCalib.trunk = std::to_string(5);
   int HBcpColInWedge[NrbxHB] = {4, 4, 5, 1, 1, 2, 2, 3, 3, 5, 6, 6, 7, 7, 8, 8, 9, 9};
   thisHBCalib.cpcol = HBcpColInWedge[thisHBCalib.wedge-1];
   sideid < 0 ? thisHBCalib.cprow = 1 : thisHBCalib.cprow = 3;

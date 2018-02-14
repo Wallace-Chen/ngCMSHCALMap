@@ -445,19 +445,19 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
    rm_fib 2 = LC2 = 1-1
   */
   int ngHEtrunkInWedge[NrbxngHE] = {1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2};
-  thisngHECalib.trunk = std::to_string( ngHEtrunkInWedge[thisngHECalib.wedge-1] ) + "-" + std::to_string( ((thisngHECalib.wedge-1)%3)*2 + thisngHECalib.rm_fiber );
+  //Note, this is a special inverse introduced by hard mis communication...
+  thisngHECalib.trunk = std::to_string( ngHEtrunkInWedge[thisngHECalib.wedge-1] ) + "-" + std::to_string( ((thisngHECalib.wedge-1)%3)*2 + thisngHECalib.rm_fiber%2 + 1 );
   //special fix for trunk fiber in HEP01
-  if( thisngHECalib.rbx == "HEP01" ){ thisngHECalib.trunk.clear(); thisngHECalib.trunk = std::to_string( ngHEtrunkInWedge[thisngHECalib.wedge-1] ) + "-" + std::to_string( ((thisngHECalib.wedge-1)%3)*2 + 3 - thisngHECalib.rm_fiber ); } //swap 1,2 in HEP01 only
-  //if( thisngHECalib.rbx == "HEP01" ){ thisngHECalib.trunk.clear(); thisngHECalib.trunk = trunk_sector_str + "-" + std::to_string( 3-thisngHECalib.rm_fiber ); }
+  //if( thisngHECalib.rbx == "HEP01" ){ thisngHECalib.trunk.clear(); thisngHECalib.trunk = std::to_string( ngHEtrunkInWedge[thisngHECalib.wedge-1] ) + "-" + std::to_string( ((thisngHECalib.wedge-1)%3)*2 + 3 - thisngHECalib.rm_fiber ); } //swap 1,2 in HEP01 only
   int ngHEcpColInWedge[NrbxngHE] = {4, 4, 5, 1, 1, 2, 2, 3, 3, 5, 6, 6, 7, 7, 8, 8, 9, 9};
   thisngHECalib.cpcol = ngHEcpColInWedge[thisngHECalib.wedge-1];
   sideid < 0 ? thisngHECalib.cprow = 2 : thisngHECalib.cprow = 4;
   int ngHESectorInWedge[NrbxngHE] = {2, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3};
   std::string sector_str = std::to_string(ngHESectorInWedge[thisngHECalib.wedge-1]);
   bool if12InxyzWedge = (sector_str == "1" && thisngHECalib.wedge%2 == 0) || (sector_str == "2" && thisngHECalib.wedge%2 == 1) || (sector_str == "3" && thisngHECalib.wedge%2 == 1);
-  if( if12InxyzWedge ) thisngHECalib.cplc = thisngHECalib.rm_fiber;
-  else thisngHECalib.cplc = thisngHECalib.rm_fiber + 2;
-  thisngHECalib.cpoct = (4-thisngHECalib.cprow)*2 + thisngHECalib.rm_fiber;
+  if( if12InxyzWedge ) thisngHECalib.cplc = thisngHECalib.rm_fiber%2 + 1;
+  else thisngHECalib.cplc = thisngHECalib.rm_fiber%2 + 1 + 2;
+  thisngHECalib.cpoct = (4-thisngHECalib.cprow)*2 + thisngHECalib.rm_fiber%2 + 1;
   const std::map<int, std::string > ngHEcpCplInCpCol = { 
                                                         {1,"04-05"}, {2,"06-07"}, {3,"08-09"},
                                                         {4,"01-02"}, {5,"03-10"}, {6,"11-12"},
@@ -483,7 +483,7 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
   sideid < 0 ? thisngHECalib.ppcol = 6 : thisngHECalib.ppcol = 3;
   thisngHECalib.pprow = 5;
   //thisngHECalib.pplc = (thisngHECalib.rm_fiber-1)%4+1;
-  thisngHECalib.pplc = thisngHECalib.rm_fiber;
+  thisngHECalib.pplc = thisngHECalib.rm_fiber%2 + 1;
   //thisngHECalib.dodec = (thisngHECalib.uhtr_fiber)%12+1;
   thisngHECalib.dodec = 12;
   thisngHECalib.ppcpl = "EB" + sideletter + numberletter + "_CU";
@@ -516,8 +516,8 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
   if     (thisngHECalib.ppcol == 6) thisngHECalib.wedge%2 != 0 ? thisngHECalib.uhtr = 6 : thisngHECalib.uhtr = 3; //FIXME
   else if(thisngHECalib.ppcol == 3) thisngHECalib.wedge%2 != 0 ? thisngHECalib.uhtr = 12 : thisngHECalib.uhtr = 9; //FIXME
   else{ std::cout << "#ngHE Calib channel not in ppcol 6 nor ppcol 3, please check!!" << std::endl; thisngHECalib.uhtr = 0; }
-  if     (thisngHECalib.rm_fiber == 1) thisngHECalib.uhtr_fiber = 11;
-  else if(thisngHECalib.rm_fiber == 2) thisngHECalib.uhtr_fiber = 23;
+  if     (thisngHECalib.rm_fiber == 1) thisngHECalib.uhtr_fiber = 23;
+  else if(thisngHECalib.rm_fiber == 2) thisngHECalib.uhtr_fiber = 11;
   else{ std::cout << "#ngHE Calib channel not in RM fiber 1 nor RM fiber 2, please check!!" << std::endl; thisngHECalib.uhtr_fiber = -1; }
   const std::map<int, std::pair<int, int> > ngHEufedidInucrate = { {20,{1102,1103}},{21,{1104,1105}},{24,{1100,1101}},{25,{1106,1107}},{30,{1116,1117}},{31,{1108,1109}},{34,{1114,1115}},{35,{1110,1111}},{37,{1112,1113}} };
   thisngHECalib.uhtr <= 6 ? thisngHECalib.ufedid = ((ngHEufedidInucrate.find(thisngHECalib.ucrate))->second).first : thisngHECalib.ufedid = ((ngHEufedidInucrate.find(thisngHECalib.ucrate))->second).second;
