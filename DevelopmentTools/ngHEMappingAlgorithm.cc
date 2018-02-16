@@ -347,7 +347,7 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
   thisngHECalib.fiber_ch = rmfifichid%Nfiber_ch;
   //set secondary variables qie11 map
   //thisngHECalib.qie11 = (thisngHECalib.rm_fiber-1)/2+1;
-  thisngHECalib.qie11 = 0;
+  thisngHECalib.qie11 = 1;
   thisngHECalib.qie11_ch = ((thisngHECalib.rm_fiber-1)%2)*6+thisngHECalib.fiber_ch+1;
   //set tmp qie11 id                                                                                                                                                                                        
   GetngHEQIEInfoToLMap(
