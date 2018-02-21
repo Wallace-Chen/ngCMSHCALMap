@@ -439,14 +439,14 @@ void ngHFMappingAlgorithm::ConstructngHFCalib(int sideid, int rbxqie10id, int qi
   std::string numberletter; ((rbxqie10id/Nqie10Calib)*2 + 1) < 10 ? numberletter = "0" + std::to_string((rbxqie10id/Nqie10Calib)*2 + 1) : numberletter = std::to_string((rbxqie10id/Nqie10Calib)*2 + 1); 
   thisngHFCalib.rbx = "HF" + sideletter + numberletter;
   thisngHFCalib.qie10 = 1; //QIE10 in the ngHF CU
-  thisngHFCalib.qie10_fiber = qie10chid%Nqie10_fiberCalib + 1;//
+  thisngHFCalib.qie10_fiber = qie10chid%Nqie10_fiberCalib + 4;//
   thisngHFCalib.qie10_ch = qie10chid%Nfiber_ch + 1;
   thisngHFCalib.fiber_ch = qie10chid%Nfiber_ch;
   //thisngHFCalib.qie10_id = 500000;
-  std::string qie10_barcode = "0x3e000000 0xba22f270";
+  //std::string qie10_barcode = "0x3e000000 0xba22f270";
   GetngHFQIEInfoToLMap(
                        thisngHFCalib.rbx, thisngHFCalib.qie10,
-                       thisngHFCalib.qie10_id, qie10_barcode
+                       thisngHFCalib.qie10_id, thisngHFCalib.qie10_barcode
                       );
   thisngHFCalib.sector = rbxqie10id/Nqie10Calib + 1;
 
@@ -454,7 +454,7 @@ void ngHFMappingAlgorithm::ConstructngHFCalib(int sideid, int rbxqie10id, int qi
   thisngHFCalib.ucrate = 38;
   thisngHFCalib.uhtr = 6;
   sideid>0 ? thisngHFCalib.uhtr_fiber = rbxqie10id/Nqie10Calib : thisngHFCalib.uhtr_fiber = rbxqie10id/Nqie10Calib + 4;
-  thisngHFCalib.ufedid = 1132;
+  thisngHFCalib.ufedid = 1134;
   thisngHFCalib.dodec = thisngHFCalib.uhtr_fiber + 1;
 
   //set up Geometry part

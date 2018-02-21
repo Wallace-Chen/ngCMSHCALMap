@@ -83,6 +83,7 @@ struct ngHFCalib
   std::string rbx;
   int qie10_fiber, fiber_ch;
   int qie10, qie10_ch, qie10_id;
+  std::string qie10_barcode;
   int sector;
   
   //Calibration patch
