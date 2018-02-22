@@ -450,12 +450,53 @@ void ngHFMappingAlgorithm::ConstructngHFCalib(int sideid, int rbxqie10id, int qi
                       );
   thisngHFCalib.sector = rbxqie10id/Nqie10Calib + 1;
 
+  //http://cmsdoc.cern.ch/cms/HCAL/document/Mapping/Calib/ngCU_patch/ngCU_HOHF_patch.txt
+  /*
+ input side of the HOHF CU patch:
+ - where the HO ring designations are 0z 1m 2m 1p 2p
+   and the HF Quadrants are directly indicated
+ 
+ | 0z01 0z04 0z05 0z08 | 0z09 0z12 xxxx xxxx | 0z02 0z03 0z06 0z07 | 0z10 0z11 xxxx xxxx |
+ | 1m02 1m04 1m06 1m08 | 1m10 1m12 xxxx xxxx | 1p02 1p04 1p06 1p08 | 1p10 1p12 xxxx xxxx | HFPq1 HFPq2 HFPq3 HFPq4 |
+ | 2m02 2m04 2m06 2m08 | 2m10 2m12 xxxx xxxx | 2p02 2p04 2p06 2p08 | 2p10 2p12 xxxx xxxx | HFMq1 HFMq2 HFMq3 HFMq4 |
+ 
+ output side of the HOHF CU patch
+ 
+ | 13b1 13b2 13b3 13b4 | 13b5 13b6 xxxx xxxx | 13b7 13b8 13t1 13t2 | 13t3 13t4 xxxx xxxx |
+ | 07b1 07b2 07b3 07b4 | 07b5 07b6 xxxx xxxx | 07b7 07b8 07t1 07t2 | 07t3 07t4 xxxx xxxx | 38t01 38t02 38t03 38t04 |
+ | 06b1 06b2 06b3 06b4 | 06b5 06b6 xxxx xxxx | 06b7 06b8 06t1 06t2 | 06t3 06t4 xxxx xxxx | 38t05 38t06 38t07 38t08 |
+  */
+  //set up patch panel
+  thisngHFCalib.ppcol = 5;
+  sideid < 0 ? thisngHFCalib.pprow = 1 : thisngHFCalib.pprow = 2;
+  /*
+ HF trunk CU fibers:
+ 
+ 4 duplex octopusses, 1 per hemisphere-side (with just 2 LCs used in each! = 8 fibers total)
+ 
+ - HF+ CU Q1-top Q4-bot = HFPq1 HFPq4
+ - HF+ CU Q2-bot Q3-top = HFPq2 HFPq3
+ - HF- CU Q1-top Q4-bot = HFMq1 HFMq4
+ - HF- CU Q2-top Q3-bot = HFMq2 HFMq3
+ 
+   note: for HF+ CU Q2-bot Q3-top alone, the top/bot are actually reversed according
+   to the physical geometry of the quadrants
+ - here is a useful link: http://cmsonline.cern.ch/cms-elog/966862
+   fib 2 in each octopus is used for ngHF CU
+ 
+ HF uHTR fibers are removed: use a calib octopus to crate 38
+  */
+  int ngHFP_pplcInsector[4] = {1, 2, 1, 2};
+  int ngHFM_pplcInsector[4] = {1, 1, 2, 2};
+  sideid < 0 ? thisngHFCalib.pplc = ngHFM_pplcInsector[thisngHFCalib.sector-1] : thisngHFCalib.pplc = ngHFP_pplcInsector[thisngHFCalib.sector-1];
+  sideid < 0 ? thisngHFCalib.ppcpl = "HFM_CU" : thisngHFCalib.ppcpl = "HFP_CU";
+  sideid > 0 ? thisngHFCalib.dodec = rbxqie10id/Nqie10Calib + 1 : thisngHFCalib.dodec = rbxqie10id/Nqie10Calib + 5;
+
   //set up backend part
   thisngHFCalib.ucrate = 38;
   thisngHFCalib.uhtr = 6;
-  sideid>0 ? thisngHFCalib.uhtr_fiber = rbxqie10id/Nqie10Calib : thisngHFCalib.uhtr_fiber = rbxqie10id/Nqie10Calib + 4;
+  sideid > 0 ? thisngHFCalib.uhtr_fiber = rbxqie10id/Nqie10Calib : thisngHFCalib.uhtr_fiber = rbxqie10id/Nqie10Calib + 4;
   thisngHFCalib.ufedid = 1134;
-  thisngHFCalib.dodec = thisngHFCalib.uhtr_fiber + 1;
 
   //set up Geometry part
   thisngHFCalib.side = sideid;

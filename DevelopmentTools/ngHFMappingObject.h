@@ -92,9 +92,8 @@ struct ngHFCalib
   //std::string cpcpl;
   
   //patch panel
-  //int ppcol, pprow, pplc, dodec;
-  //std::string ppcpl;
-  int dodec;
+  int ppcol, pprow, pplc, dodec;
+  std::string ppcpl;
 
   //backend
   int ucrate, uhtr, uhtr_fiber;

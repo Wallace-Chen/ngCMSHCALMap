@@ -503,7 +503,7 @@ void HCALLMapDumper::printngHFCalibLMapObject(std::vector<ngHFCalib> myngHFCalib
   //Side Eta Phi dPhi Depth Det 
   //RBX Sector
   //QIE10 QIECH QIE10_FI FI_CH 
-  //docdec 
+  //ppCol ppRow ppCpl ppLC docdec 
   //Crate uHTR uHTR_FI 
   //FEDid 
   //QIE11id
@@ -512,10 +512,10 @@ void HCALLMapDumper::printngHFCalibLMapObject(std::vector<ngHFCalib> myngHFCalib
             << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "CH_TYPE" << std::setw(10) << "Det"
             << std::setw(6) << "RBX" << std::setw(7) << "Sector"
             << std::setw(6) << "QIE10" << std::setw(6) << "QIECH" << std::setw(9) << "QIE10_FI" << std::setw(6) << "FI_CH"
-            << std::setw(6) << "dodec"
+            << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(9) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
             << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
             << std::setw(6) << "FEDid"
-            << std::setw(9) << "QIE10id"
+            << std::setw(9) << "QIE10id" << std::setw(25) << "QIE10BarCode"
             << std::endl;
 
   for(auto i=0; i<myngHFCalib.size(); i++)
@@ -525,10 +525,10 @@ void HCALLMapDumper::printngHFCalibLMapObject(std::vector<ngHFCalib> myngHFCalib
               << std::setw(6) << myngHFCalib.at(i).side << std::setw(6) << myngHFCalib.at(i).eta << std::setw(6) << myngHFCalib.at(i).phi << std::setw(6) << myngHFCalib.at(i).dphi << std::setw(9) << myngHFCalib.at(i).depth << std::setw(10) << myngHFCalib.at(i).subdet
               << std::setw(6) << myngHFCalib.at(i).rbx << std::setw(7) << myngHFCalib.at(i).sector
               << std::setw(6) << myngHFCalib.at(i).qie10 << std::setw(6) << myngHFCalib.at(i).qie10_ch << std::setw(9) << myngHFCalib.at(i).qie10_fiber << std::setw(6) << myngHFCalib.at(i).fiber_ch
-              << std::setw(6) << myngHFCalib.at(i).dodec
+              << std::setw(6) << myngHFCalib.at(i).ppcol << std::setw(6) << myngHFCalib.at(i).pprow << std::setw(9) << myngHFCalib.at(i).ppcpl << std::setw(6) << myngHFCalib.at(i).pplc << std::setw(6) << myngHFCalib.at(i).dodec
               << std::setw(6) << myngHFCalib.at(i).ucrate << std::setw(6) << myngHFCalib.at(i).uhtr << std::setw(9) << myngHFCalib.at(i).uhtr_fiber
               << std::setw(6) << myngHFCalib.at(i).ufedid
-              << std::setw(9) << myngHFCalib.at(i).qie10_id
+              << std::setw(9) << myngHFCalib.at(i).qie10_id << std::setw(25) << myngHFCalib.at(i).qie10_barcode
               << std::endl;
   }
 
@@ -1105,19 +1105,19 @@ void HCALLMapDumper::makedbngHFCalibLMapObject(std::string HCALLMapDbStr, std::s
   //Side Eta Phi dPhi Depth Det 
   //RBX Sector
   //QIE10 QIECH QIE10_FI FI_CH 
-  //docdec 
+  //ppCol ppRow ppCpl ppLC docdec 
   //Crate uHTR uHTR_FI 
   //FEDid 
-  //QIE10id
+  //QIE10id QIE10BarCode
 
   std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHFCalibTableStr + "(" \
                             "ID INT PRIMARY KEY NOT NULL, " \
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
                             "ngRBX TEXT NOT NULL, Sector INT NOT NULL, " \
                             "QIE10 INT NOT NULL, QIECH INT NOT NULL, QIE10_FI INT NOT NULL, FI_CH INT NOT NULL, " \
-                            "dodec INT NOT NULL, " \
+                            "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
                             "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
-                            "QIE10id INT NOT NULL);";
+                            "QIE10id INT NOT NULL, QIE10BarCode TEXT NOT NULL);";
 
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
@@ -1130,17 +1130,17 @@ void HCALLMapDumper::makedbngHFCalibLMapObject(std::string HCALLMapDbStr, std::s
                       "Side,Eta,Phi,dPhi,Depth,Det," \
                       "ngRBX,Sector," \
                       "QIE10,QIECH,QIE10_FI,FI_CH," \
-                      "dodec," \
+                      "ppCol,ppRow,ppCpl,ppLC,dodec," \
                       "Crate,uHTR,uHTR_FI,FEDid," \
-                      "QIE10id) ";
+                      "QIE10id,QIE10BarCode) ";
     std::string two = "VALUES("
                       +std::to_string(i)+","
                       +std::to_string(myngHFCalib.at(i).side)+","+std::to_string(myngHFCalib.at(i).eta)+","+std::to_string(myngHFCalib.at(i).phi)+","+std::to_string(myngHFCalib.at(i).dphi)+","+std::to_string(myngHFCalib.at(i).depth)+",'"+myngHFCalib.at(i).subdet+"','"
                       +myngHFCalib.at(i).rbx+"',"+std::to_string(myngHFCalib.at(i).sector)+","
                       +std::to_string(myngHFCalib.at(i).qie10)+","+std::to_string(myngHFCalib.at(i).qie10_ch)+","+std::to_string(myngHFCalib.at(i).qie10_fiber)+","+std::to_string(myngHFCalib.at(i).fiber_ch)+","
-                      +std::to_string(myngHFCalib.at(i).dodec)+","
+                      +std::to_string(myngHFCalib.at(i).ppcol)+","+std::to_string(myngHFCalib.at(i).pprow)+",'"+myngHFCalib.at(i).ppcpl+"',"+std::to_string(myngHFCalib.at(i).pplc)+","+std::to_string(myngHFCalib.at(i).dodec)+","
                       +std::to_string(myngHFCalib.at(i).ucrate)+","+std::to_string(myngHFCalib.at(i).uhtr)+","+std::to_string(myngHFCalib.at(i).uhtr_fiber)+","+std::to_string(myngHFCalib.at(i).ufedid)+","
-                      +std::to_string(myngHFCalib.at(i).qie10_id)+");";
+                      +std::to_string(myngHFCalib.at(i).qie10_id)+",'"+myngHFCalib.at(i).qie10_barcode+"');";
     
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
