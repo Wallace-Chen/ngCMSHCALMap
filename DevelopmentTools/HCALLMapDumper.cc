@@ -1239,3 +1239,21 @@ bool HCALLMapDumper::ifTableExistInDB(sqlite3 *db, std::string TableName)
   }
   return exist;
 }
+
+//Added by Yuan
+void HCALLMapDumper::printHOCalibMapObject(std::vector<HOCalib> myHOCalib)
+{
+  std::cout << "#Dumping HB Calib LMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(6) << "side" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dphi" << std::setw(6) << "depth" << std::setw(6) << "rbx" << std::setw(9) << "sector" << std::setw(6) << "rm" << std::setw(6) << "rm_fi" << std::setw(6) << "rm_ch" << std::setw(6) << "det" << std::setw(6) << "cpCol" << std::setw(6) << "cpRow" << std::setw(6) << "cpLC" << std::setw(6) << "crate" << std::setw(6) << "HTR" << std::setw(6) << "fpga" << std::setw(6) << "htr_fiber"
+            <<std::endl;
+
+  for(auto i=0;i<myHOCalib.size();i++)
+  {
+    std::cout << ""
+              << std::setw(6) << myHOCalib.at(i).side << std::setw(6) << myHOCalib.at(i).eta << std::setw(6) << myHOCalib.at(i).phi << std::setw(6) << myHOCalib.at(i).dphi << std::setw(6) << myHOCalib.at(i).depth << std::setw(9) << myHOCalib.at(i).rbx << std::setw(6) << myHOCalib.at(i).sector << std::setw(6) << myHOCalib.at(i).rm << std::setw(6) << myHOCalib.at(i).rm_fiber << std::setw(6) << myHOCalib.at(i).fiber_ch << std::setw(6) << myHOCalib.at(i).subdet << std::setw(6) << myHOCalib.at(i).cpcol << std::setw(6) << myHOCalib.at(i).cprow << std::setw(6) << myHOCalib.at(i).cplc << std::setw(6) << myHOCalib.at(i).crate << std::setw(6) << myHOCalib.at(i).htr << std::setw(6) << myHOCalib.at(i).fpga << std::setw(6) << myHOCalib.at(i).htr_fiber
+             // << std::setw(6) << myHOCalib.at(i).phi << std::setw(6) << myHOCalib.at(i).rbx
+              <<std::endl;   
+  }
+  return;
+}
