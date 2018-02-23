@@ -193,6 +193,6 @@ int main(int argc, char* argv[])
   }
 
 
-  else{ std::cout << "#Invalide Run Mode, the the fuck is going on!" << std::endl; return -1; }
+  else{ std::cout << "#Invalide Run Mode, what the the fuck is going on!" << std::endl; return -1; }
   return 0;
 }

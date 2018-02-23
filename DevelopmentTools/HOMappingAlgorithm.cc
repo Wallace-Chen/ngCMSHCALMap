@@ -56,7 +56,7 @@ void HOMappingAlgorithm::ConstructHOCalib(int irbx, int irm, int irmfi, int ific
   thisHOCalib.eta = sideid;
   thisHOCalib.side = ( (thisHOCalib.eta == 0) ? 0 : thisHOCalib.eta/abs(thisHOCalib.eta));
   thisHOCalib.dphi = ( (thisHOCalib.eta == 0) ? 6 : 12 );
-  thisHOCalib.subdet = "HO";
+  thisHOCalib.subdet = "CALIB_HO";
   thisHOCalib.depth = 3;
 
   //frontend
@@ -153,8 +153,6 @@ void HOMappingAlgorithm::ConstructHOCalib(int irbx, int irm, int irmfi, int ific
     thisHOCalib.fpga = "top";
   }
   else{ thisHOCalib.fpga = "bot"; }
-
-
 
   myHOCalib.push_back(thisHOCalib);
   return;
