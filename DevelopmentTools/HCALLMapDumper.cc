@@ -636,6 +636,7 @@ void HCALLMapDumper::printHOFrontEndMapObject(std::vector<HOFrontEnd> myHOFrontE
 
   for(auto i=0; i<myHOFrontEnd.size(); i++)
   {
+    if(myHOGeometry.at(i).subdet == "HOX") continue;
     std::cout
               //<< "HOGeometry(side,eta,phi,depth): "
               << " "

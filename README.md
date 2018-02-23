@@ -79,6 +79,7 @@ Plots To be fixed: HBHE VME FE vs BE plot, crate 0 not showed, fpga how to show 
 ```
 sh dumpLMap.sh K 20180501
 sh dumpEMap.sh >> 2018HCALEMap_All_K_20180501.txt
+sh dumpFMap.sh >> 2018HCALFMap_All_K_20180501.txt
 ```
 
 <!---
