@@ -4,7 +4,7 @@
 #The produce mode we have right now is: LMapCalib
 #Constructing HO Calib Object...
 #Dumping HO Calib LMap Object...
-#  side   eta   phi  dphi depth   rbx   sector    rm rm_fi rm_ch   det cpCol cpRow  cpLC crate   HTR  fpga  htr_fi
+#  side   eta   phi  dphi depth   rbx   sector    rm rm_fi rm_ch   det ppCol ppRow  ppLC crate   HTR  fpga  htr_fi
      0     0    71     6     3    HO001     1     5     1     0    HO     1     3     1    13     8   bot       1
      0     0    71     6     3    HO001     1     5     1     1    HO     1     3     1    13     8   bot       1
      0     0     5     6     3    HO002     2     5     1     0    HO     1     3     3    13     8   bot       7
