@@ -166,7 +166,7 @@ int main(int argc, char* argv[])
     HOMappingAlgorithm myHOMappingAlgorithm;
     //so sorry no HO mapping algorithm for now... in a mess... directly load from generation G mapping algotrithm
     int NChannel = myHCALLMapLoader.GetHOFromLMap("officialMap/eraG/HCALmapHO_G.txt", myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
-    //myHOMappingAlgorithm.ConstructHOLMapObject();
+    myHOMappingAlgorithm.ConstructHOLMapObject("Calib");
 
     if( PrdMode == "LMap" )
     {
@@ -182,8 +182,16 @@ int main(int argc, char* argv[])
     {
       myHCALLMapDumper.printHOFrontEndMapObject(myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
     }
+    
+    //Added by Yuan
+    if( PrdMode == "LMapCalib" )
+    {
+      myHCALLMapDumper.printHOCalibLMapObject(myHOMappingAlgorithm.myHOCalib);
+    }
     return 1;
+
   }
+
 
   else{ std::cout << "#Invalide Run Mode, the the fuck is going on!" << std::endl; return -1; }
   return 0;

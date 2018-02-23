@@ -44,9 +44,32 @@ struct HOTriggerTower
   int trg_fiber, trg_fiber_ch;
 };
 
+struct HOCalib
+{
+  int sector;
+  //FE
+  std::string rbx;
+  int rm, rm_fiber, fiber_ch;//rm is always 5, rm_fiber is always 1
+
+  //patch panel
+  int ppcol, pprow, pplc, dodec;
+  std::string ppcpl;
+
+  //BE
+  int crate, htr, htr_fiber;//htr is always 8
+  std::string fpga;
+
+  //Geo
+  int side, eta, phi, depth;
+  std::string subdet;//HO
+  int dphi;//dphi is 6 or 12
+};
+
 class HOConstant
 {
  public:
+
+
   //2376 channels in HO and HOX
   static const int NchHO_all = 2376;
   //Front End variables
@@ -77,6 +100,10 @@ class HOConstant
   //216 HOX channels in HO map in total, while 72 special HOX channels with no patch panel attachment, htr slot is 21
   static const int NspecialHOX = 72;
 
+
+  static const int NppCol = 4;
+  static const int NppLC = 4;
+
   //Geimetry variables,2160 channels, side -1 or +1, eta from 1 to 15, phi 1 to 72, depth always 4
   static const int NHOside = 2;
   static const int NHOeta = 15;
@@ -89,5 +116,9 @@ class HOConstant
   //Calibration channels
   static const int NrmHOCalib = 1;
   static const int Nrm_fiberCalib = 1;
+  //static const int Nfiber_chCalib[4] = {1,2,3,4};
+  //Special Processing, they have 3 channels per fiber rather than 2
+  const std::string rbxSPHOCalib[5] = {"HO010","HO1M10","HO1P10","HO2M12","HO2P10"};
+
 };
 #endif
