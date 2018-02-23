@@ -2,6 +2,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string>
+#include <cstring>
 
 void HOMappingAlgorithm::ConstructHOLMapObject(std::string Mode)
 {
@@ -11,23 +13,11 @@ void HOMappingAlgorithm::ConstructHOLMapObject(std::string Mode)
     std::cout << "#Constructing HO Calib Object..." << std::endl;
     for(int irbx=0;irbx<(NrbxHO0+NrbxHO12);irbx++)
     {
-
-      //calculate the number of channels per fiber
-      int nfiber_chCalib = 2;
-      for(int i=0;i<(sizeof(iSPHOCalib) / sizeof(iSPHOCalib[0]));i++)
-      {
-        if(irbx == iSPHOCalib[i])
-        {
-          nfiber_chCalib = 3;
-          break;
-        }
-      }
-
       for(int irm=0;irm<NrmHOCalib;irm++)
       {
         for(int irmfi=0;irmfi<Nrm_fiberCalib;irmfi++)
         {
-          for(int ifich=0;ifich<nfiber_chCalib;ifich++)
+          for(int ifich=0;ifich<Nfiber_ch;ifich++)
           {
             ConstructHOCalib(irbx,irm,irmfi,ifich);
           }
@@ -113,35 +103,52 @@ void HOMappingAlgorithm::ConstructHOCalib(int irbx, int irm, int irmfi, int ific
   thisHOCalib.sector = sector;
   thisHOCalib.phi = ( thisHOCalib.side == 0 ) ? HOphiInrbxrmid[(thisHOCalib.sector-1)*6] : HOphiInrbxrmid[(thisHOCalib.sector/2-1)*12];
 
+  //Filter: Normally 2 channels per fiber except 5 fibers having 3 channels, defined in the array rbxSPHOCalib
+  int i=0;
+  while(rbxSPHOCalib[i] != "")
+  {
+    using namespace std;
+    if( !thisHOCalib.rbx.compare(rbxSPHOCalib[i]) && (thisHOCalib.fiber_ch == 2) )
+    {
+      i = -1; //flag meaning this is on the list
+      break;
+    }
+    i++;
+  }
+  if((thisHOCalib.fiber_ch == 2) && (i != -1))
+  {
+    return;
+  }
+
   //Patch Panel---Frontend
-  int HO0cpLCInWedge[8] = {1, 3, 3, 1, 1, 3, 3, 1};//for HO0 rbx cplc variable
-  thisHOCalib.cprow = 3 - abs(thisHOCalib.eta);
+  int HO0ppLCInWedge[8] = {1, 3, 3, 1, 1, 3, 3, 1};//for HO0 rbx pplc variable
+  thisHOCalib.pprow = 3 - abs(thisHOCalib.eta);
   //HO0 and HO12 have different arrangement, needs separate algorithm. Only valid when sector<16!!
   if( thisHOCalib.side == 0 )
   {
-    thisHOCalib.cpcol = ((thisHOCalib.sector-1)/2)%NcpCol + 1;
-    thisHOCalib.cplc = HO0cpLCInWedge[(thisHOCalib.sector-1)%8]+thisHOCalib.sector/9;
+    thisHOCalib.ppcol = ((thisHOCalib.sector-1)/2)%NppCol + 1;
+    thisHOCalib.pplc = HO0ppLCInWedge[(thisHOCalib.sector-1)%8]+thisHOCalib.sector/9;
   } 
   else if( abs(thisHOCalib.side) == 1 )
   {
-    thisHOCalib.cpcol = (thisHOCalib.sector/2-1)%NcpCol + 1;
-    thisHOCalib.cplc = (thisHOCalib.side == -1) ? (thisHOCalib.sector/2-1)/NcpCol + 1 : (thisHOCalib.sector/2-1)/NcpCol + 1 + 2;
+    thisHOCalib.ppcol = (thisHOCalib.sector/2-1)%NppCol + 1;
+    thisHOCalib.pplc = (thisHOCalib.side == -1) ? (thisHOCalib.sector/2-1)/NppCol + 1 : (thisHOCalib.sector/2-1)/NppCol + 1 + 2;
   }
 
-  //Bakend
+  //Backend
   int HOCrateInWedgeCalib[3] = {13, 7, 6};//for HO crate variable
-  int HOCalibPatchSlotOccuNum[NcpLC] = {4, 2, 4, 2};//This array is the number of coloums occupied for every slots, same for HO0 and HO12 in this case
+  int HOPatchPanelSlotOccuNum[NppLC] = {4, 2, 4, 2};//This array is the number of coloums occupied for every slots, same for HO0 and HO12 in this case
   thisHOCalib.crate = HOCrateInWedgeCalib[abs(thisHOCalib.eta)];
   thisHOCalib.htr = 8;
   //This is to calculate the offset, see patch panel graph for demonstration
   int offset = 0;
-  for(int i=0;i<thisHOCalib.cplc-1;i++)
+  for(int i=0;i<thisHOCalib.pplc-1;i++)
   {
-    offset += HOCalibPatchSlotOccuNum[i];
+    offset += HOPatchPanelSlotOccuNum[i];
   }
 
-  thisHOCalib.htr_fiber = (thisHOCalib.cpcol + offset - 1)%Nhtr_fiber + 1;
-  if( (thisHOCalib.cpcol + offset - 1)/Nhtr_fiber == 1)
+  thisHOCalib.htr_fiber = (thisHOCalib.ppcol + offset - 1)%Nhtr_fiber + 1;
+  if( (thisHOCalib.ppcol + offset - 1)/Nhtr_fiber == 1)
   {
     thisHOCalib.fpga = "top";
   }

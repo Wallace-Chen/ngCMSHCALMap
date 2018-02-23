@@ -183,7 +183,7 @@ int main(int argc, char* argv[])
     //Added by Yuan
     if( PrdMode == "LMapCalib" )
     {
-      myHCALLMapDumper.printHOCalibMapObject(myHOMappingAlgorithm.myHOCalib);
+      myHCALLMapDumper.printHOCalibLMapObject(myHOMappingAlgorithm.myHOCalib);
     }
     return 1;
 
