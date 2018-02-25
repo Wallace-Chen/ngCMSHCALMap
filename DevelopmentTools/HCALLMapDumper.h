@@ -68,7 +68,8 @@ class HCALLMapDumper
   //HO,db
   void makedbHOLMapObject(std::string HCALLMapDbStr, std::string HOTableStr,
                           std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower);
-
+  //HOCalib.db, added by Yuan
+  void makedbHOCalibLMapObject(std::string HCALLMapDbStr, std::string HOCalibTableStr, std::vector<HOCalib> myHOCalib);
  private:
   bool ifTableExistInDB(sqlite3 *db, std::string TableName);//note: please use this function after sqlite3_open() and before sqlite3_close()!!
 };

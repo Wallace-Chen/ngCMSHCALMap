@@ -1179,6 +1179,75 @@ void HCALLMapDumper::makedbngHFCalibLMapObject(std::string HCALLMapDbStr, std::s
   return ;
 }
 
+void HCALLMapDumper::makedbHOCalibLMapObject(std::string HCALLMapDbStr, std::string HOCalibTableStr, std::vector<HOCalib> myHOCalib)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc;
+
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,HOCalibTableStr);
+  if(TableExist)
+  { 
+    std::cout << "#Table: " << HOCalibTableStr <<" already in the database!! Please check!" << std::endl; return ;
+  }
+  else{ std::cout << "#Table: " << HOCalibTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det
+  //RBX 
+  //RM RM_FI FI_CH
+  //ppCol ppRow ppLC
+  //Crate HTR FPGA HTR_F
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + HOCalibTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "RBX TEXT NOT NULL, " \
+                            "RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "ppCol INT NOT NULL, ppRow INT NOT NULL, ppLC INT NOT NULL, " \
+                            "Crate INT NOT NULL, HTR INT NOT NULL, FPGA INT NOT NULL, HTR_FI INT NOT NULL);";
+//                            "QIE8id INT NOT NULL);";
+                    
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+  
+  for(auto i=0; i<myHOCalib.size(); i++)
+  { 
+    std::string one = "INSERT INTO " + HOCalibTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "RBX," \
+                      "RM,RM_FI,FI_CH," \
+                      "ppCol,ppRow,ppLC," \
+                      "Crate,HTR,FPGA,HTR_FI) ";
+//                      "QIE8id) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myHOCalib.at(i).side)+","+std::to_string(myHOCalib.at(i).eta)+","+std::to_string(myHOCalib.at(i).phi)+","+std::to_string(myHOCalib.at(i).dphi)+","+std::to_string(myHOCalib.at(i).depth)+",'"+myHOCalib.at(i).subdet+"','"
+                      +myHOCalib.at(i).rbx+"',"
+                      +std::to_string(myHOCalib.at(i).rm)+","+std::to_string(myHOCalib.at(i).rm_fiber)+","+std::to_string(myHOCalib.at(i).fiber_ch)+","
+//                      +myHOCalib.at(i).trunk+"',"+std::to_string(myHOCalib.at(i).cpcol)+","+std::to_string(myHOCalib.at(i).cprow)+",'"+myHOCalib.at(i).cpcpl+"',"+std::to_string(myHOCalib.at(i).cplc)+","+std::to_string(myHOCalib.at(i).cpoct)+","
+                      +std::to_string(myHOCalib.at(i).ppcol)+","+std::to_string(myHOCalib.at(i).pprow)+","+std::to_string(myHOCalib.at(i).pplc)+","
+                      +std::to_string(myHOCalib.at(i).crate)+","+std::to_string(myHOCalib.at(i).htr)+",'"+myHOCalib.at(i).fpga+"',"+std::to_string(myHOCalib.at(i).htr_fiber)+");";
+//                      +std::to_string(myHOCalib.at(i).qie8_id)+");";
+ 
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  sqlite3_close(db);
+
+  return ;
+ 
+
+}
+
 void HCALLMapDumper::makedbHOLMapObject(std::string HCALLMapDbStr, std::string HOTableStr,
                                         std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower)
 {

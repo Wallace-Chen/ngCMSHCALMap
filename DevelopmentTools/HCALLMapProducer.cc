@@ -187,6 +187,7 @@ int main(int argc, char* argv[])
     if( PrdMode == "LMapCalib" )
     {
       myHCALLMapDumper.printHOCalibLMapObject(myHOMappingAlgorithm.myHOCalib);
+      myHCALLMapDumper.makedbHOCalibLMapObject("officialMap/HCALLogicalMap.db", "HOCalibLogicalMap" , myHOMappingAlgorithm.myHOCalib );
     }
     return 1;
 
