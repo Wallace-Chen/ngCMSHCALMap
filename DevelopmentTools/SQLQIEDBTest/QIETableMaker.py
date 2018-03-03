@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 import pandas as pd
 import os
+import optparse
 
 def GetLMapDataFrame( rel_lmap_path ):
   sql_engine_lmap = create_engine( rel_lmap_path )
@@ -12,8 +13,7 @@ def GetLMapDataFrame( rel_lmap_path ):
   df_HBsublmap = df_HBlmap[HBlmaplist]
   df_HBsubclmap = df_HBclmap[HBlmaplist]
 
-  df_HElmap = pd.read_sql("SELECT * FROM ngHELogicalMap WHERE ngRBX='HEP17'", con = sql_con_lmap, index_col = ['ID'])
-  #df_HElmap = pd.read_sql("SELECT * FROM ngHELogicalMap", con = sql_con_lmap, index_col = ['ID'])
+  df_HElmap = pd.read_sql("SELECT * FROM ngHELogicalMap", con = sql_con_lmap, index_col = ['ID'])
   df_HEclmap = pd.read_sql("SELECT * FROM ngHECalibLogicalMap", con = sql_con_lmap, index_col = ['ID'])
   HElmaplist = ['Side', 'Eta', 'Phi', 'Depth', 'Det', 'QIECH', 'QIE11id']
   df_HEsublmap = df_HElmap[HElmaplist]
@@ -299,6 +299,10 @@ def GetHEP17LMapDataFrame( rel_lmap_path ):
   return df_HEP17sublmap
 
 if __name__ == '__main__':
+  # define argument
+  parser = optparse.OptionParser('usage: %prog [options]')
+  parser.add_option('--HEQIE11Mode', dest='heqie11mode', help='set up HE QIE11 mode', default='shunt=1 AND Gsel=0')
+  (opt, args) = parser.parse_args()
   # load lmap HB, HE, HF, HO
   df_HBsublmap, df_HEsublmap, df_HFsublmap, df_HOsublmap, df_HBsubclmap, df_HEsubclmap, df_HFsubclmap = GetLMapDataFrame( 'sqlite:///../officialMap/HCALLogicalMap.db' )
   # Temp solution for HO calib before official code complete
@@ -327,17 +331,19 @@ if __name__ == '__main__':
   #print (df_qie10_slope_pv.tail())
 
   # load qie11 tables offsets and slopes
-  df_qie11_offset_pv, df_qie11_slope_pv = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=1 AND Gsel=0" )
+  #print opt.heqie11mode
+  df_qie11_offset_pv, df_qie11_slope_pv = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', opt.heqie11mode )
+  #df_qie11_offset_pv, df_qie11_slope_pv = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=1 AND Gsel=0" )
   #df_qie11_offset_pv, df_qie11_slope_pv = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=6 AND Gsel=18" )
   #print (df_qie11_offset_pv.tail(12))
   #print (df_qie11_slope_pv.tail(12))
 
-  #DumpHBQIE8Table( df_HBsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
-  #DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv, df_qie11_slope_pv, debug = False )
-  #DumpHFQIE10Table( df_HFsublmap, df_qie10_offset_pv, df_qie10_slope_pv, debug = False )
-  #DumpHOQIE8Table( df_HOsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
-  #DumpHBQIE8Table( df_HBsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
-  #DumpHEQIE11Table( df_HEsubclmap, df_qie11_offset_pv, df_qie11_slope_pv, debug = False )
-  #DumpHFQIE10Table( df_HFsubclmap, df_qie10_offset_pv, df_qie10_slope_pv, debug = False )
-  #DumpHOQIE8Table( df_HOsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
-  DumpHEQIE11Table( df_HEP17sublmap, df_qie11_offset_pv, df_qie11_slope_pv )
+  DumpHBQIE8Table( df_HBsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
+  DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv, df_qie11_slope_pv, debug = False )
+  DumpHFQIE10Table( df_HFsublmap, df_qie10_offset_pv, df_qie10_slope_pv, debug = False )
+  DumpHOQIE8Table( df_HOsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
+  DumpHBQIE8Table( df_HBsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
+  DumpHEQIE11Table( df_HEsubclmap, df_qie11_offset_pv, df_qie11_slope_pv, debug = False )
+  DumpHFQIE10Table( df_HFsubclmap, df_qie10_offset_pv, df_qie10_slope_pv, debug = False )
+  DumpHOQIE8Table( df_HOsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
+  #DumpHEQIE11Table( df_HEP17sublmap, df_qie11_offset_pv, df_qie11_slope_pv )
