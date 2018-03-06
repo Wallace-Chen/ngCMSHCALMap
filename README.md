@@ -120,6 +120,6 @@ python DumpEMapfromCalib.py >> HCALEmapCALIB_J.txt
 - Location of QIE database files: /eos/user/h/hua/QIEDB<br />
 ```
 cd $CMSSW_BASE/src/ngCMSHCALMap/DevelopmentTools/SQLQIEDBTest
-python QIETableMaker.py --HEQIE11Mode "shunt=1 AND Gsel=0" >> 2018HCALQIE_All_K_20180501_Shunt1.txt
-python QIETableMaker.py --HEQIE11Mode "shunt=6 AND Gsel=18" >> 2018HCALQIE_All_K_20180501_Shunt6.txt
+python QIETableMaker.py --QIE11Mode "Normal" >> 2018HCALQIE_All_K_20180501_Normal_HEshunt6_CALIBHEshunt1.txt
+python QIETableMaker.py --QIE11Mode "Special" >> 2018HCALQIE_All_K_20180501_Special_HEshunt1_CALIBHEshunt1.txt
 ```

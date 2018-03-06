@@ -326,7 +326,8 @@ def GetHEP17LMapDataFrame( rel_lmap_path ):
 if __name__ == '__main__':
   # define argument
   parser = optparse.OptionParser('usage: %prog [options]')
-  parser.add_option('--HEQIE11Mode', dest='heqie11mode', help='set up HE QIE11 mode', default='shunt=1 AND Gsel=0')
+  parser.add_option('--QIE11Mode', dest='qie11mode', help='set up QIE11 mode', default='Normal')
+  #Normal for shunt6 regular HE channels, shunt1 for calib HE channels; Special for shunt1 for both regular and calib HE channels
   (opt, args) = parser.parse_args()
   # load lmap HB, HE, HF, HO
   df_HBsublmap, df_HEsublmap, df_HFsublmap, df_HOsublmap, df_HBsubclmap, df_HEsubclmap, df_HFsubclmap = GetLMapDataFrame( 'sqlite:///../officialMap/HCALLogicalMap.db' )
@@ -359,19 +360,24 @@ if __name__ == '__main__':
 
   # load qie11 tables offsets and slopes
   #print opt.heqie11mode
-  df_qie11_offset_pv, df_qie11_slope_pv = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', opt.heqie11mode )
-  #df_qie11_offset_pv, df_qie11_slope_pv = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=1 AND Gsel=0" )
-  #df_qie11_offset_pv, df_qie11_slope_pv = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=6 AND Gsel=18" )
+  df_qie11_offset_pv_s1, df_qie11_slope_pv_s1 = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=1 AND Gsel=0" )
+  df_qie11_offset_pv_s6, df_qie11_slope_pv_s6 = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=6 AND Gsel=18" )
   #print (df_qie11_offset_pv.tail(12))
   #print (df_qie11_slope_pv.tail(12))
 
   DumpHBQIE8Table( df_HBsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
-  DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv, df_qie11_slope_pv, debug = False )
+  if (opt.qie11mode == "Normal"):
+    DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv_s6, df_qie11_slope_pv_s6, debug = False )
+  elif (opt.qie11mode == "Special"):
+    DumpHEQIE11Table( df_HEsublmap, df_qie11_offset_pv_s1, df_qie11_slope_pv_s1, debug = False )
+  else:
+    print("#Invalid QIE11 Mode! Please check!")
   DumpHFQIE10Table( df_HFsublmap, df_qie10_offset_pv, df_qie10_slope_pv, debug = False )
   DumpHOQIE8Table( df_HOsublmap, df_qie8_offset_pv, df_qie8_slope_pv )
   DumpHBQIE8Table( df_HBsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
-  DumpHEQIE11Table( df_HEsubclmap, df_qie11_offset_pv, df_qie11_slope_pv, debug = False )
+  DumpHEQIE11Table( df_HEsubclmap, df_qie11_offset_pv_s1, df_qie11_slope_pv_s1, debug = False )
   DumpHFQIE10Table( df_HFsubclmap, df_qie10_offset_pv, df_qie10_slope_pv, debug = False )
   DumpHOQIE8Table( df_HOsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
+  
   DumpHFQIE10Table( df_LMsublmap, df_qie10_offset_pv, df_qie10_slope_pv, debug = False )
   #DumpHEQIE11Table( df_HEP17sublmap, df_qie11_offset_pv, df_qie11_slope_pv )
