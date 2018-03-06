@@ -295,7 +295,8 @@ def TempLMsublmap():
   Phi_LM_list = list(range(0, 24))
   Depth_LM_list = [5] * len(ID_LM_list)
   Det_LM_list = ["LASMON"] * len(ID_LM_list)
-  QIECH_LM_list = list(range(1, 25))
+  #QIECH_LM_list = list(range(1, 25))
+  QIECH_LM_list = [1] * len(ID_LM_list)
   QIE10id_LM_list = [500736] * len(ID_LM_list)
 
   LM_dict = {
@@ -378,6 +379,6 @@ if __name__ == '__main__':
   DumpHEQIE11Table( df_HEsubclmap, df_qie11_offset_pv_s1, df_qie11_slope_pv_s1, debug = False )
   DumpHFQIE10Table( df_HFsubclmap, df_qie10_offset_pv, df_qie10_slope_pv, debug = False )
   DumpHOQIE8Table( df_HOsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
-  
+
   DumpHFQIE10Table( df_LMsublmap, df_qie10_offset_pv, df_qie10_slope_pv, debug = False )
   #DumpHEQIE11Table( df_HEP17sublmap, df_qie11_offset_pv, df_qie11_slope_pv )
