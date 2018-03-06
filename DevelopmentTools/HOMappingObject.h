@@ -50,6 +50,7 @@ struct HOCalib
   //FE
   std::string rbx;
   int rm, rm_fiber, fiber_ch;//rm is always 5, rm_fiber is always 1
+  int qie8_id;
 
   //patch panel
   int ppcol, pprow, pplc, dodec;
@@ -57,11 +58,12 @@ struct HOCalib
 
   //BE
   int crate, htr, htr_fiber;//htr is always 8
+  int dcc, spigot;
   std::string fpga;
 
   //Geo
-  int side, eta, phi, depth;
-  std::string subdet;//HO
+  int side, eta, phi, ch_type;
+  std::string name,det;//HO
   int dphi;//dphi is 6 or 12
 };
 
