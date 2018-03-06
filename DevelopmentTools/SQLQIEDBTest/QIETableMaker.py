@@ -287,6 +287,31 @@ def TempHOsubclmap():
   df_HO.set_index("ID", inplace=True) 
   return df_HO
 
+
+def TempLMsublmap():
+  ID_LM_list = list(range(0, 24))                                                                                                                                                                          
+  Side_LM_list = [0] * len(ID_LM_list)
+  Eta_LM_list = [0] * len(ID_LM_list)
+  Phi_LM_list = list(range(0, 24))
+  Depth_LM_list = [5] * len(ID_LM_list)
+  Det_LM_list = ["LASMON"] * len(ID_LM_list)
+  QIECH_LM_list = list(range(1, 25))
+  QIE10id_LM_list = [500736] * len(ID_LM_list)
+
+  LM_dict = {
+              "ID":     ID_LM_list,
+              "Side":   Side_LM_list,
+              "Eta":    Eta_LM_list,
+              "Phi":    Phi_LM_list,
+              "Depth":  Depth_LM_list,
+              "Det":    Det_LM_list,
+              "QIECH":  QIECH_LM_list,
+              "QIE10id":QIE10id_LM_list
+             }
+  df_LM = pd.DataFrame( LM_dict, columns = ["ID", "Side", "Eta", "Phi", "Depth", "Det", "QIECH", "QIE10id"])
+  df_LM.set_index("ID", inplace=True) 
+  return df_LM
+
 def GetHEP17LMapDataFrame( rel_lmap_path ):
   sql_engine_lmap = create_engine( rel_lmap_path )
   sql_con_lmap = sql_engine_lmap.raw_connection()
@@ -307,7 +332,8 @@ if __name__ == '__main__':
   df_HBsublmap, df_HEsublmap, df_HFsublmap, df_HOsublmap, df_HBsubclmap, df_HEsubclmap, df_HFsubclmap = GetLMapDataFrame( 'sqlite:///../officialMap/HCALLogicalMap.db' )
   # Temp solution for HO calib before official code complete
   df_HOsubclmap = TempHOsubclmap()
-  df_HEP17sublmap = GetHEP17LMapDataFrame( 'sqlite:///../officialMap/HCALLogicalMap.db' )
+  #df_HEP17sublmap = GetHEP17LMapDataFrame( 'sqlite:///../officialMap/HCALLogicalMap.db' )
+  df_LMsublmap = TempLMsublmap()
   #print (df_HBsublmap.head())
   #print (df_HEsublmap.head())
   #print (df_HFsublmap.head())
@@ -317,6 +343,7 @@ if __name__ == '__main__':
   #print (df_HFsubclmap.head())
   #print (df_HOsubclmap.head())
   #print (df_HEP17sublmap.head())
+  #print (df_LMsublmap.head())
 
   # load qie8 tables offsets and slopes
   #df_qie8_offset_pv, df_qie8_slope_pv = GetQIE8DataFrame( 'sqlite:///qie8_database/QIE8ConstantFNALNormal_DropFcs.db' )
@@ -346,4 +373,5 @@ if __name__ == '__main__':
   DumpHEQIE11Table( df_HEsubclmap, df_qie11_offset_pv, df_qie11_slope_pv, debug = False )
   DumpHFQIE10Table( df_HFsubclmap, df_qie10_offset_pv, df_qie10_slope_pv, debug = False )
   DumpHOQIE8Table( df_HOsubclmap, df_qie8_offset_pv, df_qie8_slope_pv )
+  DumpHFQIE10Table( df_LMsublmap, df_qie10_offset_pv, df_qie10_slope_pv, debug = False )
   #DumpHEQIE11Table( df_HEP17sublmap, df_qie11_offset_pv, df_qie11_slope_pv )
