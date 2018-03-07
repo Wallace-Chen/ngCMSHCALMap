@@ -103,6 +103,7 @@ void HOMappingAlgorithm::ConstructHOCalib(int irbx, int irm, int irmfi, int ific
   thisHOCalib.rbx = "HO"+sideletter+numberletter ;
   thisHOCalib.sector = sector;
   thisHOCalib.phi = ( thisHOCalib.side == 0 ) ? HOphiInrbxrmid[(thisHOCalib.sector-1)*6] : HOphiInrbxrmid[(thisHOCalib.sector/2-1)*12];
+  thisHOCalib.qie8_id = 999994;
 
   //Filter: Normally 2 channels per fiber except 5 fibers having 3 channels, defined in the array rbxSPHOCalib
   int i=0;
@@ -122,38 +123,52 @@ void HOMappingAlgorithm::ConstructHOCalib(int irbx, int irm, int irmfi, int ific
   }
 
   //Patch Panel---Frontend
+  (thisHOCalib.eta <= 0) ?  thisHOCalib.ppcpl = std::string("HO") + "-" + std::to_string(abs(thisHOCalib.eta)) + "_CU" : thisHOCalib.ppcpl = std::string("HO") + "+" + std::to_string(thisHOCalib.eta) + "_CU";
   int HO0ppLCInWedge[8] = {1, 3, 3, 1, 1, 3, 3, 1};//for HO0 rbx pplc variable
   thisHOCalib.pprow = 3 - abs(thisHOCalib.eta);
   //HO0 and HO12 have different arrangement, needs separate algorithm. Only valid when sector<16!!
   if( thisHOCalib.side == 0 )
   {
-    thisHOCalib.ppcol = ((thisHOCalib.sector-1)/2)%NppCol + 1;
-    thisHOCalib.pplc = HO0ppLCInWedge[(thisHOCalib.sector-1)%8]+thisHOCalib.sector/9;
+    thisHOCalib.pplc = ((thisHOCalib.sector-1)/2)%NppCol + 1;
+    thisHOCalib.ppcol = HO0ppLCInWedge[(thisHOCalib.sector-1)%8]+thisHOCalib.sector/9;
+    //brute force to find all sectors which have the same ppcol value, i+1 is the sector running from 1 to NrbxHO0 (12). Then give value to ppcpl.
+    for(int i=0;i<NrbxHO0;i++)
+    {
+      if( ( HO0ppLCInWedge[(i+1-1)%8]+(i+1)/9 ) == thisHOCalib.ppcol )
+      {
+        thisHOCalib.ppcpl = thisHOCalib.ppcpl + "_" + std::to_string(i+1);
+      }
+    }
   } 
   else if( abs(thisHOCalib.side) == 1 )
   {
-    thisHOCalib.ppcol = (thisHOCalib.sector/2-1)%NppCol + 1;
-    thisHOCalib.pplc = (thisHOCalib.side == -1) ? (thisHOCalib.sector/2-1)/NppCol + 1 : (thisHOCalib.sector/2-1)/NppCol + 1 + 2;
+    thisHOCalib.pplc = (thisHOCalib.sector/2-1)%NppCol + 1;
+    thisHOCalib.ppcol = (thisHOCalib.side == -1) ? (thisHOCalib.sector/2-1)/NppCol + 1 : (thisHOCalib.sector/2-1)/NppCol + 1 + 2;
+    //ppcpl value for this part is kind of tricky, especially for _2-8, no good algorithm for the time being...
+    ( thisHOCalib.ppcol == 1 || thisHOCalib.ppcol == 3 ) ? thisHOCalib.ppcpl = thisHOCalib.ppcpl + "_2-8" : thisHOCalib.ppcpl = thisHOCalib.ppcpl + "_10_12";
   }
 
   //Backend
   int HOCrateInWedgeCalib[3] = {13, 7, 6};//for HO crate variable
+  int HOdccInWedgeCalib[3] = {30, 26, 28};//for HO dcc variable
   int HOPatchPanelSlotOccuNum[NppLC] = {4, 2, 4, 2};//This array is the number of coloums occupied for every slots, same for HO0 and HO12 in this case
   thisHOCalib.crate = HOCrateInWedgeCalib[abs(thisHOCalib.eta)];
+  thisHOCalib.dcc = HOdccInWedgeCalib[abs(thisHOCalib.eta)];
   thisHOCalib.htr = 8;
   //This is to calculate the offset, see patch panel graph for demonstration
   int offset = 0;
-  for(int i=0;i<thisHOCalib.pplc-1;i++)
+  for(int i=0;i<thisHOCalib.ppcol-1;i++)
   {
     offset += HOPatchPanelSlotOccuNum[i];
   }
 
-  thisHOCalib.htr_fiber = (thisHOCalib.ppcol + offset - 1)%Nhtr_fiber + 1;
-  if( (thisHOCalib.ppcol + offset - 1)/Nhtr_fiber == 1)
+  thisHOCalib.htr_fiber = (thisHOCalib.pplc + offset - 1)%Nhtr_fiber + 1;
+  if( (thisHOCalib.pplc + offset - 1)/Nhtr_fiber == 1)
   {
     thisHOCalib.fpga = "top";
+    thisHOCalib.spigot = 12;
   }
-  else{ thisHOCalib.fpga = "bot"; }
+  else{ thisHOCalib.fpga = "bot"; thisHOCalib.spigot = 13;}
 
   myHOCalib.push_back(thisHOCalib);
   return;
