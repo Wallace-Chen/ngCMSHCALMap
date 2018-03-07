@@ -62,7 +62,7 @@ void HOMappingAlgorithm::ConstructHOCalib(int irbx, int irm, int irmfi, int ific
   thisHOCalib.eta = sideid;
   thisHOCalib.side = ( (thisHOCalib.eta == 0) ? 0 : thisHOCalib.eta/abs(thisHOCalib.eta));
   thisHOCalib.dphi = ( (thisHOCalib.eta == 0) ? 6 : 12 );
-  thisHOCalib.det = "CALIB_HO";
+  thisHOCalib.subdet = "CALIB_HO";
   thisHOCalib.depth = (thisHOCalib.fiber_ch == 2) ? 7 : thisHOCalib.fiber_ch;
 
   int sector;

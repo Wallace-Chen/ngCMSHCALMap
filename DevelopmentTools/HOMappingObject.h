@@ -63,7 +63,7 @@ struct HOCalib
 
   //Geo
   int side, eta, phi, depth;
-  std::string det;//HO
+  std::string subdet;//HO
   int dphi;//dphi is 6 or 12
 };
 
