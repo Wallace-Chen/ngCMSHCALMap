@@ -62,9 +62,8 @@ void HOMappingAlgorithm::ConstructHOCalib(int irbx, int irm, int irmfi, int ific
   thisHOCalib.eta = sideid;
   thisHOCalib.side = ( (thisHOCalib.eta == 0) ? 0 : thisHOCalib.eta/abs(thisHOCalib.eta));
   thisHOCalib.dphi = ( (thisHOCalib.eta == 0) ? 6 : 12 );
-  thisHOCalib.name = "CALIB_HO";
-  thisHOCalib.det  = "HO";
-  thisHOCalib.ch_type = (thisHOCalib.fiber_ch == 2) ? 7 : thisHOCalib.fiber_ch;
+  thisHOCalib.det = "CALIB_HO";
+  thisHOCalib.depth = (thisHOCalib.fiber_ch == 2) ? 7 : thisHOCalib.fiber_ch;
 
   int sector;
   switch (thisHOCalib.eta)
@@ -124,7 +123,7 @@ void HOMappingAlgorithm::ConstructHOCalib(int irbx, int irm, int irmfi, int ific
   }
 
   //Patch Panel---Frontend
-  (thisHOCalib.eta == 0) ?  thisHOCalib.ppcpl = thisHOCalib.det + "-0_CU" : thisHOCalib.ppcpl = thisHOCalib.det + std::to_string(thisHOCalib.eta) + "_CU";
+  (thisHOCalib.eta <= 0) ?  thisHOCalib.ppcpl = std::string("HO") + "-" + std::to_string(abs(thisHOCalib.eta)) + "_CU" : thisHOCalib.ppcpl = std::string("HO") + "+" + std::to_string(thisHOCalib.eta) + "_CU";
   int HO0ppLCInWedge[8] = {1, 3, 3, 1, 1, 3, 3, 1};//for HO0 rbx pplc variable
   thisHOCalib.pprow = 3 - abs(thisHOCalib.eta);
   //HO0 and HO12 have different arrangement, needs separate algorithm. Only valid when sector<16!!

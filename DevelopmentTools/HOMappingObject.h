@@ -62,8 +62,8 @@ struct HOCalib
   std::string fpga;
 
   //Geo
-  int side, eta, phi, ch_type;
-  std::string name,det;//HO
+  int side, eta, phi, depth;
+  std::string det;//HO
   int dphi;//dphi is 6 or 12
 };
 
