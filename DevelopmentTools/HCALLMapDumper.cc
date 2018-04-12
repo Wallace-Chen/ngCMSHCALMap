@@ -656,10 +656,10 @@ void HCALLMapDumper::printHOCalibLMapObject(std::vector<HOCalib> myHOCalib)
             << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "Depth" << std::setw(12) << "Det"
             << std::setw(9) << "RBX"
             << std::setw(6) << "Sect"
-            << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "QIE8" << std::setw(8) << "QIE8_ch"  << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
             << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(20) << "ppCpl" << std::setw(6) << "ppLC"
-            << std::setw(6) << "Crate" << std::setw(6) << "HTR" << std::setw(6) << "fpga" << std::setw(9) << "HTR_FI"
-            << std::setw(6) << "DCC" << std::setw(8) << "Spigot"
+            << std::setw(9) << "Octopus" << std::setw(6) << "Crate" << std::setw(6) << "HTR" << std::setw(6) << "fpga" << std::setw(9) << "HTR_FI"
+            << std::setw(6) << "DCC" << std::setw(8) << "Spigot" << std::setw(6) << "FEDid"
             << std::setw(9) << "QIE8id"
             << std::endl;
 
@@ -669,10 +669,10 @@ void HCALLMapDumper::printHOCalibLMapObject(std::vector<HOCalib> myHOCalib)
               << std::setw(6) << myHOCalib.at(i).side << std::setw(6) << myHOCalib.at(i).eta << std::setw(6) << myHOCalib.at(i).phi << std::setw(6) << myHOCalib.at(i).dphi << std::setw(9) << myHOCalib.at(i).depth << std::setw(12) << myHOCalib.at(i).subdet
               << std::setw(9) << myHOCalib.at(i).rbx
               << std::setw(6) << myHOCalib.at(i).sector
-              << std::setw(6) << myHOCalib.at(i).rm << std::setw(6) << myHOCalib.at(i).rm_fiber << std::setw(6) << myHOCalib.at(i).fiber_ch
+              << std::setw(6) << myHOCalib.at(i).qie8 << std::setw(8) << myHOCalib.at(i).qie8_ch << std::setw(6) << myHOCalib.at(i).rm << std::setw(6) << myHOCalib.at(i).rm_fiber << std::setw(6) << myHOCalib.at(i).fiber_ch
               << std::setw(6) << myHOCalib.at(i).ppcol << std::setw(6) << myHOCalib.at(i).pprow << std::setw(20) << myHOCalib.at(i).ppcpl << std::setw(6) << myHOCalib.at(i).pplc
-              << std::setw(6) << myHOCalib.at(i).crate << std::setw(6) << myHOCalib.at(i).htr << std::setw(6) << myHOCalib.at(i).fpga << std::setw(9) << myHOCalib.at(i).htr_fiber
-              << std::setw(6) << myHOCalib.at(i).dcc << std::setw(8) << myHOCalib.at(i).spigot
+              << std::setw(9) << myHOCalib.at(i).octopus << std::setw(6) << myHOCalib.at(i).crate << std::setw(6) << myHOCalib.at(i).htr << std::setw(6) << myHOCalib.at(i).fpga << std::setw(9) << myHOCalib.at(i).htr_fiber
+              << std::setw(6) << myHOCalib.at(i).dcc << std::setw(8) << myHOCalib.at(i).spigot << std::setw(6) << myHOCalib.at(i).fedid
               << std::setw(9) << myHOCalib.at(i).qie8_id
               << std::endl;
   }
@@ -1204,18 +1204,18 @@ void HCALLMapDumper::makedbHOCalibLMapObject(std::string HCALLMapDbStr, std::str
   //i(Unique key)
   //Side Eta Phi dPhi Depth Det
   //RBX 
-  //RM RM_FI FI_CH
+  //QIE8 QIE8_CH RM RM_FI FI_CH
   //ppCol ppRow ppCpl ppLC
-  //Crate HTR FPGA HTR_FI Spigot DCC
+  //OCTOPUS Crate HTR FPGA HTR_FI DCC Spigo FEDid
   //QIE8id
 
   std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + HOCalibTableStr + "(" \
                             "ID INT PRIMARY KEY NOT NULL, " \
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
                             "RBX TEXT NOT NULL, " \
-                            "RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "QIE8 INT NOT NULL, QIE8_CH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
                             "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, " \
-                            "Crate INT NOT NULL, HTR INT NOT NULL, FPGA INT NOT NULL, HTR_FI INT NOT NULL, Spigot INT NOT NULL, DCC INT NOT NULL, " \
+                            "OCTOPUS INT NOT NULL, Crate INT NOT NULL, HTR INT NOT NULL, FPGA INT NOT NULL, HTR_FI INT NOT NULL, DCC INT NOT NULL, Spigot INT NOT NULL, FEDid INT NOT NULL, " \
                             "QIE8id INT NOT NULL);";
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
@@ -1228,18 +1228,18 @@ void HCALLMapDumper::makedbHOCalibLMapObject(std::string HCALLMapDbStr, std::str
                       "ID," \
                       "Side,Eta,Phi,dPhi,Depth,Det," \
                       "RBX," \
-                      "RM,RM_FI,FI_CH," \
+                      "QIE8,QIE8_CH,RM,RM_FI,FI_CH," \
                       "ppCol,ppRow,ppCpl,ppLC," \
-                      "Crate,HTR,FPGA,HTR_FI,Spigot,DCC," \
+                      "OCTOPUS,Crate,HTR,FPGA,HTR_FI,DCC,Spigot,FEDid," \
                       "QIE8id) ";
     std::string two = "VALUES("
                       +std::to_string(i)+","
                       +std::to_string(myHOCalib.at(i).side)+","+std::to_string(myHOCalib.at(i).eta)+","+std::to_string(myHOCalib.at(i).phi)+","+std::to_string(myHOCalib.at(i).dphi)+","+std::to_string(myHOCalib.at(i).depth)+",'"+myHOCalib.at(i).subdet+"','"
                       +myHOCalib.at(i).rbx+"',"
-                      +std::to_string(myHOCalib.at(i).rm)+","+std::to_string(myHOCalib.at(i).rm_fiber)+","+std::to_string(myHOCalib.at(i).fiber_ch)+","
+                      +std::to_string(myHOCalib.at(i).qie8)+","+std::to_string(myHOCalib.at(i).qie8_ch)+","+std::to_string(myHOCalib.at(i).rm)+","+std::to_string(myHOCalib.at(i).rm_fiber)+","+std::to_string(myHOCalib.at(i).fiber_ch)+","
 //                      +myHOCalib.at(i).trunk+"',"+std::to_string(myHOCalib.at(i).cpcol)+","+std::to_string(myHOCalib.at(i).cprow)+",'"+myHOCalib.at(i).cpcpl+"',"+std::to_string(myHOCalib.at(i).cplc)+","+std::to_string(myHOCalib.at(i).cpoct)+","
                       +std::to_string(myHOCalib.at(i).ppcol)+","+std::to_string(myHOCalib.at(i).pprow)+",'"+myHOCalib.at(i).ppcpl+"',"+std::to_string(myHOCalib.at(i).pplc)+","
-                      +std::to_string(myHOCalib.at(i).crate)+","+std::to_string(myHOCalib.at(i).htr)+",'"+myHOCalib.at(i).fpga+"',"+std::to_string(myHOCalib.at(i).htr_fiber)+","+std::to_string(myHOCalib.at(i).spigot)+","+std::to_string(myHOCalib.at(i).dcc)+","
+                      +std::to_string(myHOCalib.at(i).octopus)+","+std::to_string(myHOCalib.at(i).crate)+","+std::to_string(myHOCalib.at(i).htr)+",'"+myHOCalib.at(i).fpga+"',"+std::to_string(myHOCalib.at(i).htr_fiber)+","+std::to_string(myHOCalib.at(i).dcc)+","+std::to_string(myHOCalib.at(i).spigot)+","+std::to_string(myHOCalib.at(i).fedid)+","
                       +std::to_string(myHOCalib.at(i).qie8_id)+");";
  
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 

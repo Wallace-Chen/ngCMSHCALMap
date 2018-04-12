@@ -50,7 +50,7 @@ struct HOCalib
   //FE
   std::string rbx;
   int rm, rm_fiber, fiber_ch;//rm is always 5, rm_fiber is always 1
-  int qie8_id;
+  int qie8, qie8_ch, qie8_id;
 
   //patch panel
   int ppcol, pprow, pplc, dodec;
@@ -59,6 +59,8 @@ struct HOCalib
   //BE
   int crate, htr, htr_fiber;//htr is always 8
   int dcc, spigot;
+  int fedid;
+  int octopus;
   std::string fpga;
 
   //Geo

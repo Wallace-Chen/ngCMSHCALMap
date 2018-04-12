@@ -104,6 +104,8 @@ void HOMappingAlgorithm::ConstructHOCalib(int irbx, int irm, int irmfi, int ific
   thisHOCalib.sector = sector;
   thisHOCalib.phi = ( thisHOCalib.side == 0 ) ? HOphiInrbxrmid[(thisHOCalib.sector-1)*6] : HOphiInrbxrmid[(thisHOCalib.sector/2-1)*12];
   thisHOCalib.qie8_id = 999994;
+  thisHOCalib.qie8 = 1;
+  thisHOCalib.qie8_ch = ifich + 1;
 
   //Filter: Normally 2 channels per fiber except 5 fibers having 3 channels, defined in the array rbxSPHOCalib
   int i=0;
@@ -154,6 +156,7 @@ void HOMappingAlgorithm::ConstructHOCalib(int irbx, int irm, int irmfi, int ific
   int HOPatchPanelSlotOccuNum[NppLC] = {4, 2, 4, 2};//This array is the number of coloums occupied for every slots, same for HO0 and HO12 in this case
   thisHOCalib.crate = HOCrateInWedgeCalib[abs(thisHOCalib.eta)];
   thisHOCalib.dcc = HOdccInWedgeCalib[abs(thisHOCalib.eta)];
+  thisHOCalib.fedid = thisHOCalib.dcc + 700;
   thisHOCalib.htr = 8;
   //This is to calculate the offset, see patch panel graph for demonstration
   int offset = 0;
@@ -163,6 +166,7 @@ void HOMappingAlgorithm::ConstructHOCalib(int irbx, int irm, int irmfi, int ific
   }
 
   thisHOCalib.htr_fiber = (thisHOCalib.pplc + offset - 1)%Nhtr_fiber + 1;
+  thisHOCalib.octopus = thisHOCalib.htr_fiber;
   if( (thisHOCalib.pplc + offset - 1)/Nhtr_fiber == 1)
   {
     thisHOCalib.fpga = "top";
