@@ -109,7 +109,7 @@ void HOMappingAlgorithm::ConstructHOCalib(int irbx, int irm, int irmfi, int ific
 
   //Filter: Normally 2 channels per fiber except 5 fibers having 3 channels, defined in the array rbxSPHOCalib
   int i=0;
-  while(rbxSPHOCalib[i] != "")
+  while( !rbxSPHOCalib[i].empty() )
   {
     using namespace std;
     if( !thisHOCalib.rbx.compare(rbxSPHOCalib[i]) && (thisHOCalib.fiber_ch == 2) )
@@ -123,7 +123,6 @@ void HOMappingAlgorithm::ConstructHOCalib(int irbx, int irm, int irmfi, int ific
   {
     return;
   }
-
   //Patch Panel---Frontend
   (thisHOCalib.eta <= 0) ?  thisHOCalib.ppcpl = std::string("HO") + "-" + std::to_string(abs(thisHOCalib.eta)) + "_CU" : thisHOCalib.ppcpl = std::string("HO") + "+" + std::to_string(thisHOCalib.eta) + "_CU";
   int HO0ppLCInWedge[8] = {1, 3, 3, 1, 1, 3, 3, 1};//for HO0 rbx pplc variable

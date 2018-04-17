@@ -25,12 +25,14 @@ def GetLMapDataFrame( rel_lmap_path ):
   df_HFsublmap = df_HFlmap[HFlmaplist]
   df_HFsubclmap = df_HFclmap[HFlmaplist]
 
-  df_HOlmap = pd.read_sql("SELECT * FROM HOLogicalMap", con = sql_con_lmap, index_col = ['ID'])                                                                                                             
+  df_HOlmap = pd.read_sql("SELECT * FROM HOLogicalMap", con = sql_con_lmap, index_col = ['ID'])
+  df_HOclmap = pd.read_sql("SELECT * FROM HOCalibLogicalMap", con = sql_con_lmap, index_col = ['ID'])
   HOlmaplist = ['Side', 'Eta', 'Phi', 'Depth', 'Det', 'QIECH', 'QIE8id']
   df_HOsublmap = df_HOlmap[HOlmaplist]
+  df_HOsubclmap = df_HOclmap[HOlmaplist]
 
   sql_con_lmap.close()
-  return df_HBsublmap, df_HEsublmap, df_HFsublmap, df_HOsublmap, df_HBsubclmap, df_HEsubclmap, df_HFsubclmap
+  return df_HBsublmap, df_HEsublmap, df_HFsublmap, df_HOsublmap, df_HBsubclmap, df_HEsubclmap, df_HFsubclmap, df_HOsubclmap
 
 def GetQIE8DataFrame( rel_qie8_path ):
   sql_engine_qie8 = create_engine( rel_qie8_path )
@@ -331,9 +333,9 @@ if __name__ == '__main__':
   #Normal for shunt6 regular HE channels, shunt1 for calib HE channels; Special for shunt1 for both regular and calib HE channels
   (opt, args) = parser.parse_args()
   # load lmap HB, HE, HF, HO
-  df_HBsublmap, df_HEsublmap, df_HFsublmap, df_HOsublmap, df_HBsubclmap, df_HEsubclmap, df_HFsubclmap = GetLMapDataFrame( 'sqlite:///../officialMap/HCALLogicalMap.db' )
-  # Temp solution for HO calib before official code complete
-  df_HOsubclmap = TempHOsubclmap()
+  df_HBsublmap, df_HEsublmap, df_HFsublmap, df_HOsublmap, df_HBsubclmap, df_HEsubclmap, df_HFsubclmap, df_HOsubclmap = GetLMapDataFrame( 'sqlite:///../officialMap/HCALLogicalMap.db' )
+  # Temp solution for HO calib before official code complete, has been added April 2018 by Yuan,,,solved
+  #df_HOsubclmap = TempHOsubclmap()
   #df_HEP17sublmap = GetHEP17LMapDataFrame( 'sqlite:///../officialMap/HCALLogicalMap.db' )
   df_LMsublmap = TempLMsublmap()
   #print (df_HBsublmap.head())
@@ -349,20 +351,22 @@ if __name__ == '__main__':
 
   # load qie8 tables offsets and slopes
   #df_qie8_offset_pv, df_qie8_slope_pv = GetQIE8DataFrame( 'sqlite:///qie8_database/QIE8ConstantFNALNormal_DropFcs.db' )
-  df_qie8_offset_pv, df_qie8_slope_pv = GetQIE8DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie8_database/QIE8ConstantFNALNormal_DropFcs.db' )
+  #df_qie8_offset_pv, df_qie8_slope_pv = GetQIE8DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie8_database/QIE8ConstantFNALNormal_DropFcs.db' )
+  df_qie8_offset_pv, df_qie8_slope_pv = GetQIE8DataFrame( 'sqlite:////eos/user/y/yuanc/QIEDB/qie8_database/QIE8ConstantFNALNormal_DropFcs.db' )
   #print (df_qie8_offset_pv.head())
   #print (df_qie8_slope_pv.head())
   
   # load qie10 tables offsets and slopes
   #df_qie10_offset_pv, df_qie10_slope_pv = GetQIE10DataFrame( 'sqlite:///qie10_database/qieCalibrationParameters_HF_2017-04-24.db' )
-  df_qie10_offset_pv, df_qie10_slope_pv = GetQIE10DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie10_database/qieCalibrationParameters_HF_2017-04-24.db' )
+  #df_qie10_offset_pv, df_qie10_slope_pv = GetQIE10DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie10_database/qieCalibrationParameters_HF_2017-04-24.db' )
+  df_qie10_offset_pv, df_qie10_slope_pv = GetQIE10DataFrame( 'sqlite:////eos/user/y/yuanc/QIEDB/qie10_database/qieCalibrationParameters_HF_2017-04-24.db' )
   #print (df_qie10_offset_pv.tail())
   #print (df_qie10_slope_pv.tail())
 
   # load qie11 tables offsets and slopes
   #print opt.heqie11mode
-  df_qie11_offset_pv_s1, df_qie11_slope_pv_s1 = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=1 AND Gsel=0" )
-  df_qie11_offset_pv_s6, df_qie11_slope_pv_s6 = GetQIE11DataFrame( 'sqlite:////eos/user/h/hua/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=6 AND Gsel=18" )
+  df_qie11_offset_pv_s1, df_qie11_slope_pv_s1 = GetQIE11DataFrame( 'sqlite:////eos/user/y/yuanc/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=1 AND Gsel=0" )
+  df_qie11_offset_pv_s6, df_qie11_slope_pv_s6 = GetQIE11DataFrame( 'sqlite:////eos/user/y/yuanc/QIEDB/qie11_database/HE_all640cards_parameters.db', "shunt=6 AND Gsel=18" )
   #print (df_qie11_offset_pv.tail(12))
   #print (df_qie11_slope_pv.tail(12))
 

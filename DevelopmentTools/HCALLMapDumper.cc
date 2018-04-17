@@ -656,7 +656,7 @@ void HCALLMapDumper::printHOCalibLMapObject(std::vector<HOCalib> myHOCalib)
             << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "Depth" << std::setw(12) << "Det"
             << std::setw(9) << "RBX"
             << std::setw(6) << "Sect"
-            << std::setw(6) << "QIE8" << std::setw(8) << "QIE8_ch"  << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "QIE8" << std::setw(8) << "QIECH"  << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
             << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(20) << "ppCpl" << std::setw(6) << "ppLC"
             << std::setw(9) << "Octopus" << std::setw(6) << "Crate" << std::setw(6) << "HTR" << std::setw(6) << "fpga" << std::setw(9) << "HTR_FI"
             << std::setw(6) << "DCC" << std::setw(8) << "Spigot" << std::setw(6) << "FEDid"
@@ -1204,7 +1204,7 @@ void HCALLMapDumper::makedbHOCalibLMapObject(std::string HCALLMapDbStr, std::str
   //i(Unique key)
   //Side Eta Phi dPhi Depth Det
   //RBX 
-  //QIE8 QIE8_CH RM RM_FI FI_CH
+  //QIE8 QIECH RM RM_FI FI_CH
   //ppCol ppRow ppCpl ppLC
   //OCTOPUS Crate HTR FPGA HTR_FI DCC Spigo FEDid
   //QIE8id
@@ -1213,7 +1213,7 @@ void HCALLMapDumper::makedbHOCalibLMapObject(std::string HCALLMapDbStr, std::str
                             "ID INT PRIMARY KEY NOT NULL, " \
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
                             "RBX TEXT NOT NULL, " \
-                            "QIE8 INT NOT NULL, QIE8_CH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "QIE8 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
                             "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, " \
                             "OCTOPUS INT NOT NULL, Crate INT NOT NULL, HTR INT NOT NULL, FPGA INT NOT NULL, HTR_FI INT NOT NULL, DCC INT NOT NULL, Spigot INT NOT NULL, FEDid INT NOT NULL, " \
                             "QIE8id INT NOT NULL);";
@@ -1228,7 +1228,7 @@ void HCALLMapDumper::makedbHOCalibLMapObject(std::string HCALLMapDbStr, std::str
                       "ID," \
                       "Side,Eta,Phi,dPhi,Depth,Det," \
                       "RBX," \
-                      "QIE8,QIE8_CH,RM,RM_FI,FI_CH," \
+                      "QIE8,QIECH,RM,RM_FI,FI_CH," \
                       "ppCol,ppRow,ppCpl,ppLC," \
                       "OCTOPUS,Crate,HTR,FPGA,HTR_FI,DCC,Spigot,FEDid," \
                       "QIE8id) ";
