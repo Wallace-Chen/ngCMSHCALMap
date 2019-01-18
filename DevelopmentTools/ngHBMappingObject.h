@@ -5,12 +5,11 @@
 //FrontEnd electronics struct
 struct ngHBFrontEnd
 {
-  //interface to BackEnd: 2 side, 18 rbx per side, 4 rm per rbx and 8 rm fibers per rm
   std::string rbx;
-  int rm, rm_fiber;
-  int qie11_fiber, fiber_ch;
+  int rm, rm_fiber, fiber_ch;
   int qie11, qie11_ch, qie11_id;
-  //variables in ROB/Connector
+  int fiber_indx;
+  int mb_no;
 };
 
 //Backend electronics struct
@@ -26,17 +25,18 @@ struct ngHBBackEnd
   int fedid;
   int dcc, spigot, dcc_sl;
 
+  //uHTR
   int ucrate, uhtr, uhtr_fiber;
   std::string ufpga;
   int ufedid;
-
+  
   int fiber_ch;
 };
 
-//SiPM struct
+//SiPM boxes struct
 struct ngHBSiPM
 {
-  int wedge;//1,2,3,4...18
+  int wedge;
   int bv;
 };
 
@@ -52,49 +52,78 @@ struct ngHBGeometry
 //Trigger tower struct
 struct ngHBTriggerTower
 {
-  int trg_fiber, trg_fiber_ch;
+// The following dies in new era M        
+//  int trg_fiber, trg_fiber_ch;
+  int trg_ind, trg_indx;
+  std::string trg_jm, trg_uhtr; 
+};
+
+struct ngHBCalib
+{
+  //FE
+  std::string rbx;
+  int rm, rm_fiber, fiber_ch;
+  int qie8, qie8_ch, qie8_id;
+  int wedge;
+
+  //Calibration patch
+  std::string trunk;
+  int cpcol, cprow, cplc, cpoct;
+  std::string cpcpl;
+
+  //patch panel
+  int ppcol, pprow, pplc, dodec;
+  std::string ppcpl;
+
+  //backend
+  int ucrate, uhtr, uhtr_fiber;
+  int ufedid;
+
+  //Geo
+  int side, eta, phi, depth; //eta is always 1, phi go with rm 1. Depth 0 to 2
+  int dphi; //dphi is always 4
+  std::string subdet;
 };
 
 class ngHBConstant
 {
  public:
   // channels in ngHB
-  static const int NchngHB_all = 9216;
+  static const int NchngHB_all = 2592;
   //Front End variables
   //rbx in ngHB, 18 for each side
   static const int NrbxngHB = 18;
-  //1,2,3,4 rm per ngHB RBX
+  //4 rm in all ngHB rbx, label from 1 to 4
   static const int NrmngHB = 4;
-  //rm fiber 1,2,3,4,5,6,7,8, in total 8 fibers per rm
+  //rm fiber 1,2,3,4,5,6,7,8 in total 6 fibers per rm
   static const int Nrm_fiber = 8;
   //fiber channel is same for both backend electronics and front end electronics, 0,1,2,3,4,5,6,7(since software people like start from 0)
   static const int Nfiber_ch = 8;
-  
-  //4 QIE11s per ngHB front end rbx
-  static const int Nqie11 = 4;
-  //QIE11 fiber
-  //static const int Nqie11_fiber = 4;
-  //12 channels per QIE card, 1 to 12, but qie8 adc is 0 to 5, should we also start from 0 ?
-  static const int Nqie11_ch = 16;
 
-  //9 crate shared by HB and HE: 20,21,24,25,30,31,34,35,37
+  static const int Nqie = 3;
+  static const int Nqie_ch = 6;
+
+  //Back End variables
+  //9 crate in ngHBHE: 0,1,4,5,10,11,14,15,17
   static const int Ncrate = 9;
-  //12 uhtr in each crate, 1,2,3,4,5,6,7,8,9,10,11,12, same as old HF
-  static const int Nuhtr = 12, Nuhtr_HB_pure = 4, Nuhtr_HBngHE_mixed = 4, Nuhtr_ngHE_pure = 4;
+  //12 htr in each crate, 2,3,4,5,6,7 and 13,14,15,16,17,18 - - - obsolete
+  //12 uhtr in each crate, 1,2,3,4,5,6,7,8,9,10,11,12, 3 types of ngHBHE - - - pure ngHB,1,4,7,10, pure HE,3,6,9,12, ngHBHE mixing,2,5,8,11
+  static const int Nhtr = 12; static const int Nuhtr = 12;
   //2 fpga flavors top and bottom in htr, while only uHTR in u
-  static const int Nufpga = 1;
-  //24 in uhtr: 0,1,2,3,4,5,6,7,8,9..22,23; pure HB, 0,1,2,3 and 12 to 23; HB in HBngHE mixed, 2,3,4,5,6,7,8,9; ngHE in HEngHE mixed, 12 to 23;  ngHE in ngHE pure, 1 to 10 and 13 to 22
-  static const int Nuhtr_fiber = 24, Nuhtr_fiber_HB_pure = 16, Nuhtr_fiber_HB_HBngHE_mixed = 8, Nuhtr_fiber_ngHE_HBngHE_mixed = 12, Nuhtr_fiber_ngHE_pure = 20;
-  //24 in uhtr: 0,1,2,3,4,5,6,7,8,9..22,23; do not know why Dick is interested in 22 10 rather than 20 12 to have a kind of symmetry in HBHE? maybe due to data volumn ???
-  //static const int Nuhtr_fiber = 24, Nuhtr_fiber_ngHB_pure = 22, Nuhtr_fiber_ngHB_ngHBngHE_mixed = 10, Nuhtr_fiber_ngHE_HBngHE_mixed = 12, Nuhtr_fiber_ngHE_pure = 20;
-  //Number of backend ngHB channels = 9 * (4*22+4*10) * 8 = 9216 
-  
-  //Geometry variables in ngHB: eta from 1 to 16, phi is 1 to 72, depth 1,2,3,4 from eta 1 to 15, depth 1,2,3 for the eta 16
+  static const int Nfpga = 2; static const int Nufpga = 1;
+  //8 fibers per htr card: 1,2,3,4,5,6,7,8, while 12 in uhtr: 2,3,4,5,6,7,8,9 and 14,15,16,17,18,19,20,21
+  static const int Nhtr_fiber = 8; static const int Nuhtr_fiber = 16;
+
+  //Geometry variables in ngHB: 
   static const int NngHBside = 2;
   static const int NngHBphi = 72;
-  static const int NngHBeta16 = 1; static const int NngHBeta1to15 = 15;
-  static const int NngHBdeptheta16 = 3; static const int NngHBdeptheta1to15 = 4;
-  //Number if Geo ngHB channels = 2 * 72 * (1*3+15*4) = 9072
-  static const int NngHBCalibChannel = 144;
+
+  static const int NngHBeta1516 = 2; static const int NngHBeta1to14 = 14;
+  static const int NngHBdeptheta1516 = 2; static const int NngHBdeptheta1to14 = 1;
+
+  //2 fibers per rm in calibration module, rm 1,2
+  static const int NrmngHBCalib = 1;
+  static const int Nrm_fiberCalib = 1;
 };
+
 #endif
