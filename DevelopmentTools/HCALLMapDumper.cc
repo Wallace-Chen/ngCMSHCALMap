@@ -1,4 +1,93 @@
 #include "HCALLMapDumper.h"
+#include <iostream>
+#include <fstream>
+
+int nOpen = 0; // indicate the number of times output files are opened.
+static int callback_HBHEUMap(void *handle, int argc, char **argv, char **azColName){
+  std::ofstream f;
+  f.open("ngHBHEUMap.txt", std::ios::app | std::ios::out);
+  if (nOpen == 0 && f.good()){// file already exists, then delete
+    f.close();
+    remove("ngHBHEUMap.txt");
+    f.open("ngHBHEUMap.txt", std::ios::app | std::ios::out);
+  }
+  if(nOpen == 0){// file does not exist, then print the header
+    //Side Eta Phi dPhi Depth Det
+    //RBX
+    //Wedge BV
+    //QIE11 QIECH RM RM_FI FI_CH 
+    //ppCol ppRow ppCpl ppLC docdec 
+    //Crate uHTR uHTR_FI
+    //FEDid
+    //QIE11id
+    //TP_FI TP_CH
+    f << "#"
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(11) << "type/depth" << std::setw(10) << "Det"
+            << std::setw(6) << "RBX"
+            << std::setw(8) << "Sector" << std::setw(6) << "BV"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(15) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+            << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIEid"
+            << std::setw(6) << "TP_FI" << std::setw(6) << "TP_CH"
+            << std::endl;
+  }
+  f << " "
+    << std::setw(6) << argv[1]  << std::setw(6) << argv[2] << std::setw(6) << argv[3]  << std::setw(6) << argv[4] << std::setw(11) << argv[5] << std::setw(10) << argv[6]
+    << std::setw(6) << argv[7]
+    << std::setw(8) << argv[8] << std::setw(6) << argv[9]
+    << std::setw(6) << argv[10] << std::setw(6) << argv[11] << std::setw(6) << argv[12] << std::setw(6) << argv[13] << std::setw(6) << argv[14]
+    << std::setw(6) << argv[15] << std::setw(6) << argv[16] << std::setw(15) << argv[17] << std::setw(6) << argv[18] << std::setw(6) << argv[19]
+    << std::setw(6) << argv[20] << std::setw(6) << argv[21] << std::setw(9) << argv[22]
+    << std::setw(6) << argv[23]
+    << std::setw(9) << argv[24]
+    << std::setw(6) << argv[25] << std::setw(6) << argv[26]
+    << std::endl;
+  
+  f.close();
+  nOpen ++;
+  return 0;
+}
+
+static int callback_HOUMap(void *handle, int argc, char **argv, char **azColName){
+  std::ofstream f;
+  f.open("HOUMap.txt", std::ios::app | std::ios::out);
+  if (nOpen == 0 && f.good()){// file already exists, then delete
+    f.close();
+    remove("HOUMap.txt");
+    f.open("HOUMap.txt", std::ios::app | std::ios::out);
+  }
+  if(nOpen == 0){// file does not exist, then print the header
+  //Side Eta Phi dPhi Depth Det
+  //RBX 
+  //Sect
+  //QIE8 QIECH RM RM_FI FI_CH
+  //Crate HTR HTR_TB HTR_FI Spigot DCC FEDid
+  //QIE8Id
+
+  f << "#"
+            << std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(9) << "Det"
+            << std::setw(9) << "RBX"
+            << std::setw(6) << "Sect"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "Crate" << std::setw(6) << "HTR" << std::setw(6) << "HTRTB" << std::setw(9) << "HTR_FI" << std::setw(9) << "Spigot" << std::setw(6) << "DCC" << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIEid"
+            << std::endl;
+  }
+  f << " "
+    << std::setw(6) << argv[1]  << std::setw(6) << argv[2] << std::setw(6) << argv[3]  << std::setw(6) << argv[4] << std::setw(6) << argv[5] << std::setw(9) << argv[6]
+    << std::setw(9) << argv[7]
+    << std::setw(6) << argv[8] 
+    << std::setw(6) << argv[9]  << std::setw(6) << argv[10] << std::setw(6) << argv[11] << std::setw(6) << argv[12] << std::setw(6) << argv[13] 
+    << std::setw(6) << argv[14] << std::setw(6) << argv[15] << std::setw(6) << argv[16] << std::setw(9) << argv[17] << std::setw(9) << argv[18] << std::setw(6) << argv[19] << std::setw(6) << argv[20] 
+    << std::setw(9) << argv[21]
+    << std::endl;
+  
+  f.close();
+  nOpen ++;
+  return 0;
+}
 
 void HCALLMapDumper::printHBLMapObject(std::vector<HBFrontEnd> myHBFrontEnd, std::vector<HBBackEnd> myHBBackEnd, std::vector<HBHPD> myHBHPD, std::vector<HBGeometry> myHBGeometry, std::vector<HBTriggerTower> myHBTriggerTower)
 {
@@ -15,10 +104,10 @@ void HCALLMapDumper::printHBLMapObject(std::vector<HBFrontEnd> myHBFrontEnd, std
             << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
             << std::setw(6) << "RBX"
             << std::setw(6) << "Wedge" << std::setw(6) << "Pix"
-            << std::setw(6) << "QIE8" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
             << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(15) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
             << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI" << std::setw(6) << "FEDid"
-            << std::setw(9) << "QIE8id"
+            << std::setw(9) << "QIEid"
             << std::setw(6) << "TP_FI" << std::setw(6) << "TP_CH"
             << std::endl;
   for(auto i=0; i<myHBFrontEnd.size(); i++)
@@ -95,12 +184,12 @@ void HCALLMapDumper::printHBCalibLMapObject(std::vector<HBCalib> myHBCalib)
   std::cout << "#"
             << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "CH_TYPE" << std::setw(10) << "Det"
             << std::setw(6) << "RBX" << std::setw(6) << "Wedge"
-            << std::setw(6) << "QIE8" << std::setw(6) << "QIECH" << std::setw(3) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(3) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
             << std::setw(6) << "Trunk" << std::setw(6) << "cpCol" << std::setw(6) << "cpRow" << std::setw(9) << "cpCpl" << std::setw(6) << "cpLC" << std::setw(6) << "cpOct"
             << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(9) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
             << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
             << std::setw(6) << "FEDid"
-            << std::setw(9) << "QIE8id"
+            << std::setw(9) << "QIEid"
             << std::endl;
 
   for(auto i=0; i<myHBCalib.size(); i++)
@@ -142,42 +231,49 @@ void HCALLMapDumper::printHBCalibEMapObject(std::vector<HBCalib> myHBCalib)
   return ;
 }
 
-void HCALLMapDumper::printngHBLMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower)
+void HCALLMapDumper::printngHBLMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower, std::vector<ngHBTriggerTowerFiber> myngHBTriggerTowerFiber)
 {
   std::cout << "#Dumping ngHB LMap Object..." << std::endl;
   //Side Eta Phi dPhi Depth Det 
   //RBX 
-  //Wedge BV 
-  //QIE11 QIECH RM RM_FI FI_CH FI_Indx MB_No
+  //Wedge MB_NO BV
+  //QIE11 QIECH RM RM_FI FI_CH 
   //ppCol ppRow ppCpl ppLC dodec 
   //Crate uHTR uHTR_FI FEDid 
   //QIE11id
-  //TP_Ind TP_Indx TP_JM TP_uHTR
+  //TP_FI TP_CH
+//  //TP_IND TP_INDX TP_JM TP_uHTR FI_INDX
+  
   std::cout << "#"
             << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
             << std::setw(6) << "RBX"
-            << std::setw(6) << "Wedge" << std::setw(6) << "BV"
-            << std::setw(6) << "QIE11" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH" << std::setw(8) << "FI_Indx" << std::setw(6) << "MB_No"
+            << std::setw(6) << "Wedge" << std::setw(6) << "MB_NO" << std::setw(6) << "BV" 
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
             << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(15) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
             << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI" << std::setw(9) << "FEDid"
-//            << std::setw(9) << "QIE11id"
-            << std::setw(9) << "TP_Ind" << std::setw(9) << "TP_Indx" << std::setw(9) << "TP_JM" << std::setw(9) << "TP_uHTR"
+            << std::setw(9) << "QIEid"
+            << std::setw(6) << "TP_FI" << std::setw(6) << "TP_CH"
+//            << std::setw(9) << "TP_IND" << std::setw(9) << "TP_INDX" << std::setw(9) << "TP_JM" << std::setw(9) << "TP_uHTR" << std::setw(8) << "FI_INDX"
             << std::endl;
+            
   for(auto i=0; i<myngHBFrontEnd.size(); i++)
   {
     std::cout
               << " "
               << std::setw(6) << myngHBGeometry.at(i).side << std::setw(6) << myngHBGeometry.at(i).eta << std::setw(6) << myngHBGeometry.at(i).phi << std::setw(6) << myngHBGeometry.at(i).dphi << std::setw(6) << myngHBGeometry.at(i).depth << std::setw(6) << myngHBGeometry.at(i).subdet
-              << std::setw(6) << myngHBFrontEnd.at(i).rbx
-              << std::setw(6) << myngHBSiPM.at(i).wedge << std::setw(6) << myngHBSiPM.at(i).bv
-              << std::setw(6) << myngHBFrontEnd.at(i).qie11 << std::setw(6) << myngHBFrontEnd.at(i).qie11_ch << std::setw(6) << myngHBFrontEnd.at(i).rm << std::setw(6) << myngHBFrontEnd.at(i).rm_fiber << std::setw(6) << myngHBFrontEnd.at(i).fiber_ch << std::setw(8) << myngHBFrontEnd.at(i).fiber_indx << std::setw(6) << myngHBFrontEnd.at(i).mb_no
+              << std::setw(6) << myngHBFrontEnd.at(i).rbx 
+              << std::setw(6) << myngHBSiPM.at(i).wedge << std::setw(6) << myngHBFrontEnd.at(i).mb_no << std::setw(6) << myngHBSiPM.at(i).bv
+              << std::setw(6) << myngHBFrontEnd.at(i).qie11 << std::setw(6) << myngHBFrontEnd.at(i).qie11_ch << std::setw(6) << myngHBFrontEnd.at(i).rm << std::setw(6) << myngHBFrontEnd.at(i).rm_fiber << std::setw(6) << myngHBFrontEnd.at(i).fiber_ch
               << std::setw(6) << myngHBBackEnd.at(i).ppcol << std::setw(6) << myngHBBackEnd.at(i).pprow << std::setw(15) << myngHBBackEnd.at(i).ppcpl << std::setw(6) << myngHBBackEnd.at(i).pplc << std::setw(6) << myngHBBackEnd.at(i).dodec
               << std::setw(6) << myngHBBackEnd.at(i).ucrate << std::setw(6) << myngHBBackEnd.at(i).uhtr << std::setw(9) << myngHBBackEnd.at(i).uhtr_fiber << std::setw(9) << myngHBBackEnd.at(i).ufedid
-//              << std::setw(9) << myngHBFrontEnd.at(i).qie11_id
-              << std::setw(9) << myngHBTriggerTower.at(i).trg_ind << std::setw(9) << myngHBTriggerTower.at(i).trg_indx << std::setw(9) << myngHBTriggerTower.at(i).trg_jm << std::setw(9) << myngHBTriggerTower.at(i).trg_uhtr
+              << std::setw(9) << myngHBFrontEnd.at(i).qie11_id
+//              << std::setw(9) << "      "
+              << std::setw(6) << myngHBTriggerTowerFiber.at(i).trg_fiber << std::setw(6) << myngHBTriggerTowerFiber.at(i).trg_fiber_ch
+//              << std::setw(9) << myngHBTriggerTower.at(i).trg_ind << std::setw(9) << myngHBTriggerTower.at(i).trg_indx << std::setw(9) << myngHBTriggerTower.at(i).trg_jm << std::setw(9) << myngHBTriggerTower.at(i).trg_uhtr << std::setw(8) << myngHBFrontEnd.at(i).fiber_indx
               << std::endl;
-  }
 
+  }
+  
   return ;
 }
 
@@ -227,6 +323,70 @@ void HCALLMapDumper::printngHBFrontEndMapObject(std::vector<ngHBFrontEnd> myngHB
   return ;
 }
 
+void HCALLMapDumper::printngHBCalibLMapObject(std::vector<ngHBCalib> myngHBCalib, int header)
+{
+  //Side Eta Phi dPhi Depth Det
+  //RBX Wedge
+  //QIE QIECH RM RM_FI FI_CH
+  //Trunk cpCol cpRow cpCpl cpLC cpOct
+  //ppCol ppRow ppCpl ppLC docdec
+  //Crate uHTR uHTR_FI
+  //FEDid
+  //QIE11id
+  if(header == 1){
+    std::cout << "#Dumping ngHB Calib LMap Object..." << std::endl;
+    std::cout << "#"
+              << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "CH_TYPE" << std::setw(10) << "Det"
+              << std::setw(6) << "RBX" << std::setw(6) << "Wedge"
+              << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(3) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+              << std::setw(6) << "Trunk" << std::setw(6) << "cpCol" << std::setw(6) << "cpRow" << std::setw(9) << "cpCpl" << std::setw(6) << "cpLC" << std::setw(6) << "cpOct"
+              << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(9) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
+              << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+              << std::setw(6) << "FEDid"
+              << std::setw(9) << "QIEid"
+              << std::endl;
+  }
+  for(auto i=0; i<myngHBCalib.size(); i++)
+  {
+    if(!(myngHBCalib.at(i).rm_fiber==1 && myngHBCalib.at(i).fiber_ch>=5 && myngHBCalib.at(i).fiber_ch<=7)) continue;//only allow those channels pass for LMapCalib, PedLMap will allow whole channels
+    std::cout
+              << " "
+              << std::setw(6) << myngHBCalib.at(i).side << std::setw(6) << myngHBCalib.at(i).eta << std::setw(6) << myngHBCalib.at(i).phi << std::setw(6) << myngHBCalib.at(i).dphi << std::setw(9) << myngHBCalib.at(i).depth << std::setw(10) << myngHBCalib.at(i).subdet
+              << std::setw(6) << myngHBCalib.at(i).rbx << std::setw(6) << myngHBCalib.at(i).wedge
+              << std::setw(6) << myngHBCalib.at(i).qie11 << std::setw(6) << myngHBCalib.at(i).qie11_ch << std::setw(3) << myngHBCalib.at(i).rm << std::setw(6) << myngHBCalib.at(i).rm_fiber << std::setw(6) << myngHBCalib.at(i).fiber_ch
+              << std::setw(6) << myngHBCalib.at(i).trunk << std::setw(6) << myngHBCalib.at(i).cpcol << std::setw(6) << myngHBCalib.at(i).cprow << std::setw(9) << myngHBCalib.at(i).cpcpl << std::setw(6) << myngHBCalib.at(i).cplc << std::setw(6) << myngHBCalib.at(i).cpoct
+              << std::setw(6) << myngHBCalib.at(i).ppcol << std::setw(6) << myngHBCalib.at(i).pprow << std::setw(9) << myngHBCalib.at(i).ppcpl << std::setw(6) << myngHBCalib.at(i).pplc << std::setw(6) << myngHBCalib.at(i).dodec
+              << std::setw(6) << myngHBCalib.at(i).ucrate << std::setw(6) << myngHBCalib.at(i).uhtr << std::setw(9) << myngHBCalib.at(i).uhtr_fiber
+              << std::setw(6) << myngHBCalib.at(i).ufedid
+              << std::setw(9) << myngHBCalib.at(i).qie11_id
+              << std::endl;
+  }
+
+  return;
+}
+
+void HCALLMapDumper::printngHBCalibEMapObject(std::vector<ngHBCalib> myngHBCalib)
+{
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  std::cout << "#Dumping ngHBCalib EMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(10) <<"i"
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
+            << std::setw(9) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep"
+            << std::endl;
+
+  for(auto i=0; i<myngHBCalib.size(); i++)
+  {
+    std::cout << " "
+              << std::setw(10) << "4200458C"
+              << std::setw(6) << myngHBCalib.at(i).ucrate << std::setw(6) << myngHBCalib.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHBCalib.at(i).uhtr_fiber << std::setw(12) << myngHBCalib.at(i).fiber_ch
+              << std::setw(9) << myngHBCalib.at(i).subdet << std::setw(6) << myngHBCalib.at(i).side * myngHBCalib.at(i).eta << std::setw(6) << myngHBCalib.at(i).phi << std::setw(6) << myngHBCalib.at(i).depth
+              << std::endl;   
+  }
+
+  return;
+}
+
 void HCALLMapDumper::printngHELMapObject(std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower)
 {
   std::cout << "#Dumping ngHE LMap Object..." << std::endl;
@@ -243,11 +403,11 @@ void HCALLMapDumper::printngHELMapObject(std::vector<ngHEFrontEnd> myngHEFrontEn
             << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
             << std::setw(6) << "RBX"
             << std::setw(6) << "Wedge" << std::setw(6) << "BV"
-            << std::setw(6) << "QIE11" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
             << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(15) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
             << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
             << std::setw(6) << "FEDid"
-            << std::setw(9) << "QIE11id"
+            << std::setw(9) << "QIEid"
             << std::setw(6) << "TP_FI" << std::setw(6) << "TP_CH"
             << std::endl;
   for(auto i=0; i<myngHEFrontEnd.size(); i++)
@@ -315,7 +475,7 @@ void HCALLMapDumper::printngHEFrontEndMapObject(std::vector<ngHEFrontEnd> myngHE
   return ;
 }
 
-void HCALLMapDumper::printngHECalibLMapObject(std::vector<ngHECalib> myngHECalib)
+void HCALLMapDumper::printngHECalibLMapObject(std::vector<ngHECalib> myngHECalib, int header)
 {
   //Side Eta Phi dPhi Depth Det 
   //RBX Wedge
@@ -325,20 +485,22 @@ void HCALLMapDumper::printngHECalibLMapObject(std::vector<ngHECalib> myngHECalib
   //Crate uHTR uHTR_FI 
   //FEDid 
   //QIE11id
-  std::cout << "#Dumping ngHE Calib LMap Object..." << std::endl; 
-  std::cout << "#"
-            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "CH_TYPE" << std::setw(10) << "Det"
-            << std::setw(6) << "RBX" << std::setw(6) << "Wedge"
-            << std::setw(6) << "QIE11" << std::setw(6) << "QIECH" << std::setw(3) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
-            << std::setw(6) << "Trunk" << std::setw(6) << "cpCol" << std::setw(6) << "cpRow" << std::setw(9) << "cpCpl" << std::setw(6) << "cpLC" << std::setw(6) << "cpOct"
-            << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(9) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
-            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
-            << std::setw(6) << "FEDid"
-            << std::setw(9) << "QIE11id"
-            << std::endl;
-
+  if(header == 1){
+    std::cout << "#Dumping ngHE Calib LMap Object..." << std::endl; 
+    std::cout << "#"
+              << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "CH_TYPE" << std::setw(10) << "Det"
+              << std::setw(6) << "RBX" << std::setw(6) << "Wedge"
+              << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(3) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+              << std::setw(6) << "Trunk" << std::setw(6) << "cpCol" << std::setw(6) << "cpRow" << std::setw(9) << "cpCpl" << std::setw(6) << "cpLC" << std::setw(6) << "cpOct"
+              << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(9) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
+              << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+              << std::setw(6) << "FEDid"
+              << std::setw(9) << "QIEid"
+              << std::endl;
+  }
   for(auto i=0; i<myngHECalib.size(); i++)
   {
+    if(!((myngHECalib.at(i).rm_fiber==1 && myngHECalib.at(i).fiber_ch==0) || (myngHECalib.at(i).rm_fiber==2))) continue; //only allow those channels pass for CalibLMap, PedLMap will allow for all channels
     std::cout
               << " "
               << std::setw(6) << myngHECalib.at(i).side << std::setw(6) << myngHECalib.at(i).eta << std::setw(6) << myngHECalib.at(i).phi << std::setw(6) << myngHECalib.at(i).dphi << std::setw(9) << myngHECalib.at(i).depth << std::setw(10) << myngHECalib.at(i).subdet
@@ -383,7 +545,7 @@ void HCALLMapDumper::printHFLMapObject(std::vector<HFFrontEnd> myHFFrontEnd, std
             << std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "Depth"
             //<< std::setw(9) << "PMT" << std::setw(9) << "PMT_TYPE" << std::setw(9) << "W_Cable"
             //<< std::setw(6) << "S_PMT" << std::setw(6) << "S_QIE" << std::setw(6) << "R_PMT" << std::setw(6) << "R_QIE"
-            << std::setw(9) << "RBX"<< std::setw(9) << "RM" << std::setw(9) << "RM_FI" << std::setw(9) << "FI_CH" << std::setw(9) << "QIE8" << std::setw(9) << "QIE8_CH"
+            << std::setw(9) << "RBX"<< std::setw(9) << "RM" << std::setw(9) << "RM_FI" << std::setw(9) << "FI_CH" << std::setw(9) << "QIE" << std::setw(9) << "QIE_CH"
             << std::setw(9) << "uCrate" << std::setw(9) << "uHTR" << std::setw(9) << "uHTR_FI" << std::setw(9) << "FI_CH" << std::endl;
 
   for(auto i=0; i<myHFFrontEnd.size(); i++)
@@ -409,7 +571,7 @@ void HCALLMapDumper::printngHFLMapObject(std::vector<ngHFFrontEnd> myngHFFrontEn
             << std::setw(6) << "Wedge" << std::setw(6) << "PMTBx" << std::setw(9) << "PMT_TYPE" << std::setw(9) << "W_Cable" << std::setw(6) << "Tower"
             << std::setw(6) << "PMT" << std::setw(10) << "BaseBoard" << std::setw(6) << "Anode"
             << std::setw(6) << "S_PMT" << std::setw(6) << "S_QIE" << std::setw(6) << "R_PMT" << std::setw(6) << "R_QIE"
-            << std::setw(6) << "QIE10" << std::setw(6) << "QIETB" << std::setw(6) << "QIECH" << std::setw(6) << "QIEFI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIETB" << std::setw(6) << "QIECH" << std::setw(6) << "QIEFI" << std::setw(6) << "FI_CH"
             << std::setw(9) << "Trunk_FI" << std::setw(9) << "nCable" << std::setw(6) << "MTP"
             << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_Rx" << std::setw(9) << "uHTR_FI"
             << std::setw(6) << "FEDid"
@@ -511,7 +673,7 @@ void HCALLMapDumper::printngHFCalibLMapObject(std::vector<ngHFCalib> myngHFCalib
   std::cout << "#"
             << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "CH_TYPE" << std::setw(10) << "Det"
             << std::setw(6) << "RBX" << std::setw(7) << "Sector"
-            << std::setw(6) << "QIE10" << std::setw(6) << "QIECH" << std::setw(9) << "QIE10_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(9) << "QIE10_FI" << std::setw(6) << "FI_CH"
             << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(9) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
             << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
             << std::setw(6) << "FEDid"
@@ -570,9 +732,9 @@ void HCALLMapDumper::printHOLMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std
             << std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
             << std::setw(9) << "RBX"
             << std::setw(6) << "Sect" << std::setw(6) << "Pix" << std::setw(9) << "Let_Code"
-            << std::setw(6) << "QIE8" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
             << std::setw(15) << "Block_Coupler" << std::setw(6) << "Crate" << std::setw(6) << "HTR" << std::setw(6) << "HTRTB" << std::setw(9) << "HTR_FI" << std::setw(9) << "DCC_SL" << std::setw(9) << "Spigot" << std::setw(6) << "DCC" << std::setw(6) << "FEDid"
-            << std::setw(9) << "QIE8id"
+            << std::setw(9) << "QIEid"
             << std::endl;
 
   for(auto i=0; i<myHOFrontEnd.size(); i++)
@@ -656,11 +818,11 @@ void HCALLMapDumper::printHOCalibLMapObject(std::vector<HOCalib> myHOCalib)
             << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "Depth" << std::setw(12) << "Det"
             << std::setw(9) << "RBX"
             << std::setw(6) << "Sect"
-            << std::setw(6) << "QIE8" << std::setw(8) << "QIECH"  << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "QIE" << std::setw(8) << "QIECH"  << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
             << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(20) << "ppCpl" << std::setw(6) << "ppLC"
             << std::setw(9) << "Octopus" << std::setw(6) << "Crate" << std::setw(6) << "HTR" << std::setw(6) << "fpga" << std::setw(9) << "HTR_FI"
             << std::setw(6) << "DCC" << std::setw(8) << "Spigot" << std::setw(6) << "FEDid"
-            << std::setw(9) << "QIE8id"
+            << std::setw(9) << "QIEid"
             << std::endl;
 
   for(auto i=0;i<myHOCalib.size();i++)
@@ -677,6 +839,281 @@ void HCALLMapDumper::printHOCalibLMapObject(std::vector<HOCalib> myHOCalib)
               << std::endl;
   }
   return;
+}
+
+void HCALLMapDumper::printngHBHEUMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower, std::vector<ngHBTriggerTowerFiber> myngHBTriggerTowerFiber,
+                                                std::vector<ngHBCalib> myngHBCalib,
+                                                std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower,
+                                                std::vector<ngHECalib> myngHECalib
+)
+{
+  std::cout << "#Dumping ngHB, ngHBCalib, ngHE and ngHECalib UMap Object..." << std::endl;
+  //Side Eta Phi dPhi Depth Det
+  //RBX
+  //Wedge BV
+  //QIE11 QIECH RM RM_FI FI_CH 
+  //ppCol ppRow ppCpl ppLC docdec 
+  //Crate uHTR uHTR_FI
+  //FEDid
+  //QIEid
+  //TP_FI TP_CH
+  std::cout << "#"
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(11) << "type/depth" << std::setw(10) << "Det"
+            << std::setw(6) << "RBX"
+            << std::setw(6) << "Sector" << std::setw(6) << "BV"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(15) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "n-pus"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+            << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIEid"
+            << std::setw(6) << "TP_FI" << std::setw(6) << "TP_CH"
+            << std::endl;
+  for(auto i=0; i<myngHEFrontEnd.size(); i++)
+  {
+    std::cout
+              << " "
+              << std::setw(6) << myngHEGeometry.at(i).side << std::setw(6) << myngHEGeometry.at(i).eta << std::setw(6) << myngHEGeometry.at(i).phi << std::setw(6) << myngHEGeometry.at(i).dphi << std::setw(11) << myngHEGeometry.at(i).depth << std::setw(10) << myngHEGeometry.at(i).subdet
+              << std::setw(6) << myngHEFrontEnd.at(i).rbx 
+              << std::setw(6) << myngHESiPM.at(i).wedge << std::setw(6) << myngHESiPM.at(i).bv
+              << std::setw(6) << myngHEFrontEnd.at(i).qie11 << std::setw(6) << myngHEFrontEnd.at(i).qie11_ch << std::setw(6) << myngHEFrontEnd.at(i).rm << std::setw(6) << myngHEFrontEnd.at(i).rm_fiber << std::setw(6) << myngHEFrontEnd.at(i).fiber_ch
+              << std::setw(6) << myngHEBackEnd.at(i).ppcol << std::setw(6) << myngHEBackEnd.at(i).pprow << std::setw(15) << myngHEBackEnd.at(i).ppcpl << std::setw(6) << myngHEBackEnd.at(i).pplc << std::setw(6) << myngHEBackEnd.at(i).dodec
+              << std::setw(6) << myngHEBackEnd.at(i).ucrate << std::setw(6) << myngHEBackEnd.at(i).uhtr << std::setw(9) << myngHEBackEnd.at(i).uhtr_fiber
+              << std::setw(6) << myngHEBackEnd.at(i).ufedid
+              << std::setw(9) << myngHEFrontEnd.at(i).qie11_id
+              << std::setw(6) << myngHETriggerTower.at(i).trg_fiber << std::setw(6) << myngHETriggerTower.at(i).trg_fiber_ch
+              << std::endl;
+  }
+
+  for(auto i=0; i<myngHECalib.size(); i++)
+  {
+//    if(!((myngHECalib.at(i).rm_fiber==1 && myngHECalib.at(i).fiber_ch==0) || (myngHECalib.at(i).rm_fiber==2))) continue; //only allow those channels pass for CalibLMap, PedLMap will allow for all channels
+    std::cout
+              << " "
+              << std::setw(6) << myngHECalib.at(i).side << std::setw(6) << myngHECalib.at(i).eta << std::setw(6) << myngHECalib.at(i).phi << std::setw(6) << myngHECalib.at(i).dphi << std::setw(11) << myngHECalib.at(i).depth << std::setw(10) << myngHECalib.at(i).subdet
+              << std::setw(6) << myngHECalib.at(i).rbx
+              << std::setw(6) << myngHECalib.at(i).wedge << std::setw(6) << "-1"
+              << std::setw(6) << myngHECalib.at(i).qie11 << std::setw(6) << myngHECalib.at(i).qie11_ch << std::setw(6) << myngHECalib.at(i).rm << std::setw(6) << myngHECalib.at(i).rm_fiber << std::setw(6) << myngHECalib.at(i).fiber_ch
+              << std::setw(6) << myngHECalib.at(i).ppcol << std::setw(6) << myngHECalib.at(i).pprow << std::setw(15) << myngHECalib.at(i).ppcpl << std::setw(6) << myngHECalib.at(i).pplc << std::setw(6) << myngHECalib.at(i).dodec
+              << std::setw(6) << myngHECalib.at(i).ucrate << std::setw(6) << myngHECalib.at(i).uhtr << std::setw(9) << myngHECalib.at(i).uhtr_fiber
+              << std::setw(6) << myngHECalib.at(i).ufedid
+              << std::setw(9) << myngHECalib.at(i).qie11_id
+              << std::setw(6) << "-1" << std::setw(6) << "-1"
+              << std::endl;
+  }
+
+  for(auto i=0; i<myngHBFrontEnd.size(); i++)
+  {
+    std::cout
+              << " "
+              << std::setw(6) << myngHBGeometry.at(i).side << std::setw(6) << myngHBGeometry.at(i).eta << std::setw(6) << myngHBGeometry.at(i).phi << std::setw(6) << myngHBGeometry.at(i).dphi << std::setw(11) << myngHBGeometry.at(i).depth << std::setw(10) << myngHBGeometry.at(i).subdet
+              << std::setw(6) << myngHBFrontEnd.at(i).rbx 
+              << std::setw(6) << myngHBSiPM.at(i).wedge << std::setw(6) << myngHBSiPM.at(i).bv
+              << std::setw(6) << myngHBFrontEnd.at(i).qie11 << std::setw(6) << myngHBFrontEnd.at(i).qie11_ch << std::setw(6) << myngHBFrontEnd.at(i).rm << std::setw(6) << myngHBFrontEnd.at(i).rm_fiber << std::setw(6) << myngHBFrontEnd.at(i).fiber_ch
+              << std::setw(6) << myngHBBackEnd.at(i).ppcol << std::setw(6) << myngHBBackEnd.at(i).pprow << std::setw(15) << myngHBBackEnd.at(i).ppcpl << std::setw(6) << myngHBBackEnd.at(i).pplc << std::setw(6) << myngHBBackEnd.at(i).dodec
+              << std::setw(6) << myngHBBackEnd.at(i).ucrate << std::setw(6) << myngHBBackEnd.at(i).uhtr << std::setw(9) << myngHBBackEnd.at(i).uhtr_fiber
+              << std::setw(6) << myngHBBackEnd.at(i).ufedid
+              << std::setw(9) << myngHBFrontEnd.at(i).qie11_id
+              << std::setw(6) << myngHBTriggerTowerFiber.at(i).trg_fiber << std::setw(6) << myngHBTriggerTowerFiber.at(i).trg_fiber_ch
+              << std::endl;
+  }
+
+  for(auto i=0; i<myngHBCalib.size(); i++)
+  {
+//    if(!(myngHBCalib.at(i).rm_fiber==1 && myngHBCalib.at(i).fiber_ch>=5 && myngHBCalib.at(i).fiber_ch<=7)) continue;//only allow those channels pass for LMapCalib, PedLMap will allow whole channels
+    std::cout
+              << " "
+              << std::setw(6) << myngHBCalib.at(i).side << std::setw(6) << myngHBCalib.at(i).eta << std::setw(6) << myngHBCalib.at(i).phi << std::setw(6) << myngHBCalib.at(i).dphi << std::setw(11) << myngHBCalib.at(i).depth << std::setw(10) << myngHBCalib.at(i).subdet
+              << std::setw(6) << myngHBCalib.at(i).rbx
+              << std::setw(6) << myngHBCalib.at(i).wedge << std::setw(6) << "-1"
+              << std::setw(6) << myngHBCalib.at(i).qie11 << std::setw(6) << myngHBCalib.at(i).qie11_ch << std::setw(6) << myngHBCalib.at(i).rm << std::setw(6) << myngHBCalib.at(i).rm_fiber << std::setw(6) << myngHBCalib.at(i).fiber_ch
+              << std::setw(6) << myngHBCalib.at(i).ppcol << std::setw(6) << myngHBCalib.at(i).pprow << std::setw(15) << myngHBCalib.at(i).ppcpl << std::setw(6) << myngHBCalib.at(i).pplc << std::setw(6) << myngHBCalib.at(i).dodec
+              << std::setw(6) << myngHBCalib.at(i).ucrate << std::setw(6) << myngHBCalib.at(i).uhtr << std::setw(9) << myngHBCalib.at(i).uhtr_fiber
+              << std::setw(6) << myngHBCalib.at(i).ufedid
+              << std::setw(9) << myngHBCalib.at(i).qie11_id
+              << std::setw(6) << "-1" << std::setw(6) << "-1"
+              << std::endl;
+  }
+
+  return;
+}
+
+void HCALLMapDumper::printngHBHEUMapCalibObject(std::vector<ngHBCalib> myngHBCalib, std::vector<ngHECalib> myngHECalib)
+{
+  std::cout << "#Dumping ngHBCalib and ngHECalib UMap Object..." << std::endl;
+  //Side Eta Phi dPhi Depth Det
+  //RBX
+  //Wedge
+  //QIE11 QIECH RM RM_FI FI_CH 
+  //Trunk cpCol cpRow cpCpl cpLC cpOct
+  //ppCol ppRow ppCpl ppLC docdec 
+  //Crate uHTR uHTR_FI
+  //FEDid
+  //QIE11id
+  std::cout << "#"
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(11) << "CH_TYPE" << std::setw(10) << "Det"
+            << std::setw(6) << "RBX"
+            << std::setw(6) << "Wedge"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "Trunk" << std::setw(6) << "cpCol" << std::setw(6) << "cpRow" << std::setw(9) << "cpCpl" << std::setw(6) << "cpLC" << std::setw(6) << "cpOct"
+            << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(15) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+            << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIEid"
+            << std::endl;
+
+  for(auto i=0; i<myngHECalib.size(); i++)
+  {
+//    if(!((myngHECalib.at(i).rm_fiber==1 && myngHECalib.at(i).fiber_ch==0) || (myngHECalib.at(i).rm_fiber==2))) continue; //only allow those channels pass for CalibLMap, PedLMap will allow for all channels
+    std::cout
+              << " "
+              << std::setw(6) << myngHECalib.at(i).side << std::setw(6) << myngHECalib.at(i).eta << std::setw(6) << myngHECalib.at(i).phi << std::setw(6) << myngHECalib.at(i).dphi << std::setw(11) << myngHECalib.at(i).depth << std::setw(10) << myngHECalib.at(i).subdet
+              << std::setw(6) << myngHECalib.at(i).rbx
+              << std::setw(6) << myngHECalib.at(i).wedge
+              << std::setw(6) << myngHECalib.at(i).qie11 << std::setw(6) << myngHECalib.at(i).qie11_ch << std::setw(6) << myngHECalib.at(i).rm << std::setw(6) << myngHECalib.at(i).rm_fiber << std::setw(6) << myngHECalib.at(i).fiber_ch
+              << std::setw(6) << myngHECalib.at(i).trunk << std::setw(6) << myngHECalib.at(i).cpcol << std::setw(6) << myngHECalib.at(i).cprow << std::setw(9) << myngHECalib.at(i).cpcpl << std::setw(6) << myngHECalib.at(i).cplc << std::setw(6) << myngHECalib.at(i).cpoct
+              << std::setw(6) << myngHECalib.at(i).ppcol << std::setw(6) << myngHECalib.at(i).pprow << std::setw(15) << myngHECalib.at(i).ppcpl << std::setw(6) << myngHECalib.at(i).pplc << std::setw(6) << myngHECalib.at(i).dodec
+              << std::setw(6) << myngHECalib.at(i).ucrate << std::setw(6) << myngHECalib.at(i).uhtr << std::setw(9) << myngHECalib.at(i).uhtr_fiber
+              << std::setw(6) << myngHECalib.at(i).ufedid
+              << std::setw(9) << myngHECalib.at(i).qie11_id
+              << std::endl;
+  }
+
+  for(auto i=0; i<myngHBCalib.size(); i++)
+  {
+//    if(!(myngHBCalib.at(i).rm_fiber==1 && myngHBCalib.at(i).fiber_ch>=5 && myngHBCalib.at(i).fiber_ch<=7)) continue;//only allow those channels pass for LMapCalib, PedLMap will allow whole channels
+    std::cout
+              << " "
+              << std::setw(6) << myngHBCalib.at(i).side << std::setw(6) << myngHBCalib.at(i).eta << std::setw(6) << myngHBCalib.at(i).phi << std::setw(6) << myngHBCalib.at(i).dphi << std::setw(11) << myngHBCalib.at(i).depth << std::setw(10) << myngHBCalib.at(i).subdet
+              << std::setw(6) << myngHBCalib.at(i).rbx
+              << std::setw(6) << myngHBCalib.at(i).wedge
+              << std::setw(6) << myngHBCalib.at(i).qie11 << std::setw(6) << myngHBCalib.at(i).qie11_ch << std::setw(6) << myngHBCalib.at(i).rm << std::setw(6) << myngHBCalib.at(i).rm_fiber << std::setw(6) << myngHBCalib.at(i).fiber_ch
+              << std::setw(6) << myngHBCalib.at(i).trunk << std::setw(6) << myngHBCalib.at(i).cpcol << std::setw(6) << myngHBCalib.at(i).cprow << std::setw(9) << myngHBCalib.at(i).cpcpl << std::setw(6) << myngHBCalib.at(i).cplc << std::setw(6) << myngHBCalib.at(i).cpoct
+              << std::setw(6) << myngHBCalib.at(i).ppcol << std::setw(6) << myngHBCalib.at(i).pprow << std::setw(15) << myngHBCalib.at(i).ppcpl << std::setw(6) << myngHBCalib.at(i).pplc << std::setw(6) << myngHBCalib.at(i).dodec
+              << std::setw(6) << myngHBCalib.at(i).ucrate << std::setw(6) << myngHBCalib.at(i).uhtr << std::setw(9) << myngHBCalib.at(i).uhtr_fiber
+              << std::setw(6) << myngHBCalib.at(i).ufedid
+              << std::setw(9) << myngHBCalib.at(i).qie11_id
+              << std::endl;
+  }
+
+  return;
+}
+
+void HCALLMapDumper::printngHBHEPedLMapObject(std::vector<ngHBCalib> myngHBCalib, std::vector<ngHECalib> myngHECalib) //will only print Ped CU channles (ch_type==7), normal CU channels are left for Lmapcalib.
+{
+  std::cout << "#Dumping ngHB and ngHE Ped only LMap Object..." << std::endl;
+  //Side Eta Phi dPhi CH_TYPE Det
+  //RBX
+  //Wedge
+  //QIE11 QIECH RM RM_FI FI_CH 
+  //Trunk cpCol cpRow cpCpl cpLC cpOct
+  //ppCol ppRow ppCpl ppLC docdec 
+  //Crate uHTR uHTR_FI
+  //FEDid
+  //QIE11id
+  std::cout << "#"
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(11) << "CH_TYPE" << std::setw(10) << "Det"
+            << std::setw(6) << "RBX"
+            << std::setw(6) << "Wedge"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "Trunk" << std::setw(6) << "cpCol" << std::setw(6) << "cpRow" << std::setw(9) << "cpCpl" << std::setw(6) << "cpLC" << std::setw(6) << "cpOct"
+            << std::setw(6) << "ppCol" << std::setw(6) << "ppRow" << std::setw(15) << "ppCpl" << std::setw(6) << "ppLC" << std::setw(6) << "dodec"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+            << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIEid"
+            << std::endl;
+
+  for(auto i=0; i<myngHECalib.size(); i++)
+  {
+    if(myngHECalib.at(i).depth != 7) continue;
+    std::cout
+              << " "
+              << std::setw(6) << myngHECalib.at(i).side << std::setw(6) << myngHECalib.at(i).eta << std::setw(6) << myngHECalib.at(i).phi << std::setw(6) << myngHECalib.at(i).dphi << std::setw(11) << myngHECalib.at(i).depth << std::setw(10) << myngHECalib.at(i).subdet
+              << std::setw(6) << myngHECalib.at(i).rbx
+              << std::setw(6) << myngHECalib.at(i).wedge
+              << std::setw(6) << myngHECalib.at(i).qie11 << std::setw(6) << myngHECalib.at(i).qie11_ch << std::setw(6) << myngHECalib.at(i).rm << std::setw(6) << myngHECalib.at(i).rm_fiber << std::setw(6) << myngHECalib.at(i).fiber_ch
+              << std::setw(6) << myngHECalib.at(i).trunk << std::setw(6) << myngHECalib.at(i).cpcol << std::setw(6) << myngHECalib.at(i).cprow << std::setw(9) << myngHECalib.at(i).cpcpl << std::setw(6) << myngHECalib.at(i).cplc << std::setw(6) << myngHECalib.at(i).cpoct
+              << std::setw(6) << myngHECalib.at(i).ppcol << std::setw(6) << myngHECalib.at(i).pprow << std::setw(15) << myngHECalib.at(i).ppcpl << std::setw(6) << myngHECalib.at(i).pplc << std::setw(6) << myngHECalib.at(i).dodec
+              << std::setw(6) << myngHECalib.at(i).ucrate << std::setw(6) << myngHECalib.at(i).uhtr << std::setw(9) << myngHECalib.at(i).uhtr_fiber
+              << std::setw(6) << myngHECalib.at(i).ufedid
+              << std::setw(9) << myngHECalib.at(i).qie11_id
+              << std::endl;
+  }
+
+  for(auto i=0; i<myngHBCalib.size(); i++)
+  {
+    if(myngHBCalib.at(i).depth != 7) continue;
+    std::cout
+              << " "
+              << std::setw(6) << myngHBCalib.at(i).side << std::setw(6) << myngHBCalib.at(i).eta << std::setw(6) << myngHBCalib.at(i).phi << std::setw(6) << myngHBCalib.at(i).dphi << std::setw(11) << myngHBCalib.at(i).depth << std::setw(10) << myngHBCalib.at(i).subdet
+              << std::setw(6) << myngHBCalib.at(i).rbx
+              << std::setw(6) << myngHBCalib.at(i).wedge
+              << std::setw(6) << myngHBCalib.at(i).qie11 << std::setw(6) << myngHBCalib.at(i).qie11_ch << std::setw(6) << myngHBCalib.at(i).rm << std::setw(6) << myngHBCalib.at(i).rm_fiber << std::setw(6) << myngHBCalib.at(i).fiber_ch
+              << std::setw(6) << myngHBCalib.at(i).trunk << std::setw(6) << myngHBCalib.at(i).cpcol << std::setw(6) << myngHBCalib.at(i).cprow << std::setw(9) << myngHBCalib.at(i).cpcpl << std::setw(6) << myngHBCalib.at(i).cplc << std::setw(6) << myngHBCalib.at(i).cpoct
+              << std::setw(6) << myngHBCalib.at(i).ppcol << std::setw(6) << myngHBCalib.at(i).pprow << std::setw(15) << myngHBCalib.at(i).ppcpl << std::setw(6) << myngHBCalib.at(i).pplc << std::setw(6) << myngHBCalib.at(i).dodec
+              << std::setw(6) << myngHBCalib.at(i).ucrate << std::setw(6) << myngHBCalib.at(i).uhtr << std::setw(9) << myngHBCalib.at(i).uhtr_fiber
+              << std::setw(6) << myngHBCalib.at(i).ufedid
+              << std::setw(9) << myngHBCalib.at(i).qie11_id
+              << std::endl;
+  }
+
+  return;
+}
+
+void HCALLMapDumper::printHOUMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower, std::vector<HOCalib> myHOCalib)
+{
+  std::cout << "#Dumping HO UMap Object..." << std::endl;
+
+  //Side Eta Phi dPhi Depth Det
+  //RBX 
+  //Sect
+  //QIE8 QIECH RM RM_FI FI_CH
+  //Crate HTR HTR_TB HTR_FI Spigot DCC FEDid
+  //QIE8Id
+
+  std::cout << "#Dumping HO LMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(9) << "Det"
+            << std::setw(9) << "RBX"
+            << std::setw(6) << "Sect"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "Crate" << std::setw(6) << "HTR" << std::setw(6) << "HTRTB" << std::setw(9) << "HTR_FI" << std::setw(9) << "Spigot" << std::setw(6) << "DCC" << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIEid"
+            << std::endl;
+
+  for(auto i=0; i<myHOFrontEnd.size(); i++)
+  { 
+    std::cout 
+              << " "
+              //<< "HOGeometry(side,eta,phi,dphi,depth,subdet): "
+              << std::setw(6) << myHOGeometry.at(i).side << std::setw(6) << myHOGeometry.at(i).eta << std::setw(6) << myHOGeometry.at(i).phi << std::setw(6) << myHOGeometry.at(i).dphi << std::setw(6) << myHOGeometry.at(i).depth << std::setw(9) << myHOGeometry.at(i).subdet
+              //ngRBX
+              << std::setw(9) << myHOFrontEnd.at(i).rbx
+              //<< "HOSiPM(Sector, Pixel, Letter Code): "
+              << std::setw(6) << myHOSiPM.at(i).sector
+              //<< "HOFrontEnd(qie8,qie8_ch,rm,rm_fiber,fiber_ch): "
+              << std::setw(6) << myHOFrontEnd.at(i).qie8 << std::setw(6) << myHOFrontEnd.at(i).qie8_ch << std::setw(6) << myHOFrontEnd.at(i).rm << std::setw(6) << myHOFrontEnd.at(i).rm_fiber << std::setw(6)  << myHOFrontEnd.at(i).fiber_ch
+              //<< "HOBackEnd(crate,htr,fpga,htr_fiber): "
+              << std::setw(6) << myHOBackEnd.at(i).crate << std::setw(6) << myHOBackEnd.at(i).htr << std::setw(6) << myHOBackEnd.at(i).fpga << std::setw(9) << myHOBackEnd.at(i).htr_fiber << std::setw(9) << myHOBackEnd.at(i).spigot << std::setw(6) << myHOBackEnd.at(i).dcc << std::setw(6) << myHOBackEnd.at(i).fedid
+              //<< "HOFrontEnd(qie_id): "
+              << std::setw(9) << myHOFrontEnd.at(i).qie8_id
+              << std::endl;
+  }
+
+  for(auto i=0;i<myHOCalib.size();i++)
+  {
+    std::cout
+              << " "
+              << std::setw(6) << myHOCalib.at(i).side << std::setw(6) << myHOCalib.at(i).eta << std::setw(6) << myHOCalib.at(i).phi << std::setw(6) << myHOCalib.at(i).dphi << std::setw(6) << myHOCalib.at(i).depth << std::setw(9) << myHOCalib.at(i).subdet
+              << std::setw(9) << myHOCalib.at(i).rbx
+              << std::setw(6) << myHOCalib.at(i).sector
+              << std::setw(6) << myHOCalib.at(i).qie8 << std::setw(6) << myHOCalib.at(i).qie8_ch << std::setw(6) << myHOCalib.at(i).rm << std::setw(6) << myHOCalib.at(i).rm_fiber << std::setw(6) << myHOCalib.at(i).fiber_ch
+              << std::setw(6) << myHOCalib.at(i).crate << std::setw(6) << myHOCalib.at(i).htr << std::setw(6) << myHOCalib.at(i).fpga << std::setw(9) << myHOCalib.at(i).htr_fiber
+              << std::setw(9) << myHOCalib.at(i).spigot << std::setw(6) << myHOCalib.at(i).dcc << std::setw(6) << myHOCalib.at(i).fedid
+              << std::setw(9) << myHOCalib.at(i).qie8_id
+              << std::endl;
+  }
+
+  return ;
 }
 
 void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string HBTableStr,
@@ -712,10 +1149,10 @@ void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string H
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
                             "RBX TEXT NOT NULL, " \
                             "Wedge INT NOT NULL, Pix INT NOT NULL, " \
-                            "QIE8 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "QIE INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
                             "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
                             "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
-                            "QIE8id INT NOT NULL, " \
+                            "QIEid INT NOT NULL, " \
                             "TP_FI INT NOT NULL, TP_CH INT NOT NULL);";
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
@@ -729,10 +1166,10 @@ void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string H
                       "Side,Eta,Phi,dPhi,Depth,Det," \
                       "RBX," \
                       "Wedge,Pix," \
-                      "QIE8,QIECH,RM,RM_FI,FI_CH," \
+                      "QIE,QIECH,RM,RM_FI,FI_CH," \
                       "ppCol,ppRow,ppCpl,ppLC,dodec," \
                       "Crate,uHTR,uHTR_FI,FEDid," \
-                      "QIE8id," \
+                      "QIEid," \
                       "TP_FI,TP_CH) ";
     std::string two = "VALUES("
                       +std::to_string(i)+","
@@ -785,11 +1222,11 @@ void HCALLMapDumper::makedbHBCalibLMapObject(std::string HCALLMapDbStr, std::str
                             "ID INT PRIMARY KEY NOT NULL, " \
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
                             "RBX TEXT NOT NULL, Wedge INT NOT NULL, " \
-                            "QIE8 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "QIE INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
                             "Trunk TEXT NOT NULL, cpCol INT NOT NULL, cpRow INT NOT NULL, cpCpl TEXT NOT NULL, cpLC INT NOT NULL, cpOct INT NOT NULL, " \
                             "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
                             "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
-                            "QIE8id INT NOT NULL);";
+                            "QIEid INT NOT NULL);";
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
@@ -801,11 +1238,11 @@ void HCALLMapDumper::makedbHBCalibLMapObject(std::string HCALLMapDbStr, std::str
                       "ID," \
                       "Side,Eta,Phi,dPhi,Depth,Det," \
                       "RBX,Wedge," \
-                      "QIE8,QIECH,RM,RM_FI,FI_CH," \
+                      "QIE,QIECH,RM,RM_FI,FI_CH," \
                       "Trunk,cpCol,cpRow,cpCpl,cpLC,cpOct," \
                       "ppCol,ppRow,ppCpl,ppLC,dodec," \
                       "Crate,uHTR,uHTR_FI,FEDid," \
-                      "QIE8id) ";
+                      "QIEid) ";
     std::string two = "VALUES("
                       +std::to_string(i)+","
                       +std::to_string(myHBCalib.at(i).side)+","+std::to_string(myHBCalib.at(i).eta)+","+std::to_string(myHBCalib.at(i).phi)+","+std::to_string(myHBCalib.at(i).dphi)+","+std::to_string(myHBCalib.at(i).depth)+",'"+myHBCalib.at(i).subdet+"','"
@@ -855,10 +1292,10 @@ void HCALLMapDumper::makedbngHBLMapObject(std::string HCALLMapDbStr, std::string
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
                             "ngRBX TEXT NOT NULL, " \
                             "Wedge INT NOT NULL, BV INT NOT NULL, " \
-                            "QIE11 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, FI_Indx INT NOT NULL, MB_No INT NOT NULL, " \
+                            "QIE INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, FI_Indx INT NOT NULL, MB_No INT NOT NULL, " \
                             "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
                             "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
-                            "QIE11id INT NOT NULL, " \
+                            "QIEid INT NOT NULL, " \
                             "TP_Ind INT NOT NULL, TP_Indx INT NOT NULL, TP_JM TEXT NOT NULL, TP_uHTR TEXT NOT NULL);";
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
@@ -872,10 +1309,10 @@ void HCALLMapDumper::makedbngHBLMapObject(std::string HCALLMapDbStr, std::string
                       "Side,Eta,Phi,dPhi,Depth,Det," \
                       "ngRBX," \
                       "Wedge,BV," \
-                      "QIE11,QIECH,RM,RM_FI,FI_CH,FI_Indx,MB_No," \
+                      "QIE,QIECH,RM,RM_FI,FI_CH,FI_Indx,MB_No," \
                       "ppCol,ppRow,ppCpl,ppLC,dodec," \
                       "Crate,uHTR,uHTR_FI,FEDid," \
-                      "QIE11id," \
+                      "QIEid," \
                       "TP_Ind,TP_Indx,TP_JM,TP_uHTR) ";
     std::string two = "VALUES("
                       +std::to_string(i)+","
@@ -895,6 +1332,74 @@ void HCALLMapDumper::makedbngHBLMapObject(std::string HCALLMapDbStr, std::string
   sqlite3_close(db);
   
   return ;
+}
+
+void HCALLMapDumper::makedbngHBCalibLMapObject(std::string HCALLMapDbStr, std::string ngHBCalibTableStr, std::vector<ngHBCalib> myngHBCalib)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc;
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,ngHBCalibTableStr);
+  if(TableExist){ std::cout << "#Table: " << ngHBCalibTableStr <<" already in the database!! Please check!" << std::endl; return ; }
+  else{ std::cout << "#Table: " << ngHBCalibTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det 
+  //RBX Wedge
+  //QIE11 QIECH RM RM_FI FI_CH 
+  //Trunk cpCol cpRow cpCpl cpLC cpOct
+  //ppCol ppRow ppCpl ppLC docdec 
+  //Crate uHTR uHTR_FI 
+  //FEDid 
+  //QIE11id
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHBCalibTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "ngRBX TEXT NOT NULL, Wedge INT NOT NULL, " \
+                            "QIE INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "Trunk INT NOT NULL, cpCol INT NOT NULL, cpRow INT NOT NULL, cpCpl TEXT NOT NULL, cpLC INT NOT NULL, cpOct INT NOT NULL, " \
+                            "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
+                            "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIEid INT NOT NULL);";
+
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+
+  for(auto i=0; i<myngHBCalib.size(); i++)
+  {
+    std::string one = "INSERT INTO " + ngHBCalibTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "ngRBX,Wedge," \
+                      "QIE,QIECH,RM,RM_FI,FI_CH," \
+                      "Trunk,cpCol,cpRow,cpCpl,cpLC,cpOct," \
+                      "ppCol,ppRow,ppCpl,ppLC,dodec," \
+                      "Crate,uHTR,uHTR_FI,FEDid," \
+                      "QIEid) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myngHBCalib.at(i).side)+","+std::to_string(myngHBCalib.at(i).eta)+","+std::to_string(myngHBCalib.at(i).phi)+","+std::to_string(myngHBCalib.at(i).dphi)+","+std::to_string(myngHBCalib.at(i).depth)+",'"+myngHBCalib.at(i).subdet+"','"
+                      +myngHBCalib.at(i).rbx+"',"+std::to_string(myngHBCalib.at(i).wedge)+","
+                      +std::to_string(myngHBCalib.at(i).qie11)+","+std::to_string(myngHBCalib.at(i).qie11_ch)+","+std::to_string(myngHBCalib.at(i).rm)+","+std::to_string(myngHBCalib.at(i).rm_fiber)+","+std::to_string(myngHBCalib.at(i).fiber_ch)+","
+                      +std::to_string(myngHBCalib.at(i).trunk)+","+std::to_string(myngHBCalib.at(i).cpcol)+","+std::to_string(myngHBCalib.at(i).cprow)+",'"+myngHBCalib.at(i).cpcpl+"',"+std::to_string(myngHBCalib.at(i).cplc)+","+std::to_string(myngHBCalib.at(i).cpoct)+","
+                      +std::to_string(myngHBCalib.at(i).ppcol)+","+std::to_string(myngHBCalib.at(i).pprow)+",'"+myngHBCalib.at(i).ppcpl+"',"+std::to_string(myngHBCalib.at(i).pplc)+","+std::to_string(myngHBCalib.at(i).dodec)+","
+                      +std::to_string(myngHBCalib.at(i).ucrate)+","+std::to_string(myngHBCalib.at(i).uhtr)+","+std::to_string(myngHBCalib.at(i).uhtr_fiber)+","+std::to_string(myngHBCalib.at(i).ufedid)+","
+                      +std::to_string(myngHBCalib.at(i).qie11_id)+");";
+    
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  sqlite3_close(db);
+
+  return;
 }
 
 void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string ngHETableStr,
@@ -927,10 +1432,10 @@ void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
                             "ngRBX TEXT NOT NULL, " \
                             "Wedge INT NOT NULL, Pix INT NOT NULL, " \
-                            "QIE11 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "QIE INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
                             "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
                             "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
-                            "QIE11id INT NOT NULL, " \
+                            "QIEid INT NOT NULL, " \
                             "TP_FI INT NOT NULL, TP_CH INT NOT NULL);";
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
@@ -944,10 +1449,10 @@ void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string
                       "Side,Eta,Phi,dPhi,Depth,Det," \
                       "ngRBX," \
                       "Wedge,Pix," \
-                      "QIE11,QIECH,RM,RM_FI,FI_CH," \
+                      "QIE,QIECH,RM,RM_FI,FI_CH," \
                       "ppCol,ppRow,ppCpl,ppLC,dodec," \
                       "Crate,uHTR,uHTR_FI,FEDid," \
-                      "QIE11id," \
+                      "QIEid," \
                       "TP_FI,TP_CH) ";
     std::string two = "VALUES("
                       +std::to_string(i)+","
@@ -998,11 +1503,11 @@ void HCALLMapDumper::makedbngHECalibLMapObject(std::string HCALLMapDbStr, std::s
                             "ID INT PRIMARY KEY NOT NULL, " \
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
                             "ngRBX TEXT NOT NULL, Wedge INT NOT NULL, " \
-                            "QIE11 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "QIE INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
                             "Trunk TEXT NOT NULL, cpCol INT NOT NULL, cpRow INT NOT NULL, cpCpl TEXT NOT NULL, cpLC INT NOT NULL, cpOct INT NOT NULL, " \
                             "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
                             "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
-                            "QIE11id INT NOT NULL);";
+                            "QIEid INT NOT NULL);";
 
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
@@ -1014,11 +1519,11 @@ void HCALLMapDumper::makedbngHECalibLMapObject(std::string HCALLMapDbStr, std::s
                       "ID," \
                       "Side,Eta,Phi,dPhi,Depth,Det," \
                       "ngRBX,Wedge," \
-                      "QIE11,QIECH,RM,RM_FI,FI_CH," \
+                      "QIE,QIECH,RM,RM_FI,FI_CH," \
                       "Trunk,cpCol,cpRow,cpCpl,cpLC,cpOct," \
                       "ppCol,ppRow,ppCpl,ppLC,dodec," \
                       "Crate,uHTR,uHTR_FI,FEDid," \
-                      "QIE11id) ";
+                      "QIEid) ";
     std::string two = "VALUES("
                       +std::to_string(i)+","
                       +std::to_string(myngHECalib.at(i).side)+","+std::to_string(myngHECalib.at(i).eta)+","+std::to_string(myngHECalib.at(i).phi)+","+std::to_string(myngHECalib.at(i).dphi)+","+std::to_string(myngHECalib.at(i).depth)+",'"+myngHECalib.at(i).subdet+"','"
@@ -1213,10 +1718,10 @@ void HCALLMapDumper::makedbHOCalibLMapObject(std::string HCALLMapDbStr, std::str
                             "ID INT PRIMARY KEY NOT NULL, " \
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
                             "RBX TEXT NOT NULL, " \
-                            "QIE8 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "QIE INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
                             "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, " \
                             "OCTOPUS INT NOT NULL, Crate INT NOT NULL, HTR INT NOT NULL, FPGA INT NOT NULL, HTR_FI INT NOT NULL, DCC INT NOT NULL, Spigot INT NOT NULL, FEDid INT NOT NULL, " \
-                            "QIE8id INT NOT NULL);";
+                            "QIEid INT NOT NULL);";
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
@@ -1228,10 +1733,10 @@ void HCALLMapDumper::makedbHOCalibLMapObject(std::string HCALLMapDbStr, std::str
                       "ID," \
                       "Side,Eta,Phi,dPhi,Depth,Det," \
                       "RBX," \
-                      "QIE8,QIECH,RM,RM_FI,FI_CH," \
+                      "QIE,QIECH,RM,RM_FI,FI_CH," \
                       "ppCol,ppRow,ppCpl,ppLC," \
                       "OCTOPUS,Crate,HTR,FPGA,HTR_FI,DCC,Spigot,FEDid," \
-                      "QIE8id) ";
+                      "QIEid) ";
     std::string two = "VALUES("
                       +std::to_string(i)+","
                       +std::to_string(myHOCalib.at(i).side)+","+std::to_string(myHOCalib.at(i).eta)+","+std::to_string(myHOCalib.at(i).phi)+","+std::to_string(myHOCalib.at(i).dphi)+","+std::to_string(myHOCalib.at(i).depth)+",'"+myHOCalib.at(i).subdet+"','"
@@ -1282,9 +1787,9 @@ void HCALLMapDumper::makedbHOLMapObject(std::string HCALLMapDbStr, std::string H
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
                             "RBX TEXT NOT NULL, " \
                             "Sect INT NOT NULL, Pix INT NOT NULL, Let_Code TEXT NOT NULL, " \
-                            "QIE8 INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "QIE INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
                             "Block_Coupler REAL NOT NULL, Crate INT NOT NULL, HTR INT NOT NULL, HTR_TB TEXT NOT NULL, HTR_FI INT NOT NULL, DCC_SL INT NOT NULL, Spigot INT NOT NULL, DCC INT NOT NULL, FEDid INT NOT NULL, " \
-                            "QIE8id INT NOT NULL);";
+                            "QIEid INT NOT NULL);";
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
@@ -1297,9 +1802,9 @@ void HCALLMapDumper::makedbHOLMapObject(std::string HCALLMapDbStr, std::string H
                       "Side,Eta,Phi,dPhi,Depth,Det," \
                       "RBX," \
                       "Sect,Pix,Let_Code," \
-                      "QIE8,QIECH,RM,RM_FI,FI_CH," \
+                      "QIE,QIECH,RM,RM_FI,FI_CH," \
                       "Block_Coupler,Crate,HTR,HTR_TB,HTR_FI,DCC_SL,Spigot,DCC,FEDid," \
-                      "QIE8id) ";
+                      "QIEid) ";
     std::string two = "VALUES("
                       +std::to_string(i)+","
                       +std::to_string(myHOGeometry.at(i).side)+","+std::to_string(myHOGeometry.at(i).eta)+","+std::to_string(myHOGeometry.at(i).phi)+","+std::to_string(myHOGeometry.at(i).dphi)+","+std::to_string(myHOGeometry.at(i).depth)+",'"+myHOGeometry.at(i).subdet+"','"
@@ -1315,6 +1820,249 @@ void HCALLMapDumper::makedbHOLMapObject(std::string HCALLMapDbStr, std::string H
   }
   sqlite3_close(db);
 
+  return ;
+}
+
+void HCALLMapDumper::makedbHOUMapObject(std::string HCALLMapDbStr, std::string HOTableStr,
+                                        std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower,
+                                        std::vector<HOCalib> myHOCalib)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc; int iuniq; int i;
+
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  std::string OutSelect = "SELECT * FROM "+HOTableStr+" ORDER BY Crate ASC, HTR ASC, HTR_FI ASC, FI_CH ASC;";
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,HOTableStr);
+  if(TableExist){ 
+    std::cout << "#Table: " << HOTableStr <<" already in the database!! Please check!" << std::endl; 
+    std::cout << "Will export the table into HOUMap.txt file ..." << std::endl;
+    if(sqlite3_exec(db, OutSelect.c_str(), callback_HOUMap, 0, &zErrMsg) != SQLITE_OK)
+      std::cout << "Error occured when exporting the table: " << zErrMsg << std::endl;
+    return ; 
+  }
+  else{ std::cout << "#Table: " << HOTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det
+  //RBX 
+  //Sect 
+  //QIE8 QIECH RM RM_FI FI_CH
+  //Crate HTR HTR_TB HTR_FI Spigot DCC FEDid
+  //QIE8Id
+
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + HOTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "RBX TEXT NOT NULL, " \
+                            "Sect INT NOT NULL, " \
+                            "QIE INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "Crate INT NOT NULL, HTR INT NOT NULL, HTR_TB TEXT NOT NULL, HTR_FI INT NOT NULL, Spigot INT NOT NULL, DCC INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIEid INT NOT NULL);";
+                    
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+  
+  std::string one = "INSERT INTO " + HOTableStr + "(" \
+                    "ID," \
+                    "Side,Eta,Phi,dPhi,Depth,Det," \
+                    "RBX," \
+                    "Sect," \
+                    "QIE,QIECH,RM,RM_FI,FI_CH," \
+                    "Crate,HTR,HTR_TB,HTR_FI,Spigot,DCC,FEDid," \
+                    "QIEid) ";
+  for(i=0; i<myHOFrontEnd.size(); i++)
+  {
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myHOGeometry.at(i).side)+","+std::to_string(myHOGeometry.at(i).eta)+","+std::to_string(myHOGeometry.at(i).phi)+","+std::to_string(myHOGeometry.at(i).dphi)+","+std::to_string(myHOGeometry.at(i).depth)+",'"+myHOGeometry.at(i).subdet+"','"
+                      +myHOFrontEnd.at(i).rbx+"',"
+                      +std::to_string(myHOSiPM.at(i).sector)+","
+                      +std::to_string(myHOFrontEnd.at(i).qie8)+","+std::to_string(myHOFrontEnd.at(i).qie8_ch)+","+std::to_string(myHOFrontEnd.at(i).rm)+","+std::to_string(myHOFrontEnd.at(i).rm_fiber)+","+std::to_string(myHOFrontEnd.at(i).fiber_ch)+","
+                      +std::to_string(myHOBackEnd.at(i).crate)+","+std::to_string(myHOBackEnd.at(i).htr)+",'"+myHOBackEnd.at(i).fpga+"',"+std::to_string(myHOBackEnd.at(i).htr_fiber)+","+std::to_string(myHOBackEnd.at(i).spigot)+","+std::to_string(myHOBackEnd.at(i).dcc)+","+std::to_string(myHOBackEnd.at(i).fedid)+","
+                      +std::to_string(myHOFrontEnd.at(i).qie8_id)+");";
+
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  iuniq = i;
+  for(i=0; i<myHOCalib.size(); i++)
+  { 
+    std::string two = "VALUES("
+                      +std::to_string(i+iuniq)+","
+                      +std::to_string(myHOCalib.at(i).side)+","+std::to_string(myHOCalib.at(i).eta)+","+std::to_string(myHOCalib.at(i).phi)+","+std::to_string(myHOCalib.at(i).dphi)+","+std::to_string(myHOCalib.at(i).depth)+",'"+myHOCalib.at(i).subdet+"','"
+                      +myHOCalib.at(i).rbx+"',"
+                      +std::to_string(myHOCalib.at(i).sector)+","
+                      +std::to_string(myHOCalib.at(i).qie8)+","+std::to_string(myHOCalib.at(i).qie8_ch)+","+std::to_string(myHOCalib.at(i).rm)+","+std::to_string(myHOCalib.at(i).rm_fiber)+","+std::to_string(myHOCalib.at(i).fiber_ch)+","
+                      +std::to_string(myHOCalib.at(i).crate)+","+std::to_string(myHOCalib.at(i).htr)+",'"+myHOCalib.at(i).fpga+"',"+std::to_string(myHOCalib.at(i).htr_fiber)+","+std::to_string(myHOCalib.at(i).spigot)+","+std::to_string(myHOCalib.at(i).dcc)+","+std::to_string(myHOCalib.at(i).fedid)+","
+                      +std::to_string(myHOCalib.at(i).qie8_id)+");";
+ 
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  std::cout << "Will export the table into HOUMap.txt file ..." << std::endl;
+  if(sqlite3_exec(db, OutSelect.c_str(), callback_HOUMap, 0, &zErrMsg) != SQLITE_OK)
+    std::cout << "Error occured when exporting the table: " << zErrMsg << std::endl;
+  sqlite3_close(db);
+
+  return ;
+}
+
+void HCALLMapDumper::makedbngHBHEUMapObject(std::string HCALLMapDbStr, std::string ngHBHETableStr,
+                                            std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower, std::vector<ngHBTriggerTowerFiber> myngHBTriggerTowerFiber,
+                                            std::vector<ngHBCalib> myngHBCalib,
+                                            std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower,
+                                            std::vector<ngHECalib> myngHECalib
+)
+{
+  sqlite3 *db;
+  char *zErrMsg = NULL; int rc; int iuniq; int i;
+
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  std::string OutSelect = "SELECT * FROM "+ngHBHETableStr+" ORDER BY Crate ASC, uHTR ASC, uHTR_FI ASC, FI_CH ASC;";
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,ngHBHETableStr);
+  if(TableExist){ 
+    std::cout << "#Table: " << ngHBHETableStr <<" already in the database!!" << std::endl; 
+    std::cout << "Will export the table into ngHBHEUMap.txt file ..." << std::endl;
+    if(sqlite3_exec(db, OutSelect.c_str(), callback_HBHEUMap, 0, &zErrMsg) != SQLITE_OK)
+      std::cout << "Error occured when exporting the table: " << zErrMsg << std::endl;
+    return ; 
+  }
+  else{ std::cout << "#Table: " << ngHBHETableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det
+  //RBX
+  //Wedge BV
+  //QIE11 QIECH RM RM_FI FI_CH 
+  //ppCol ppRow ppCpl ppLC docdec 
+  //Crate uHTR uHTR_FI
+  //FEDid
+  //QIE11id
+  //TP_FI TP_CH  
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHBHETableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "RBX TEXT NOT NULL, " \
+                            "Wedge INT NOT NULL, BV INT NOT NULL, " \
+                            "QIE INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
+                            "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, " \
+                            "FEDid INT NOT NULL, " \
+                            "QIEid INT NOT NULL, " \
+                            "TP_FI INT NOT NULL, TP_CH INT NOT NULL);";
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+
+  
+  std::string one = "INSERT INTO " + ngHBHETableStr + "(" \
+                    "ID," \
+                    "Side,Eta,Phi,dPhi,Depth,Det," \
+                    "RBX," \
+                    "Wedge,BV," \
+                    "QIE,QIECH,RM,RM_FI,FI_CH," \
+                    "ppCol,ppRow,ppCpl,ppLC,dodec," \
+                    "Crate,uHTR,uHTR_FI," \
+                    "FEDid," \
+                    "QIEid," \
+                    "TP_FI,TP_CH) ";
+  for(i=0; i<myngHBFrontEnd.size(); i++)
+  {
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myngHBGeometry.at(i).side)+","+std::to_string(myngHBGeometry.at(i).eta)+","+std::to_string(myngHBGeometry.at(i).phi)+","+std::to_string(myngHBGeometry.at(i).dphi)+","+std::to_string(myngHBGeometry.at(i).depth)+",'"+myngHBGeometry.at(i).subdet+"','"
+                      +myngHBFrontEnd.at(i).rbx+"',"
+                      +std::to_string(myngHBSiPM.at(i).wedge)+","+std::to_string(myngHBSiPM.at(i).bv)+","
+                      +std::to_string(myngHBFrontEnd.at(i).qie11)+","+std::to_string(myngHBFrontEnd.at(i).qie11_ch)+","+std::to_string(myngHBFrontEnd.at(i).rm)+","+std::to_string(myngHBFrontEnd.at(i).rm_fiber)+","+std::to_string(myngHBFrontEnd.at(i).fiber_ch)+","
+                      +std::to_string(myngHBBackEnd.at(i).ppcol)+","+std::to_string(myngHBBackEnd.at(i).pprow)+",'"+myngHBBackEnd.at(i).ppcpl+"',"+std::to_string(myngHBBackEnd.at(i).pplc)+","+std::to_string(myngHBBackEnd.at(i).dodec)+","
+                      +std::to_string(myngHBBackEnd.at(i).ucrate)+","+std::to_string(myngHBBackEnd.at(i).uhtr)+","+std::to_string(myngHBBackEnd.at(i).uhtr_fiber)+","
+                      +std::to_string(myngHBBackEnd.at(i).ufedid)+","
+                      +std::to_string(myngHBFrontEnd.at(i).qie11_id)+","
+                      +std::to_string(myngHBTriggerTowerFiber.at(i).trg_fiber)+","+std::to_string(myngHBTriggerTowerFiber.at(i).trg_fiber_ch)+");"; 
+
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "ngHB LMap: #%d Records created successfully!\n", i+1); }
+  }
+  iuniq = i;
+  for(i=0; i<myngHBCalib.size(); i++)
+  {
+    if(!(myngHBCalib.at(i).rm_fiber==1 && myngHBCalib.at(i).fiber_ch>=5 && myngHBCalib.at(i).fiber_ch<=7)) continue;//only allow those channels pass for LMapCalib, PedLMap will allow whole channels
+    std::string two = "VALUES("
+                      +std::to_string(i+iuniq)+","
+                      +std::to_string(myngHBCalib.at(i).side)+","+std::to_string(myngHBCalib.at(i).eta)+","+std::to_string(myngHBCalib.at(i).phi)+","+std::to_string(myngHBCalib.at(i).dphi)+","+std::to_string(myngHBCalib.at(i).depth)+",'"+myngHBCalib.at(i).subdet+"','"
+                      +myngHBCalib.at(i).rbx+"',"
+                      +std::to_string(myngHBCalib.at(i).wedge)+","+"'-1',"
+                      +std::to_string(myngHBCalib.at(i).qie11)+","+std::to_string(myngHBCalib.at(i).qie11_ch)+","+std::to_string(myngHBCalib.at(i).rm)+","+std::to_string(myngHBCalib.at(i).rm_fiber)+","+std::to_string(myngHBCalib.at(i).fiber_ch)+","
+                      +std::to_string(myngHBCalib.at(i).ppcol)+","+std::to_string(myngHBCalib.at(i).pprow)+",'"+myngHBCalib.at(i).ppcpl+"',"+std::to_string(myngHBCalib.at(i).pplc)+","+std::to_string(myngHBCalib.at(i).dodec)+","
+                      +std::to_string(myngHBCalib.at(i).ucrate)+","+std::to_string(myngHBCalib.at(i).uhtr)+","+std::to_string(myngHBCalib.at(i).uhtr_fiber)+","
+                      +std::to_string(myngHBCalib.at(i).ufedid)+","
+                      +std::to_string(myngHBCalib.at(i).qie11_id)+","
+                      +"'-1','-1'"+");";
+    
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "ngHB LMapCalib: #%d Records created successfully!\n", i+1); }
+  }
+  iuniq += i;
+  for(i=0; i<myngHEFrontEnd.size(); i++)
+  {
+    std::string two = "VALUES("
+                      +std::to_string(i+iuniq)+","
+                      +std::to_string(myngHEGeometry.at(i).side)+","+std::to_string(myngHEGeometry.at(i).eta)+","+std::to_string(myngHEGeometry.at(i).phi)+","+std::to_string(myngHEGeometry.at(i).dphi)+","+std::to_string(myngHEGeometry.at(i).depth)+",'"+myngHEGeometry.at(i).subdet+"','"
+                      +myngHEFrontEnd.at(i).rbx+"',"
+                      +std::to_string(myngHESiPM.at(i).wedge)+","+std::to_string(myngHESiPM.at(i).bv)+","
+                      +std::to_string(myngHEFrontEnd.at(i).qie11)+","+std::to_string(myngHEFrontEnd.at(i).qie11_ch)+","+std::to_string(myngHEFrontEnd.at(i).rm)+","+std::to_string(myngHEFrontEnd.at(i).rm_fiber)+","+std::to_string(myngHEFrontEnd.at(i).fiber_ch)+","
+                      +std::to_string(myngHEBackEnd.at(i).ppcol)+","+std::to_string(myngHEBackEnd.at(i).pprow)+",'"+myngHEBackEnd.at(i).ppcpl+"',"+std::to_string(myngHEBackEnd.at(i).pplc)+","+std::to_string(myngHEBackEnd.at(i).dodec)+","
+                      +std::to_string(myngHEBackEnd.at(i).ucrate)+","+std::to_string(myngHEBackEnd.at(i).uhtr)+","+std::to_string(myngHEBackEnd.at(i).uhtr_fiber)+","
+                      +std::to_string(myngHEBackEnd.at(i).ufedid)+","
+                      +std::to_string(myngHEFrontEnd.at(i).qie11_id)+","
+                      +std::to_string(myngHETriggerTower.at(i).trg_fiber)+","+std::to_string(myngHETriggerTower.at(i).trg_fiber_ch)+");";
+
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "ngHE LMap: #%d Records created successfully!\n", i+1); }
+  }
+  iuniq += i;
+  for(i=0; i<myngHECalib.size(); i++)
+  {
+    if(!((myngHECalib.at(i).rm_fiber==1 && myngHECalib.at(i).fiber_ch==0) || (myngHECalib.at(i).rm_fiber==2))) continue; //only allow those channels pass for CalibLMap, PedLMap will allow for all channels
+    std::string two = "VALUES("
+                      +std::to_string(i+iuniq)+","
+                      +std::to_string(myngHECalib.at(i).side)+","+std::to_string(myngHECalib.at(i).eta)+","+std::to_string(myngHECalib.at(i).phi)+","+std::to_string(myngHECalib.at(i).dphi)+","+std::to_string(myngHECalib.at(i).depth)+",'"+myngHECalib.at(i).subdet+"','"
+                      +myngHECalib.at(i).rbx+"',"
+                      +std::to_string(myngHECalib.at(i).wedge)+","+"'-1'"+","
+                      +std::to_string(myngHECalib.at(i).qie11)+","+std::to_string(myngHECalib.at(i).qie11_ch)+","+std::to_string(myngHECalib.at(i).rm)+","+std::to_string(myngHECalib.at(i).rm_fiber)+","+std::to_string(myngHECalib.at(i).fiber_ch)+","
+                      +std::to_string(myngHECalib.at(i).ppcol)+","+std::to_string(myngHECalib.at(i).pprow)+",'"+myngHECalib.at(i).ppcpl+"',"+std::to_string(myngHECalib.at(i).pplc)+","+std::to_string(myngHECalib.at(i).dodec)+","
+                      +std::to_string(myngHECalib.at(i).ucrate)+","+std::to_string(myngHECalib.at(i).uhtr)+","+std::to_string(myngHECalib.at(i).uhtr_fiber)+","
+                      +std::to_string(myngHECalib.at(i).ufedid)+","
+                      +std::to_string(myngHECalib.at(i).qie11_id)+","
+                      +"'-1','-1'"+");";
+    
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "ngHE LMapCalib: #%d Records created successfully!\n", i+1); }
+  }
+  std::cout << "Will export the table into ngHBHEUMap.txt file ..." << std::endl;
+  if(sqlite3_exec(db, OutSelect.c_str(), callback_HBHEUMap, 0, &zErrMsg) != SQLITE_OK)
+    std::cout << "Error occured when exporting the table: " << zErrMsg << std::endl;
+  sqlite3_close(db);
+ 
   return ;
 }
 
@@ -1341,3 +2089,4 @@ bool HCALLMapDumper::ifTableExistInDB(sqlite3 *db, std::string TableName)
   }
   return exist;
 }
+

@@ -39,13 +39,13 @@ void ngHBMappingAlgorithm::ConstructngHBLMapObject(std::string Mode)
       {
         for(int irmfi=0;irmfi<Nrm_fiberCalib;irmfi++)
         {
-          for(int ifich=0;ifich<Nfiber_ch;ifich++)
+          for(int ifich=0;ifich<Nfiber_chCalib;ifich++)
           {
             int sideid; irbx<NrbxngHB ? sideid = 1 : sideid = -1;//0..to 17 is P side, while 17 to 35 is M side
-            int rbxrmid; irbx<NrbxngHB ? rbxrmid = irbx*NrmngHBCalib+irm : rbxrmid = (irbx-NrbxngHB)*NrmngHBCalib+irm;//ngHB 0...to 71
-            int rmfifichid = irmfi*Nfiber_ch+ifich;//ngHB
+            int rbxrmid; irbx<NrbxngHB ? rbxrmid = irbx*NrmngHBCalib+irm : rbxrmid = (irbx-NrbxngHB)*NrmngHBCalib+irm;//ngHB 0...to 17
+            int rmfifichid = irmfi*Nfiber_chCalib+ifich;//ngHB 0.. to 2
             //std::cout << "#Side: " << sideid << "; RBXRM: " << rbxrmid << "; RMFIFICH: " << rmfifichid << std::endl;
-            //ConstructngHBCalib(sideid,rbxrmid,rmfifichid);
+            ConstructngHBCalib(sideid,rbxrmid,rmfifichid);
           }
         }
       }
@@ -72,9 +72,10 @@ void ngHBMappingAlgorithm::ConstructngHBFrontEnd(int sideid, int rbxrmid, int rm
   thisngHBFrontEnd.fiber_indx = thisngHBFrontEnd.rm_fiber + 8*(thisngHBFrontEnd.rm + 4); // for ngHB, it's 4, otherwise it's 0.
   //set secondary variables qie11 map
   //thisngHBFrontEnd.qie11 = (thisngHBFrontEnd.rm_fiber -1)/2+1;
-  // rm_fiber -> qie11(card), 4,5 -> 4  6,7 -> 3  8,1 -> 2  2,3 -> 1
-  thisngHBFrontEnd.qie11 = 4 - int(((thisngHBFrontEnd.rm_fiber+4)%Nrm_fiber)/2);
-  thisngHBFrontEnd.rm_fiber%2 == 0 ? thisngHBFrontEnd.qie11_ch = thisngHBFrontEnd.fiber_ch + 1 : thisngHBFrontEnd.qie11_ch = 8 + (thisngHBFrontEnd.fiber_ch+1);
+  // rm_fiber -> qie11(card), 4,5 -> 4  6,7 -> 3  8,1 -> 2  2,3 -> 1 if RM is odd
+  // rm_fiber -> qie11(card), 4,5 -> 1  6,7 -> 2  8,1 -> 3  2,3 -> 4 if RM is even
+  thisngHBFrontEnd.rm % 2 == 0 ? thisngHBFrontEnd.qie11 = 1 + int(((thisngHBFrontEnd.rm_fiber+4)%Nrm_fiber)/2) : thisngHBFrontEnd.qie11 = 4 - int(((thisngHBFrontEnd.rm_fiber+4)%Nrm_fiber)/2);
+  (thisngHBFrontEnd.rm + thisngHBFrontEnd.rm_fiber)%2 == 1 ? thisngHBFrontEnd.qie11_ch = thisngHBFrontEnd.fiber_ch + 1 : thisngHBFrontEnd.qie11_ch = 8 + (thisngHBFrontEnd.fiber_ch+1);
 
   const int mb_rm13[Nrm_fiber*Nfiber_ch] = {30,29,22,21,28,27,20,19,8,7,16,15,2,1,10,9,     //RM13 rmfifichid=0-15
                                             14,13,6,5,12,11,4,3,56,55,64,63,50,49,58,57,    //RM13 rmfifichid=16-31
@@ -213,10 +214,11 @@ void ngHBMappingAlgorithm::ConstructngHBGeometry(int sideid, int rbxrmid, int rm
   ngHBGeometry thisngHBGeometry;
   //side -> subdet -> eta, depth -> dphi -> phi
   thisngHBGeometry.side = sideid;
-  
+  int rm = rbxrmid%NrmngHB + 1;
+   
   // rm_fi -> eta, 4,5 -> 1-4  6,7 -> 5-8  8,1 -> 9-12  2,3 -> 13-16
   thisngHBGeometry.eta = ngHBetaInrmfifichid[((rmfifichid+40)%64)%16] + int(((rmfifichid+40)%64)/16)*4; 
-  thisngHBGeometry.depth = ngHBdepInrmfifichid[rmfifichid/4]; 
+  rm % 2 == 0 ? thisngHBGeometry.depth = ngHBdepInrmfifichidRM24[rmfifichid/4] : thisngHBGeometry.depth = ngHBdepInrmfifichidRM13[rmfifichid/4];
   thisngHBGeometry.dphi = 1;
 
   if(sideid > 0)
@@ -231,6 +233,7 @@ void ngHBMappingAlgorithm::ConstructngHBGeometry(int sideid, int rbxrmid, int rm
   thisngHBGeometry.subdet = "HB";
 
   myngHBGeometry.push_back(thisngHBGeometry);
+  ConstructngHBTriggerTowerFiber(thisngHBGeometry.eta, thisngHBGeometry.phi);
   return ;
 }
 
@@ -274,6 +277,93 @@ void ngHBMappingAlgorithm::ConstructngHBTriggerTower(int rm, int rm_fiber, int f
   return ;
 }
 
+void ngHBMappingAlgorithm::ConstructngHBTriggerTowerFiber(int eta, int phi)
+{
+  ngHBTriggerTowerFiber thisngHBTriggerTowerFiber;
+  thisngHBTriggerTowerFiber.trg_fiber = -1;
+  if(eta<=0 || phi<=0)
+  {
+    thisngHBTriggerTowerFiber.trg_fiber = -1;
+    thisngHBTriggerTowerFiber.trg_fiber_ch = -1;
+  }
+  else
+  {
+    if(eta <= 20)
+    {
+      if     (eta >= 1  && eta <=12) thisngHBTriggerTowerFiber.trg_fiber = (int)((eta-1)/2);
+      else if(eta >= 13 && eta <=18) thisngHBTriggerTowerFiber.trg_fiber = (int)((eta-13)/2);
+      else thisngHBTriggerTowerFiber.trg_fiber = 0;
+    }
+    else
+    {
+      if     (eta >= 21 && eta <=24) thisngHBTriggerTowerFiber.trg_fiber = (int)((eta-21)/2) + 1;
+      else if(eta >= 25 && eta <=26) thisngHBTriggerTowerFiber.trg_fiber = 3;
+      else thisngHBTriggerTowerFiber.trg_fiber = 3;
+    }
+    thisngHBTriggerTowerFiber.trg_fiber_ch = ((eta-1)%2)*4 + ((phi+69)%72)%4;
+  }
+  myngHBTriggerTowerFiber.push_back(thisngHBTriggerTowerFiber);
+  return;
+}
+
+void ngHBMappingAlgorithm::ConstructngHBCalib(int sideid, int rbxrmid, int rmfifichid)
+{
+  ngHBCalib thisngHBCalib;
+  //set up frontend part
+  std::string sideletter; sideid>0 ? sideletter = "P" : sideletter = "M";
+  std::string numberletter; (rbxrmid/NrmngHBCalib + 1) < 10 ? numberletter = "0" + std::to_string(rbxrmid/NrmngHBCalib + 1) : numberletter = std::to_string(rbxrmid/NrmngHBCalib + 1);
+  thisngHBCalib.rbx = "HB" + sideletter + numberletter;
+  thisngHBCalib.rm = rbxrmid%NrmngHBCalib + 5;//rm=5 for calibration channels
+  thisngHBCalib.rm_fiber = rmfifichid/Nfiber_chCalib + 1;
+//  thisngHBCalib.fiber_ch = rmfifichid%Nfiber_chCalib + 5;
+  thisngHBCalib.fiber_ch = rmfifichid%Nfiber_chCalib;
+  //set qie11 variables
+  thisngHBCalib.qie11 = 1;
+  thisngHBCalib.qie11_ch = thisngHBCalib.fiber_ch;
+  thisngHBCalib.qie11_id = 999991;
+  thisngHBCalib.wedge = rbxrmid/NrmngHBCalib + 1;
+  thisngHBCalib.trunk = (thisngHBCalib.wedge - 1)%3 + 1 + (thisngHBCalib.rm_fiber - 1) * 3;
+  int ngHBcpColInWedge[NrbxngHB] = {4, 4, 5, 1, 1, 2, 2, 3, 3, 5, 6, 6, 7, 7, 8, 8, 9, 9};
+  thisngHBCalib.cpcol = ngHBcpColInWedge[thisngHBCalib.wedge-1];
+  sideid < 0 ? thisngHBCalib.cprow = 1 : thisngHBCalib.cprow = 3;
+  if (thisngHBCalib.wedge < 10){
+    ((thisngHBCalib.wedge + 5 )%9 + 1 ) % 2 == 0 ? thisngHBCalib.cplc = 3 : thisngHBCalib.cplc = 1;
+  }
+  else thisngHBCalib.wedge%2 == 0 ? thisngHBCalib.cplc = 3 : thisngHBCalib.cplc = 1;
+  thisngHBCalib.cplc += (thisngHBCalib.rm_fiber - 1);
+  thisngHBCalib.cpoct = ( sideid < 0 ? 7 : 3 );
+  const std::map<int, std::string > ngHBcpCplInCpCol = {
+          {1,"04-05"}, {2,"06-07"}, {3,"08-09"},
+          {4,"01-02"}, {5,"03-10"}, {6,"11-12"},
+          {7,"13-14"}, {8,"15-16"}, {9,"17-18"}
+  };
+  thisngHBCalib.cpcpl = "HB" + sideletter + ngHBcpCplInCpCol.find(thisngHBCalib.cpcol)->second;
+  //set up patch panel
+  sideid < 0 ? thisngHBCalib.ppcol = 6 : thisngHBCalib.ppcol = 3;
+  thisngHBCalib.pprow = 5;
+  thisngHBCalib.pplc = 3 + (thisngHBCalib.rm_fiber - 1);
+  thisngHBCalib.dodec = 11 + (thisngHBCalib.rm_fiber - 1);
+  thisngHBCalib.ppcpl = "EB" + sideletter + numberletter + "_CU";
+  int ngHBuCrateInWedge[NrbxngHB] = {30, 24, 24, 20, 20, 21, 21, 25, 25, 31, 31, 35, 35, 37, 37, 34, 34, 30};
+  thisngHBCalib.ucrate = ngHBuCrateInWedge[thisngHBCalib.wedge-1];
+  sideid > 0 ? ( thisngHBCalib.uhtr = ( thisngHBCalib.wedge%2 == 0 ? 8 : 11 ) ) : ( thisngHBCalib.uhtr = ( thisngHBCalib.wedge%2 == 0 ? 2 : 5 ) );
+  thisngHBCalib.uhtr_fiber = 10;
+  const std::map<int, std::pair<int, int> > ngHBufedidInucrate = { {20,{1102,1103}},{21,{1104,1105}},{24,{1100,1101}},{25,{1106,1107}},{30,{1116,1117}},{31,{1108,1109}},{34,{1114,1115}},{35,{1110,1111}},{37,{1112,1113}} };
+  sideid < 0 ? thisngHBCalib.ufedid = (ngHBufedidInucrate.find(thisngHBCalib.ucrate)->second).first : thisngHBCalib.ufedid = (ngHBufedidInucrate.find(thisngHBCalib.ucrate)->second).second;
+  //set up geometry
+  thisngHBCalib.side = sideid;
+  thisngHBCalib.eta = 1;
+  thisngHBCalib.phi = ( thisngHBCalib.wedge*4 - 5 + 72 ) % 72;
+  thisngHBCalib.dphi = 4;
+  if(thisngHBCalib.rm_fiber == 1 && thisngHBCalib.fiber_ch>=5 && thisngHBCalib.fiber_ch <=7)
+    thisngHBCalib.depth = thisngHBCalib.fiber_ch - 5;
+  else
+    thisngHBCalib.depth = 7;
+  thisngHBCalib.subdet = "CALIB_HB";
+  myngHBCalib.push_back(thisngHBCalib);
+
+  return;
+}
 
 void ngHBMappingAlgorithm::LoadngHBQIEMap(std::string QIE11CardMapFileName)                                                                                                                                 
 {

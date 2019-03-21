@@ -49,6 +49,11 @@ struct ngHBGeometry
   std::string subdet;
 };
 
+struct ngHBTriggerTowerFiber
+{
+  int trg_fiber, trg_fiber_ch;
+};
+
 //Trigger tower struct
 struct ngHBTriggerTower
 {
@@ -63,11 +68,11 @@ struct ngHBCalib
   //FE
   std::string rbx;
   int rm, rm_fiber, fiber_ch;
-  int qie8, qie8_ch, qie8_id;
+  int qie11, qie11_ch, qie11_id;
   int wedge;
 
   //Calibration patch
-  std::string trunk;
+  int trunk;
   int cpcol, cprow, cplc, cpoct;
   std::string cpcpl;
 
@@ -123,7 +128,8 @@ class ngHBConstant
 
   //2 fibers per rm in calibration module, rm 1,2
   static const int NrmngHBCalib = 1;
-  static const int Nrm_fiberCalib = 1;
+  static const int Nrm_fiberCalib = 2;
+  static const int Nfiber_chCalib = 8;
 };
 
 #endif

@@ -11,7 +11,7 @@ class ngHBMappingAlgorithm : public ngHBConstant
 {
  public:
   //the variables we need to fill into the LMap
-  std::vector<ngHBFrontEnd> myngHBFrontEnd; std::vector<ngHBBackEnd> myngHBBackEnd; std::vector<ngHBSiPM> myngHBSiPM; std::vector<ngHBGeometry> myngHBGeometry; std::vector<ngHBTriggerTower> myngHBTriggerTower;
+  std::vector<ngHBFrontEnd> myngHBFrontEnd; std::vector<ngHBBackEnd> myngHBBackEnd; std::vector<ngHBSiPM> myngHBSiPM; std::vector<ngHBGeometry> myngHBGeometry; std::vector<ngHBTriggerTower> myngHBTriggerTower;std::vector<ngHBTriggerTowerFiber> myngHBTriggerTowerFiber;
   std::vector<ngHBCalib> myngHBCalib;
   void ConstructngHBLMapObject(std::string Mode);
  private:
@@ -20,6 +20,7 @@ class ngHBMappingAlgorithm : public ngHBConstant
   void ConstructngHBGeometry(int sideid, int rbxrmid, int rmfifichid);
   void ConstructngHBSiPM(int sideid, int rbxrmid, int rmfifichid);
   void ConstructngHBTriggerTower(int rm, int rm_fiber, int fiber_ch, int qie11_ch);
+  void ConstructngHBTriggerTowerFiber(int eta, int phi);
   void ConstructngHBCalib(int sideid, int rbxrmid, int rmfifichid);
 
   const int ngHBcrateInrbxrmid[Ncrate] = {10,14,0,1,5,11,15,17,14};
@@ -34,11 +35,16 @@ class ngHBMappingAlgorithm : public ngHBConstant
     2, 1, 4, 3, 2, 1, 4, 3//rm_fi is even, fi_ch=0-7
   };
 
-  const int ngHBdepInrmfifichid[Nrm_fiber*Nfiber_ch]=
+  const int ngHBdepInrmfifichidRM13[Nrm_fiber*Nfiber_ch]=
   {
     4, 2, 1, 3, 4, 2, 1, 3, 4, 2, 1, 3, 4, 2, 1, 3
   };
 
+  const int ngHBdepInrmfifichidRM24[Nrm_fiber*Nfiber_ch]=
+  {
+    1, 3, 4, 2, 1, 3, 4, 2, 1, 3, 4, 2, 1, 3, 4, 2
+  };
+  
   const std::string ngHBtrgjmIntpind[Nrm_fiber*4]=
   {
     "D1", "C1", "B1", "A1", "D3", "C3", "B3", "A3", //RM1/3. fiber 1

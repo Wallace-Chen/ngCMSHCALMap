@@ -109,16 +109,26 @@ void HOMappingAlgorithm::ConstructHOCalib(int irbx, int irm, int irmfi, int ific
 
   //Filter: Normally 2 channels per fiber except 5 fibers having 3 channels, defined in the array rbxSPHOCalib
   int i=0;
-  while( !rbxSPHOCalib[i].empty() )
-  {
+  for (std::string rbxSP: rbxSPHOCalib){
     using namespace std;
-    if( !thisHOCalib.rbx.compare(rbxSPHOCalib[i]) && (thisHOCalib.fiber_ch == 2) )
+    if( !thisHOCalib.rbx.compare(rbxSP) && (thisHOCalib.fiber_ch == 2) )
     {
       i = -1; //flag meaning this is on the list
       break;
     }
     i++;
+
   }
+//  while( !(rbxSPHOCalib[i]) )
+//  {
+//    using namespace std;
+//    if( !thisHOCalib.rbx.compare(rbxSPHOCalib[i]) && (thisHOCalib.fiber_ch == 2) )
+//    {
+//      i = -1; //flag meaning this is on the list
+//      break;
+//    }
+//    i++;
+//  }
   if((thisHOCalib.fiber_ch == 2) && (i != -1))
   {
     return;
