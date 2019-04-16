@@ -229,11 +229,16 @@ void ngHBMappingAlgorithm::ConstructngHBGeometry(int sideid, int rbxrmid, int rm
   {
     thisngHBGeometry.phi = ngHBphiInrbxrmid_M[rbxrmid];
   }
-  
-  thisngHBGeometry.subdet = "HB";
+ 
+  // Dealing with HBX channels: eta=16 and dept=4 or MB=6 for rm=1,2 and MB=62 for rm-2,4 
+  ( (rm==1 && rmfifichid==18) || (rm==2 && rmfifichid==8) || (rm==3 && rmfifichid==18) || (rm==4 && rmfifichid==8) ) ? thisngHBGeometry.subdet = "HBX" : thisngHBGeometry.subdet = "HB";
+  if(thisngHBGeometry.subdet == "HBX"){
+    if(!(thisngHBGeometry.eta==16 && thisngHBGeometry.depth==4)) std::cout << "Wrong HBX channel map!" << std::endl;
+    thisngHBGeometry.depth = 0; // overwrite depth for now
+  }
 
   myngHBGeometry.push_back(thisngHBGeometry);
-  ConstructngHBTriggerTowerFiber(thisngHBGeometry.eta, thisngHBGeometry.phi);
+  ConstructngHBTriggerTowerFiber(thisngHBGeometry.eta, thisngHBGeometry.phi, thisngHBGeometry.depth);
   return ;
 }
 
@@ -277,14 +282,14 @@ void ngHBMappingAlgorithm::ConstructngHBTriggerTower(int rm, int rm_fiber, int f
   return ;
 }
 
-void ngHBMappingAlgorithm::ConstructngHBTriggerTowerFiber(int eta, int phi)
+void ngHBMappingAlgorithm::ConstructngHBTriggerTowerFiber(int eta, int phi, int depth)
 {
   ngHBTriggerTowerFiber thisngHBTriggerTowerFiber;
   thisngHBTriggerTowerFiber.trg_fiber = -1;
-  if(eta<=0 || phi<=0)
+  if(eta<=0 || phi<=0 || depth<=0)
   {
-    thisngHBTriggerTowerFiber.trg_fiber = -1;
-    thisngHBTriggerTowerFiber.trg_fiber_ch = -1;
+    thisngHBTriggerTowerFiber.trg_fiber = 99;
+    thisngHBTriggerTowerFiber.trg_fiber_ch = 99;
   }
   else
   {
@@ -319,35 +324,74 @@ void ngHBMappingAlgorithm::ConstructngHBCalib(int sideid, int rbxrmid, int rmfif
   thisngHBCalib.fiber_ch = rmfifichid%Nfiber_chCalib;
   //set qie11 variables
   thisngHBCalib.qie11 = 1;
-  thisngHBCalib.qie11_ch = thisngHBCalib.fiber_ch;
+  thisngHBCalib.qie11_ch = thisngHBCalib.fiber_ch + 1 + (thisngHBCalib.rm_fiber-1) % 2 * 8;
   thisngHBCalib.qie11_id = 999991;
   thisngHBCalib.wedge = rbxrmid/NrmngHBCalib + 1;
-  thisngHBCalib.trunk = (thisngHBCalib.wedge - 1)%3 + 1 + (thisngHBCalib.rm_fiber - 1) * 3;
+//  thisngHBCalib.trunk = (thisngHBCalib.wedge - 1)%3 + 1 + (thisngHBCalib.rm_fiber - 1) * 3;
+  thisngHBCalib.trunk = (thisngHBCalib.wedge - 1)%3 + 1;
+  if( thisngHBCalib.rm_fiber==1 ) thisngHBCalib.trunk += 3; // This change is due to Dick's email...
   int ngHBcpColInWedge[NrbxngHB] = {4, 4, 5, 1, 1, 2, 2, 3, 3, 5, 6, 6, 7, 7, 8, 8, 9, 9};
   thisngHBCalib.cpcol = ngHBcpColInWedge[thisngHBCalib.wedge-1];
   sideid < 0 ? thisngHBCalib.cprow = 1 : thisngHBCalib.cprow = 3;
-  if (thisngHBCalib.wedge < 10){
-    ((thisngHBCalib.wedge + 5 )%9 + 1 ) % 2 == 0 ? thisngHBCalib.cplc = 3 : thisngHBCalib.cplc = 1;
-  }
-  else thisngHBCalib.wedge%2 == 0 ? thisngHBCalib.cplc = 3 : thisngHBCalib.cplc = 1;
-  thisngHBCalib.cplc += (thisngHBCalib.rm_fiber - 1);
-  thisngHBCalib.cpoct = ( sideid < 0 ? 7 : 3 );
+  int ngHBSectorInWedge[NrbxngHB] = {2, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3};
+  std::string sector_str = std::to_string(ngHBSectorInWedge[thisngHBCalib.wedge-1]);
+  bool if12InxyzWedge = (sector_str == "1" && thisngHBCalib.wedge%2 == 0) || (sector_str == "2" && thisngHBCalib.wedge%2 == 1) || (sector_str == "3" && thisngHBCalib.wedge%2 == 1);
+  if( if12InxyzWedge ) thisngHBCalib.cplc = ( thisngHBCalib.rm_fiber )%2 + 1;
+  else thisngHBCalib.cplc = ( thisngHBCalib.rm_fiber )%2 + 1 + 2;
+//  thisngHBCalib.cpoct = ( sideid < 0 ? 7 : 3 );
+  thisngHBCalib.cpoct = (4-thisngHBCalib.cprow)*2 + 1 + (thisngHBCalib.cplc+1)%2;
   const std::map<int, std::string > ngHBcpCplInCpCol = {
           {1,"04-05"}, {2,"06-07"}, {3,"08-09"},
           {4,"01-02"}, {5,"03-10"}, {6,"11-12"},
           {7,"13-14"}, {8,"15-16"}, {9,"17-18"}
   };
   thisngHBCalib.cpcpl = "HB" + sideletter + ngHBcpCplInCpCol.find(thisngHBCalib.cpcol)->second;
+  // determine ribbon, indicates top or bot for the cpOctFib: http://cmsdoc.cern.ch/cms/HCALdocs/document/Mapping/Calib/ngCU_patch/ngCU_HBHE_patch.txt
+  //- the ngCUpatch x-block:
+  //         cpCol 1                   cpCol 2                   cpCol 3                    
+  //         Hxx04-05                  Hxx06-07                  Hxx08-09           coupler block label
+  //   crate 20     crate 20     crate 21    crate 21      crate 25    crate 25
+  //| 01b20 02b20 01t20 02t20 | 01b21 02b21 01t21 02t21 | 01b25 02b25 01t25 02t25 |
+  //| 03b20 04b20 03t20 04t20 | 03b21 04b21 03t21 04t21 | 03b25 04b25 03t25 04t25 | 
+  //| 05b20 06b20 05t20 06t20 | 05b21 06b21 05t21 06t21 | 05b25 06b25 05t25 06t25 |
+  //| 07b20 08b20 07t20 08t20 | 07b21 08b21 07t21 08t21 | 07b25 08b25 07t25 08t25 |
+  //                                
+  //- the ngCUpatch y-block:
+  //                                  
+  //         cpCol 4                   cpCol 5                   cpCol 6           
+  //         Hxx01-02                  Hxx03-10                  Hxx11-12           coupler block label
+  //   crate 30     crate 24     crate 24    crate 31      crate 31    crate 35          
+  //| 01t30 02t30 01b24 02b24 | 01t24 02t24 01b31 02b31 | 01t31 02t31 01b35 02b35 |
+  //| 03t30 04t30 03b24 04b24 | 03t24 04t24 03b31 04b31 | 03t31 04t31 03b35 04b35 | 
+  //| 05t30 06t30 05b24 06b24 | 05t24 06t24 05b31 06b31 | 05t31 06t31 05b35 06b35 |
+  //| 07t30 08t30 07b24 08b24 | 07t24 08t24 07b31 08b31 | 07t31 08t31 07b35 08b35 |
+  //                                                                 
+  //- the ngCUpatch z-block:
+  //                                                                   
+  //         cpCol 7                   cpCol 8                   cpCol 9         
+  //         Hxx13-14                  Hxx15-16                  Hxx17-18           coupler block label
+  //   crate 35     crate 37     crate 37    crate 34      crate 34    crate 30          
+  //| 01t35 02t35 01b37 02b37 | 01t37 02t37 01b34 02b34 | 01t34 02t34 01b30 02b30 | 
+  //| 03t35 04t35 03b37 04b37 | 03t37 04t37 03b34 04b34 | 03t34 04t34 03b30 04b30 | 
+  //| 05t35 06t35 05b37 06b37 | 05t37 06t37 05b34 06b34 | 05t34 06t34 05b30 06b30 |
+  //| 07t35 08t35 07b37 08b37 | 07t37 08t37 07b34 08b34 | 07t34 08t34 07b30 08b30 |
+  // To set bot or top, just note that order in x-block is bt while in y,z-block is tb
+  if(thisngHBCalib.cpcol<=3 && thisngHBCalib.cpcol>=1) {//meaning x-block
+    thisngHBCalib.ribbon = (thisngHBCalib.cplc == 1 || thisngHBCalib.cplc == 2) ? "bot" : "top";
+  } else if(thisngHBCalib.cpcol<=9 && thisngHBCalib.cpcol>=4){//meaning yz-block
+    thisngHBCalib.ribbon = (thisngHBCalib.cplc == 1 || thisngHBCalib.cplc == 2) ? "top" : "bot";
+  }
+
   //set up patch panel
   sideid < 0 ? thisngHBCalib.ppcol = 6 : thisngHBCalib.ppcol = 3;
   thisngHBCalib.pprow = 5;
-  thisngHBCalib.pplc = 3 + (thisngHBCalib.rm_fiber - 1);
-  thisngHBCalib.dodec = 11 + (thisngHBCalib.rm_fiber - 1);
+  thisngHBCalib.pplc = (thisngHBCalib.cpoct - 1)%4 + 1;
   thisngHBCalib.ppcpl = "EB" + sideletter + numberletter + "_CU";
   int ngHBuCrateInWedge[NrbxngHB] = {30, 24, 24, 20, 20, 21, 21, 25, 25, 31, 31, 35, 35, 37, 37, 34, 34, 30};
   thisngHBCalib.ucrate = ngHBuCrateInWedge[thisngHBCalib.wedge-1];
-  sideid > 0 ? ( thisngHBCalib.uhtr = ( thisngHBCalib.wedge%2 == 0 ? 8 : 11 ) ) : ( thisngHBCalib.uhtr = ( thisngHBCalib.wedge%2 == 0 ? 2 : 5 ) );
-  thisngHBCalib.uhtr_fiber = 10;
+  sideid > 0 ? ( thisngHBCalib.uhtr = ( thisngHBCalib.wedge%2 == 0 ? 8 : 11 ) ) : ( thisngHBCalib.uhtr = (thisngHBCalib.wedge%2 == 0 ? 2 : 5 ) );
+  (thisngHBCalib.cpoct%2 == 0) ?  thisngHBCalib.uhtr_fiber = 11 : thisngHBCalib.uhtr_fiber = 10 ;
+  thisngHBCalib.dodec = thisngHBCalib.uhtr_fiber%12 + 1;
   const std::map<int, std::pair<int, int> > ngHBufedidInucrate = { {20,{1102,1103}},{21,{1104,1105}},{24,{1100,1101}},{25,{1106,1107}},{30,{1116,1117}},{31,{1108,1109}},{34,{1114,1115}},{35,{1110,1111}},{37,{1112,1113}} };
   sideid < 0 ? thisngHBCalib.ufedid = (ngHBufedidInucrate.find(thisngHBCalib.ucrate)->second).first : thisngHBCalib.ufedid = (ngHBufedidInucrate.find(thisngHBCalib.ucrate)->second).second;
   //set up geometry
@@ -355,10 +399,12 @@ void ngHBMappingAlgorithm::ConstructngHBCalib(int sideid, int rbxrmid, int rmfif
   thisngHBCalib.eta = 1;
   thisngHBCalib.phi = ( thisngHBCalib.wedge*4 - 5 + 72 ) % 72;
   thisngHBCalib.dphi = 4;
-  if(thisngHBCalib.rm_fiber == 1 && thisngHBCalib.fiber_ch>=5 && thisngHBCalib.fiber_ch <=7)
-    thisngHBCalib.depth = thisngHBCalib.fiber_ch - 5;
-  else
+  if(thisngHBCalib.rm_fiber == 2 && thisngHBCalib.fiber_ch>=4 && thisngHBCalib.fiber_ch <=6)
+    thisngHBCalib.depth = thisngHBCalib.fiber_ch - 4;
+  else{
     thisngHBCalib.depth = 7;
+//    thisngHBCalib.cpoct = thisngHBCalib.cplc + 2;//cpOctFib =  same as cpLC + 2
+  }
   thisngHBCalib.subdet = "CALIB_HB";
   myngHBCalib.push_back(thisngHBCalib);
 

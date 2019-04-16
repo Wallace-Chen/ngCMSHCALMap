@@ -9,6 +9,7 @@ struct ngHEFrontEnd
   std::string rbx;
   int rm, rm_fiber, fiber_ch;
   int qie11, qie11_ch, qie11_id;
+  int mb_no;//For ngHE the MB_NO = BV, so it was suppressed
 };
 
 //Backend electronics struct
@@ -53,12 +54,14 @@ struct ngHECalib
   std::string rbx;
   int rm, rm_fiber, fiber_ch;
   int qie11, qie11_ch, qie11_id;
-  int wedge;
+  int mb_no = -1;//Note: mb_no is fake, a redundant variable, always set to -1
+  int wedge, bv = -1;//Note: bv is fake, a redundant variable, always set to -1
 
   //Calibration patch
   std::string trunk;
   int cpcol, cprow, cplc, cpoct;
   std::string cpcpl;
+  std::string ribbon;
 
   //patch panel
   int ppcol, pprow, pplc, dodec;

@@ -20,7 +20,7 @@ class ngHBMappingAlgorithm : public ngHBConstant
   void ConstructngHBGeometry(int sideid, int rbxrmid, int rmfifichid);
   void ConstructngHBSiPM(int sideid, int rbxrmid, int rmfifichid);
   void ConstructngHBTriggerTower(int rm, int rm_fiber, int fiber_ch, int qie11_ch);
-  void ConstructngHBTriggerTowerFiber(int eta, int phi);
+  void ConstructngHBTriggerTowerFiber(int eta, int phi, int depth);
   void ConstructngHBCalib(int sideid, int rbxrmid, int rmfifichid);
 
   const int ngHBcrateInrbxrmid[Ncrate] = {10,14,0,1,5,11,15,17,14};

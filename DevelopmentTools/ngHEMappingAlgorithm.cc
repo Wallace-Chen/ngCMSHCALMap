@@ -89,6 +89,12 @@ void ngHEMappingAlgorithm::ConstructngHEFrontEnd(int sideid, int rbxrmid, int rm
                       );
   //thisngHEFrontEnd.qie11_id = 600000;
 
+  //Construct mb_no, For ngHE the MB_NO = BV, so it was suppressed
+  const int bv_rm13[Nrm_fiber*Nfiber_ch] = {16,30,31,32,21,22,8,7,15,14,13,24,44,36,37,45,29,39,23,38,40,48,47,46,33,26,42,34,35,43,28,27,12,11,1,9,2,3,4,5,10,6,41,25,20,19,18,17};
+  const int bv_rm24[Nrm_fiber*Nfiber_ch] = {40,48,21,22,23,24,7,6,5,4,15,3,45,31,39,46,32,47,8,16,14,13,30,29,41,33,35,43,42,18,38,37,44,36,28,34,1,2,10,11,12,17,9,27,26,25,20,19};
+  if     (thisngHEFrontEnd.rm==1||thisngHEFrontEnd.rm==3){ thisngHEFrontEnd.mb_no = bv_rm13[rmfifichid]; }
+  else if(thisngHEFrontEnd.rm==2||thisngHEFrontEnd.rm==4){ thisngHEFrontEnd.mb_no = bv_rm24[rmfifichid]; }
+  else{ std::cout << "Error in ngHE FrontEnd: rm is not 1234??" << std::endl; }
   myngHEFrontEnd.push_back(thisngHEFrontEnd);
   return ;
 }
@@ -464,6 +470,13 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
                                                         {7,"13-14"}, {8,"15-16"}, {9,"17-18"}
                                                        };
   thisngHECalib.cpcpl = "HE" + sideletter + ngHEcpCplInCpCol.find(thisngHECalib.cpcol)->second;
+  //determine ribbon, indicating bot or top for the cpOctFib, just note that order for x-block is bt and y,z-block is tb
+  if(thisngHECalib.cpcol>=1 && thisngHECalib.cpcol<=3){ //meaning it's x-block
+    thisngHECalib.ribbon = (thisngHECalib.cplc==1 || thisngHECalib.cplc==2) ? "bot" : "top"; 
+  } else if (thisngHECalib.cpcol>=4 && thisngHECalib.cpcol<=9){ //meaning it's y or z-block
+    thisngHECalib.ribbon = (thisngHECalib.cplc==1 || thisngHECalib.cplc==2) ? "top" : "bot";
+  }
+
   //thisngHECalib.cpcpl = "HE" + sideletter + "03-10";
   //set up patch panel
   /*
@@ -526,8 +539,10 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
   thisngHECalib.side = sideid;
   thisngHECalib.eta = 1;
   thisngHECalib.rm_fiber == 1 ? thisngHECalib.depth = 6 : thisngHECalib.depth = thisngHECalib.fiber_ch;
-  if(thisngHECalib.rm_fiber == 1 && thisngHECalib.fiber_ch >= 1 && thisngHECalib.fiber_ch <= 5)
+  if(thisngHECalib.rm_fiber == 1 && thisngHECalib.fiber_ch >= 1 && thisngHECalib.fiber_ch <= 5){
     thisngHECalib.depth = 7;
+    thisngHECalib.cpoct = thisngHECalib.cplc;
+  }
   thisngHECalib.dphi = 4;
   //if(sideid > 0)
   //{

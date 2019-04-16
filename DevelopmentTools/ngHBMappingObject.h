@@ -69,12 +69,14 @@ struct ngHBCalib
   std::string rbx;
   int rm, rm_fiber, fiber_ch;
   int qie11, qie11_ch, qie11_id;
-  int wedge;
+  int mb_no = -1;//Note: mb_no here is fake, a redundant variable, always et to -1.
+  int wedge, bv = -1; //Note: bv here is fake, a redundant variable, always set to -1
 
   //Calibration patch
   int trunk;
   int cpcol, cprow, cplc, cpoct;
   std::string cpcpl;
+  std::string ribbon;
 
   //patch panel
   int ppcol, pprow, pplc, dodec;
