@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include <utility>
+#include <algorithm>
 
 #include "ngHEMappingObject.h"
 
@@ -19,10 +20,28 @@ class ngHEMappingAlgorithm : public ngHEConstant
   void ConstructngHEBackEnd(int sideid, int rbxrmid, int rmfifichid);      
   void ConstructngHEGeometry(int sideid, int rbxrmid, int rmfifichid);      
   void ConstructngHESiPM(int sideid, int rbxrmid, int rmfifichid);
-  void ConstructngHETriggerTower(int eta, int phi);
+  void ConstructngHETriggerTower(int eta, int phi, std::string subdet);
   void ConstructngHECalib(int sideid, int rbxrmid, int rmfifichid);
   
   const int ngHEucrateInrbxrmid[Ncrate] = {30,24,20,21,25,31,35,37,34};
+
+// Generic function to find an element in vector and also its position.
+// It returns a pair of bool & int i.e.
+  template < typename T >
+  std::pair<bool, int > findInVector(const std::vector<T> & vec, const T & element){
+    std::pair<bool, int > result;
+
+    auto it = std::find(vec.begin(), vec.end(), element);
+    if (it != vec.end()){
+      result.second = distance(vec.begin(), it);
+      result.first = true;
+    }else{
+      result.first = false;
+      result.second= -1;
+    }
+    return result;
+  }
+
   //const int ngHEuhtrInrmfifichidType1[Nrm_fiber] = {1,12, 2, 13, 3,14, 4, 5};
   //const int ngHEuhtrInrmfifichidType2[Nrm_fiber] = {6, 7, 8, 15,16, 9,17,10};
   //const int ngHEuhtrInrmfifichidType3[Nrm_fiber] = {13,18,14,19,15,20,16,17};
@@ -130,6 +149,56 @@ class ngHEMappingAlgorithm : public ngHEConstant
     1, 1, 2, 2, 4, 2, //RM fiber 7
     2, 3, 3, 3, 2, 2  //RM fiber 8
   };
+
+  //ngHB BV assigments array
+  const int bv_rm13[Nrm_fiber*Nfiber_ch] = {16,30,31,32,21,22,8,7,15,14,13,24,44,36,37,45,29,39,23,38,40,48,47,46,33,26,42,34,35,43,28,27,12,11,1,9,2,3,4,5,10,6,41,25,20,19,18,17};
+  const int bv_rm24[Nrm_fiber*Nfiber_ch] = {40,48,21,22,23,24,7,6,5,4,15,3,45,31,39,46,32,47,8,16,14,13,30,29,41,33,35,43,42,18,38,37,44,36,28,34,1,2,10,11,12,17,9,27,26,25,20,19};
+
+  //HEX, eta and phi will be assigned with that of a near sighted neighboring SiPM
+  //http://cmsdoc.cern.ch/cms/HCALdocs/document/Mapping/HBHE/ngHBHE/ngHE/HEX/HEX_rule.txt
+  //Look at HEX eta phi assignments
+  //- idea is to use eta phi from adjacent, sighted BV channel
+  //- there are 2 HEX channels in RM2 and 2 HEX channels in RM3 in each RBX
+  //eta    phi     depth                   BV
+  //
+  //RM2
+  //  
+  //  27  1 1 HE  HEM01 1
+  //  27  1 -999  HEX HEM01 2
+  //  25  1 1 HE  HEM01 3
+  //
+  //  27  1 2 HE  HEM01 17
+  //  25  1 -999  HEX HEM01 18
+  //  25  1 2 HE  HEM01 19
+  //
+  //  RM3
+  //
+  //  25  71  1 HE  HEM01 6
+  //  25  71  -999  HEX HEM01 7
+  //  27  71  1 HE  HEM01 8
+  //
+  //  25  71  2 HE  HEM01 22
+  //  27  71  -999  HEX HEM01 23
+  //  27  71  2 HE  HEM01 24
+  //
+  //  unfortunately etas 25 and 27 have a monopoly on the adjacent BV channels,
+  //  and their depths can not be used to distinguish the HEX channels, since depth = -999 is
+  //  reserved to tag the HxX channels in the emap.
+  //  But we can use the preceding eta then the following eta for each phi, as illustrated above
+  //  the rule is then to always use the eta phi of the HE BV channel for the HEX BV channel as in the table below
+  //
+  //  RM  HEX BV    HE BV
+  //
+  //   2    2         1
+  //   2   18        19
+  //   3    7         6
+  //   3   23        24
+  //       
+  //   Unfortunately this rule is a bit complex, and even the simpler alternative of using the "phi of the RM"
+  //   is not viable, due to the double-width HE towers making it ambiguous.
+  // a mapping to the adjacent sighted BV channel
+  const std::map<int, int > ngHEmappingBV = { {2,1}, {18,19}, {7,6}, {23,24} };
+
 
   //QIE11 calibration constants
   //LMap add QIE11 ID

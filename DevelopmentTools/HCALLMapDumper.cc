@@ -289,7 +289,7 @@ void HCALLMapDumper::printngHBEMapObject(std::vector<ngHBFrontEnd> myngHBFrontEn
 
   for(auto i=0; i<myngHBFrontEnd.size(); i++)
   {
-    if( myngHBGeometry.at(i).subdet == "HBX" ) continue;
+//    if( myngHBGeometry.at(i).subdet == "HBX" ) continue;
     std::cout << " "
               << std::setw(10) << "4200458C"
               << std::setw(6) << myngHBBackEnd.at(i).ucrate << std::setw(6) << myngHBBackEnd.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHBBackEnd.at(i).uhtr_fiber << std::setw(12) << myngHBBackEnd.at(i).fiber_ch
@@ -447,8 +447,7 @@ void HCALLMapDumper::printngHEEMapObject(std::vector<ngHEFrontEnd> myngHEFrontEn
 
   for(auto i=0; i<myngHEFrontEnd.size(); i++)
   {
-    if( myngHEGeometry.at(i).subdet == "HEX" ) continue;
-    //if( myngHEFrontEnd.at(i).rbx != "HEP01" ) continue;
+//    if( myngHEGeometry.at(i).subdet == "HEX" ) continue;
     std::cout << " "
               << std::setw(10) << "4200458C"
               << std::setw(6) << myngHEBackEnd.at(i).ucrate << std::setw(6) << myngHEBackEnd.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHEBackEnd.at(i).uhtr_fiber << std::setw(12) << myngHEBackEnd.at(i).fiber_ch
@@ -752,10 +751,12 @@ void HCALLMapDumper::printHOLMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std
 
   for(auto i=0; i<myHOFrontEnd.size(); i++)
   { 
+    int emapdepth = 0;
+    myHOGeometry.at(i).subdet == "HOX" ? emapdepth = -999 : emapdepth = myHOGeometry.at(i).depth;
     std::cout 
               << " "
               //<< "HOGeometry(side,eta,phi,dphi,depth,subdet): "
-              << std::setw(6) << myHOGeometry.at(i).side << std::setw(6) << myHOGeometry.at(i).eta << std::setw(6) << myHOGeometry.at(i).phi << std::setw(6) << myHOGeometry.at(i).dphi << std::setw(6) << myHOGeometry.at(i).depth << std::setw(6) << myHOGeometry.at(i).subdet
+              << std::setw(6) << myHOGeometry.at(i).side << std::setw(6) << myHOGeometry.at(i).eta << std::setw(6) << myHOGeometry.at(i).phi << std::setw(6) << myHOGeometry.at(i).dphi << std::setw(6) << emapdepth << std::setw(6) << myHOGeometry.at(i).subdet
               //ngRBX
               << std::setw(9) << myHOFrontEnd.at(i).rbx
               //<< "HOSiPM(Sector, Pixel, Letter Code): "
@@ -853,7 +854,24 @@ void HCALLMapDumper::printHOCalibLMapObject(std::vector<HOCalib> myHOCalib)
   }
   return;
 }
-
+// NO HO EmapCalib yet since index seems assigned unregularly, direct imported from officialMap/HO_CU_emap_2018_K.txt for now.
+/*
+void HCALLMapDumper::printHOCalibEMapObject(std::vector<HOCalib> myHOCalib)
+{
+  std::cout << "#Dumping HO Calib EMap Object..." << std::endl;
+  //#       i  cr  sl  tb  dcc  spigot  fiber/slb  fibch/slbch  subdet  eta  phi  depth
+  std::cout << "#"
+            << std::setw(10) <<"i"
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "spigot" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch"
+            << std::setw(9) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep"
+  for(auto i=0;i<myHOCalib.size();i++)
+  {
+    std::cout << " "
+              << std::setw(10) << 
+  }
+  return;
+}
+*/
 void HCALLMapDumper::printngHBHEUMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower, std::vector<ngHBTriggerTowerFiber> myngHBTriggerTowerFiber,
                                                 std::vector<ngHBCalib> myngHBCalib,
                                                 std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower,
@@ -1093,10 +1111,12 @@ void HCALLMapDumper::printHOUMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std
 
   for(auto i=0; i<myHOFrontEnd.size(); i++)
   { 
+    int emapdepth = 0;
+    myHOGeometry.at(i).subdet == "HOX" ? emapdepth = -999 : emapdepth = myHOGeometry.at(i).depth;
     std::cout 
               << " "
               //<< "HOGeometry(side,eta,phi,dphi,depth,subdet): "
-              << std::setw(6) << myHOGeometry.at(i).side << std::setw(6) << myHOGeometry.at(i).eta << std::setw(6) << myHOGeometry.at(i).phi << std::setw(6) << myHOGeometry.at(i).dphi << std::setw(6) << myHOGeometry.at(i).depth << std::setw(9) << myHOGeometry.at(i).subdet
+              << std::setw(6) << myHOGeometry.at(i).side << std::setw(6) << myHOGeometry.at(i).eta << std::setw(6) << myHOGeometry.at(i).phi << std::setw(6) << myHOGeometry.at(i).dphi << std::setw(6) << emapdepth << std::setw(9) << myHOGeometry.at(i).subdet
               //ngRBX
               << std::setw(9) << myHOFrontEnd.at(i).rbx
               //<< "HOSiPM(Sector, Pixel, Letter Code): "
@@ -1809,6 +1829,8 @@ void HCALLMapDumper::makedbHOLMapObject(std::string HCALLMapDbStr, std::string H
   
   for(auto i=0; i<myHOFrontEnd.size(); i++)
   {
+    int emapdepth = 0;
+    myHOGeometry.at(i).subdet == "HOX" ? emapdepth = -999 : emapdepth = myHOGeometry.at(i).depth;
     std::string one = "INSERT INTO " + HOTableStr + "(" \
                       "ID," \
                       "Side,Eta,Phi,dPhi,Depth,Det," \
@@ -1819,7 +1841,7 @@ void HCALLMapDumper::makedbHOLMapObject(std::string HCALLMapDbStr, std::string H
                       "QIEid) ";
     std::string two = "VALUES("
                       +std::to_string(i)+","
-                      +std::to_string(myHOGeometry.at(i).side)+","+std::to_string(myHOGeometry.at(i).eta)+","+std::to_string(myHOGeometry.at(i).phi)+","+std::to_string(myHOGeometry.at(i).dphi)+","+std::to_string(myHOGeometry.at(i).depth)+",'"+myHOGeometry.at(i).subdet+"','"
+                      +std::to_string(myHOGeometry.at(i).side)+","+std::to_string(myHOGeometry.at(i).eta)+","+std::to_string(myHOGeometry.at(i).phi)+","+std::to_string(myHOGeometry.at(i).dphi)+","+std::to_string(emapdepth)+",'"+myHOGeometry.at(i).subdet+"','"
                       +myHOFrontEnd.at(i).rbx+"',"
                       +std::to_string(myHOSiPM.at(i).sector)+","+std::to_string(myHOSiPM.at(i).pixel)+",'"+myHOSiPM.at(i).letter_code+"',"
                       +std::to_string(myHOFrontEnd.at(i).qie8)+","+std::to_string(myHOFrontEnd.at(i).qie8_ch)+","+std::to_string(myHOFrontEnd.at(i).rm)+","+std::to_string(myHOFrontEnd.at(i).rm_fiber)+","+std::to_string(myHOFrontEnd.at(i).fiber_ch)+","
@@ -1891,9 +1913,11 @@ void HCALLMapDumper::makedbHOUMapObject(std::string HCALLMapDbStr, std::string H
                     "QIEid) ";
   for(i=0; i<myHOFrontEnd.size(); i++)
   {
+    int emapdepth = 0;
+    myHOGeometry.at(i).subdet == "HOX" ? emapdepth = -999 : emapdepth = myHOGeometry.at(i).depth;
     std::string two = "VALUES("
                       +std::to_string(i)+","
-                      +std::to_string(myHOGeometry.at(i).side)+","+std::to_string(myHOGeometry.at(i).eta)+","+std::to_string(myHOGeometry.at(i).phi)+","+std::to_string(myHOGeometry.at(i).dphi)+","+std::to_string(myHOGeometry.at(i).depth)+",'"+myHOGeometry.at(i).subdet+"','"
+                      +std::to_string(myHOGeometry.at(i).side)+","+std::to_string(myHOGeometry.at(i).eta)+","+std::to_string(myHOGeometry.at(i).phi)+","+std::to_string(myHOGeometry.at(i).dphi)+","+std::to_string(emapdepth)+",'"+myHOGeometry.at(i).subdet+"','"
                       +myHOFrontEnd.at(i).rbx+"',"
                       +std::to_string(myHOSiPM.at(i).sector)+","
                       +std::to_string(myHOFrontEnd.at(i).qie8)+","+std::to_string(myHOFrontEnd.at(i).qie8_ch)+","+std::to_string(myHOFrontEnd.at(i).rm)+","+std::to_string(myHOFrontEnd.at(i).rm_fiber)+","+std::to_string(myHOFrontEnd.at(i).fiber_ch)+","

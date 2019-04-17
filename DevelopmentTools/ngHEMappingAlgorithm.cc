@@ -208,7 +208,7 @@ void ngHEMappingAlgorithm::ConstructngHEBackEnd(int sideid, int rbxrmid, int rmf
     std::cout << "negative uhtr fiber from patch panel mapping??!! Please check!" << std::endl; 
     std::cout << "RBX RM RM_FI : " << rbx << " "<< rm << " " << rm_fiber << std::endl;
   }
-  //finally set dodec from back end side
+  //finaly set dodec from back end side
   thisngHEBackEnd.dodec = (thisngHEBackEnd.uhtr_fiber)%12+1;
   //set backend fiber channel : same as the front end one
   thisngHEBackEnd.fiber_ch = rmfifichid%Nfiber_ch;
@@ -226,24 +226,42 @@ void ngHEMappingAlgorithm::ConstructngHEGeometry(int sideid, int rbxrmid, int rm
 {
   ngHEGeometry thisngHEGeometry;
   //side -> subdet -> eta, depth -> dphi -> phi
+  int rm = rbxrmid%NrmngHE+1;
   thisngHEGeometry.side = sideid;
-  
-  if(rbxrmid%NrmngHE == 0)
+//  ( (rbxrmid%4==1 && rmfifichid==29 ) || (rbxrmid%4==1 && rmfifichid==37 ) || (rbxrmid%4==2 && rmfifichid==7 ) || (rbxrmid%4==2 && rmfifichid==18 ) ) ? thisngHEGeometry.subdet = "HEX" : thisngHEGeometry.subdet = "HE";
+  ( (rm==2 && rmfifichid==29 ) || (rm==2 && rmfifichid==37 ) || (rm==3 && rmfifichid==7 ) || (rm%4==3 && rmfifichid==18 ) ) ? thisngHEGeometry.subdet = "HEX" : thisngHEGeometry.subdet = "HE";
+  if(thisngHEGeometry.subdet == "HEX") {
+    int bv;
+    std::vector<int> bvVector;
+    if     (rm==1||rm==3){ std::copy(std::begin(bv_rm13), std::end(bv_rm13), std::back_inserter(bvVector)); }
+    else if(rm==2||rm==4){ std::copy(std::begin(bv_rm24), std::end(bv_rm24), std::back_inserter(bvVector)); }
+    else{ std::cout << "rm is not 1234??" << std::endl; }
+    bv = bvVector[rmfifichid];
+    auto it = ngHEmappingBV.find(bv);
+    if (it != ngHEmappingBV.end()){
+      auto result = findInVector<int>(bvVector, it->second);
+      if(result.first) rmfifichid=result.second; //replace rmfifichid to use the eta phi of the adjacent SiPM for HEX channels
+      else std::cout << "HEX: cannot find mapped bv!" << std::endl;
+    }
+    else std::cout << "HEX: cannot find bv in the array: ngHEmappingBV!" << std::endl;
+  }
+
+  if(rm == 1)
   { 
     thisngHEGeometry.eta = ngHEetaInrmfifichid_RM1[rmfifichid]; 
     thisngHEGeometry.depth = ngHEdepInrmfifichid_RM1[rmfifichid]; 
   }
-  else if(rbxrmid%NrmngHE == 1)
+  else if(rm == 2)
   {
     thisngHEGeometry.eta = ngHEetaInrmfifichid_RM2[rmfifichid];
     thisngHEGeometry.depth = ngHEdepInrmfifichid_RM2[rmfifichid];
   }
-  else if(rbxrmid%NrmngHE == 2)
+  else if(rm == 3)
   {
     thisngHEGeometry.eta = ngHEetaInrmfifichid_RM3[rmfifichid];
     thisngHEGeometry.depth = ngHEdepInrmfifichid_RM3[rmfifichid];
   }
-  else if(rbxrmid%NrmngHE == 3)
+  else if(rm == 4)
   {
     thisngHEGeometry.eta = ngHEetaInrmfifichid_RM4[rmfifichid];
     thisngHEGeometry.depth = ngHEdepInrmfifichid_RM4[rmfifichid];
@@ -270,21 +288,17 @@ void ngHEMappingAlgorithm::ConstructngHEGeometry(int sideid, int rbxrmid, int rm
     else thisngHEGeometry.phi = 0;
   }
   
-  //Over write everything for HEX channels ?
-  //( rbxrmid%2==1 && (rmfifichid == 16 || rmfifichid == 17) ) ? thisngHEGeometry.subdet = "HEX" : thisngHEGeometry.subdet = "HE";
-  ( (rbxrmid%4==1 && rmfifichid==29 ) || (rbxrmid%4==1 && rmfifichid==37 ) || (rbxrmid%4==2 && rmfifichid==7 ) || (rbxrmid%4==2 && rmfifichid==18 ) ) ? thisngHEGeometry.subdet = "HEX" : thisngHEGeometry.subdet = "HE";
+  //Over write depth and dphi for HEX channels
 
   if(thisngHEGeometry.subdet == "HEX") 
   {
     //cross check HEX channel with ngHEetaInrmfifichid array
-    if(thisngHEGeometry.eta!=0 || thisngHEGeometry.depth!=0) std::cout << "Wrong HEX channel map!" << std::endl;
-    thisngHEGeometry.eta = 0;
-    thisngHEGeometry.phi = 0;
-    thisngHEGeometry.depth = 0;
+    //if(thisngHEGeometry.eta!=0 || thisngHEGeometry.depth!=0) std::cout << "Wrong HEX channel map!" << std::endl;
+    thisngHEGeometry.depth = -999;
     thisngHEGeometry.dphi = 0;
   }
   myngHEGeometry.push_back(thisngHEGeometry);
-  ConstructngHETriggerTower(thisngHEGeometry.eta, thisngHEGeometry.phi);
+  ConstructngHETriggerTower(thisngHEGeometry.eta, thisngHEGeometry.phi, thisngHEGeometry.subdet);
   return ;
 }
 
@@ -298,8 +312,8 @@ void ngHEMappingAlgorithm::ConstructngHESiPM(int sideid, int rbxrmid, int rmfifi
   //rm2: 40 48 21 22 23 24 7 6 5 4 15 3 45 31 39 46 32 47 8 16 14 13 30 29 41 33 35 43 42 18 38 37 44 36 28 34 1 2 10 11 12 17 9 27 26 25 20 19
   //rm3: 16 30 31 32 21 22 8 7 15 14 13 24 44 36 37 45 29 39 23 38 40 48 47 46 33 26 42 34 35 43 28 27 12 11 1 9 2 3 4 5 10 6 41 25 20 19 18 17
   //rm4: 40 48 21 22 23 24 7 6 5 4 15 3 45 31 39 46 32 47 8 16 14 13 30 29 41 33 35 43 42 18 38 37 44 36 28 34 1 2 10 11 12 17 9 27 26 25 20 19
-  const int bv_rm13[Nrm_fiber*Nfiber_ch] = {16,30,31,32,21,22,8,7,15,14,13,24,44,36,37,45,29,39,23,38,40,48,47,46,33,26,42,34,35,43,28,27,12,11,1,9,2,3,4,5,10,6,41,25,20,19,18,17};
-  const int bv_rm24[Nrm_fiber*Nfiber_ch] = {40,48,21,22,23,24,7,6,5,4,15,3,45,31,39,46,32,47,8,16,14,13,30,29,41,33,35,43,42,18,38,37,44,36,28,34,1,2,10,11,12,17,9,27,26,25,20,19};
+//  const int bv_rm13[Nrm_fiber*Nfiber_ch] = {16,30,31,32,21,22,8,7,15,14,13,24,44,36,37,45,29,39,23,38,40,48,47,46,33,26,42,34,35,43,28,27,12,11,1,9,2,3,4,5,10,6,41,25,20,19,18,17};
+//  const int bv_rm24[Nrm_fiber*Nfiber_ch] = {40,48,21,22,23,24,7,6,5,4,15,3,45,31,39,46,32,47,8,16,14,13,30,29,41,33,35,43,42,18,38,37,44,36,28,34,1,2,10,11,12,17,9,27,26,25,20,19};
   if     (rm==1||rm==3){ thisngHESiPM.bv = bv_rm13[rmfifichid]; }
   else if(rm==2||rm==4){ thisngHESiPM.bv = bv_rm24[rmfifichid]; }
   else{ std::cout << "rm is not 1234??" << std::endl; }
@@ -307,11 +321,15 @@ void ngHEMappingAlgorithm::ConstructngHESiPM(int sideid, int rbxrmid, int rmfifi
   return ;
 }
 
-void ngHEMappingAlgorithm::ConstructngHETriggerTower(int eta, int phi)
+void ngHEMappingAlgorithm::ConstructngHETriggerTower(int eta, int phi, std::string subdet)
 {
   ngHETriggerTower thisngHETriggerTower;
   thisngHETriggerTower.trg_fiber = -1;
-  if(eta<=0 || phi<=0) 
+  if(subdet == "HEX"){
+    thisngHETriggerTower.trg_fiber = -1;
+    thisngHETriggerTower.trg_fiber_ch = -1;
+  }
+  else if(eta<=0 || phi<=0) 
   {
     thisngHETriggerTower.trg_fiber = -1;
     thisngHETriggerTower.trg_fiber_ch = -1;       

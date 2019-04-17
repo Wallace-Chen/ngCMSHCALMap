@@ -234,7 +234,7 @@ void ngHBMappingAlgorithm::ConstructngHBGeometry(int sideid, int rbxrmid, int rm
   ( (rm==1 && rmfifichid==18) || (rm==2 && rmfifichid==8) || (rm==3 && rmfifichid==18) || (rm==4 && rmfifichid==8) ) ? thisngHBGeometry.subdet = "HBX" : thisngHBGeometry.subdet = "HB";
   if(thisngHBGeometry.subdet == "HBX"){
     if(!(thisngHBGeometry.eta==16 && thisngHBGeometry.depth==4)) std::cout << "Wrong HBX channel map!" << std::endl;
-    thisngHBGeometry.depth = 0; // overwrite depth for now
+    thisngHBGeometry.depth = -999; // overwrite depth for now
   }
 
   myngHBGeometry.push_back(thisngHBGeometry);
@@ -288,8 +288,8 @@ void ngHBMappingAlgorithm::ConstructngHBTriggerTowerFiber(int eta, int phi, int 
   thisngHBTriggerTowerFiber.trg_fiber = -1;
   if(eta<=0 || phi<=0 || depth<=0)
   {
-    thisngHBTriggerTowerFiber.trg_fiber = 99;
-    thisngHBTriggerTowerFiber.trg_fiber_ch = 99;
+    thisngHBTriggerTowerFiber.trg_fiber = -1;
+    thisngHBTriggerTowerFiber.trg_fiber_ch = -1;
   }
   else
   {
