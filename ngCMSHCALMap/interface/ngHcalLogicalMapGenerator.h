@@ -1,10 +1,10 @@
-#ifndef HcalLogicalMapGenerator_h
-#define HcalLogicalMapGenerator_h
+#ifndef ngHcalLogicalMapGenerator_h
+#define ngHcalLogicalMapGenerator_h
 
 #include <tuple>
 #include <algorithm>
 #include <vector>
-#include "CalibFormats/HcalObjects/interface/HcalLogicalMap.h"
+#include "ngCMSHCALMap/ngCMSHCALMap/interface/ngHcalLogicalMap.h"
 
 class HcalTopology;
 
@@ -181,13 +181,13 @@ namespace box_tools
 };
 
 //####################//
-class HcalLogicalMapGenerator 
+class ngHcalLogicalMapGenerator 
 {
   public:
          
-    HcalLogicalMapGenerator( );
-    ~HcalLogicalMapGenerator( );
-    HcalLogicalMap createMap(const HcalTopology* topo, unsigned int mapIOV = 5);
+    ngHcalLogicalMapGenerator( );
+    ~ngHcalLogicalMapGenerator( );
+    ngHcalLogicalMap createMap(const HcalTopology* topo, unsigned int mapIOV = 5);
 
   private:
 

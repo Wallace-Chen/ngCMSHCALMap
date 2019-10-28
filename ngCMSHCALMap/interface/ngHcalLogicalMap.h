@@ -1,7 +1,7 @@
-#ifndef HcalLogicalMap_h
-#define HcalLogicalMap_h
+#ifndef ngHcalLogicalMap_h
+#define ngHcalLogicalMap_h
 
-#include "CalibFormats/HcalObjects/interface/HcalMappingEntry.h"
+#include "ngCMSHCALMap/ngCMSHCALMap/interface/ngHcalMappingEntry.h"
 #include "CondFormats/HcalObjects/interface/HcalElectronicsMap.h"
 #include <vector>
 
@@ -13,11 +13,11 @@
 
 class HcalTopology;
 
-class HcalLogicalMap 
+class ngHcalLogicalMap 
 {
   public:
          
-    HcalLogicalMap(const HcalTopology*,
+    ngHcalLogicalMap(const HcalTopology*,
                    std::vector<HBHEHFLogicalMapEntry>&,
 		   std::vector<HOHXLogicalMapEntry>&,
 	           std::vector<CALIBLogicalMapEntry>&,
@@ -33,7 +33,7 @@ class HcalLogicalMap
 		   std::vector<uint32_t>&,
 		   std::vector<uint32_t>&);
 
-    ~HcalLogicalMap();
+    ~ngHcalLogicalMap();
 
     void checkHashIds();
     void checkElectronicsHashIds() ;

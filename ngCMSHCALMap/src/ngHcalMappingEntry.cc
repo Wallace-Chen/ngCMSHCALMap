@@ -2,7 +2,7 @@
 #include "DataFormats/HcalDetId/interface/HcalOtherDetId.h"
 #include "DataFormats/HcalDetId/interface/HcalSubdetector.h"
 
-#include "CalibFormats/HcalObjects/interface/HcalMappingEntry.h"
+#include "ngCMSHCALMap/ngCMSHCALMap/interface/ngHcalMappingEntry.h"
 
 #include <iostream>
 #include <fstream>

@@ -541,6 +541,7 @@ void HCALLMapDumper::printngHECalibEMapObject(std::vector<ngHECalib> myngHECalib
   
   for(auto i=0; i<myngHECalib.size(); i++)
   { 
+    if(myngHECalib.at(i).depth == 7) continue;//exclude pedestal channels, only allow those channels pass for EMapCalib, PedLMap will allow whole channels
     std::cout << " "
               << std::setw(10) << "4200458C"
               << std::setw(6) << myngHECalib.at(i).ucrate << std::setw(6) << myngHECalib.at(i).uhtr << std::setw(6) << "u" << std::setw(6) << 0 << std::setw(8) << 0 << std::setw(8) << myngHECalib.at(i).uhtr_fiber << std::setw(12) << myngHECalib.at(i).fiber_ch 

@@ -204,7 +204,7 @@ void ngHBMappingAlgorithm::ConstructngHBBackEnd(int sideid, int rbxrmid, int rmf
   //set tmp fed id
   //backend slot 7 to 12 odd number backend slot 1 to 6 even number, 
   const std::map<int, std::pair<int, int> > ngHBufedidInucrate = { {20,{1102,1103}},{21,{1104,1105}},{24,{1100,1101}},{25,{1106,1107}},{30,{1116,1117}},{31,{1108,1109}},{34,{1114,1115}},{35,{1110,1111}},{37,{1112,1113}} };
-  thisngHBBackEnd.uhtr <= 6 ? thisngHBBackEnd.ufedid = ((ngHBufedidInucrate.find(thisngHBBackEnd.ucrate))->second).second : thisngHBBackEnd.ufedid = ((ngHBufedidInucrate.find(thisngHBBackEnd.ucrate))->second).first;
+  thisngHBBackEnd.uhtr <= 6 ? thisngHBBackEnd.ufedid = ((ngHBufedidInucrate.find(thisngHBBackEnd.ucrate))->second).first : thisngHBBackEnd.ufedid = ((ngHBufedidInucrate.find(thisngHBBackEnd.ucrate))->second).second;
   myngHBBackEnd.push_back(thisngHBBackEnd);
   return ;
 }

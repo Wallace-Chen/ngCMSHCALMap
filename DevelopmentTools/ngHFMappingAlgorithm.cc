@@ -494,7 +494,9 @@ void ngHFMappingAlgorithm::ConstructngHFCalib(int sideid, int rbxqie10id, int qi
 
   //set up backend part
   thisngHFCalib.ucrate = 38;
-  thisngHFCalib.uhtr = 6;
+  // On demand from Dick, era=N HCAL maps: HF calib uhtr changed from 6 to 9 (see email Era N HCAL maps on 12 Oct 2019.)
+  //thisngHFCalib.uhtr = 6;
+  thisngHFCalib.uhtr = 9;
   sideid > 0 ? thisngHFCalib.uhtr_fiber = rbxqie10id/Nqie10Calib : thisngHFCalib.uhtr_fiber = rbxqie10id/Nqie10Calib + 4;
   thisngHFCalib.ufedid = 1134;
 
