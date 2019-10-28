@@ -1,7 +1,7 @@
 #include "DataFormats/HcalDetId/interface/HcalGenericDetId.h"
 #include "DataFormats/HcalDetId/interface/HcalOtherDetId.h"
 #include "Geometry/CaloTopology/interface/HcalTopology.h"
-#include "CalibFormats/HcalObjects/interface/HcalLogicalMap.h"
+#include "ngCMSHCALMap/ngCMSHCALMap/interface/ngHcalLogicalMap.h"
 
 #include <string>
 #include <cstring>
@@ -16,7 +16,7 @@
 
 using namespace std;
 
-HcalLogicalMap::HcalLogicalMap(const HcalTopology* topo,std::vector<HBHEHFLogicalMapEntry>& HBHEHFEntries,
+ngHcalLogicalMap::ngHcalLogicalMap(const HcalTopology* topo,std::vector<HBHEHFLogicalMapEntry>& HBHEHFEntries,
 			       std::vector<HOHXLogicalMapEntry>& HOHXEntries,
 			       std::vector<CALIBLogicalMapEntry>& CALIBEntries,
 			       //std::vector<ZDCLogicalMapEntry>& ZDCEntries,
@@ -32,24 +32,25 @@ HcalLogicalMap::HcalLogicalMap(const HcalTopology* topo,std::vector<HBHEHFLogica
 			       std::vector<uint32_t>& HxCalibHash2Entry) : topo_(topo)
 
 {
-  HBHEHFEntries_.resize(HBHEHFEntries.size());
-  HOHXEntries_.resize(HOHXEntries.size());
-  CALIBEntries_.resize(CALIBEntries.size());
+//  HBHEHFEntries_.resize(HBHEHFEntries.size());
+//  HOHXEntries_.resize(HOHXEntries.size());
+//  CALIBEntries_.resize(CALIBEntries.size());
   //ZDCEntries_.resize(ZDCEntries.size());
-  HTEntries_.resize(HTEntries.size());
-  OfflineDatabase_.resize(OfflineDatabase.size());
-  QIEMaps_.resize(QIEMaps.size());
+//  HTEntries_.resize(HTEntries.size());
+//  OfflineDatabase_.resize(OfflineDatabase.size());
+//  QIEMaps_.resize(QIEMaps.size());
 
-  LinearIndex2Entry_.resize(LinearIndex2Entry.size());
-  HbHash2Entry_.resize(HbHash2Entry.size());
-  HeHash2Entry_.resize(HeHash2Entry.size());
-  HfHash2Entry_.resize(HfHash2Entry.size());
-  HtHash2Entry_.resize(HtHash2Entry.size());
-  HoHash2Entry_.resize(HoHash2Entry.size());
-  HxCalibHash2Entry_.resize(HxCalibHash2Entry.size());
+//  LinearIndex2Entry_.resize(LinearIndex2Entry.size());
+//  HbHash2Entry_.resize(HbHash2Entry.size());
+//  HeHash2Entry_.resize(HeHash2Entry.size());
+//  HfHash2Entry_.resize(HfHash2Entry.size());
+//  HtHash2Entry_.resize(HtHash2Entry.size());
+//  HoHash2Entry_.resize(HoHash2Entry.size());
+//  HxCalibHash2Entry_.resize(HxCalibHash2Entry.size());
   //ZdcHash2Entry_.resize(ZdcHash2Entry.size());
   
-  copy(HBHEHFEntries.begin(),HBHEHFEntries.end(),HBHEHFEntries_.begin());
+  cout << "HBHEHFEntries.size(): " << HBHEHFEntries.size() << endl;
+  //copy(HBHEHFEntries.begin(),HBHEHFEntries.end(),HBHEHFEntries_.begin());
   copy(HOHXEntries.begin(),HOHXEntries.end(),HOHXEntries_.begin());
   copy(CALIBEntries.begin(),CALIBEntries.end(),CALIBEntries_.begin());
   //copy(ZDCEntries.begin(),ZDCEntries.end(),ZDCEntries_.begin());
@@ -67,11 +68,11 @@ HcalLogicalMap::HcalLogicalMap(const HcalTopology* topo,std::vector<HBHEHFLogica
   //copy(ZdcHash2Entry.begin(),ZdcHash2Entry.end(),ZdcHash2Entry_.begin());
 }
 
-HcalLogicalMap::~HcalLogicalMap()
+ngHcalLogicalMap::~ngHcalLogicalMap()
 {
 }
 
-uint32_t HcalLogicalMap::makeEntryNumber(bool isvalid, int vectorid, int entry)
+uint32_t ngHcalLogicalMap::makeEntryNumber(bool isvalid, int vectorid, int entry)
 {
   uint32_t answer=0;
   answer|=isvalid;
@@ -80,7 +81,7 @@ uint32_t HcalLogicalMap::makeEntryNumber(bool isvalid, int vectorid, int entry)
   return answer;
 }
 
-void HcalLogicalMap::printHTRLMap( unsigned int mapIOV )
+void ngHcalLogicalMap::printHTRLMap( unsigned int mapIOV )
 {  
   using namespace std;
 
@@ -184,7 +185,7 @@ void HcalLogicalMap::printHTRLMap( unsigned int mapIOV )
 }
 
 
-void HcalLogicalMap::printuHTRLMap( unsigned int mapIOV )
+void ngHcalLogicalMap::printuHTRLMap( unsigned int mapIOV )
 {  
   using namespace std;
 
@@ -225,7 +226,7 @@ void HcalLogicalMap::printuHTRLMap( unsigned int mapIOV )
     cout <<HBEFmapstr_uhtr<<" not found!"<<endl;
 }
 
-void HcalLogicalMap::printOfflineDB( unsigned int mapIOV )
+void ngHcalLogicalMap::printOfflineDB( unsigned int mapIOV )
 {  
   using namespace std;
 
@@ -268,7 +269,7 @@ void HcalLogicalMap::printOfflineDB( unsigned int mapIOV )
     cout <<OfflineDBstr<<" not found!"<<endl;
 }
 
-void HcalLogicalMap::printQIEMap( unsigned int mapIOV )
+void ngHcalLogicalMap::printQIEMap( unsigned int mapIOV )
 {  
   using namespace std;
 
@@ -311,7 +312,7 @@ void HcalLogicalMap::printQIEMap( unsigned int mapIOV )
 }
 
 //############################//
-HcalElectronicsMap HcalLogicalMap::generateHcalElectronicsMap()
+HcalElectronicsMap ngHcalLogicalMap::generateHcalElectronicsMap()
 {
   HcalElectronicsMap* theemap = new HcalElectronicsMap();
   
@@ -342,11 +343,11 @@ HcalElectronicsMap HcalLogicalMap::generateHcalElectronicsMap()
 
 //generate uHTR emap directly from lmap, for HBHE and HF
 
-void HcalLogicalMap::printEmapHBHEVME(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapHBHEVME(std::ostream& hcalemap)
 {
   char buf [1024];
 
-  for (std::vector<HBHEHFLogicalMapEntry>::const_iterator it = HBHEHFEntries_.begin(); it!=HBHEHFEntries_.end(); ++it)
+  for (std::vector<HBHEHFLogicalMapEntry>::const_iterator it = HBHEHFEntries_.begin(); it<HBHEHFEntries_.end(); it++)
   {
     if( it->mydet_ == "HB" || it->mydet_ == "HE" )
     {
@@ -363,11 +364,11 @@ void HcalLogicalMap::printEmapHBHEVME(std::ostream& hcalemap)
   return ;
 }
 
-void HcalLogicalMap::printEmapHBHEuTCA(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapHBHEuTCA(std::ostream& hcalemap)
 {
   char buf [1024];
 
-  for (std::vector<HBHEHFLogicalMapEntry>::const_iterator it = HBHEHFEntries_.begin(); it!=HBHEHFEntries_.end(); ++it)
+  for (std::vector<HBHEHFLogicalMapEntry>::const_iterator it = HBHEHFEntries_.begin(); it<HBHEHFEntries_.end(); it++)
   {
     if( it->mydet_ == "HB" || it->mydet_ == "HE" )
     {
@@ -383,11 +384,11 @@ void HcalLogicalMap::printEmapHBHEuTCA(std::ostream& hcalemap)
   return ;
 }
 
-void HcalLogicalMap::printEmapHFVME(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapHFVME(std::ostream& hcalemap)
 {
   char buf [1024];
 
-  for (std::vector<HBHEHFLogicalMapEntry>::const_iterator it = HBHEHFEntries_.begin(); it!=HBHEHFEntries_.end(); ++it)
+  for (std::vector<HBHEHFLogicalMapEntry>::const_iterator it = HBHEHFEntries_.begin(); it<HBHEHFEntries_.end(); it++)
   {
     if( it->mydet_ == "HF" )
     {
@@ -404,11 +405,11 @@ void HcalLogicalMap::printEmapHFVME(std::ostream& hcalemap)
   return ;
 }
 
-void HcalLogicalMap::printEmapHFuTCA(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapHFuTCA(std::ostream& hcalemap)
 {
   char buf [1024];
 
-  for (std::vector<HBHEHFLogicalMapEntry>::const_iterator it = HBHEHFEntries_.begin(); it!=HBHEHFEntries_.end(); ++it)
+  for (std::vector<HBHEHFLogicalMapEntry>::const_iterator it = HBHEHFEntries_.begin(); it<HBHEHFEntries_.end(); it++)
   {
     if( it->mydet_ == "HF" )
     {
@@ -424,11 +425,11 @@ void HcalLogicalMap::printEmapHFuTCA(std::ostream& hcalemap)
   return ;
 }
 
-void HcalLogicalMap::printEmapHOHXVME(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapHOHXVME(std::ostream& hcalemap)
 {
   char buf [1024];
 
-  for ( std::vector<HOHXLogicalMapEntry>::iterator it = HOHXEntries_.begin(); it!=HOHXEntries_.end(); ++it )
+  for ( std::vector<HOHXLogicalMapEntry>::iterator it = HOHXEntries_.begin(); it<HOHXEntries_.end(); it++ )
   {
     sprintf (buf, " %7X %3d %3d %3s %4d %7d %10d %14d %7s %5d %5d %6d",
              it->hcalDetID_,
@@ -441,11 +442,11 @@ void HcalLogicalMap::printEmapHOHXVME(std::ostream& hcalemap)
   return ;
 }
 
-void HcalLogicalMap::printEmapHTHBHEVME(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapHTHBHEVME(std::ostream& hcalemap)
 {
   char buf [1024];
 
-  for ( std::vector<HTLogicalMapEntry>::iterator it = HTEntries_.begin(); it!=HTEntries_.end(); ++it )
+  for ( std::vector<HTLogicalMapEntry>::iterator it = HTEntries_.begin(); it<HTEntries_.end(); it++ )
   {
     if( it->mydet_origin_ == "HB" || it->mydet_origin_ == "HE" )
     {
@@ -461,11 +462,11 @@ void HcalLogicalMap::printEmapHTHBHEVME(std::ostream& hcalemap)
   return ;
 }
 
-void HcalLogicalMap::printEmapHTHBHEuTCA(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapHTHBHEuTCA(std::ostream& hcalemap)
 {
   char buf [1024];
 
-  for ( std::vector<HTLogicalMapEntry>::iterator it = HTEntries_.begin(); it!=HTEntries_.end(); ++it )
+  for ( std::vector<HTLogicalMapEntry>::iterator it = HTEntries_.begin(); it<HTEntries_.end(); it++ )
   {
     if( it->mydet_origin_ == "HB" || it->mydet_origin_ == "HE" )
     {
@@ -482,11 +483,11 @@ void HcalLogicalMap::printEmapHTHBHEuTCA(std::ostream& hcalemap)
   return ;
 }
 
-void HcalLogicalMap::printEmapHTHFVME(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapHTHFVME(std::ostream& hcalemap)
 {
   char buf [1024];
 
-  for ( std::vector<HTLogicalMapEntry>::iterator it = HTEntries_.begin(); it!=HTEntries_.end(); ++it )
+  for ( std::vector<HTLogicalMapEntry>::iterator it = HTEntries_.begin(); it<HTEntries_.end(); it++ )
   {
     if( it->mydet_origin_ == "HF" )
     {
@@ -502,7 +503,7 @@ void HcalLogicalMap::printEmapHTHFVME(std::ostream& hcalemap)
   return ;
 }
 
-void HcalLogicalMap::printEmapHTHFuTCA(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapHTHFuTCA(std::ostream& hcalemap)
 {
   char buf [1024];
 
@@ -523,11 +524,11 @@ void HcalLogicalMap::printEmapHTHFuTCA(std::ostream& hcalemap)
   return ;
 }
 
-void HcalLogicalMap::printEmapHTHOVME(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapHTHOVME(std::ostream& hcalemap)
 {
   char buf [1024];
 
-  for ( std::vector<HTLogicalMapEntry>::iterator it = HTEntries_.begin(); it!=HTEntries_.end(); ++it )
+  for ( std::vector<HTLogicalMapEntry>::iterator it = HTEntries_.begin(); it<HTEntries_.end(); it++ )
   {
     if( it->mydet_origin_ == "HO" || it->mydet_origin_ == "HOX" )
     {
@@ -543,11 +544,11 @@ void HcalLogicalMap::printEmapHTHOVME(std::ostream& hcalemap)
   return ;
 }
 
-void HcalLogicalMap::printEmapCALIBHBHEVME(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapCALIBHBHEVME(std::ostream& hcalemap)
 {
   char buf [1024];
 
-  for ( std::vector<CALIBLogicalMapEntry>::iterator it = CALIBEntries_.begin(); it!=CALIBEntries_.end(); ++it )
+  for ( std::vector<CALIBLogicalMapEntry>::iterator it = CALIBEntries_.begin(); it<CALIBEntries_.end(); it++ )
   {
     if( it->mycalibsubdet_ == "CALIB_HB" || it->mycalibsubdet_ == "CALIB_HE" )
     {
@@ -563,11 +564,11 @@ void HcalLogicalMap::printEmapCALIBHBHEVME(std::ostream& hcalemap)
   return ;
 }
 
-void HcalLogicalMap::printEmapCALIBHBHEuTCA(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapCALIBHBHEuTCA(std::ostream& hcalemap)
 {
   char buf [1024];
 
-  for ( std::vector<CALIBLogicalMapEntry>::iterator it = CALIBEntries_.begin(); it!=CALIBEntries_.end(); ++it )
+  for ( std::vector<CALIBLogicalMapEntry>::iterator it = CALIBEntries_.begin(); it<CALIBEntries_.end(); it++ )
   {
     if( it->mycalibsubdet_ == "CALIB_HB" || it->mycalibsubdet_ == "CALIB_HE" )
     {
@@ -582,11 +583,11 @@ void HcalLogicalMap::printEmapCALIBHBHEuTCA(std::ostream& hcalemap)
   return ;
 }
 
-void HcalLogicalMap::printEmapCALIBHFVME(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapCALIBHFVME(std::ostream& hcalemap)
 {
   char buf [1024];
 
-  for ( std::vector<CALIBLogicalMapEntry>::iterator it = CALIBEntries_.begin(); it!=CALIBEntries_.end(); ++it )
+  for ( std::vector<CALIBLogicalMapEntry>::iterator it = CALIBEntries_.begin(); it<CALIBEntries_.end(); it++ )
   {
     if( it->mycalibsubdet_ == "CALIB_HF" )
     {
@@ -602,11 +603,11 @@ void HcalLogicalMap::printEmapCALIBHFVME(std::ostream& hcalemap)
   return ;
 }
 
-void HcalLogicalMap::printEmapCALIBHFuTCA(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapCALIBHFuTCA(std::ostream& hcalemap)
 {
   char buf [1024];
 
-  for ( std::vector<CALIBLogicalMapEntry>::iterator it = CALIBEntries_.begin(); it!=CALIBEntries_.end(); ++it )
+  for ( std::vector<CALIBLogicalMapEntry>::iterator it = CALIBEntries_.begin(); it<CALIBEntries_.end(); it++ )
   {
     if( it->mycalibsubdet_ == "CALIB_HF" )
     {
@@ -621,11 +622,11 @@ void HcalLogicalMap::printEmapCALIBHFuTCA(std::ostream& hcalemap)
   return ;
 }
 
-void HcalLogicalMap::printEmapCALIBHOVME(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapCALIBHOVME(std::ostream& hcalemap)
 {
   char buf [1024];
 
-  for ( std::vector<CALIBLogicalMapEntry>::iterator it = CALIBEntries_.begin(); it!=CALIBEntries_.end(); ++it )
+  for ( std::vector<CALIBLogicalMapEntry>::iterator it = CALIBEntries_.begin(); it<CALIBEntries_.end(); it++ )
   {
     if( it->mycalibsubdet_ == "CALIB_HO" )
     {
@@ -642,7 +643,7 @@ void HcalLogicalMap::printEmapCALIBHOVME(std::ostream& hcalemap)
 }
 
 /*
-void HcalLogicalMap::printEmapZDC(std::ostream& hcalemap)
+void ngHcalLogicalMap::printEmapZDC(std::ostream& hcalemap)
 {
   char buf [1024];
 
@@ -660,7 +661,7 @@ void HcalLogicalMap::printEmapZDC(std::ostream& hcalemap)
   return ;
 }
 */
-void HcalLogicalMap::printAllEMap(
+void ngHcalLogicalMap::printAllEMap(
                                   std::ostream& fOutputAll,
                                   std::ostream& fOutputHBHEuTCA,
                                   std::ostream& fOutputHBHEVME
@@ -731,34 +732,38 @@ void HcalLogicalMap::printAllEMap(
 
 //######################//
 
-void HcalLogicalMap::printHCALOfflineDB(FILE* hcalofflinedb)
+void ngHcalLogicalMap::printHCALOfflineDB(FILE* hcalofflinedb)
 {
-  for(std::vector<OfflineDB>::iterator it = OfflineDatabase_.begin(); it!=OfflineDatabase_.end(); ++it) 
+  int count = 1;
+  for(std::vector<OfflineDB>::iterator it = OfflineDatabase_.begin(); it<OfflineDatabase_.end(); it++) 
   {
+    std::cout << "Now: " << count++ << ", total: " << OfflineDatabase_.size() << std::endl;;
     //fprintf(hcalofflinedb,"%6d %6d ",(*it).qieid,(*it).qie_ch);
+    
     fprintf(hcalofflinedb,"%6d %6d %6d %6s ",(*it).eta,(*it).phi,(*it).depth,(*it).det);
     fprintf(hcalofflinedb,"%6d %6d ",(*it).qieid,(*it).qie_ch);
     fprintf(hcalofflinedb,"%.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f ",(*it).offsets[0],(*it).offsets[1],(*it).offsets[2],(*it).offsets[3],(*it).offsets[4],(*it).offsets[5],(*it).offsets[6],(*it).offsets[7],(*it).offsets[8],(*it).offsets[9],(*it).offsets[10],(*it).offsets[11],(*it).offsets[12],(*it).offsets[13],(*it).offsets[14],(*it).offsets[15]);   
     fprintf(hcalofflinedb,"%.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f %.5f\n",(*it).slopes[0],(*it).slopes[1],(*it).slopes[2],(*it).slopes[3],(*it).slopes[4],(*it).slopes[5],(*it).slopes[6],(*it).slopes[7],(*it).slopes[8],(*it).slopes[9],(*it).slopes[10],(*it).slopes[11],(*it).slopes[12],(*it).slopes[13],(*it).slopes[14],(*it).slopes[15]); 
+    
     //fprintf(hcalofflinedb,"%6d %6d\n",(*it).qieid,(*it).qie_ch);
   }
 }
 
 
-void HcalLogicalMap::printHCALQIEMap(FILE* hcalqiemap)
+void ngHcalLogicalMap::printHCALQIEMap(FILE* hcalqiemap)
 {
-  for(std::vector<QIEMap>::iterator it = QIEMaps_.begin(); it != QIEMaps_.end(); ++it) 
+  for(std::vector<QIEMap>::iterator it = QIEMaps_.begin(); it < QIEMaps_.end(); it++) 
   {
     fprintf(hcalqiemap,"%6s %6d %6d %6d %6d %6d\n",(*it).det,(*it).eta,(*it).phi,(*it).depth,(*it).qieid,(*it).qie_ch);
   }
 }
 
 
-void HcalLogicalMap::printHBEFMap(FILE* hbefmapfile)
+void ngHcalLogicalMap::printHBEFMap(FILE* hbefmapfile)
 {
   int titlecounter = 0;
 
-  for (std::vector<HBHEHFLogicalMapEntry>::iterator it = HBHEHFEntries_.begin(); it!=HBHEHFEntries_.end(); ++it) 
+  for (std::vector<HBHEHFLogicalMapEntry>::iterator it = HBHEHFEntries_.begin(); it<HBHEHFEntries_.end(); it++) 
   {
     titlecounter = titlecounter % 21;
     if (titlecounter == 0)
@@ -772,11 +777,11 @@ void HcalLogicalMap::printHBEFMap(FILE* hbefmapfile)
   }
 }
 
-void HcalLogicalMap::printuHTRHBEFMap(FILE* hbefuhtrmapfile)
+void ngHcalLogicalMap::printuHTRHBEFMap(FILE* hbefuhtrmapfile)
 {
   int titlecounter = 0;
 
-  for (std::vector<HBHEHFLogicalMapEntry>::iterator it = HBHEHFEntries_.begin(); it!=HBHEHFEntries_.end(); ++it) 
+  for (std::vector<HBHEHFLogicalMapEntry>::iterator it = HBHEHFEntries_.begin(); it<HBHEHFEntries_.end(); it++) 
   {
     titlecounter = titlecounter % 21;
     if (titlecounter == 0)
@@ -790,11 +795,11 @@ void HcalLogicalMap::printuHTRHBEFMap(FILE* hbefuhtrmapfile)
   }
 }
 
-void HcalLogicalMap::printHOXMap(FILE* hoxmapfile)
+void ngHcalLogicalMap::printHOXMap(FILE* hoxmapfile)
 {
   int titlecounter = 0;
 
-  for (std::vector<HOHXLogicalMapEntry>::iterator it = HOHXEntries_.begin(); it!=HOHXEntries_.end(); ++it) 
+  for (std::vector<HOHXLogicalMapEntry>::iterator it = HOHXEntries_.begin(); it<HOHXEntries_.end(); it++) 
   {
     titlecounter = titlecounter % 21;
     if (titlecounter == 0)
@@ -807,11 +812,11 @@ void HcalLogicalMap::printHOXMap(FILE* hoxmapfile)
   }    
 }
 
-void HcalLogicalMap::printCalibMap(FILE* calibmapfile)
+void ngHcalLogicalMap::printCalibMap(FILE* calibmapfile)
 {
   int titlecounter = 0;
 
-  for (std::vector<CALIBLogicalMapEntry>::iterator it = CALIBEntries_.begin(); it!=CALIBEntries_.end(); ++it) 
+  for (std::vector<CALIBLogicalMapEntry>::iterator it = CALIBEntries_.begin(); it<CALIBEntries_.end(); it++) 
   {
     titlecounter = titlecounter % 21;
     if (titlecounter == 0)
@@ -824,7 +829,7 @@ void HcalLogicalMap::printCalibMap(FILE* calibmapfile)
   }
 }
 /*
-void HcalLogicalMap::printZDCMap(FILE* zdcmapfile)
+void ngHcalLogicalMap::printZDCMap(FILE* zdcmapfile)
 {
   int titlecounter = 0;
 
@@ -841,11 +846,11 @@ void HcalLogicalMap::printZDCMap(FILE* zdcmapfile)
   }
 }
 */
-void HcalLogicalMap::printHTMap(FILE* htmapfile)
+void ngHcalLogicalMap::printHTMap(FILE* htmapfile)
 {
   int titlecounter = 0;
 
-  for (std::vector<HTLogicalMapEntry>::iterator it = HTEntries_.begin(); it!=HTEntries_.end(); ++it) 
+  for (std::vector<HTLogicalMapEntry>::iterator it = HTEntries_.begin(); it<HTEntries_.end(); it++) 
   {
     titlecounter = titlecounter % 21;
     if (titlecounter == 0)
@@ -859,25 +864,27 @@ void HcalLogicalMap::printHTMap(FILE* htmapfile)
   }
 }
 
-void HcalLogicalMap::printXMap(FILE* xmapfile)
+void ngHcalLogicalMap::printXMap(FILE* xmapfile)
 {
-  char buf [1024];
-
+  //char buf [1024];
+  int count = 1;
   fprintf(xmapfile,"#  rbx  rm  rm_fi  fi_ch  htr  fpga  htr_fiber\n");
   for (std::vector<HBHEHFLogicalMapEntry>::const_iterator it = HBHEHFEntries_.begin(); it!=HBHEHFEntries_.end(); ++it)
   {
-    if( it->myrbx_ == "HBM18" || it->myrbx_ == "HEM18" )
-    {
-      sprintf (buf, " %7s %5d %5d %5d %5d %s %5d %s",
-               (it->myrbx_).c_str(), it->myrm_, it->myrm_fi_, it->myfi_ch_, it->myhtr_, (it->mytb_).c_str(), it->my_htr_fi_, "\n"
-              );
-      fprintf(xmapfile,"%s",buf);
-    }
+    //if( it->myrbx_ == "HBM18" || it->myrbx_ == "HEM18" )
+    //if( it->myrbx_.compare("HBM18")==0 || it->myrbx_.compare("HEM18")==0 )
+    //{
+      //sprintf (buf, " %7s %5d %5d %5d %5d %s %5d %s",
+      //         (it->myrbx_).c_str(), it->myrm_, it->myrm_fi_, it->myfi_ch_, it->myhtr_, (it->mytb_).c_str(), it->my_htr_fi_, "\n"
+      //       );
+      std::cout << "Total: " << HBHEHFEntries_.size() << ", " << count++ << ": " << it->myrbx_ << it->myrm_ << it->myrm_fi_ << it->myfi_ch_ << it->myhtr_ << it->mytb_ << it->my_htr_fi_ << std::endl;
+      //fprintf(xmapfile,"%s",buf);
+    //}
   }
   return ;
 }
 
-const DetId HcalLogicalMap::getDetId(const HcalElectronicsId& eid)
+const DetId ngHcalLogicalMap::getDetId(const HcalElectronicsId& eid)
 {
   const uint32_t entry=LinearIndex2Entry_.at(eid.linearIndex());
   if ( !(entry&0x1) ) return DetId(0);
@@ -888,7 +895,7 @@ const DetId HcalLogicalMap::getDetId(const HcalElectronicsId& eid)
   return DetId(0);
 }
 
-const HcalFrontEndId HcalLogicalMap::getHcalFrontEndId(const DetId& did)
+const HcalFrontEndId ngHcalLogicalMap::getHcalFrontEndId(const DetId& did)
 {
   const HcalGenericDetId hgdi(did);
   
@@ -936,7 +943,7 @@ const HcalFrontEndId HcalLogicalMap::getHcalFrontEndId(const DetId& did)
   return HcalFrontEndId(0);
 }
 
-void HcalLogicalMap::checkIdFunctions() 
+void ngHcalLogicalMap::checkIdFunctions() 
 {
   int HBHEHF_EID_pass=0;
   int HBHEHF_EID_fail=0;
@@ -1017,7 +1024,7 @@ void HcalLogicalMap::checkIdFunctions()
   cout << "CALIB FEID (pass,fail) = (" << CALIB_FEID_pass << "," << CALIB_FEID_fail << ")" << endl;
 }
 
-void HcalLogicalMap::checkHashIds() 
+void ngHcalLogicalMap::checkHashIds() 
 {
   std::vector<int> HB_Hashes_;     // index 0
   std::vector<int> HE_Hashes_;     // index 1
@@ -1144,7 +1151,7 @@ void HcalLogicalMap::checkHashIds()
   cout << "HT HashIds (pass, collisions, non-dense) = (" << numpass[6] << "," << numfails[6] << "," << numnotdense[6] << ")" << endl;
 }
 
-void HcalLogicalMap::checkElectronicsHashIds() 
+void ngHcalLogicalMap::checkElectronicsHashIds() 
 {
   std::vector<int> Electronics_Hashes_;
 
@@ -1190,7 +1197,7 @@ void HcalLogicalMap::checkElectronicsHashIds()
 }
 
 //////XML Generation
-//void HcalLogicalMap::printXMLTables(unsigned int mapIOV){  
+//void ngHcalLogicalMap::printXMLTables(unsigned int mapIOV){  
 //  using namespace std;
 //
 //  printHBEFXML(  mapIOV );
@@ -1202,7 +1209,7 @@ void HcalLogicalMap::checkElectronicsHashIds()
 //}
 //
 //
-//void HcalLogicalMap::printHBEFXML( unsigned int mapIOV ) {
+//void ngHcalLogicalMap::printHBEFXML( unsigned int mapIOV ) {
 //  HCALLMAPXMLProcessor * theProcessor = HCALLMAPXMLProcessor::getInstance();
 //  HCALLMAPXMLDOMBlock * doc = theProcessor->createLMapHBEFXMLBase( "./data/HBEFLmapBase.xml" );
 //  HCALLMAPXMLProcessor::LMapRowHBEF hbefRow;
@@ -1218,7 +1225,7 @@ void HcalLogicalMap::checkElectronicsHashIds()
 //  theProcessor -> write( doc, "/tmp/sturdy/HBHEHFTable_"+iovString+".xml");
 //}
 //
-//void HcalLogicalMap::printHOXXML( unsigned int mapIOV ) {
+//void ngHcalLogicalMap::printHOXXML( unsigned int mapIOV ) {
 //  HCALLMAPXMLProcessor * theProcessor = HCALLMAPXMLProcessor::getInstance();
 //  HCALLMAPXMLDOMBlock * doc = theProcessor->createLMapHOXMLBase( "./data/HOXLmapBase.xml" );
 //  HCALLMAPXMLProcessor::LMapRowHO hoxRow;
@@ -1245,7 +1252,7 @@ void HcalLogicalMap::checkElectronicsHashIds()
 //
 //}
 //
-//void HcalLogicalMap::printCalibXML( unsigned int mapIOV ) {
+//void ngHcalLogicalMap::printCalibXML( unsigned int mapIOV ) {
 //  HCALLMAPXMLProcessor * theProcessor = HCALLMAPXMLProcessor::getInstance();
 //  HCALLMAPXMLDOMBlock * doc = theProcessor->createLMapCALIBXMLBase( "./data/CALIBLmapBase.xml" );
 //  HCALLMAPXMLProcessor::LMapRowCALIB calibRow;
@@ -1262,7 +1269,7 @@ void HcalLogicalMap::checkElectronicsHashIds()
 //
 //}
 //
-//void HcalLogicalMap::printHTXML( unsigned int mapIOV ) {
+//void ngHcalLogicalMap::printHTXML( unsigned int mapIOV ) {
 //  HCALLMAPXMLProcessor * theProcessor = HCALLMAPXMLProcessor::getInstance();
 //  HCALLMAPXMLDOMBlock * doc = theProcessor->createLMapHTXMLBase( "./data/HTLmapBase.xml" );
 //  HCALLMAPXMLProcessor::LMapRowHT htRow;
@@ -1279,7 +1286,7 @@ void HcalLogicalMap::checkElectronicsHashIds()
 //
 //}
 //
-//void HcalLogicalMap::printZDCXML( unsigned int mapIOV ) {
+//void ngHcalLogicalMap::printZDCXML( unsigned int mapIOV ) {
 //  HCALLMAPXMLProcessor * theProcessor = HCALLMAPXMLProcessor::getInstance();
 //  HCALLMAPXMLDOMBlock * doc = theProcessor->createLMapZDCXMLBase( "./data/ZDCLmapBase.xml" );
 //  HCALLMAPXMLProcessor::LMapRowZDC zdcRow;

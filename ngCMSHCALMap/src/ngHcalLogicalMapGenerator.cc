@@ -3,7 +3,7 @@
 #include "DataFormats/HcalDetId/interface/HcalOtherDetId.h"
 #include "DataFormats/HcalDetId/interface/HcalSubdetector.h"
 #include "Geometry/CaloTopology/interface/HcalTopology.h"
-#include "CalibCalorimetry/HcalAlgos/interface/HcalLogicalMapGenerator.h"
+#include "ngCMSHCALMap/ngCMSHCALMap/interface/ngHcalLogicalMapGenerator.h"
 
 #include <string>
 #include <sstream>
@@ -438,7 +438,7 @@ int box_tools::getHash( const std::string & ring,
 
 //##################################//
 
-HcalLogicalMapGenerator::HcalLogicalMapGenerator() 
+ngHcalLogicalMapGenerator::ngHcalLogicalMapGenerator() 
 {
   //adc and qie table; qie is entry 0, adc is entry 1. Constant across HB, HE, HO
   //int iadcquiHBHE[NRMFIBR][NFCH][2];
@@ -454,14 +454,17 @@ HcalLogicalMapGenerator::HcalLogicalMapGenerator()
   }
 }
 
-HcalLogicalMapGenerator::~HcalLogicalMapGenerator() 
+ngHcalLogicalMapGenerator::~ngHcalLogicalMapGenerator() 
 {
 
 }
 
-HcalLogicalMap HcalLogicalMapGenerator::createMap(const HcalTopology* topo, unsigned int mapIOV) 
+ngHcalLogicalMap ngHcalLogicalMapGenerator::createMap(const HcalTopology* topo, unsigned int mapIOV) 
 {
   mapIOV_ = mapIOV;
+  std::cout << "Map Generator: mapIOV: " << mapIOV_ << std::endl;
+  std::cerr << "Map Generator: mapIOV: " << mapIOV_ << std::endl;
+  printf("Beginning of createMap()\n");
 
   std::vector <HBHEHFLogicalMapEntry> HBHEHFEntries;
   std::vector <HOHXLogicalMapEntry> HOHXEntries;
@@ -546,13 +549,14 @@ HcalLogicalMap HcalLogicalMapGenerator::createMap(const HcalTopology* topo, unsi
   //buildZDCMap(topo,ZDCEntries,LinearIndex2Entry,ZdcHash2Entry);
 
   offlinedb_order(OfflineDatabase);
-  return HcalLogicalMap(topo,HBHEHFEntries,HOHXEntries,CALIBEntries,/*ZDCEntries,*/HTEntries,OfflineDatabase,QIEMaps,
+  std::cout << "Map Generator: total of HBHEHFEntries: " << HBHEHFEntries.size() << std::endl;
+  return ngHcalLogicalMap(topo,HBHEHFEntries,HOHXEntries,CALIBEntries,/*ZDCEntries,*/HTEntries,OfflineDatabase,QIEMaps,
 			LinearIndex2Entry,HbHash2Entry,HeHash2Entry,HfHash2Entry,HtHash2Entry,
 			HoHash2Entry,HxCalibHash2Entry/*CalibHash2Entry,ZdcHash2Entry*/);
 } 
 
 //build HO ReMap information, added by hua.wei@cern.ch
-void HcalLogicalMapGenerator::buildHOReMapInformation( HOReMap &myHOReMap )
+void ngHcalLogicalMapGenerator::buildHOReMapInformation( HOReMap &myHOReMap )
 {
   std::string horemap_input1, horemap_input2, horemap_input3, horemap_input4;
   horemap_input1 = std::getenv("CMSSW_BASE");
@@ -572,7 +576,7 @@ void HcalLogicalMapGenerator::buildHOReMapInformation( HOReMap &myHOReMap )
 }
 
 //function defined to grabbing qie information from files, hua.wei@cern.ch
-void HcalLogicalMapGenerator::buildHCALQIEInfo(std::vector <HBHEHFQIEInfo>& HBHEHFQIEEntries,
+void ngHcalLogicalMapGenerator::buildHCALQIEInfo(std::vector <HBHEHFQIEInfo>& HBHEHFQIEEntries,
                                                std::vector <HOR0QIEInfo>& HOR0QIEEntries,
                                                std::vector <HOR12QIEInfo>& HOR12QIEEntries)
 {
@@ -702,7 +706,7 @@ void HcalLogicalMapGenerator::buildHCALQIEInfo(std::vector <HBHEHFQIEInfo>& HBHE
     std::cout << "Unable to open file"<<std::endl;
 }
 
-void HcalLogicalMapGenerator::buildQIECardNormal(std::vector <QIECardNormal>& QIECardNormals)
+void ngHcalLogicalMapGenerator::buildQIECardNormal(std::vector <QIECardNormal>& QIECardNormals)
 {
   std::string line_fnal_db;  
   //input files;
@@ -753,7 +757,7 @@ void HcalLogicalMapGenerator::buildQIECardNormal(std::vector <QIECardNormal>& QI
 }
 
 
-void HcalLogicalMapGenerator::buildQIECardCalib(std::vector <QIECardCalib>& QIECardCalibs)
+void ngHcalLogicalMapGenerator::buildQIECardCalib(std::vector <QIECardCalib>& QIECardCalibs)
 {
   std::string line_fnal_db;  
   //input files;
@@ -803,7 +807,7 @@ void HcalLogicalMapGenerator::buildQIECardCalib(std::vector <QIECardCalib>& QIEC
 }
 
 
-//a function not in class HcalLogicalMapGenerator
+//a function not in class ngHcalLogicalMapGenerator
 bool offlinedb_key_sort(const OfflineDB &lhs, const OfflineDB &rhs)
 {
   long int key_lhs=0;
@@ -871,13 +875,13 @@ bool offlinedb_key_sort(const OfflineDB &lhs, const OfflineDB &rhs)
   return (key_lhs < key_rhs);
 }
 
-void HcalLogicalMapGenerator::offlinedb_order(std::vector <OfflineDB>& OfflineDatabase)
+void ngHcalLogicalMapGenerator::offlinedb_order(std::vector <OfflineDB>& OfflineDatabase)
 {
   std::sort(OfflineDatabase.begin(), OfflineDatabase.end(), offlinedb_key_sort);
 }
 
 
-void HcalLogicalMapGenerator::averageQIEFNAL(const std::vector <HBHEHFQIEInfo>& HBHEHFQIEEntries,
+void ngHcalLogicalMapGenerator::averageQIEFNAL(const std::vector <HBHEHFQIEInfo>& HBHEHFQIEEntries,
                                              const std::vector <HOR0QIEInfo>& HOR0QIEEntries,
                                              const std::vector <HOR12QIEInfo>& HOR12QIEEntries,
                                              const std::vector <QIECardNormal>& QIECardNormals,
@@ -1214,7 +1218,7 @@ void HcalLogicalMapGenerator::averageQIEFNAL(const std::vector <HBHEHFQIEInfo>& 
 }
 
 
-int HcalLogicalMapGenerator::matchHBHEHFQIE(int subdet, int side, int rbxno, int rm, int qie,
+int ngHcalLogicalMapGenerator::matchHBHEHFQIE(int subdet, int side, int rbxno, int rm, int qie,
                                             const std::vector <HBHEHFQIEInfo>& HBHEHFQIEEntries)
 {
   bool is_thisqie=false;
@@ -1252,7 +1256,7 @@ int HcalLogicalMapGenerator::matchHBHEHFQIE(int subdet, int side, int rbxno, int
 }
 
 
-int HcalLogicalMapGenerator::matchHOR0QIE(int rbxno, int rm, int qie, 
+int ngHcalLogicalMapGenerator::matchHOR0QIE(int rbxno, int rm, int qie, 
                                           const std::vector <HOR0QIEInfo>& HOR0QIEEntries)
 {
   bool is_thisqie=false;
@@ -1279,7 +1283,7 @@ int HcalLogicalMapGenerator::matchHOR0QIE(int rbxno, int rm, int qie,
 }
 
 
-int HcalLogicalMapGenerator::matchHOR12QIE(int side, int ring, int rbxno, int rm, int qie, 
+int ngHcalLogicalMapGenerator::matchHOR12QIE(int side, int ring, int rbxno, int rm, int qie, 
                                            const std::vector <HOR12QIEInfo>& HOR12QIEEntries)
 {
   bool is_thisqie=false;
@@ -1304,7 +1308,7 @@ int HcalLogicalMapGenerator::matchHOR12QIE(int side, int ring, int rbxno, int rm
   return -1000;
 }
 
-int HcalLogicalMapGenerator::matchNormalInfo(int qieid, int adc, char det[],
+int ngHcalLogicalMapGenerator::matchNormalInfo(int qieid, int adc, char det[],
                                              const std::vector <QIECardNormal>& QIECardNormals,
                                              const float (&fnal_hb_offsets_slopes_ave)[6][32],
                                              const float (&fnal_he_offsets_slopes_ave)[6][32],
@@ -1388,7 +1392,7 @@ int HcalLogicalMapGenerator::matchNormalInfo(int qieid, int adc, char det[],
 
 
 /*
-int HcalLogicalMapGenerator::QIECardNormalsClassify(int qieid, int adc, char det[],
+int ngHcalLogicalMapGenerator::QIECardNormalsClassify(int qieid, int adc, char det[],
                                                    const std::vector <QIECardNormal>& QIECardNormals)
 {
   std::vector<QIECardNormal>::const_iterator iter_QIECardNormals;
@@ -1424,7 +1428,7 @@ int HcalLogicalMapGenerator::QIECardNormalsClassify(int qieid, int adc, char det
 }
 */
 
-void HcalLogicalMapGenerator::buildHBEFTMap(const HcalTopology* topo,
+void ngHcalLogicalMapGenerator::buildHBEFTMap(const HcalTopology* topo,
 					    std::vector <HBHEHFLogicalMapEntry>& HBHEHFEntries,
 					    std::vector <HTLogicalMapEntry>& HTEntries,
                                             std::vector <HBHEHFQIEInfo>&  HBHEHFQIEEntries,
@@ -1893,7 +1897,7 @@ void HcalLogicalMapGenerator::buildHBEFTMap(const HcalTopology* topo,
 						  );
 
 	      HBHEHFEntries.push_back(hbeflmapentry);
-	      LinearIndex2Entry.at(hbeflmapentry.getLinearIndex())=HcalLogicalMap::makeEntryNumber(1,0,HBHEHFEntries.size()-1);
+	      LinearIndex2Entry.at(hbeflmapentry.getLinearIndex())=ngHcalLogicalMap::makeEntryNumber(1,0,HBHEHFEntries.size()-1);
 
 	      const HcalGenericDetId hgdi(hbeflmapentry.getDetId());
 	      unsigned int denseId;
@@ -2041,7 +2045,7 @@ void HcalLogicalMapGenerator::buildHBEFTMap(const HcalTopology* topo,
                   else if (iphi == 71)    iphi = 1;
                   else if (iphi % 4 == 1) iphi -= 2;
                   else if (iphi % 4 == 3) iphi += 2;
-                  else                    edm::LogInfo( "HcalLogicalMapGenerator") <<"Even iphi in HFM"<<std::endl;
+                  else                    edm::LogInfo( "ngHcalLogicalMapGenerator") <<"Even iphi in HFM"<<std::endl;
                 }
               }
               else
@@ -2260,7 +2264,7 @@ void HcalLogicalMapGenerator::buildHBEFTMap(const HcalTopology* topo,
 						  );
 
 	      HBHEHFEntries.push_back(hbeflmapentry);
-	      LinearIndex2Entry.at(hbeflmapentry.getLinearIndex())=HcalLogicalMap::makeEntryNumber(1,0,HBHEHFEntries.size()-1);
+	      LinearIndex2Entry.at(hbeflmapentry.getLinearIndex())=ngHcalLogicalMap::makeEntryNumber(1,0,HBHEHFEntries.size()-1);
 
 	      const HcalGenericDetId hgdi(hbeflmapentry.getDetId());
 	      unsigned int denseId;
@@ -2298,7 +2302,7 @@ void HcalLogicalMapGenerator::buildHBEFTMap(const HcalTopology* topo,
 } 
 
 
-int HcalLogicalMapGenerator::HO1P06_FE_SWAP (std::string rbx,
+int ngHcalLogicalMapGenerator::HO1P06_FE_SWAP (std::string rbx,
                                              int rm,
                                              std::string let_code,
                                              int iphi)
@@ -2324,7 +2328,7 @@ int HcalLogicalMapGenerator::HO1P06_FE_SWAP (std::string rbx,
 } 
 
 
-void HcalLogicalMapGenerator::buildHOXMap(const HcalTopology* topo,
+void ngHcalLogicalMapGenerator::buildHOXMap(const HcalTopology* topo,
 					  std::vector <HOHXLogicalMapEntry>& HOHXEntries,
                                           std::vector <HOR0QIEInfo>& HOR0QIEEntries,
                                           std::vector <HOR12QIEInfo>& HOR12QIEEntries,
@@ -2739,7 +2743,7 @@ void HcalLogicalMapGenerator::buildHOXMap(const HcalTopology* topo,
         else if ((ieta == 5 && iside > 0) || ieta == 4)   fpga = "top";
         else if ((ieta == 5 || ieta >= 10) && iside < 0)  fpga = "bot";
         else if ((ieta < 10 && ieta >= 6) && iside < 0)   fpga = "top";
-        else    edm::LogInfo( "HcalLogicalMapGenerator") <<"Bad fpga code"<<std::endl;
+        else    edm::LogInfo( "ngHcalLogicalMapGenerator") <<"Bad fpga code"<<std::endl;
         
         //dphi
         if   (ieta <= 20) idphi = 1;
@@ -3298,7 +3302,7 @@ void HcalLogicalMapGenerator::buildHOXMap(const HcalTopology* topo,
 					 );
 
 	HOHXEntries.push_back(hoxlmapentry);
-	LinearIndex2Entry.at(hoxlmapentry.getLinearIndex())=HcalLogicalMap::makeEntryNumber(1,1,HOHXEntries.size()-1);
+	LinearIndex2Entry.at(hoxlmapentry.getLinearIndex())=ngHcalLogicalMap::makeEntryNumber(1,1,HOHXEntries.size()-1);
 
 	const HcalGenericDetId hgdi(hoxlmapentry.getDetId());
 	unsigned int denseId;
@@ -3407,7 +3411,7 @@ void HcalLogicalMapGenerator::buildHOXMap(const HcalTopology* topo,
                                              iqieid
 					     );
 	    HOHXEntries.push_back(hoxlmapentry);
-	    LinearIndex2Entry.at(hoxlmapentry.getLinearIndex())=HcalLogicalMap::makeEntryNumber(1,1,HOHXEntries.size()-1);
+	    LinearIndex2Entry.at(hoxlmapentry.getLinearIndex())=ngHcalLogicalMap::makeEntryNumber(1,1,HOHXEntries.size()-1);
 
 	    const HcalGenericDetId hgdi(hoxlmapentry.getDetId());
 	    unsigned int denseId;
@@ -3520,7 +3524,7 @@ void HcalLogicalMapGenerator::buildHOXMap(const HcalTopology* topo,
                                              iqieid
 					     );
 	    HOHXEntries.push_back(hoxlmapentry);
-	    LinearIndex2Entry.at(hoxlmapentry.getLinearIndex())=HcalLogicalMap::makeEntryNumber(1,1,HOHXEntries.size()-1);
+	    LinearIndex2Entry.at(hoxlmapentry.getLinearIndex())=ngHcalLogicalMap::makeEntryNumber(1,1,HOHXEntries.size()-1);
 
 	    const HcalGenericDetId hgdi(hoxlmapentry.getDetId());
 	    unsigned int denseId;
@@ -3541,7 +3545,7 @@ void HcalLogicalMapGenerator::buildHOXMap(const HcalTopology* topo,
   }
 } 
 
-void HcalLogicalMapGenerator::buildCALIBMap(const HcalTopology* topo,
+void ngHcalLogicalMapGenerator::buildCALIBMap(const HcalTopology* topo,
 					    std::vector <CALIBLogicalMapEntry>& CALIBEntries,
 					    std::vector <uint32_t>& LinearIndex2Entry,
 					    std::vector <uint32_t>& HxCalibHash2Entry) 
@@ -3730,7 +3734,7 @@ void HcalLogicalMapGenerator::buildCALIBMap(const HcalTopology* topo,
                                               uhtr_icrate, iuhtr, uhtr_fpga, uhtr_dcc, uhtr_ispigot, uhtr_fi, uhtr_ifed, uhtr_trgf, uhtr_trgfc
 					     );
 	  CALIBEntries.push_back(caliblmapentry);
-	  LinearIndex2Entry.at(caliblmapentry.getLinearIndex())=HcalLogicalMap::makeEntryNumber(1,2,CALIBEntries.size()-1);
+	  LinearIndex2Entry.at(caliblmapentry.getLinearIndex())=ngHcalLogicalMap::makeEntryNumber(1,2,CALIBEntries.size()-1);
 
 	  const HcalGenericDetId hgdi(caliblmapentry.getDetId());	  
 	  const unsigned int hashedId=topo->detId2denseIdCALIB(hgdi);
@@ -3818,7 +3822,7 @@ void HcalLogicalMapGenerator::buildCALIBMap(const HcalTopology* topo,
                                             uhtr_icrate, iuhtr, uhtr_fpga, uhtr_dcc, uhtr_ispigot, uhtr_fi, uhtr_ifed, uhtr_trgf, uhtr_trgfc
 					   );
 	CALIBEntries.push_back(caliblmapentry);
-	LinearIndex2Entry.at(caliblmapentry.getLinearIndex())=HcalLogicalMap::makeEntryNumber(1,2,CALIBEntries.size()-1);
+	LinearIndex2Entry.at(caliblmapentry.getLinearIndex())=ngHcalLogicalMap::makeEntryNumber(1,2,CALIBEntries.size()-1);
 
 	const HcalGenericDetId hgdi(caliblmapentry.getDetId());	  
 	const unsigned int hashedId=topo->detId2denseIdCALIB(hgdi);
@@ -3925,7 +3929,7 @@ void HcalLogicalMapGenerator::buildCALIBMap(const HcalTopology* topo,
                                                 uhtr_icrate, iuhtr, uhtr_fpga, uhtr_dcc, uhtr_ispigot, uhtr_fi, uhtr_ifed, uhtr_trgf, uhtr_trgfc
 					       );
 	    CALIBEntries.push_back(caliblmapentry);
-	    LinearIndex2Entry.at(caliblmapentry.getLinearIndex())=HcalLogicalMap::makeEntryNumber(1,2,CALIBEntries.size()-1);
+	    LinearIndex2Entry.at(caliblmapentry.getLinearIndex())=ngHcalLogicalMap::makeEntryNumber(1,2,CALIBEntries.size()-1);
 
 	    const HcalGenericDetId hgdi(caliblmapentry.getDetId());	  
 	    const unsigned int hashedId=topo->detId2denseIdCALIB(hgdi);
@@ -3938,7 +3942,7 @@ void HcalLogicalMapGenerator::buildCALIBMap(const HcalTopology* topo,
 } 
 
 /*
-void HcalLogicalMapGenerator::buildZDCMap(const HcalTopology* topo, std::vector <ZDCLogicalMapEntry>& ZDCEntries,
+void ngHcalLogicalMapGenerator::buildZDCMap(const HcalTopology* topo, std::vector <ZDCLogicalMapEntry>& ZDCEntries,
 					  std::vector <uint32_t>& LinearIndex2Entry,
 					  std::vector <uint32_t>& ZdcHash2Entry) 
 {
@@ -4034,14 +4038,14 @@ void HcalLogicalMapGenerator::buildZDCMap(const HcalTopology* topo, std::vector 
 				      iadc, irm_fi
 				      );
       ZDCEntries.push_back(zdclmapentry);
-      LinearIndex2Entry.at(zdclmapentry.getLinearIndex())=HcalLogicalMap::makeEntryNumber(1,3,ZDCEntries.size()-1);
+      LinearIndex2Entry.at(zdclmapentry.getLinearIndex())=ngHcalLogicalMap::makeEntryNumber(1,3,ZDCEntries.size()-1);
     }
   }
 }
 */
 
 //#########################################//
-void HcalLogicalMapGenerator::ConstructTriggerTower(
+void ngHcalLogicalMapGenerator::ConstructTriggerTower(
                                                     const HcalTopology* topo,
 						    std::vector <HTLogicalMapEntry>& HTEntries,
 						    int iside, int ieta, int iphi, int idphi, int idepth, std::string det, int iwedge, int irm,

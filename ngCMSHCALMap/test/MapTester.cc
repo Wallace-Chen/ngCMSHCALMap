@@ -33,8 +33,8 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "CalibFormats/HcalObjects/interface/HcalLogicalMap.h"
-#include "CalibCalorimetry/HcalAlgos/interface/HcalLogicalMapGenerator.h"
+#include "ngCMSHCALMap/ngCMSHCALMap/interface/ngHcalLogicalMap.h"
+#include "ngCMSHCALMap/ngCMSHCALMap/interface/ngHcalLogicalMapGenerator.h"
 #include "CalibCalorimetry/HcalAlgos/interface/HcalDbASCIIIO.h"
 
 #include "FWCore/Framework/interface/ESHandle.h"
@@ -106,9 +106,11 @@ void MapTester::beginRun(const edm::EventSetup& iSetup)
  
   //std::cout << "test0" << std::endl; 
 
-  HcalLogicalMapGenerator mygen;
-  HcalLogicalMap mymap = mygen.createMap(&(*topo),mapIOV_); 
-  //std::cout << "test1" << std::endl;
+  std::cout << "before createMap()" << std::endl;
+  ngHcalLogicalMapGenerator mygen;
+  ngHcalLogicalMap mymap = mygen.createMap(&(*topo),mapIOV_); 
+  std::cout << "after createMap()" << std::endl;
+  std::cout << "HBHEHFEntries_: " << mymap.HBHEHFEntries_.size() << std::endl;
 
   //generate logical map for old HTR backend
   if (generateHTRLmap_) mymap.printHTRLMap(mapIOV_);
