@@ -95,10 +95,16 @@ Plots To be fixed: HBHE VME FE vs BE plot, crate 0 not showed, fpga how to show 
 
 - Shell script to dump the LMap and EMap:<br />
 ```
-sh dumpLMap.sh K 20180501
-sh dumpEMap.sh >> 2018HCALEMap_All_K_20180501.txt
-sh dumpFMap.sh >> 2018HCALFMap_All_K_20180501.txt
+sh dumpLMap.sh N 20191029 ./
+sh dumpEMap.sh N 20191029 ./
+sh dumpUMap.sh N 20191029 ./
 ```
+
+- Shell script to dump all Maps (Emap, Lmap, Umap) one time:<br />
+```
+sh dumpMap.sh N
+```
+You'll be prompted twice during this script.
 
 # for ngHO
 ```
