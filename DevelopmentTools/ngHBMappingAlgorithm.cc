@@ -174,27 +174,27 @@ void ngHBMappingAlgorithm::ConstructngHBBackEnd(int sideid, int rbxrmid, int rmf
   if( ismixed_ngHB )
   {
     if     (thisngHBBackEnd.ppcol==3){ thisngHBBackEnd.uhtr_fiber = (thisngHBBackEnd.pprow-1)*2+rm_fiber-2+2; }
-    else{ std::cout << "the ppCol of ngHB channel is not 3 in mixed ngHBHE slot for ngHB??!! Please check!" << std::endl; }
+    else{ std::cout << "the ppCol of ngHB channel is not 3 in mixed ngHBHE slot for ngHB!!! Please check!" << std::endl; }
   }
   else
   {
     if     (thisngHBBackEnd.ppcol==3){ thisngHBBackEnd.uhtr_fiber = thisngHBBackEnd.pprow-1; }
     else if(thisngHBBackEnd.ppcol==4){ thisngHBBackEnd.uhtr_fiber = (thisngHBBackEnd.pprow-1)*3+rm_fiber-5+12; }
-    else{ std::cout << "the ppCol of ngHB channel is neither 3 nor 4 in pure ngHB slot??!! Please check!" << std::endl; }
+    else{ std::cout << "the ppCol of ngHB channel is neither 3 nor 4 in pure ngHB slot!!! Please check!" << std::endl; }
   }
   */
 
   if( ismixed_ngHB )
   {
     if     (thisngHBBackEnd.ppcol==3 || thisngHBBackEnd.ppcol==7 ){ thisngHBBackEnd.uhtr_fiber = (thisngHBBackEnd.pprow-1)*2+rm_fiber-2+2; }
-    else{ std::cout << "the ppCol of ngHB channel is not 3 in mixed ngHBHE slot for ngHB??!! Please check!" << std::endl; }
+    else{ std::cout << "the ppCol of ngHB channel is not 3 in mixed ngHBHE slot for ngHB!!! Please check!" << std::endl; }
   }
   else
   {
     //notice here we change the order, first rm_fiber then rm!!!
     if     (thisngHBBackEnd.ppcol==3 || thisngHBBackEnd.ppcol==7){ thisngHBBackEnd.uhtr_fiber = (int(rm_fiber)/4)*4+thisngHBBackEnd.pprow-1; }
     else if(thisngHBBackEnd.ppcol==4 || thisngHBBackEnd.ppcol==8){ thisngHBBackEnd.uhtr_fiber = (rm_fiber-5)*4+thisngHBBackEnd.pprow-1+8; }
-    else{ std::cout << "the ppCol of ngHB channel is neither 3 nor 4 in pure ngHB slot??!! Please check!" << std::endl; }
+    else{ std::cout << "the ppCol of ngHB channel is neither 3 nor 4 in pure ngHB slot!!! Please check!" << std::endl; }
   }
 
   //finally set dodec from back end side
@@ -467,6 +467,6 @@ void ngHBMappingAlgorithm::GetngHBQIEInfoToLMap(
     }
     else continue;
   }
-  if(!qie11match) std::cout << "#QIE 10 card not found in front end coordinates ???!!!" << std::endl;
+  if(!qie11match) std::cout << "#QIE 10 card not found in front end coordinates !!!" << std::endl;
   return ;
 }

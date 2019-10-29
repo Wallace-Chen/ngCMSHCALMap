@@ -151,27 +151,27 @@ void HBMappingAlgorithm::ConstructHBBackEnd(int sideid, int rbxrmid, int rmfific
   if( ismixed_HB )
   {
     if     (thisHBBackEnd.ppcol==3){ thisHBBackEnd.uhtr_fiber = (thisHBBackEnd.pprow-1)*2+rm_fiber-2+2; }
-    else{ std::cout << "the ppCol of HB channel is not 3 in mixed HBHE slot for HB??!! Please check!" << std::endl; }
+    else{ std::cout << "the ppCol of HB channel is not 3 in mixed HBHE slot for HB!!! Please check!" << std::endl; }
   }
   else
   {
     if     (thisHBBackEnd.ppcol==3){ thisHBBackEnd.uhtr_fiber = thisHBBackEnd.pprow-1; }
     else if(thisHBBackEnd.ppcol==4){ thisHBBackEnd.uhtr_fiber = (thisHBBackEnd.pprow-1)*3+rm_fiber-5+12; }
-    else{ std::cout << "the ppCol of HB channel is neither 3 nor 4 in pure HB slot??!! Please check!" << std::endl; }
+    else{ std::cout << "the ppCol of HB channel is neither 3 nor 4 in pure HB slot!!! Please check!" << std::endl; }
   }
   */
 
   if( ismixed_HB )
   {
     if     (thisHBBackEnd.ppcol==3 || thisHBBackEnd.ppcol==7 ){ thisHBBackEnd.uhtr_fiber = (thisHBBackEnd.pprow-1)*2+rm_fiber-2+2; }
-    else{ std::cout << "the ppCol of HB channel is not 3 in mixed HBHE slot for HB??!! Please check!" << std::endl; }
+    else{ std::cout << "the ppCol of HB channel is not 3 in mixed HBHE slot for HB!!! Please check!" << std::endl; }
   }
   else
   {
     //notice here we change the order, first rm_fiber then rm!!!
     if     (thisHBBackEnd.ppcol==3 || thisHBBackEnd.ppcol==7){ thisHBBackEnd.uhtr_fiber = (int(rm_fiber)/4)*4+thisHBBackEnd.pprow-1; }
     else if(thisHBBackEnd.ppcol==4 || thisHBBackEnd.ppcol==8){ thisHBBackEnd.uhtr_fiber = (rm_fiber-5)*4+thisHBBackEnd.pprow-1+8; }
-    else{ std::cout << "the ppCol of HB channel is neither 3 nor 4 in pure HB slot??!! Please check!" << std::endl; }
+    else{ std::cout << "the ppCol of HB channel is neither 3 nor 4 in pure HB slot!!! Please check!" << std::endl; }
   }
 
   //finally set dodec from back end side
@@ -509,6 +509,6 @@ void HBMappingAlgorithm::GetHBQIEInfoToLMap(
     }
     else continue;
   }
-  if(!qie8match) std::cout << "#QIE 10 card not found in front end coordinates ???!!!" << std::endl;
+  if(!qie8match) std::cout << "#QIE 10 card not found in front end coordinates !!!" << std::endl;
   return ;
 }

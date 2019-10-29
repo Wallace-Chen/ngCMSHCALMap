@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <string>
 
-#include "bld/sqlite3.h"
+#include "../../bld/include/sqlite3.h"
 //#include <TSQLServer.h>
 //#include <TSQLiteServer.h>
 

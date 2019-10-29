@@ -564,6 +564,6 @@ void ngHFMappingAlgorithm::GetngHFQIEInfoToLMap(
     }
     else continue;
   }
-  if(!qie10match) std::cout << "#QIE 10 card not found in front end coordinates ???!!!" << std::endl;
+  if(!qie10match) std::cout << "#QIE 10 card not found in front end coordinates !!!" << std::endl;
   return ;
 }

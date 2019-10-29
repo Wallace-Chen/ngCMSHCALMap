@@ -179,7 +179,7 @@ void ngHEMappingAlgorithm::ConstructngHEBackEnd(int sideid, int rbxrmid, int rmf
     };
     if     (thisngHEBackEnd.ppcol==1 || thisngHEBackEnd.ppcol==5 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_mixed_c1[thisngHEBackEnd.pprow-1][rm_fiber-1]-1+12; } 
     else if(thisngHEBackEnd.ppcol==2 || thisngHEBackEnd.ppcol==6 ){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_mixed_c2[thisngHEBackEnd.pprow-1][rm_fiber-5]-1+12; }
-    else{ std::cout << "the ppCol of ngHE channel is neither 1 nor 2 in mixed HBHE slot for ngHE??!! Please check!" << std::endl; }
+    else{ std::cout << "the ppCol of ngHE channel is neither 1 nor 2 in mixed HBHE slot for ngHE!!! Please check!" << std::endl; }
   }
   else//FIXME
   {
@@ -199,13 +199,13 @@ void ngHEMappingAlgorithm::ConstructngHEBackEnd(int sideid, int rbxrmid, int rmf
     };
     if     (thisngHEBackEnd.ppcol==1 || thisngHEBackEnd.ppcol==5){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_pure_c1[thisngHEBackEnd.pprow-1][rm_fiber-1]-1; }
     else if(thisngHEBackEnd.ppcol==2 || thisngHEBackEnd.ppcol==6){ thisngHEBackEnd.uhtr_fiber = ngHEuhtrfiInpp_pure_c2[thisngHEBackEnd.pprow-1][rm_fiber-5]-1; }
-    else{ std::cout << "the ppCol of ngHE channel is neither 1 nor 2 in pure ngHE slot??!! Please check!" << std::endl; }
+    else{ std::cout << "the ppCol of ngHE channel is neither 1 nor 2 in pure ngHE slot!!! Please check!" << std::endl; }
 
     if (thisngHEBackEnd.pprow==3 || thisngHEBackEnd.pprow==4) thisngHEBackEnd.uhtr_fiber = thisngHEBackEnd.uhtr_fiber + 12;
   }
   if( thisngHEBackEnd.uhtr_fiber<0 )
   { 
-    std::cout << "negative uhtr fiber from patch panel mapping??!! Please check!" << std::endl; 
+    std::cout << "negative uhtr fiber from patch panel mapping!!! Please check!" << std::endl; 
     std::cout << "RBX RM RM_FI : " << rbx << " "<< rm << " " << rm_fiber << std::endl;
   }
   //finaly set dodec from back end side
@@ -621,7 +621,7 @@ void ngHEMappingAlgorithm::GetngHEQIEInfoToLMap(
   }
   if(!qie11match)
   { 
-    //std::cout << "# QIE 11 card not found in front end coordinates ???!!! Let's put default QIE11 id as 999992," << std::endl;
+    //std::cout << "# QIE 11 card not found in front end coordinates !!! Let's put default QIE11 id as 999992," << std::endl;
     qie11_id = 999992;
   }
   return ;

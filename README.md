@@ -12,16 +12,18 @@ cmsenv
 
 # SQLite C++ Support
 - For more details about sqlite/C++ API. See [details](https://www.sqlite.org/download.html). <br />
+Probably there's a new version when you install, please then replace the name below (sqlite-autoconf-3300100.tar.gz) with the new name you find.
 ```
 cd $CMSSW_BASE/src
-wget https://www.sqlite.org/src/tarball/sqlite.tar.gz
+wget https://www.sqlite.org/2019/sqlite-autoconf-3300100.tar.gz -O ./sqlite.tar.gz
 tar xzf sqlite.tar.gz
 mkdir bld
-cd bld
-../sqlite/configure
+cd sqlite
+./configure --prefix=$CMSSW_BASE/src/bld 
 make
-make sqlite3.c
-make test
+make install
+cp sqlite3.o ../bld/lib/
+chmod 755 ../bld/lib/sqlite3.o
 ```
 
 ## you need to install pandas >= 0.24, openpyxl and xlrd >= 1.0.0 if they are not installed by using
