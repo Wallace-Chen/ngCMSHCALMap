@@ -1,7 +1,12 @@
+## login from lxplus 7 
+
+```
+export SCRAM_ARCH=slc7_amd64_gcc700
+```
 # Setup CMSSW
 ```
-cmsrel CMSSW_8_0_0
-cd CMSSW_8_0_0/src
+cmsrel CMSSW_10_6_0
+cd CMSSW_10_6_0/src
 cmsenv
 ```
 
@@ -18,6 +23,16 @@ make
 make sqlite3.c
 make test
 ```
+
+## you need to install pandas >= 0.24, openpyxl and xlrd >= 1.0.0 if they are not installed by using
+
+## pandas is fine in lxplus7 and then you can install the rest
+
+```
+pip install openpyxl --user
+pip install xlrd --user
+```
+`--user` option you can use if you don't have the privileges to install for example on lxplus
 
 # CMS HCAL Logical Map
 ## For package owner
@@ -41,6 +56,7 @@ git remote add upstream git@github.com:weihuacern/ngCMSHCALMap.git
 ```
 git remote update
 git merge upstream/master
+git submodule update --remote --merge
 ```
 
 - Make your own change and commit. <br />
@@ -81,6 +97,22 @@ sh dumpLMap.sh K 20180501
 sh dumpEMap.sh >> 2018HCALEMap_All_K_20180501.txt
 sh dumpFMap.sh >> 2018HCALFMap_All_K_20180501.txt
 ```
+
+# for ngHO
+```
+cd $CMSSW_BASE/src/ngCMSHCALMap/DevelopmentTools/CMSngHOMAP
+./run_all.py outputdir
+```
+you will find under the output dir several subdirs 
+- `outdir/text`
+- `outdir/text_aligned`
+- `outdir/xlxs`
+
+the Full Lmap is then can be founded in `outdir/text_aligned/ngHO_Lmap_allCates_alligned.txt`
+the Full Emap is then can be founded in `outdir/text_aligned/ngHO_Emap_allCates_alligned.txt`
+
+other files/dirs are used for debugging any problem
+
 
 <!---
 # Data visualization

@@ -1,0 +1,3 @@
+[submodule "DevelopmentTools/CMSngHOMAP"]
+	path = DevelopmentTools/CMSngHOMAP
+	url = https://github.com/ashrafkasem/CMSngHOMAP
