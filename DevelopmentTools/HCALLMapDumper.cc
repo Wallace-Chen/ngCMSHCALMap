@@ -89,6 +89,45 @@ static int callback_HOUMap(void *handle, int argc, char **argv, char **azColName
   return 0;
 }
 
+static int callback_ngHOUMap(void *handle, int argc, char **argv, char **azColName){
+  std::ofstream f;
+  f.open("ngHOUMap.txt", std::ios::app | std::ios::out);
+  if (nOpen == 0 && f.good()){// file already exists, then delete
+    f.close();
+    remove("ngHOUMap.txt");
+    f.open("ngHOUMap.txt", std::ios::app | std::ios::out);
+  }
+  if(nOpen == 0){// file does not exist, then print the header
+  //Side Eta Phi dPhi Depth Det
+  //RBX 
+  //Sect Pix Let_Code
+  //QIE8 QIECH RM RM_FI FI_CH
+  //Block_Coupler Crate HTR MTP HTR_FI FEDid
+  //QIE8Id
+
+  f << "#"
+            << std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(9) << "Det"
+            << std::setw(9) << "RBX"
+            << std::setw(6) << "Sect" << std::setw(6) << "Sect" << std::setw(9) << "Let_Code"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(15) << "Block_Coupler" << std::setw(6) << "Crate" << std::setw(6) << "HTR" << std::setw(6) << "MTP" << std::setw(9) << "HTR_FI" << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIEid"
+            << std::endl;
+  }
+  f << " "
+    << std::setw(6) << argv[1]  << std::setw(6) << argv[2] << std::setw(6) << argv[3]  << std::setw(6) << argv[4] << std::setw(6) << argv[5] << std::setw(9) << argv[6]
+    << std::setw(9) << argv[7]
+    << std::setw(6) << argv[8] << std::setw(6) << argv[9] << std::setw(9) << argv[10]
+    << std::setw(6) << argv[11]  << std::setw(6) << argv[12] << std::setw(6) << argv[13] << std::setw(6) << argv[14] << std::setw(6) << argv[15] 
+    << std::setw(15) << argv[16] << std::setw(6) << argv[17] << std::setw(6) << argv[18] << std::setw(6) << argv[19] << std::setw(9) << argv[20] << std::setw(6) << argv[21]
+    << std::setw(9) << argv[22]
+    << std::endl;
+  
+  f.close();
+  nOpen ++;
+  return 0;
+}
+
 void HCALLMapDumper::printHBLMapObject(std::vector<HBFrontEnd> myHBFrontEnd, std::vector<HBBackEnd> myHBBackEnd, std::vector<HBHPD> myHBHPD, std::vector<HBGeometry> myHBGeometry, std::vector<HBTriggerTower> myHBTriggerTower)
 {
   std::cout << "#Dumping HB LMap Object..." << std::endl;
@@ -873,6 +912,125 @@ void HCALLMapDumper::printHOCalibEMapObject(std::vector<HOCalib> myHOCalib)
   return;
 }
 */
+
+void HCALLMapDumper::printngHOLMapObject(std::vector<ngHOFrontEnd> myngHOFrontEnd, std::vector<ngHOBackEnd> myngHOBackEnd, std::vector<ngHOSiPM> myngHOSiPM, std::vector<ngHOGeometry> myngHOGeometry, std::vector<ngHOTriggerTower> myngHOTriggerTower)
+{
+  //Side Eta Phi dPhi Depth Det
+  //RBX 
+  //Sect Pix Let_Code
+  //QIE8 QIECH RM RM_FI FI_CH
+  //Block_Coupler Crate HTR MTP HTR_FI FEDid
+  //QIE8Id
+
+  std::cout << "#Dumping ngHO LMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(6) << "Det"
+            << std::setw(9) << "RBX"
+            << std::setw(6) << "Sect" << std::setw(6) << "Pix" << std::setw(9) << "Let_Code"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(15) << "Block_Coupler" << std::setw(6) << "Crate" << std::setw(6) << "HTR" << std::setw(6) << "MTP" << std::setw(9) << "HTR_FI" << std::setw(9) << "FEDid"
+            << std::setw(9) << "QIEid"
+            << std::endl;
+
+  for(auto i=0; i<myngHOFrontEnd.size(); i++)
+  { 
+    int emapdepth = 0;
+    myngHOGeometry.at(i).subdet == "HOX" ? emapdepth = -999 : emapdepth = myngHOGeometry.at(i).depth;
+    std::cout 
+              << " "
+              //<< "ngHOGeometry(side,eta,phi,dphi,depth,subdet): "
+              << std::setw(6) << myngHOGeometry.at(i).side << std::setw(6) << myngHOGeometry.at(i).eta << std::setw(6) << myngHOGeometry.at(i).phi << std::setw(6) << myngHOGeometry.at(i).dphi << std::setw(6) << emapdepth << std::setw(6) << myngHOGeometry.at(i).subdet
+              //ngRBX
+              << std::setw(9) << myngHOFrontEnd.at(i).rbx
+              //<< "ngHOSiPM(Sector, Pixel, Letter Code): "
+              << std::setw(6) << myngHOSiPM.at(i).sector << std::setw(6) << myngHOSiPM.at(i).pixel << std::setw(9) << myngHOSiPM.at(i).letter_code
+              //<< "ngHOFrontEnd(qie8,qie8_ch,rm,rm_fiber,fiber_ch): "
+              << std::setw(6) << myngHOFrontEnd.at(i).qie8 << std::setw(6) << myngHOFrontEnd.at(i).qie8_ch << std::setw(6) << myngHOFrontEnd.at(i).rm << std::setw(6) << myngHOFrontEnd.at(i).rm_fiber << std::setw(6)  << myngHOFrontEnd.at(i).fiber_ch
+              //<< "ngHOBackEnd(block_coupler, crate,htr,mtp, htr_fi, fedid): "
+              << std::setw(15) << myngHOBackEnd.at(i).block_coupler << std::setw(6) << myngHOBackEnd.at(i).crate << std::setw(6) << myngHOBackEnd.at(i).htr << std::setw(6) << myngHOBackEnd.at(i).mtp << std::setw(9) << myngHOBackEnd.at(i).htr_fiber << std::setw(9) << myngHOBackEnd.at(i).fedid
+              //<< "ngHOFrontEnd(qie_id): "
+              << std::setw(9) << myngHOFrontEnd.at(i).qie8_id
+              << std::endl;
+  }
+
+  return ;
+}
+
+void HCALLMapDumper::printngHOEMapObject(std::vector<ngHOFrontEnd> myngHOFrontEnd, std::vector<ngHOBackEnd> myngHOBackEnd, std::vector<ngHOSiPM> myngHOSiPM, std::vector<ngHOGeometry> myngHOGeometry, std::vector<ngHOTriggerTower> myngHOTriggerTower)
+{ 
+  //#       i  cr  sl  tb  dcc  dodeca  fiber/slb  fibcha/slbcha  subdet  ieta  iphi  depth
+  std::cout << "#Dumping ngHO EMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(10) <<"i"  
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "dodeca" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch" 
+            << std::setw(8) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep"
+            << std::endl;
+    
+  for(auto i=0; i<myngHOFrontEnd.size(); i++)
+  { 
+    std::string emaptb = "u";
+    int emapdepth = 0;
+    myngHOGeometry.at(i).subdet == "HOX" ? emapdepth = -999 : emapdepth = myngHOGeometry.at(i).depth;
+    std::cout 
+              << " " 
+              << std::setw(10) << "4200458C"
+              << std::setw(6) << myngHOBackEnd.at(i).crate << std::setw(6) << myngHOBackEnd.at(i).htr << std::setw(6) << emaptb << std::setw(6) << "0" << std::setw(8) << myngHOBackEnd.at(i).dodeca << std::setw(8) << myngHOBackEnd.at(i).htr_fiber << std::setw(12) << myngHOFrontEnd.at(i).fiber_ch
+              << std::setw(8) << myngHOGeometry.at(i).subdet << std::setw(6) << myngHOGeometry.at(i).side * myngHOGeometry.at(i).eta << std::setw(6) << myngHOGeometry.at(i).phi << std::setw(6) << emapdepth
+              << std::endl;
+  }
+  return ;
+}
+
+void HCALLMapDumper::printngHOCalibLMapObject(std::vector<ngHOCalib> myngHOCalib)
+{
+  std::cout << "#Dumping ngHO Calib LMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(12) << "Det"
+            << std::setw(9) << "RBX"
+            << std::setw(6) << "Sect" << std::setw(6) << "Pix" << std::setw(9) << "Let_Code"  
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(15) << "Block_Coupler" << std::setw(6) << "Crate" << std::setw(6) << "HTR" << std::setw(6) << "MTP" << std::setw(9) << "HTR_FI"
+            << std::setw(9) << "FEDid"
+            << std::setw(9) << "QIEid"
+            << std::endl;
+
+  for(auto i=0;i<myngHOCalib.size();i++)
+  {
+    std::cout << " "
+              << std::setw(6) << myngHOCalib.at(i).side << std::setw(6) << myngHOCalib.at(i).eta << std::setw(6) << myngHOCalib.at(i).phi << std::setw(6) << myngHOCalib.at(i).dphi << std::setw(6) << myngHOCalib.at(i).depth << std::setw(12) << myngHOCalib.at(i).subdet
+              << std::setw(9) << myngHOCalib.at(i).rbx
+              << std::setw(6) << myngHOCalib.at(i).sector << std::setw(6) << myngHOCalib.at(i).pixel << std::setw(9) << myngHOCalib.at(i).letter_code
+              << std::setw(6) << myngHOCalib.at(i).qie8 << std::setw(6) << myngHOCalib.at(i).qie8_ch << std::setw(6) << myngHOCalib.at(i).rm << std::setw(6) << myngHOCalib.at(i).rm_fiber << std::setw(6) << myngHOCalib.at(i).fiber_ch
+              << std::setw(15) << myngHOCalib.at(i).block_coupler << std::setw(6) << myngHOCalib.at(i).crate << std::setw(6) << myngHOCalib.at(i).htr << std::setw(6) << myngHOCalib.at(i).mtp << std::setw(9) << myngHOCalib.at(i).htr_fiber
+              << std::setw(9) << myngHOCalib.at(i).fedid
+              << std::setw(9) << myngHOCalib.at(i).qie8_id
+              << std::endl;
+  }
+  return;
+}
+
+void HCALLMapDumper::printngHOCalibEMapObject(std::vector<ngHOCalib> myngHOCalib)
+{
+  std::cout << "#Dumping ngHO Calib EMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(10) <<"i"  
+            << std::setw(6) << "cr" << std::setw(6) << "sl" << std::setw(6) << "tb" << std::setw(6) << "dcc" << std::setw(8) << "dodeca" << std::setw(8) << "fib/slb" << std::setw(12) << "fibch/slbch" 
+            << std::setw(10) << "subdet" << std::setw(6) << "eta" << std::setw(6) << "phi" << std::setw(6) << "dep"
+            << std::endl;
+
+  for(auto i=0;i<myngHOCalib.size();i++)
+  {
+    std::string emaptb = "u";
+    std::cout 
+              << " " 
+              << std::setw(10) << "4200458C"
+              << std::setw(6) << myngHOCalib.at(i).crate << std::setw(6) << myngHOCalib.at(i).htr << std::setw(6) << emaptb << std::setw(6) << "0" << std::setw(8) << myngHOCalib.at(i).dodeca << std::setw(8) << myngHOCalib.at(i).htr_fiber << std::setw(12) << myngHOCalib.at(i).fiber_ch
+              << std::setw(10) << myngHOCalib.at(i).subdet << std::setw(6) << myngHOCalib.at(i).side * myngHOCalib.at(i).eta << std::setw(6) << myngHOCalib.at(i).phi << std::setw(6) << myngHOCalib.at(i).depth
+              << std::endl;
+  }
+  return;
+}
+
 void HCALLMapDumper::printngHBHEUMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector<ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower, std::vector<ngHBTriggerTowerFiber> myngHBTriggerTowerFiber,
                                                 std::vector<ngHBCalib> myngHBCalib,
                                                 std::vector<ngHEFrontEnd> myngHEFrontEnd, std::vector<ngHEBackEnd> myngHEBackEnd, std::vector<ngHESiPM> myngHESiPM, std::vector<ngHEGeometry> myngHEGeometry, std::vector<ngHETriggerTower> myngHETriggerTower,
@@ -1148,6 +1306,61 @@ void HCALLMapDumper::printHOUMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std
   return ;
 }
 
+void HCALLMapDumper::printngHOUMapObject(std::vector<ngHOFrontEnd> myngHOFrontEnd, std::vector<ngHOBackEnd> myngHOBackEnd, std::vector<ngHOSiPM> myngHOSiPM, std::vector<ngHOGeometry> myngHOGeometry, std::vector<ngHOTriggerTower> myngHOTriggerTower, std::vector<ngHOCalib> myngHOCalib)
+{
+  //Side Eta Phi dPhi Depth Det
+  //RBX 
+  //Sect Pix Let_Code
+  //QIE8 QIECH RM RM_FI FI_CH
+  //Block_Coupler Crate HTR MTP HTR_FI FEDid
+  //QIE8Id
+
+  std::cout << "#Dumping ngHO LMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(6) <<"Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(6) << "Depth" << std::setw(12) << "Det"
+            << std::setw(9) << "RBX"
+            << std::setw(6) << "Sect" << std::setw(6) << "Pix" << std::setw(9) << "Let_Code"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(6) << "RM" << std::setw(6) << "RM_FI" << std::setw(6) << "FI_CH"
+            << std::setw(15) << "Block_Coupler" << std::setw(6) << "Crate" << std::setw(6) << "HTR" << std::setw(6) << "MTP" << std::setw(9) << "HTR_FI" << std::setw(9) << "FEDid"
+            << std::setw(9) << "QIEid"
+            << std::endl;
+
+  for(auto i=0; i<myngHOFrontEnd.size(); i++)
+  { 
+    int emapdepth = 0;
+    myngHOGeometry.at(i).subdet == "HOX" ? emapdepth = -999 : emapdepth = myngHOGeometry.at(i).depth;
+    std::cout 
+              << " "
+              //<< "ngHOGeometry(side,eta,phi,dphi,depth,subdet): "
+              << std::setw(6) << myngHOGeometry.at(i).side << std::setw(6) << myngHOGeometry.at(i).eta << std::setw(6) << myngHOGeometry.at(i).phi << std::setw(6) << myngHOGeometry.at(i).dphi << std::setw(6) << emapdepth << std::setw(12) << myngHOGeometry.at(i).subdet
+              //ngRBX
+              << std::setw(9) << myngHOFrontEnd.at(i).rbx
+              //<< "ngHOSiPM(Sector, Pixel, Letter Code): "
+              << std::setw(6) << myngHOSiPM.at(i).sector << std::setw(6) << myngHOSiPM.at(i).pixel << std::setw(9) << myngHOSiPM.at(i).letter_code
+              //<< "ngHOFrontEnd(qie8,qie8_ch,rm,rm_fiber,fiber_ch): "
+              << std::setw(6) << myngHOFrontEnd.at(i).qie8 << std::setw(6) << myngHOFrontEnd.at(i).qie8_ch << std::setw(6) << myngHOFrontEnd.at(i).rm << std::setw(6) << myngHOFrontEnd.at(i).rm_fiber << std::setw(6)  << myngHOFrontEnd.at(i).fiber_ch
+              //<< "ngHOBackEnd(block_coupler, crate,htr,mtp, htr_fi, fedid): "
+              << std::setw(15) << myngHOBackEnd.at(i).block_coupler << std::setw(6) << myngHOBackEnd.at(i).crate << std::setw(6) << myngHOBackEnd.at(i).htr << std::setw(6) << myngHOBackEnd.at(i).mtp << std::setw(9) << myngHOBackEnd.at(i).htr_fiber << std::setw(9) << myngHOBackEnd.at(i).fedid
+              //<< "ngHOFrontEnd(qie_id): "
+              << std::setw(9) << myngHOFrontEnd.at(i).qie8_id
+              << std::endl;
+  }
+  for(auto i=0;i<myngHOCalib.size();i++)
+  {
+    std::cout << " "
+              << std::setw(6) << myngHOCalib.at(i).side << std::setw(6) << myngHOCalib.at(i).eta << std::setw(6) << myngHOCalib.at(i).phi << std::setw(6) << myngHOCalib.at(i).dphi << std::setw(6) << myngHOCalib.at(i).depth << std::setw(12) << myngHOCalib.at(i).subdet
+              << std::setw(9) << myngHOCalib.at(i).rbx
+              << std::setw(6) << myngHOCalib.at(i).sector << std::setw(6) << myngHOCalib.at(i).pixel << std::setw(9) << myngHOCalib.at(i).letter_code
+              << std::setw(6) << myngHOCalib.at(i).qie8 << std::setw(6) << myngHOCalib.at(i).qie8_ch << std::setw(6) << myngHOCalib.at(i).rm << std::setw(6) << myngHOCalib.at(i).rm_fiber << std::setw(6) << myngHOCalib.at(i).fiber_ch
+              << std::setw(15) << myngHOCalib.at(i).block_coupler << std::setw(6) << myngHOCalib.at(i).crate << std::setw(6) << myngHOCalib.at(i).htr << std::setw(6) << myngHOCalib.at(i).mtp << std::setw(9) << myngHOCalib.at(i).htr_fiber
+              << std::setw(9) << myngHOCalib.at(i).fedid
+              << std::setw(9) << myngHOCalib.at(i).qie8_id
+              << std::endl;
+  }
+
+  return ;
+}
+
 void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string HBTableStr,
                                         std::vector<HBFrontEnd> myHBFrontEnd, std::vector<HBBackEnd> myHBBackEnd, std::vector<HBHPD> myHBHPD, std::vector<HBGeometry> myHBGeometry, std::vector<HBTriggerTower> myHBTriggerTower)
 {
@@ -1395,7 +1608,7 @@ void HCALLMapDumper::makedbngHBCalibLMapObject(std::string HCALLMapDbStr, std::s
                             "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
                             "ngRBX TEXT NOT NULL, Wedge INT NOT NULL, " \
                             "QIE INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
-                            "Trunk INT NOT NULL, cpCol INT NOT NULL, cpRow INT NOT NULL, cpCpl TEXT NOT NULL, cpLC INT NOT NULL, cpOctFib INT NOT NULL, ribbon TEXT NOT NULL" \
+                            "Trunk INT NOT NULL, cpCol INT NOT NULL, cpRow INT NOT NULL, cpCpl TEXT NOT NULL, cpLC INT NOT NULL, cpOctFib INT NOT NULL, ribbon TEXT NOT NULL," \
                             "ppCol INT NOT NULL, ppRow INT NOT NULL, ppCpl TEXT NOT NULL, ppLC INT NOT NULL, dodec INT NOT NULL, " \
                             "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
                             "QIEid INT NOT NULL);";
@@ -1947,6 +2160,244 @@ void HCALLMapDumper::makedbHOUMapObject(std::string HCALLMapDbStr, std::string H
   }
   std::cout << "Will export the table into HOUMap.txt file ..." << std::endl;
   if(sqlite3_exec(db, OutSelect.c_str(), callback_HOUMap, 0, &zErrMsg) != SQLITE_OK)
+    std::cout << "Error occured when exporting the table: " << zErrMsg << std::endl;
+  sqlite3_close(db);
+
+  return ;
+}
+
+void HCALLMapDumper::makedbngHOCalibLMapObject(std::string HCALLMapDbStr, std::string ngHOCalibTableStr, std::vector<ngHOCalib> myngHOCalib)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc;
+
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,ngHOCalibTableStr);
+  if(TableExist)
+  { 
+    std::cout << "#Table: " << ngHOCalibTableStr <<" already in the database!! Please check!" << std::endl; return ;
+  }
+  else{ std::cout << "#Table: " << ngHOCalibTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det
+  //RBX 
+  //Sect Pix Let_Code
+  //QIE8 QIECH RM RM_FI FI_CH
+  //Block_Coupler Crate HTR MTP HTR_FI FEDid
+  //QIE8id
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHOCalibTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "RBX TEXT NOT NULL, " \
+			    "Sect INT NOT NULL, Pix INT NOT NULL, Let_Code TEXT NOT NULL, " \
+                            "QIE INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "Block_Coupler TEXT NOT NULL, Crate INT NOT NULL, HTR INT NOT NULL, MTP INT NOT NULL, HTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIEid INT NOT NULL);";
+                    
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+  
+  for(auto i=0; i<myngHOCalib.size(); i++)
+  { 
+    std::string one = "INSERT INTO " + ngHOCalibTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "RBX," \
+		      "Sect,Pix,Let_Code," \
+                      "QIE,QIECH,RM,RM_FI,FI_CH," \
+                      "Block_Coupler,Crate,HTR,MTP,HTR_FI,FEDid," \
+                      "QIEid) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myngHOCalib.at(i).side)+","+std::to_string(myngHOCalib.at(i).eta)+","+std::to_string(myngHOCalib.at(i).phi)+","+std::to_string(myngHOCalib.at(i).dphi)+","+std::to_string(myngHOCalib.at(i).depth)+",'"+myngHOCalib.at(i).subdet+"','"
+                      +myngHOCalib.at(i).rbx+"',"
+		      +std::to_string(myngHOCalib.at(i).sector)+","+std::to_string(myngHOCalib.at(i).pixel)+",'"+myngHOCalib.at(i).letter_code+"',"
+                      +std::to_string(myngHOCalib.at(i).qie8)+","+std::to_string(myngHOCalib.at(i).qie8_ch)+","+std::to_string(myngHOCalib.at(i).rm)+","+std::to_string(myngHOCalib.at(i).rm_fiber)+","+std::to_string(myngHOCalib.at(i).fiber_ch)+",'"
+                      +myngHOCalib.at(i).block_coupler+"',"+std::to_string(myngHOCalib.at(i).crate)+","+std::to_string(myngHOCalib.at(i).htr)+","+std::to_string(myngHOCalib.at(i).mtp)+","+std::to_string(myngHOCalib.at(i).htr_fiber)+","+std::to_string(myngHOCalib.at(i).fedid)+","
+                      +std::to_string(myngHOCalib.at(i).qie8_id)+");";
+ 
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  sqlite3_close(db);
+
+  return ;
+ 
+
+}
+
+void HCALLMapDumper::makedbngHOLMapObject(std::string HCALLMapDbStr, std::string ngHOTableStr,
+                                        std::vector<ngHOFrontEnd> myngHOFrontEnd, std::vector<ngHOBackEnd> myngHOBackEnd, std::vector<ngHOSiPM> myngHOSiPM, std::vector<ngHOGeometry> myngHOGeometry, std::vector<ngHOTriggerTower> myngHOTriggerTower)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc;
+
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,ngHOTableStr);
+  if(TableExist){ std::cout << "#Table: " << ngHOTableStr <<" already in the database!! Please check!" << std::endl; return ; }
+  else{ std::cout << "#Table: " << ngHOTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det
+  //RBX 
+  //Sect Pix Let_Code
+  //QIE8 QIECH RM RM_FI FI_CH
+  //Block_Coupler Crate HTR MTP HTR_FI FEDid
+  //QIE8Id
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHOTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "RBX TEXT NOT NULL, " \
+                            "Sect INT NOT NULL, Pix INT NOT NULL, Let_Code TEXT NOT NULL, " \
+                            "QIE INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "Block_Coupler TEXT NOT NULL, Crate INT NOT NULL, HTR INT NOT NULL, MTP INT NOT NULL, HTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIEid INT NOT NULL);";
+                    
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+  
+  for(auto i=0; i<myngHOFrontEnd.size(); i++)
+  {
+    int emapdepth = 0;
+    myngHOGeometry.at(i).subdet == "HOX" ? emapdepth = -999 : emapdepth = myngHOGeometry.at(i).depth;
+    std::string one = "INSERT INTO " + ngHOTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "RBX," \
+                      "Sect,Pix,Let_Code," \
+                      "QIE,QIECH,RM,RM_FI,FI_CH," \
+                      "Block_Coupler,Crate,HTR,MTP,HTR_FI,FEDid," \
+                      "QIEid) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myngHOGeometry.at(i).side)+","+std::to_string(myngHOGeometry.at(i).eta)+","+std::to_string(myngHOGeometry.at(i).phi)+","+std::to_string(myngHOGeometry.at(i).dphi)+","+std::to_string(emapdepth)+",'"+myngHOGeometry.at(i).subdet+"','"
+                      +myngHOFrontEnd.at(i).rbx+"',"
+                      +std::to_string(myngHOSiPM.at(i).sector)+","+std::to_string(myngHOSiPM.at(i).pixel)+",'"+myngHOSiPM.at(i).letter_code+"',"
+                      +std::to_string(myngHOFrontEnd.at(i).qie8)+","+std::to_string(myngHOFrontEnd.at(i).qie8_ch)+","+std::to_string(myngHOFrontEnd.at(i).rm)+","+std::to_string(myngHOFrontEnd.at(i).rm_fiber)+","+std::to_string(myngHOFrontEnd.at(i).fiber_ch)+",'"
+                      +myngHOBackEnd.at(i).block_coupler+"',"+std::to_string(myngHOBackEnd.at(i).crate)+","+std::to_string(myngHOBackEnd.at(i).htr)+","+std::to_string(myngHOBackEnd.at(i).mtp)+","+std::to_string(myngHOBackEnd.at(i).htr_fiber)+","+std::to_string(myngHOBackEnd.at(i).fedid)+","
+                      +std::to_string(myngHOFrontEnd.at(i).qie8_id)+");";
+
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  sqlite3_close(db);
+
+  return ;
+}
+
+void HCALLMapDumper::makedbngHOUMapObject(std::string HCALLMapDbStr, std::string ngHOTableStr,
+                                        std::vector<ngHOFrontEnd> myngHOFrontEnd, std::vector<ngHOBackEnd> myngHOBackEnd, std::vector<ngHOSiPM> myngHOSiPM, std::vector<ngHOGeometry> myngHOGeometry, std::vector<ngHOTriggerTower> myngHOTriggerTower,
+                                        std::vector<ngHOCalib> myngHOCalib)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc; int iuniq; int i;
+
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  std::string OutSelect = "SELECT * FROM "+ngHOTableStr+" ORDER BY Crate ASC, HTR ASC, HTR_FI ASC, FI_CH ASC;";
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,ngHOTableStr);
+  if(TableExist){ 
+    std::cout << "#Table: " << ngHOTableStr <<" already in the database!! Please check!" << std::endl; 
+    std::cout << "Will export the table into ngHOUMap.txt file ..." << std::endl;
+    if(sqlite3_exec(db, OutSelect.c_str(), callback_ngHOUMap, 0, &zErrMsg) != SQLITE_OK)
+      std::cout << "Error occured when exporting the table: " << zErrMsg << std::endl;
+    return ; 
+  }
+  else{ std::cout << "#Table: " << ngHOTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det
+  //RBX 
+  //Sect Pix Let_Code
+  //QIE8 QIECH RM RM_FI FI_CH
+  //Block_Coupler Crate HTR MTP HTR_FI FEDid
+  //QIE8Id
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHOTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "RBX TEXT NOT NULL, " \
+                            "Sect INT NOT NULL, Pix INT NOT NULL, Let_Code TEXT NOT NULL, " \
+                            "QIE INT NOT NULL, QIECH INT NOT NULL, RM INT NOT NULL, RM_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "Block_Coupler TEXT NOT NULL, Crate INT NOT NULL, HTR INT NOT NULL, MTP INT NOT NULL, HTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIEid INT NOT NULL);";
+                    
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+  
+  for(auto i=0; i<myngHOFrontEnd.size(); i++)
+  {
+    int emapdepth = 0;
+    myngHOGeometry.at(i).subdet == "HOX" ? emapdepth = -999 : emapdepth = myngHOGeometry.at(i).depth;
+    std::string one = "INSERT INTO " + ngHOTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "RBX," \
+                      "Sect,Pix,Let_Code," \
+                      "QIE,QIECH,RM,RM_FI,FI_CH," \
+                      "Block_Coupler,Crate,HTR,MTP,HTR_FI,FEDid," \
+                      "QIEid) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myngHOGeometry.at(i).side)+","+std::to_string(myngHOGeometry.at(i).eta)+","+std::to_string(myngHOGeometry.at(i).phi)+","+std::to_string(myngHOGeometry.at(i).dphi)+","+std::to_string(emapdepth)+",'"+myngHOGeometry.at(i).subdet+"','"
+                      +myngHOFrontEnd.at(i).rbx+"',"
+                      +std::to_string(myngHOSiPM.at(i).sector)+","+std::to_string(myngHOSiPM.at(i).pixel)+",'"+myngHOSiPM.at(i).letter_code+"',"
+                      +std::to_string(myngHOFrontEnd.at(i).qie8)+","+std::to_string(myngHOFrontEnd.at(i).qie8_ch)+","+std::to_string(myngHOFrontEnd.at(i).rm)+","+std::to_string(myngHOFrontEnd.at(i).rm_fiber)+","+std::to_string(myngHOFrontEnd.at(i).fiber_ch)+",'"
+                      +myngHOBackEnd.at(i).block_coupler+"',"+std::to_string(myngHOBackEnd.at(i).crate)+","+std::to_string(myngHOBackEnd.at(i).htr)+","+std::to_string(myngHOBackEnd.at(i).mtp)+","+std::to_string(myngHOBackEnd.at(i).htr_fiber)+","+std::to_string(myngHOBackEnd.at(i).fedid)+","
+                      +std::to_string(myngHOFrontEnd.at(i).qie8_id)+");";
+
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  iuniq = i;
+  for(auto i=0; i<myngHOCalib.size(); i++)
+  { 
+    std::string one = "INSERT INTO " + ngHOTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "RBX," \
+		      "Sect,Pix,Let_Code," \
+                      "QIE,QIECH,RM,RM_FI,FI_CH," \
+                      "Block_Coupler,Crate,HTR,MTP,HTR_FI,FEDid," \
+                      "QIEid) ";
+    std::string two = "VALUES("
+                      +std::to_string(i+iuniq)+","
+                      +std::to_string(myngHOCalib.at(i).side)+","+std::to_string(myngHOCalib.at(i).eta)+","+std::to_string(myngHOCalib.at(i).phi)+","+std::to_string(myngHOCalib.at(i).dphi)+","+std::to_string(myngHOCalib.at(i).depth)+",'"+myngHOCalib.at(i).subdet+"','"
+                      +myngHOCalib.at(i).rbx+"',"
+		      +std::to_string(myngHOCalib.at(i).sector)+","+std::to_string(myngHOCalib.at(i).pixel)+",'"+myngHOCalib.at(i).letter_code+"',"
+                      +std::to_string(myngHOCalib.at(i).qie8)+","+std::to_string(myngHOCalib.at(i).qie8_ch)+","+std::to_string(myngHOCalib.at(i).rm)+","+std::to_string(myngHOCalib.at(i).rm_fiber)+","+std::to_string(myngHOCalib.at(i).fiber_ch)+",'"
+                      +myngHOCalib.at(i).block_coupler+"',"+std::to_string(myngHOCalib.at(i).crate)+","+std::to_string(myngHOCalib.at(i).htr)+","+std::to_string(myngHOCalib.at(i).mtp)+","+std::to_string(myngHOCalib.at(i).htr_fiber)+","+std::to_string(myngHOCalib.at(i).fedid)+","
+                      +std::to_string(myngHOCalib.at(i).qie8_id)+");";
+ 
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  std::cout << "Will export the table into ngHOUMap.txt file ..." << std::endl;
+  if(sqlite3_exec(db, OutSelect.c_str(), callback_ngHOUMap, 0, &zErrMsg) != SQLITE_OK)
     std::cout << "Error occured when exporting the table: " << zErrMsg << std::endl;
   sqlite3_close(db);
 

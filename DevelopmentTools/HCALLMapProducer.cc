@@ -172,37 +172,59 @@ int main(int argc, char* argv[])
   }
   else if( RunMode == "HO" )
   {
-    HOMappingAlgorithm myHOMappingAlgorithm;
+    //HOMappingAlgorithm myHOMappingAlgorithm;
     //so sorry no HO mapping algorithm for now... in a mess... directly load from generation G mapping algotrithm
-    int NChannel = myHCALLMapLoader.GetHOFromLMap("officialMap/eraG/HCALmapHO_G.txt", myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
-    myHOMappingAlgorithm.ConstructHOLMapObject("Calib");
+    //int NChannel = myHCALLMapLoader.GetHOFromLMap("officialMap/eraG/HCALmapHO_G.txt", myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
+    //myHOMappingAlgorithm.ConstructHOLMapObject("Calib");
 
+    ngHOMappingAlgorithm myngHOMappingAlgorithm;
+    // ngHO mapping algorithm is currently implemented by Ashraf, which can be found under the folder: CMSngHOMAP
+    // Here will load ngHO LMap file and dump
+    int Nchannel = myHCALLMapLoader.GetngHOFromLMap("officialMap/eraN/HCALmapngHO_N.txt",
+							myngHOMappingAlgorithm.myngHOFrontEnd, myngHOMappingAlgorithm.myngHOBackEnd, myngHOMappingAlgorithm.myngHOSiPM, myngHOMappingAlgorithm.myngHOGeometry, myngHOMappingAlgorithm.myngHOTriggerTower,
+							myngHOMappingAlgorithm.myngHOCalib);
     if( PrdMode == "LMap" )
     {
-      myHCALLMapDumper.printHOLMapObject(myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
-      myHCALLMapDumper.makedbHOLMapObject("officialMap/HCALLogicalMap.db", "HOLogicalMap",
-                                          myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
+      //myHCALLMapDumper.printHOLMapObject(myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
+      //myHCALLMapDumper.makedbHOLMapObject("officialMap/HCALLogicalMap.db", "HOLogicalMap",
+      //                                    myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
+      
+      myHCALLMapDumper.printngHOLMapObject(myngHOMappingAlgorithm.myngHOFrontEnd, myngHOMappingAlgorithm.myngHOBackEnd, myngHOMappingAlgorithm.myngHOSiPM, myngHOMappingAlgorithm.myngHOGeometry, myngHOMappingAlgorithm.myngHOTriggerTower);
+      myHCALLMapDumper.makedbngHOLMapObject("officialMap/HCALLogicalMap.db", "ngHOLogicalMap",
+                                          myngHOMappingAlgorithm.myngHOFrontEnd, myngHOMappingAlgorithm.myngHOBackEnd, myngHOMappingAlgorithm.myngHOSiPM, myngHOMappingAlgorithm.myngHOGeometry, myngHOMappingAlgorithm.myngHOTriggerTower);
     }
     if( PrdMode == "EMap" )
     {
-      myHCALLMapDumper.printHOEMapObject(myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
+      //myHCALLMapDumper.printHOEMapObject(myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
+      myHCALLMapDumper.printngHOEMapObject(myngHOMappingAlgorithm.myngHOFrontEnd, myngHOMappingAlgorithm.myngHOBackEnd, myngHOMappingAlgorithm.myngHOSiPM, myngHOMappingAlgorithm.myngHOGeometry, myngHOMappingAlgorithm.myngHOTriggerTower);
     }
     if( PrdMode == "FMap" )
     {
-      myHCALLMapDumper.printHOFrontEndMapObject(myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
+      //myHCALLMapDumper.printHOFrontEndMapObject(myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower);
     }
     
     //Added by Yuan
     if( PrdMode == "LMapCalib" )
     {
-      myHCALLMapDumper.printHOCalibLMapObject(myHOMappingAlgorithm.myHOCalib);
-      myHCALLMapDumper.makedbHOCalibLMapObject("officialMap/HCALLogicalMap.db", "HOCalibLogicalMap" , myHOMappingAlgorithm.myHOCalib );
+      //myHCALLMapDumper.printHOCalibLMapObject(myHOMappingAlgorithm.myHOCalib);
+      //myHCALLMapDumper.makedbHOCalibLMapObject("officialMap/HCALLogicalMap.db", "HOCalibLogicalMap" , myHOMappingAlgorithm.myHOCalib );
+      
+      myHCALLMapDumper.printngHOCalibLMapObject(myngHOMappingAlgorithm.myngHOCalib);
+      myHCALLMapDumper.makedbngHOCalibLMapObject("officialMap/HCALLogicalMap.db", "ngHOCalibLogicalMap" , myngHOMappingAlgorithm.myngHOCalib );
+    }
+    if( PrdMode == "EMapCalib" )
+    {
+      myHCALLMapDumper.printngHOCalibEMapObject(myngHOMappingAlgorithm.myngHOCalib);
     }
     if( PrdMode == "UMap" )
     {
-      myHCALLMapDumper.printHOUMapObject(myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower, myHOMappingAlgorithm.myHOCalib);
-      myHCALLMapDumper.makedbHOUMapObject("officialMap/HCALLogicalMap.db", "HOUniversalMap",
-                                          myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower, myHOMappingAlgorithm.myHOCalib);
+      //myHCALLMapDumper.printHOUMapObject(myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower, myHOMappingAlgorithm.myHOCalib);
+      //myHCALLMapDumper.makedbHOUMapObject("officialMap/HCALLogicalMap.db", "HOUniversalMap",
+      //                                    myHOMappingAlgorithm.myHOFrontEnd, myHOMappingAlgorithm.myHOBackEnd, myHOMappingAlgorithm.myHOSiPM, myHOMappingAlgorithm.myHOGeometry, myHOMappingAlgorithm.myHOTriggerTower, myHOMappingAlgorithm.myHOCalib);
+      
+      myHCALLMapDumper.printngHOUMapObject(myngHOMappingAlgorithm.myngHOFrontEnd, myngHOMappingAlgorithm.myngHOBackEnd, myngHOMappingAlgorithm.myngHOSiPM, myngHOMappingAlgorithm.myngHOGeometry, myngHOMappingAlgorithm.myngHOTriggerTower, myngHOMappingAlgorithm.myngHOCalib);
+      myHCALLMapDumper.makedbngHOUMapObject("officialMap/HCALLogicalMap.db", "ngHOUniversalMap",
+                                          myngHOMappingAlgorithm.myngHOFrontEnd, myngHOMappingAlgorithm.myngHOBackEnd, myngHOMappingAlgorithm.myngHOSiPM, myngHOMappingAlgorithm.myngHOGeometry, myngHOMappingAlgorithm.myngHOTriggerTower, myngHOMappingAlgorithm.myngHOCalib);
     }
     return 1;
 

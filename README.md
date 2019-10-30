@@ -41,6 +41,8 @@ pip install xlrd --user
 ```
 cd $CMSSW_BASE/src
 git clone git@github.com:weihuacern/ngCMSHCALMap.git
+cd ngCMSHCALMap
+git clone git@github.com:ashrafkasem/CMSngHOMAP.git
 ```
 
 ## For package developer
@@ -52,6 +54,7 @@ cd $CMSSW_BASE/src/
 git clone git@github.com:YOURGITHUBID/ngCMSHCALMap.git ngCMSHCALMap
 cd ngCMSHCALMap
 git remote add upstream git@github.com:weihuacern/ngCMSHCALMap.git
+git clone git@github.com:ashrafkasem/CMSngHOMAP.git
 ```
 
 - Update your repository to be exactly same like master branch before start your changes: <br />

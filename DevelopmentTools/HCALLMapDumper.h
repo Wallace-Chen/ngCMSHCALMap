@@ -14,6 +14,7 @@
 #include "HFMappingObject.h"
 #include "ngHFMappingObject.h"
 #include "HOMappingObject.h"
+#include "ngHOMappingObject.h"
 
 class HCALLMapDumper
 {
@@ -48,7 +49,13 @@ class HCALLMapDumper
   void printHOLMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower);
   void printHOEMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower);
   void printHOFrontEndMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower);
-  void printHOCalibLMapObject(std::vector<HOCalib> myHOCalib);//added by Yuan
+  void printHOCalibLMapObject(std::vector<HOCalib> myHOCalib);
+  //ngHO
+  void printngHOLMapObject(std::vector<ngHOFrontEnd> myngHOFrontEnd, std::vector<ngHOBackEnd> myngHOBackEnd, std::vector<ngHOSiPM> myngHOSiPM, std::vector<ngHOGeometry> myngHOGeometry, std::vector<ngHOTriggerTower> myngHOTriggerTower);
+  void printngHOEMapObject(std::vector<ngHOFrontEnd> myngHOFrontEnd, std::vector<ngHOBackEnd> myngHOBackEnd, std::vector<ngHOSiPM> myngHOSiPM, std::vector<ngHOGeometry> myngHOGeometry, std::vector<ngHOTriggerTower> myngHOTriggerTower);
+  void printngHOCalibLMapObject(std::vector<ngHOCalib> myngHOCalib);
+  void printngHOCalibEMapObject(std::vector<ngHOCalib> myngHOCalib);
+
   // UMap
   void printngHBHEUMapObject(std::vector<ngHBFrontEnd> myngHBFrontEnd, std::vector<ngHBBackEnd> myngHBBackEnd, std::vector<ngHBSiPM> myngHBSiPM, std::vector <ngHBGeometry> myngHBGeometry, std::vector<ngHBTriggerTower> myngHBTriggerTower, std::vector<ngHBTriggerTowerFiber> myngHBTriggerTowerFiber,
                              std::vector<ngHBCalib> myngHBCalib,
@@ -58,6 +65,7 @@ class HCALLMapDumper
   void printngHBHEUMapCalibObject(std::vector<ngHBCalib> myngHBCalib, std::vector<ngHECalib> myngHECalib);
   void printngHBHEPedLMapObject(std::vector<ngHBCalib> myngHBCalib, std::vector<ngHECalib> myngHECalib);
   void printHOUMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower, std::vector<HOCalib> myHOCalib);
+  void printngHOUMapObject(std::vector<ngHOFrontEnd> myngHOFrontEnd, std::vector<ngHOBackEnd> myngHOBackEnd, std::vector<ngHOSiPM> myngHOSiPM, std::vector<ngHOGeometry> myngHOGeometry, std::vector<ngHOTriggerTower> myngHOTriggerTower, std::vector<ngHOCalib> myngHOCalib);
 
   //HB,db
   void makedbHBLMapObject(std::string HCALLMapDbStr, std::string HBTableStr,
@@ -92,6 +100,13 @@ class HCALLMapDumper
   void makedbHOCalibLMapObject(std::string HCALLMapDbStr, std::string HOCalibTableStr, std::vector<HOCalib> myHOCalib);
   void makedbHOUMapObject(std::string HCALLMapDbStr, std::string HOCalibTableStr, 
                           std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower, std::vector<HOCalib> myHOCalib);
+  //ngHO,db
+  void makedbngHOLMapObject(std::string HCALLMapDbStr, std::string ngHOTableStr,
+                          std::vector<ngHOFrontEnd> myngHOFrontEnd, std::vector<ngHOBackEnd> myngHOBackEnd, std::vector<ngHOSiPM> myngHOSiPM, std::vector<ngHOGeometry> myngHOGeometry, std::vector<ngHOTriggerTower> myngHOTriggerTower);
+  //ngHOCalib.db
+  void makedbngHOCalibLMapObject(std::string HCALLMapDbStr, std::string ngHOCalibTableStr, std::vector<ngHOCalib> myngHOCalib);
+  void makedbngHOUMapObject(std::string HCALLMapDbStr, std::string ngHOCalibTableStr, 
+                          std::vector<ngHOFrontEnd> myngHOFrontEnd, std::vector<ngHOBackEnd> myngHOBackEnd, std::vector<ngHOSiPM> myngHOSiPM, std::vector<ngHOGeometry> myngHOGeometry, std::vector<ngHOTriggerTower> myngHOTriggerTower, std::vector<ngHOCalib> myngHOCalib);
  private:
   bool ifTableExistInDB(sqlite3 *db, std::string TableName);//note: please use this function after sqlite3_open() and before sqlite3_close()!!
 };

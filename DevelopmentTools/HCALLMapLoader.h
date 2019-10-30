@@ -11,6 +11,7 @@
 #include "HFMappingObject.h"
 #include "ngHFMappingObject.h"
 #include "HOMappingObject.h"
+#include "ngHOMappingObject.h"
 
 class HCALLMapLoader
 {
@@ -37,4 +38,9 @@ class HCALLMapLoader
                      std::string LMapFileName,
                      std::vector<ngHFFrontEnd> &myngHFFrontEnd, std::vector<ngHFBackEnd> &myngHFBackEnd, std::vector<ngHFPMTBox> &myngHFPMTBox, std::vector<ngHFGeometry> &myngHFGeometry, std::vector<ngHFTriggerTower> &myngHFTriggerTower
                     );
+  int GetngHOFromLMap(
+                    std::string LMapFileName, 
+                    std::vector<ngHOFrontEnd> &myngHOFrontEnd, std::vector<ngHOBackEnd> &myngHOBackEnd, std::vector<ngHOSiPM> &myngHOSiPM, std::vector<ngHOGeometry> &myngHOGeometry, std::vector<ngHOTriggerTower> &myngHOTriggerTower,
+		    std::vector<ngHOCalib> &myngHOCalib
+                   );
 };

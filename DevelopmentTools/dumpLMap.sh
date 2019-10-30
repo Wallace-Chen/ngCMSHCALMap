@@ -1,7 +1,7 @@
 mkdir -p ./$3/Lmap
 #Format, sh dumpLMap.sh K 20180501
 #echo _$1_$2.txt
-#Lmao and LmapCalib for individual subdetectors
+#Lmap and LmapCalib for individual subdetectors
 ./HCALLMapProducer HB LMap > ./$3/Lmap/Lmap_ngHB_$1_$2.txt
 ./HCALLMapProducer HE LMap > ./$3/Lmap/Lmap_ngHE_$1_$2.txt
 ./HCALLMapProducer HF LMap > ./$3/Lmap/Lmap_ngHF_$1_$2.txt
