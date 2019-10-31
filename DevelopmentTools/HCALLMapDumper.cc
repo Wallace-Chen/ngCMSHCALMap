@@ -128,6 +128,45 @@ static int callback_ngHOUMap(void *handle, int argc, char **argv, char **azColNa
   return 0;
 }
 
+static int callback_ngHFUMap(void *handle, int argc, char **argv, char **azColName){
+  std::ofstream f;
+  f.open("ngHFUMap.txt", std::ios::app | std::ios::out);
+  if (nOpen == 0 && f.good()){// file already exists, then delete
+    f.close();
+    remove("ngHFUMap.txt");
+    f.open("ngHFUMap.txt", std::ios::app | std::ios::out);
+  }
+  if(nOpen == 0){// file does not exist, then print the header
+  //Side Eta Phi dPhi Depth Det
+  //RBX 
+  //QIE10 QIECH QIE_FI FI_CH
+  //Crate uHTR uHTR_FI
+  //ufedid
+  //QIE10ID QIE10_barcode
+
+  f << "#"
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "Depth" << std::setw(10) << "Det"
+            << std::setw(6) << "RBX"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(9) << "QIE10_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+            << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIE10id" << std::setw(25) << "QIE10BarCode"
+            << std::endl;
+  }
+  f << " "
+    << std::setw(6) << argv[1]  << std::setw(6) << argv[2] << std::setw(6) << argv[3]  << std::setw(6) << argv[4] << std::setw(9) << argv[5] << std::setw(10) << argv[6]
+    << std::setw(6) << argv[7]
+    << std::setw(6) << argv[8] << std::setw(6) << argv[9] << std::setw(9) << argv[10] << std::setw(6) << argv[11]
+    << std::setw(6) << argv[12] << std::setw(6) << argv[13] << std::setw(9) << argv[14] 
+    << std::setw(6) << argv[15] 
+    << std::setw(9) << argv[16] << std::setw(25) << argv[17]
+    << std::endl;
+  
+  f.close();
+  nOpen ++;
+  return 0;
+}
+
 void HCALLMapDumper::printHBLMapObject(std::vector<HBFrontEnd> myHBFrontEnd, std::vector<HBBackEnd> myHBBackEnd, std::vector<HBHPD> myHBHPD, std::vector<HBGeometry> myHBGeometry, std::vector<HBTriggerTower> myHBTriggerTower)
 {
   std::cout << "#Dumping HB LMap Object..." << std::endl;
@@ -1361,6 +1400,64 @@ void HCALLMapDumper::printngHOUMapObject(std::vector<ngHOFrontEnd> myngHOFrontEn
   return ;
 }
 
+void HCALLMapDumper::printngHFUMapObject(std::vector<ngHFFrontEnd> myngHFFrontEnd, std::vector<ngHFBackEnd> myngHFBackEnd, std::vector<ngHFPMTBox> myngHFPMTBox, std::vector<ngHFGeometry> myngHFGeometry, std::vector<ngHFTriggerTower> myngHFTriggerTower, std::vector<ngHFCalib> myngHFCalib)
+{
+  //Side Eta Phi dPhi Depth Det
+  //RBX 
+  //QIE QIE_CH QIE_FI FI_CH
+  //Crate uHTR uHTR_FI
+  //ufedid
+  //QIE10Id, QIE10_barcode
+
+  std::cout << "#Dumping ngHF UMap Object..." << std::endl;
+  std::cout << "#"
+            << std::setw(6) << "Side" << std::setw(6) << "Eta" << std::setw(6) << "Phi" << std::setw(6) << "dPhi" << std::setw(9) << "Depth" << std::setw(10) << "Det"
+            << std::setw(6) << "RBX"
+            << std::setw(6) << "QIE" << std::setw(6) << "QIECH" << std::setw(9) << "QIE10_FI" << std::setw(6) << "FI_CH"
+            << std::setw(6) << "Crate" << std::setw(6) << "uHTR" << std::setw(9) << "uHTR_FI"
+            << std::setw(6) << "FEDid"
+            << std::setw(9) << "QIE10id" << std::setw(25) << "QIE10BarCode"
+            << std::endl;
+  for(auto i=0; i<myngHFFrontEnd.size(); i++)
+  {
+    //if( !(myngHFFrontEnd.at(i).fiber_ch==3 && myngHFBackEnd.at(i).uhtr_fiber==13) ) continue;
+    //if( !(myngHFPMTBox.at(i).tower=="E12" || myngHFPMTBox.at(i).tower=="H12") ) continue;
+    //if( !(myngHFPMTBox.at(i).tower=="E13" || myngHFPMTBox.at(i).tower=="H13") ) continue;
+    //if( !(myngHFGeometry.at(i).eta==40 || myngHFGeometry.at(i).eta==41) ) continue;
+    //if( !(myngHFPMTBox.at(i).wedge==1) ) continue;
+    std::cout 
+              << " "
+              //<< "ngHFGeometry(side,eta,phi,dphi,depth,subdet): "
+              << std::setw(6) << myngHFGeometry.at(i).side << std::setw(6) << myngHFGeometry.at(i).eta << std::setw(6) << myngHFGeometry.at(i).phi << std::setw(6) << myngHFGeometry.at(i).dphi << std::setw(9) << myngHFGeometry.at(i).depth << std::setw(10) << myngHFGeometry.at(i).subdet
+              //ngRBX
+              << std::setw(6) << myngHFFrontEnd.at(i).rbx
+              //<< "ngHFFrontEnd(qie10,qie10_ch,qie10_fiber,fiber_ch): "
+              << std::setw(6) << myngHFFrontEnd.at(i).qie10 << std::setw(6) << myngHFFrontEnd.at(i).qie10_ch << std::setw(9) << myngHFFrontEnd.at(i).qie10_fiber << std::setw(6)  << myngHFFrontEnd.at(i).fiber_ch
+              //<< "ngHFBackEnd(ucrate,uhtr,uhtr_rx,uhtr_fiber): "
+              << std::setw(6) << myngHFBackEnd.at(i).ucrate << std::setw(6) << myngHFBackEnd.at(i).uhtr << std::setw(9) << myngHFBackEnd.at(i).uhtr_fiber
+              //<< "ngHFBackEnd(ufedid): "
+              << std::setw(6) << myngHFBackEnd.at(i).ufedid
+              //<< "ngHFFrontEnd(qie10_id): "
+              << std::setw(9) << myngHFFrontEnd.at(i).qie10_id << std::setw(25) << myngHFFrontEnd.at(i).qie10_barcode
+              << std::endl;
+  }
+
+  for(auto i=0; i<myngHFCalib.size(); i++)
+  {
+    std::cout
+              << " "
+              << std::setw(6) << myngHFCalib.at(i).side << std::setw(6) << myngHFCalib.at(i).eta << std::setw(6) << myngHFCalib.at(i).phi << std::setw(6) << myngHFCalib.at(i).dphi << std::setw(9) << myngHFCalib.at(i).depth << std::setw(10) << myngHFCalib.at(i).subdet
+              << std::setw(6) << myngHFCalib.at(i).rbx 
+              << std::setw(6) << myngHFCalib.at(i).qie10 << std::setw(6) << myngHFCalib.at(i).qie10_ch << std::setw(9) << myngHFCalib.at(i).qie10_fiber << std::setw(6) << myngHFCalib.at(i).fiber_ch
+              << std::setw(6) << myngHFCalib.at(i).ucrate << std::setw(6) << myngHFCalib.at(i).uhtr << std::setw(9) << myngHFCalib.at(i).uhtr_fiber
+              << std::setw(6) << myngHFCalib.at(i).ufedid
+              << std::setw(9) << myngHFCalib.at(i).qie10_id << std::setw(25) << myngHFCalib.at(i).qie10_barcode
+              << std::endl;
+  }
+
+  return ;
+}
+
 void HCALLMapDumper::makedbHBLMapObject(std::string HCALLMapDbStr, std::string HBTableStr,
                                         std::vector<HBFrontEnd> myHBFrontEnd, std::vector<HBBackEnd> myHBBackEnd, std::vector<HBHPD> myHBHPD, std::vector<HBGeometry> myHBGeometry, std::vector<HBTriggerTower> myHBTriggerTower)
 {
@@ -2398,6 +2495,100 @@ void HCALLMapDumper::makedbngHOUMapObject(std::string HCALLMapDbStr, std::string
   }
   std::cout << "Will export the table into ngHOUMap.txt file ..." << std::endl;
   if(sqlite3_exec(db, OutSelect.c_str(), callback_ngHOUMap, 0, &zErrMsg) != SQLITE_OK)
+    std::cout << "Error occured when exporting the table: " << zErrMsg << std::endl;
+  sqlite3_close(db);
+
+  return ;
+}
+
+void HCALLMapDumper::makedbngHFUMapObject(std::string HCALLMapDbStr, std::string ngHFTableStr,
+                                        std::vector<ngHFFrontEnd> myngHFFrontEnd, std::vector<ngHFBackEnd> myngHFBackEnd, std::vector<ngHFPMTBox> myngHFPMTBox, std::vector<ngHFGeometry> myngHFGeometry, std::vector<ngHFTriggerTower> myngHFTriggerTower,
+                                        std::vector<ngHFCalib> myngHFCalib)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0; int rc; int iuniq;
+
+  rc = sqlite3_open(HCALLMapDbStr.c_str(), &db);
+  if( rc ){ fprintf(stderr, "#Can't open database: %s\n", sqlite3_errmsg(db)); return ; }
+  else{ fprintf(stderr, "#Opened database successfully\n"); }
+
+  std::string OutSelect = "SELECT * FROM "+ngHFTableStr+" ORDER BY Crate ASC, uHTR ASC, uHTR_FI ASC, FI_CH ASC;";
+  //Check if table in the database already??
+  bool TableExist = ifTableExistInDB(db,ngHFTableStr);
+  if(TableExist){ 
+    std::cout << "#Table: " << ngHFTableStr <<" already in the database!! Please check!" << std::endl; 
+    std::cout << "Will export the table into ngHFUMap.txt file ..." << std::endl;
+    if(sqlite3_exec(db, OutSelect.c_str(), callback_ngHFUMap, 0, &zErrMsg) != SQLITE_OK)
+      std::cout << "Error occured when exporting the table: " << zErrMsg << std::endl;
+    return ; 
+  }
+  else{ std::cout << "#Table: " << ngHFTableStr <<" not in the database... Creating..." << std::endl; }
+
+  //Create Table in SQL
+  //i(Unique key)
+  //Side Eta Phi dPhi Depth Det 
+  //RBX
+  //QIE10 QIECH QIE10_FI FI_CH 
+  //Crate uHTR uHTR_FI 
+  //FEDid QIE10id QIE10BarCode
+
+  std::string CreateTable = "CREATE TABLE IF NOT EXISTS " + ngHFTableStr + "(" \
+                            "ID INT PRIMARY KEY NOT NULL, " \
+                            "Side INT NOT NULL, Eta INT NOT NULL, Phi INT NOT NULL, dPhi INT NOT NULL, Depth INT NOT NULL, Det TEXT NOT NULL, " \
+                            "ngRBX TEXT NOT NULL, " \
+                            "QIE10 INT NOT NULL, QIECH INT NOT NULL, QIE10_FI INT NOT NULL, FI_CH INT NOT NULL, " \
+                            "Crate INT NOT NULL, uHTR INT NOT NULL, uHTR_FI INT NOT NULL, FEDid INT NOT NULL, " \
+                            "QIE10id INT NOT NULL, QIE10BarCode TEXT NOT NULL);";
+
+  rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
+  if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+  else{ fprintf(stdout, "#Table created successfully\n"); }
+
+  for(auto i=0; i<myngHFFrontEnd.size(); i++)
+  {
+    std::string one = "INSERT INTO " + ngHFTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "ngRBX," \
+                      "QIE10,QIECH,QIE10_FI,FI_CH," \
+                      "Crate,uHTR,uHTR_FI,FEDid," \
+                      "QIE10id,QIE10BarCode) ";
+    std::string two = "VALUES("
+                      +std::to_string(i)+","
+                      +std::to_string(myngHFGeometry.at(i).side)+","+std::to_string(myngHFGeometry.at(i).eta)+","+std::to_string(myngHFGeometry.at(i).phi)+","+std::to_string(myngHFGeometry.at(i).dphi)+","+std::to_string(myngHFGeometry.at(i).depth)+",'"+myngHFGeometry.at(i).subdet+"','"
+                      +myngHFFrontEnd.at(i).rbx+"',"
+                      +std::to_string(myngHFFrontEnd.at(i).qie10)+","+std::to_string(myngHFFrontEnd.at(i).qie10_ch)+","+std::to_string(myngHFFrontEnd.at(i).qie10_fiber)+","+std::to_string(myngHFFrontEnd.at(i).fiber_ch)+","
+                      +std::to_string(myngHFBackEnd.at(i).ucrate)+","+std::to_string(myngHFBackEnd.at(i).uhtr)+","+std::to_string(myngHFBackEnd.at(i).uhtr_fiber)+","+std::to_string(myngHFBackEnd.at(i).ufedid)+","
+                      +std::to_string(myngHFFrontEnd.at(i).qie10_id)+",'"+myngHFFrontEnd.at(i).qie10_barcode+"');";
+
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  iuniq = myngHFFrontEnd.size();
+  for(auto i=0; i<myngHFCalib.size(); i++)
+  {
+    std::string one = "INSERT INTO " + ngHFTableStr + "(" \
+                      "ID," \
+                      "Side,Eta,Phi,dPhi,Depth,Det," \
+                      "ngRBX," \
+                      "QIE10,QIECH,QIE10_FI,FI_CH," \
+                      "Crate,uHTR,uHTR_FI,FEDid," \
+                      "QIE10id,QIE10BarCode) ";
+    std::string two = "VALUES("
+                      +std::to_string(i+iuniq)+","
+                      +std::to_string(myngHFCalib.at(i).side)+","+std::to_string(myngHFCalib.at(i).eta)+","+std::to_string(myngHFCalib.at(i).phi)+","+std::to_string(myngHFCalib.at(i).dphi)+","+std::to_string(myngHFCalib.at(i).depth)+",'"+myngHFCalib.at(i).subdet+"','"
+                      +myngHFCalib.at(i).rbx+"',"
+                      +std::to_string(myngHFCalib.at(i).qie10)+","+std::to_string(myngHFCalib.at(i).qie10_ch)+","+std::to_string(myngHFCalib.at(i).qie10_fiber)+","+std::to_string(myngHFCalib.at(i).fiber_ch)+","
+                      +std::to_string(myngHFCalib.at(i).ucrate)+","+std::to_string(myngHFCalib.at(i).uhtr)+","+std::to_string(myngHFCalib.at(i).uhtr_fiber)+","+std::to_string(myngHFCalib.at(i).ufedid)+","
+                      +std::to_string(myngHFCalib.at(i).qie10_id)+",'"+myngHFCalib.at(i).qie10_barcode+"');";
+    
+    rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
+    if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
+    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+  }
+  std::cout << "Will export the table into ngHFUMap.txt file ..." << std::endl;
+  if(sqlite3_exec(db, OutSelect.c_str(), callback_ngHFUMap, 0, &zErrMsg) != SQLITE_OK)
     std::cout << "Error occured when exporting the table: " << zErrMsg << std::endl;
   sqlite3_close(db);
 

@@ -168,6 +168,12 @@ int main(int argc, char* argv[])
     {
       myHCALLMapDumper.printngHFCalibEMapObject(myngHFMappingAlgorithm.myngHFCalib);
     }
+    if( PrdMode == "UMap" )
+    {
+      myHCALLMapDumper.printngHFUMapObject(myngHFMappingAlgorithm.myngHFFrontEnd, myngHFMappingAlgorithm.myngHFBackEnd, myngHFMappingAlgorithm.myngHFPMTBox, myngHFMappingAlgorithm.myngHFGeometry, myngHFMappingAlgorithm.myngHFTriggerTower, myngHFMappingAlgorithm.myngHFCalib);
+      myHCALLMapDumper.makedbngHFUMapObject("officialMap/HCALLogicalMap.db", "ngHFUniversalMap",
+                                          myngHFMappingAlgorithm.myngHFFrontEnd, myngHFMappingAlgorithm.myngHFBackEnd, myngHFMappingAlgorithm.myngHFPMTBox, myngHFMappingAlgorithm.myngHFGeometry, myngHFMappingAlgorithm.myngHFTriggerTower, myngHFMappingAlgorithm.myngHFCalib);
+    }
     return 1;
   }
   else if( RunMode == "HO" )

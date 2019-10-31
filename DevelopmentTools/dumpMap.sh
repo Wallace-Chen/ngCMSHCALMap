@@ -52,8 +52,8 @@ if [[ $answer =~ "O" || $answer =~ "o" ]]
 then
   printf "\nHO (Calib)LMaps deleted."
     echo ".timeout 2000
-    DROP TABLE HOLogicalMap;
-    DROP TABLE HOCalibLogicalMap;
+    DROP TABLE ngHOLogicalMap;
+    DROP TABLE ngHOCalibLogicalMap;
     .quit" | sqlite3 ./officialMap/HCALLogicalMap.db
 fi
 if [[ ! $answer =~ "B" && ! $answer =~ "b" && ! $answer =~ "E" && ! $answer =~ "e" && ! $answer =~ "F" && ! $answer =~ "f" && ! $answer =~ "O" && ! $answer =~ "o" ]]
@@ -66,42 +66,32 @@ sh ./dumpLMap.sh ${era} ${name} ${dir}
 printf "\n\nLMap done, to dump UMap, do you want to clear UMaps in offcial map database?"
 printf "\nNote Umap dump will be based on the database, if your map is different from that in database, please MUST choose to clear it before dumping it!!!."
 printf "\nType N for not clearing (UMap will be extracted from UMaps in the dataset)" 
-printf "\nType BE to clear HBHEUMap, HO to clear HOUMap and BEO to clear both UMaps."
+printf "\nType BE to clear HBHEUMap, O to clear HOUMap and F to clear HF UMap, or any combination of them to clear multiple sub detectors."
 read answer
-while true
-do
-  if [[ $answer == "N" ]];
-  then
-    printf "\nYou choose not to clear in database, now will dump UMap..."
-    break
-  elif [[ $answer == "BE" ]];
-  then
-    printf "\nYou choose to clear ngHBHEUniversalMap in database..."
-    echo ".timeout 2000
-    DROP TABLE ngHBHEUniversalMap;
-    .quit" | sqlite3 ./officialMap/HCALLogicalMap.db
-    break
-  elif [[ $answer == "HO" ]];
-  then
-    printf "\nYou choose to clear HOUMap in database..."
-    echo ".timeout 2000
-    DROP TABLE HOUniversalMap;
-    .quit" | sqlite3 ./officialMap/HCALLogicalMap.db
-    printf "\nNote filling database will take quite long"
-    break
-  elif [[  $answer == "BEO" ]]
-  then
-    printf "\nYou choose to clear both UMaps in database..."
-    echo ".timeout 2000
-    DROP TABLE HOUniversalMap;
-    DROP TABLE ngHBHEUniversalMap;
-    .quit" | sqlite3 ./officialMap/HCALLogicalMap.db
-    printf "\nNote filling database will take quite long"
-    break
-  else
-    read -p "\nYour input does not match any options listed above. Please try again: \n" answer
-  fi
-done
+if [[ $answer =~ "BE" ]];
+then
+  printf "\nYou choose to clear ngHBHEUniversalMap in database..."
+  echo ".timeout 2000
+  DROP TABLE ngHBHEUniversalMap;
+  .quit" | sqlite3 ./officialMap/HCALLogicalMap.db
+elif [[ $answer =~ "O" ]];
+then
+  printf "\nYou choose to clear HOUMap in database..."
+  echo ".timeout 2000
+  DROP TABLE ngHOUniversalMap;
+  .quit" | sqlite3 ./officialMap/HCALLogicalMap.db
+  printf "\nNote filling database will take quite long"
+elif [[  $answer =~ "F" ]]
+then
+  printf "\nYou choose to clear HF UMaps in database..."
+  echo ".timeout 2000
+  DROP TABLE ngHFUniversalMap;
+  .quit" | sqlite3 ./officialMap/HCALLogicalMap.db
+  printf "\nNote filling database will take quite long"
+elif [[ $answer =~ "N" ]];
+then
+  printf "\nYou choose not to touch UMaps in the database, now will dump it only."
+fi
 
 sh ./dumpUMap.sh ${era} ${name} ${dir}
 

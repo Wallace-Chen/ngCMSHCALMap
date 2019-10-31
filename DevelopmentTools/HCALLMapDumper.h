@@ -66,6 +66,7 @@ class HCALLMapDumper
   void printngHBHEPedLMapObject(std::vector<ngHBCalib> myngHBCalib, std::vector<ngHECalib> myngHECalib);
   void printHOUMapObject(std::vector<HOFrontEnd> myHOFrontEnd, std::vector<HOBackEnd> myHOBackEnd, std::vector<HOSiPM> myHOSiPM, std::vector<HOGeometry> myHOGeometry, std::vector<HOTriggerTower> myHOTriggerTower, std::vector<HOCalib> myHOCalib);
   void printngHOUMapObject(std::vector<ngHOFrontEnd> myngHOFrontEnd, std::vector<ngHOBackEnd> myngHOBackEnd, std::vector<ngHOSiPM> myngHOSiPM, std::vector<ngHOGeometry> myngHOGeometry, std::vector<ngHOTriggerTower> myngHOTriggerTower, std::vector<ngHOCalib> myngHOCalib);
+  void printngHFUMapObject(std::vector<ngHFFrontEnd> myngHFFrontEnd, std::vector<ngHFBackEnd> myngHFBackEnd, std::vector<ngHFPMTBox> myngHFPMTBox, std::vector<ngHFGeometry> myngHFGeometry, std::vector<ngHFTriggerTower> myngHFTriggerTower, std::vector<ngHFCalib> myngHFCalib);
 
   //HB,db
   void makedbHBLMapObject(std::string HCALLMapDbStr, std::string HBTableStr,
@@ -107,6 +108,8 @@ class HCALLMapDumper
   void makedbngHOCalibLMapObject(std::string HCALLMapDbStr, std::string ngHOCalibTableStr, std::vector<ngHOCalib> myngHOCalib);
   void makedbngHOUMapObject(std::string HCALLMapDbStr, std::string ngHOCalibTableStr, 
                           std::vector<ngHOFrontEnd> myngHOFrontEnd, std::vector<ngHOBackEnd> myngHOBackEnd, std::vector<ngHOSiPM> myngHOSiPM, std::vector<ngHOGeometry> myngHOGeometry, std::vector<ngHOTriggerTower> myngHOTriggerTower, std::vector<ngHOCalib> myngHOCalib);
+  void makedbngHFUMapObject(std::string HCALLMapDbStr, std::string ngHFCalibTableStr, 
+                          std::vector<ngHFFrontEnd> myngHFFrontEnd, std::vector<ngHFBackEnd> myngHFBackEnd, std::vector<ngHFPMTBox> myngHFPMTBox, std::vector<ngHFGeometry> myngHFGeometry, std::vector<ngHFTriggerTower> myngHFTriggerTower, std::vector<ngHFCalib> myngHFCalib);
  private:
   bool ifTableExistInDB(sqlite3 *db, std::string TableName);//note: please use this function after sqlite3_open() and before sqlite3_close()!!
 };
