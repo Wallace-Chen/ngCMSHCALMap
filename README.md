@@ -40,7 +40,10 @@ pip install xlrd --user
 ## For package owner
 ```
 cd $CMSSW_BASE/src
+<!---
 git clone git@github.com:weihuacern/ngCMSHCALMap.git
+-->
+git clone git@github.com:Wallace-Chen/ngCMSHCALMap.git
 cd ngCMSHCALMap
 git clone git@github.com:ashrafkasem/CMSngHOMAP.git
 ```
@@ -53,7 +56,10 @@ git clone git@github.com:ashrafkasem/CMSngHOMAP.git
 cd $CMSSW_BASE/src/
 git clone git@github.com:YOURGITHUBID/ngCMSHCALMap.git ngCMSHCALMap
 cd ngCMSHCALMap
+<!---
 git remote add upstream git@github.com:weihuacern/ngCMSHCALMap.git
+-->
+git remote add upstream git@github.com:Wallace-Chen/ngCMSHCALMap.git
 git clone git@github.com:ashrafkasem/CMSngHOMAP.git
 ```
 
