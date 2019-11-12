@@ -3,7 +3,7 @@ void ngHBMappingAlgorithm::ConstructngHBLMapObject(std::string Mode)
 {
   myngHBQIE11CardMap.clear();
   std::cout << "#Loading information from QIE allocation file..." << std::endl;
-  LoadngHBQIEMap("ngHBHOQIEInput/RBX_RM_QIE_2016Nov03.txt");
+  LoadngHBQIEMap("ngHBQIEInput/uniqueID_pt5.txt");
 
   if(Mode == "Normal")
   {
@@ -99,8 +99,12 @@ void ngHBMappingAlgorithm::ConstructngHBFrontEnd(int sideid, int rbxrmid, int rm
   //                   thisngHBFrontEnd.rbx, thisngHBFrontEnd.rm, thisngHBFrontEnd.qie11,
   //                   thisngHBFrontEnd.qie11_id
   //                  );
-  //if( thisngHBFrontEnd.qie11_id == 999999 ) thisngHBFrontEnd.qie11_id = 999991;
-  thisngHBFrontEnd.qie11_id = 999999;
+
+  // get qie11 id
+  GetngHBQIEInfoToLMap(
+                     thisngHBFrontEnd.rbx, thisngHBFrontEnd.rm, thisngHBFrontEnd.qie11,
+                     thisngHBFrontEnd.qie11_id
+                    );
   myngHBFrontEnd.push_back(thisngHBFrontEnd);
   
   ConstructngHBTriggerTower(thisngHBFrontEnd.rm, thisngHBFrontEnd.rm_fiber, thisngHBFrontEnd.fiber_ch, thisngHBFrontEnd.qie11_ch);
@@ -322,10 +326,13 @@ void ngHBMappingAlgorithm::ConstructngHBCalib(int sideid, int rbxrmid, int rmfif
   thisngHBCalib.rm_fiber = rmfifichid/Nfiber_chCalib + 1;
 //  thisngHBCalib.fiber_ch = rmfifichid%Nfiber_chCalib + 5;
   thisngHBCalib.fiber_ch = rmfifichid%Nfiber_chCalib;
-  //set qie11 variables
   thisngHBCalib.qie11 = 1;
   thisngHBCalib.qie11_ch = thisngHBCalib.fiber_ch + 1 + (thisngHBCalib.rm_fiber-1) % 2 * 8;
-  thisngHBCalib.qie11_id = 999991;
+  //set qie11 variables
+  GetngHBQIEInfoToLMap(
+			thisngHBCalib.rbx, thisngHBCalib.rm, thisngHBCalib.qie11,
+			thisngHBCalib.qie11_id
+		      );
   thisngHBCalib.wedge = rbxrmid/NrmngHBCalib + 1;
 //  thisngHBCalib.trunk = (thisngHBCalib.wedge - 1)%3 + 1 + (thisngHBCalib.rm_fiber - 1) * 3;
   thisngHBCalib.trunk = (thisngHBCalib.wedge - 1)%3 + 1;
@@ -410,7 +417,7 @@ void ngHBMappingAlgorithm::ConstructngHBCalib(int sideid, int rbxrmid, int rmfif
 
   return;
 }
-
+/*
 void ngHBMappingAlgorithm::LoadngHBQIEMap(std::string QIE11CardMapFileName)                                                                                                                                 
 {
   std::ifstream inputFile(QIE11CardMapFileName.c_str());
@@ -450,6 +457,28 @@ void ngHBMappingAlgorithm::LoadngHBQIEMap(std::string QIE11CardMapFileName)
   }
   return ;
 }
+*/
+void ngHBMappingAlgorithm::LoadngHBQIEMap(std::string QIE11CardMapFileName)                                                                                                                                 
+{
+  std::ifstream inputFile(QIE11CardMapFileName.c_str());
+  std::string line;
+  while( std::getline(inputFile, line) )
+  {
+    if(line.at(0) == '#') continue;
+    if(!(line.at(0) == 'H')) continue; 
+    //std::istringstream ss(line);
+    std::stringstream ss(line);
+    ngHBQIE11CardMap thisngHBQIE11CardMap;
+
+    //#RBX RM Slot UID s/N
+    //HBM01  1 1 0x12000000  0xeab57970 700522
+    std::string barcode1, barcode2;
+    ss >> thisngHBQIE11CardMap.rbx >> thisngHBQIE11CardMap.rm >> thisngHBQIE11CardMap.qie11 >> barcode1 >> barcode2 >> thisngHBQIE11CardMap.qie_id;
+
+    myngHBQIE11CardMap.push_back(thisngHBQIE11CardMap);
+  }
+  return ;
+}
 
 void ngHBMappingAlgorithm::GetngHBQIEInfoToLMap(
                                             std::string rbx, int rm, int qie11,
@@ -467,6 +496,9 @@ void ngHBMappingAlgorithm::GetngHBQIEInfoToLMap(
     }
     else continue;
   }
-  if(!qie11match) std::cout << "#QIE 10 card not found in front end coordinates !!!" << std::endl;
+  if(!qie11match) {
+    qie11_id = 999991;
+    std::cout << "#QIE 10 card not found in front end coordinates !!!" << std::endl;
+  }
   return ;
 }

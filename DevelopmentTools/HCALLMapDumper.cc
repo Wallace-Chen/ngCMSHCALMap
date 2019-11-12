@@ -1642,7 +1642,7 @@ void HCALLMapDumper::makedbngHBLMapObject(std::string HCALLMapDbStr, std::string
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-  else{ fprintf(stdout, "#Table created successfully\n"); }
+  else{ fprintf(stderr, "#Table created successfully\n"); }
   
   for(auto i=0; i<myngHBFrontEnd.size(); i++)
   {
@@ -1669,7 +1669,7 @@ void HCALLMapDumper::makedbngHBLMapObject(std::string HCALLMapDbStr, std::string
 
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   sqlite3_close(db);
   
@@ -1712,7 +1712,7 @@ void HCALLMapDumper::makedbngHBCalibLMapObject(std::string HCALLMapDbStr, std::s
 
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-  else{ fprintf(stdout, "#Table created successfully\n"); }
+  else{ fprintf(stderr, "#Table created successfully\n"); }
 
   for(auto i=0; i<myngHBCalib.size(); i++)
   {
@@ -1738,7 +1738,7 @@ void HCALLMapDumper::makedbngHBCalibLMapObject(std::string HCALLMapDbStr, std::s
     
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   sqlite3_close(db);
 
@@ -1783,7 +1783,7 @@ void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-  else{ fprintf(stdout, "#Table created successfully\n"); }
+  else{ fprintf(stderr, "#Table created successfully\n"); }
   
   for(auto i=0; i<myngHEFrontEnd.size(); i++)
   {
@@ -1810,7 +1810,7 @@ void HCALLMapDumper::makedbngHELMapObject(std::string HCALLMapDbStr, std::string
 
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   sqlite3_close(db);
   
@@ -1854,7 +1854,7 @@ void HCALLMapDumper::makedbngHECalibLMapObject(std::string HCALLMapDbStr, std::s
 
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-  else{ fprintf(stdout, "#Table created successfully\n"); }
+  else{ fprintf(stderr, "#Table created successfully\n"); }
 
   for(auto i=0; i<myngHECalib.size(); i++)
   {
@@ -1879,7 +1879,7 @@ void HCALLMapDumper::makedbngHECalibLMapObject(std::string HCALLMapDbStr, std::s
     
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   sqlite3_close(db);
 
@@ -1928,7 +1928,7 @@ void HCALLMapDumper::makedbngHFLMapObject(std::string HCALLMapDbStr, std::string
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-  else{ fprintf(stdout, "#Table created successfully\n"); }
+  else{ fprintf(stderr, "#Table created successfully\n"); }
   
   for(auto i=0; i<myngHFFrontEnd.size(); i++)
   {
@@ -1959,7 +1959,7 @@ void HCALLMapDumper::makedbngHFLMapObject(std::string HCALLMapDbStr, std::string
 
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   sqlite3_close(db);
   
@@ -2001,7 +2001,7 @@ void HCALLMapDumper::makedbngHFCalibLMapObject(std::string HCALLMapDbStr, std::s
 
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-  else{ fprintf(stdout, "#Table created successfully\n"); }
+  else{ fprintf(stderr, "#Table created successfully\n"); }
 
   for(auto i=0; i<myngHFCalib.size(); i++)
   {
@@ -2024,7 +2024,7 @@ void HCALLMapDumper::makedbngHFCalibLMapObject(std::string HCALLMapDbStr, std::s
     
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   sqlite3_close(db);
 
@@ -2068,7 +2068,7 @@ void HCALLMapDumper::makedbHOCalibLMapObject(std::string HCALLMapDbStr, std::str
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-  else{ fprintf(stdout, "#Table created successfully\n"); }
+  else{ fprintf(stderr, "#Table created successfully\n"); }
   
   for(auto i=0; i<myHOCalib.size(); i++)
   { 
@@ -2092,7 +2092,7 @@ void HCALLMapDumper::makedbHOCalibLMapObject(std::string HCALLMapDbStr, std::str
  
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   sqlite3_close(db);
 
@@ -2136,7 +2136,7 @@ void HCALLMapDumper::makedbHOLMapObject(std::string HCALLMapDbStr, std::string H
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-  else{ fprintf(stdout, "#Table created successfully\n"); }
+  else{ fprintf(stderr, "#Table created successfully\n"); }
   
   for(auto i=0; i<myHOFrontEnd.size(); i++)
   {
@@ -2161,7 +2161,7 @@ void HCALLMapDumper::makedbHOLMapObject(std::string HCALLMapDbStr, std::string H
 
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   sqlite3_close(db);
 
@@ -2212,7 +2212,7 @@ void HCALLMapDumper::makedbHOUMapObject(std::string HCALLMapDbStr, std::string H
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-  else{ fprintf(stdout, "#Table created successfully\n"); }
+  else{ fprintf(stderr, "#Table created successfully\n"); }
   
   std::string one = "INSERT INTO " + HOTableStr + "(" \
                     "ID," \
@@ -2237,7 +2237,7 @@ void HCALLMapDumper::makedbHOUMapObject(std::string HCALLMapDbStr, std::string H
 
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   iuniq = i;
   for(i=0; i<myHOCalib.size(); i++)
@@ -2253,7 +2253,7 @@ void HCALLMapDumper::makedbHOUMapObject(std::string HCALLMapDbStr, std::string H
  
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   std::cout << "Will export the table into HOUMap.txt file ..." << std::endl;
   if(sqlite3_exec(db, OutSelect.c_str(), callback_HOUMap, 0, &zErrMsg) != SQLITE_OK)
@@ -2300,7 +2300,7 @@ void HCALLMapDumper::makedbngHOCalibLMapObject(std::string HCALLMapDbStr, std::s
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-  else{ fprintf(stdout, "#Table created successfully\n"); }
+  else{ fprintf(stderr, "#Table created successfully\n"); }
   
   for(auto i=0; i<myngHOCalib.size(); i++)
   { 
@@ -2323,7 +2323,7 @@ void HCALLMapDumper::makedbngHOCalibLMapObject(std::string HCALLMapDbStr, std::s
  
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   sqlite3_close(db);
 
@@ -2367,7 +2367,7 @@ void HCALLMapDumper::makedbngHOLMapObject(std::string HCALLMapDbStr, std::string
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-  else{ fprintf(stdout, "#Table created successfully\n"); }
+  else{ fprintf(stderr, "#Table created successfully\n"); }
   
   for(auto i=0; i<myngHOFrontEnd.size(); i++)
   {
@@ -2392,7 +2392,7 @@ void HCALLMapDumper::makedbngHOLMapObject(std::string HCALLMapDbStr, std::string
 
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   sqlite3_close(db);
 
@@ -2442,7 +2442,7 @@ void HCALLMapDumper::makedbngHOUMapObject(std::string HCALLMapDbStr, std::string
                     
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-  else{ fprintf(stdout, "#Table created successfully\n"); }
+  else{ fprintf(stderr, "#Table created successfully\n"); }
   
   for(auto i=0; i<myngHOFrontEnd.size(); i++)
   {
@@ -2467,7 +2467,7 @@ void HCALLMapDumper::makedbngHOUMapObject(std::string HCALLMapDbStr, std::string
 
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   iuniq = i;
   for(auto i=0; i<myngHOCalib.size(); i++)
@@ -2491,7 +2491,7 @@ void HCALLMapDumper::makedbngHOUMapObject(std::string HCALLMapDbStr, std::string
  
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   std::cout << "Will export the table into ngHOUMap.txt file ..." << std::endl;
   if(sqlite3_exec(db, OutSelect.c_str(), callback_ngHOUMap, 0, &zErrMsg) != SQLITE_OK)
@@ -2542,7 +2542,7 @@ void HCALLMapDumper::makedbngHFUMapObject(std::string HCALLMapDbStr, std::string
 
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-  else{ fprintf(stdout, "#Table created successfully\n"); }
+  else{ fprintf(stderr, "#Table created successfully\n"); }
 
   for(auto i=0; i<myngHFFrontEnd.size(); i++)
   {
@@ -2563,7 +2563,7 @@ void HCALLMapDumper::makedbngHFUMapObject(std::string HCALLMapDbStr, std::string
 
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   iuniq = myngHFFrontEnd.size();
   for(auto i=0; i<myngHFCalib.size(); i++)
@@ -2585,7 +2585,7 @@ void HCALLMapDumper::makedbngHFUMapObject(std::string HCALLMapDbStr, std::string
     
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "#%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "#%d Records created successfully!\n", i+1); }
   }
   std::cout << "Will export the table into ngHFUMap.txt file ..." << std::endl;
   if(sqlite3_exec(db, OutSelect.c_str(), callback_ngHFUMap, 0, &zErrMsg) != SQLITE_OK)
@@ -2646,7 +2646,7 @@ void HCALLMapDumper::makedbngHBHEUMapObject(std::string HCALLMapDbStr, std::stri
                             "TP_FI INT NOT NULL, TP_CH INT NOT NULL);";
   rc = sqlite3_exec(db, CreateTable.c_str(), 0, 0, &zErrMsg);
   if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-  else{ fprintf(stdout, "#Table created successfully\n"); }
+  else{ fprintf(stderr, "#Table created successfully\n"); }
 
   
   std::string one = "INSERT INTO " + ngHBHETableStr + "(" \
@@ -2676,7 +2676,7 @@ void HCALLMapDumper::makedbngHBHEUMapObject(std::string HCALLMapDbStr, std::stri
 
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "ngHB LMap: #%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "ngHB LMap: #%d Records created successfully!\n", i+1); }
   }
   iuniq = i;
   for(i=0; i<myngHBCalib.size(); i++)
@@ -2696,7 +2696,7 @@ void HCALLMapDumper::makedbngHBHEUMapObject(std::string HCALLMapDbStr, std::stri
     
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "ngHB LMapCalib: #%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "ngHB LMapCalib: #%d Records created successfully!\n", i+1); }
   }
   iuniq += i;
   for(i=0; i<myngHEFrontEnd.size(); i++)
@@ -2715,7 +2715,7 @@ void HCALLMapDumper::makedbngHBHEUMapObject(std::string HCALLMapDbStr, std::stri
 
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg);
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "ngHE LMap: #%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "ngHE LMap: #%d Records created successfully!\n", i+1); }
   }
   iuniq += i;
   for(i=0; i<myngHECalib.size(); i++)
@@ -2735,7 +2735,7 @@ void HCALLMapDumper::makedbngHBHEUMapObject(std::string HCALLMapDbStr, std::stri
     
     rc = sqlite3_exec(db, (one+two).c_str(), 0, 0, &zErrMsg); 
     if( rc != SQLITE_OK ){ fprintf(stderr, "SQL error: %s\n", zErrMsg); sqlite3_free(zErrMsg); }
-    else{ fprintf(stdout, "ngHE LMapCalib: #%d Records created successfully!\n", i+1); }
+    else{ fprintf(stderr, "ngHE LMapCalib: #%d Records created successfully!\n", i+1); }
   }
   std::cout << "Will export the table into ngHBHEUMap.txt file ..." << std::endl;
   if(sqlite3_exec(db, OutSelect.c_str(), callback_HBHEUMap, 0, &zErrMsg) != SQLITE_OK)
