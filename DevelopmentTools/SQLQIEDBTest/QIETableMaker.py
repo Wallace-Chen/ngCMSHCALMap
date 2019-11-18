@@ -175,9 +175,10 @@ def DumpngHBQIE11Table( df_ngHBsublmap, df_hb_qie11_offset_pv, df_hb_qie11_slope
   for index, row in df_HBQIE_res.iterrows():
     #if index > 5:
     #  break
+    if int(row['Depth']) == 7: continue
     toprint = [int(row['Side'])*int(row['Eta']), int(row['Phi']), int(row['Depth']), row['Det']]
     toprint = toprint + list(map(float, row['Offsets'])) + list(map(float, row['Slopes']))
-    print("{: <4d}{: <4d}{: <4d}{}  {: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}".format(*toprint))
+    print("{: <5d}{: <5d}{: <5d}{}  {: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}".format(*toprint))
 
     #print("%d   %d   %d   %s   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f   %.5f" % (int(row['Side'])*int(row['Eta']), int(row['Phi']), int(row['Depth']), row['Det'], float(row['Offsets'][0]), float(row['Offsets'][1]), float(row['Offsets'][2]), float(row['Offsets'][3]), float(row['Offsets'][4]), float(row['Offsets'][5]), float(row['Offsets'][6]), float(row['Offsets'][7]), float(row['Offsets'][8]), float(row['Offsets'][9]), float(row['Offsets'][10]), float(row['Offsets'][11]), float(row['Offsets'][12]), float(row['Offsets'][13]), float(row['Offsets'][14]), float(row['Offsets'][15]), float(row['Slopes'][0]), float(row['Slopes'][1]), float(row['Slopes'][2]), float(row['Slopes'][3]), float(row['Slopes'][4]), float(row['Slopes'][5]), float(row['Slopes'][6]), float(row['Slopes'][7]), float(row['Slopes'][8]), float(row['Slopes'][9]), float(row['Slopes'][10]), float(row['Slopes'][11]), float(row['Slopes'][12]), float(row['Slopes'][13]), float(row['Slopes'][14]), float(row['Slopes'][15])))
 
@@ -217,9 +218,10 @@ def DumpngHEQIE11Table( df_ngHEsublmap, df_qie11_offset_pv, df_qie11_slope_pv, o
   print('# Eta Phi Depth Det Offsets*16 Slopes*16')
   sys.stdout = out
   for index, row in df_HEQIE_res.iterrows():
+    if int(row['Depth']) == 7: continue
     toprint = [int(row['Side'])*int(row['Eta']), int(row['Phi']), int(row['Depth']), row['Det']]
     toprint = toprint + list(map(float, row['Offsets'])) + list(map(float, row['Slopes']))
-    print("{: <4d}{: <4d}{: <4d}{}  {: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}".format(*toprint))
+    print("{: <5d}{: <5d}{: <5d}{}  {: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}".format(*toprint))
 #    if row['Det'] != 'HEX':
 #      print row['Side']*row['Eta'], row['Phi'], row['Depth'], row['Det'], row['Offsets'][0], row['Offsets'][1], row['Offsets'][2], row['Offsets'][3], row['Offsets'][4], row['Offsets'][5], row['Offsets'][6], row['Offsets'][7], row['Offsets'][8], row['Offsets'][9], row['Offsets'][10], row['Offsets'][11], row['Offsets'][12], row['Offsets'][13], row['Offsets'][14], row['Offsets'][15], row['Slopes'][0], row['Slopes'][1], row['Slopes'][2], row['Slopes'][3], row['Slopes'][4], row['Slopes'][5], row['Slopes'][6], row['Slopes'][7], row['Slopes'][8], row['Slopes'][9], row['Slopes'][10], row['Slopes'][11], row['Slopes'][12], row['Slopes'][13], row['Slopes'][14], row['Slopes'][15]
 
@@ -261,7 +263,7 @@ def DumpngHFQIE10Table( df_ngHFsublmap, df_qie10_offset_pv, df_qie10_slope_pv, o
   for index, row in df_HFQIE_res.iterrows():
     toprint = [int(row['Side'])*int(row['Eta']), int(row['Phi']), int(row['Depth']), row['Det']]
     toprint = toprint + list(map(float, row['Offsets'])) + list(map(float, row['Slopes']))
-    print("{: <4d}{: <4d}{: <4d}{}  {: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}".format(*toprint))
+    print("{: <5d}{: <5d}{: <5d}{}  {: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}".format(*toprint))
 #    print row['Side']*row['Eta'], row['Phi'], row['Depth'], row['Det'], row['Offsets'][0], row['Offsets'][1], row['Offsets'][2], row['Offsets'][3], row['Offsets'][4], row['Offsets'][5], row['Offsets'][6], row['Offsets'][7], row['Offsets'][8], row['Offsets'][9], row['Offsets'][10], row['Offsets'][11], row['Offsets'][12], row['Offsets'][13], row['Offsets'][14], row['Offsets'][15], row['Slopes'][0], row['Slopes'][1], row['Slopes'][2], row['Slopes'][3], row['Slopes'][4], row['Slopes'][5], row['Slopes'][6], row['Slopes'][7], row['Slopes'][8], row['Slopes'][9], row['Slopes'][10], row['Slopes'][11], row['Slopes'][12], row['Slopes'][13], row['Slopes'][14], row['Slopes'][15]
 
   sys.stdout = stdout
@@ -294,7 +296,7 @@ def DumpngHOQIE8Table( df_ngHOsublmap, df_qie8_offset_pv, df_qie8_slope_pv, ofil
   for index, row in df_HOQIE_res.iterrows():
     toprint = [int(row['Side'])*int(row['Eta']), int(row['Phi']), int(row['Depth']), row['Det']]
     toprint = toprint + list(map(float, row['Offsets'][0])) + list(map(float, row['Slopes'][0]))
-    print("{: <4d}{: <4d}{: <4d}{}  {: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}".format(*toprint))
+    print("{: <5d}{: <5d}{: <5d}{}  {: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}".format(*toprint))
 #    if row['Det'] != 'HOX':
 #      print row['Side']*row['Eta'], row['Phi'], row['Depth'], row['Det'], row['Offsets'][0], row['Offsets'][1], row['Offsets'][2], row['Offsets'][3], row['Offsets'][4], row['Offsets'][5], row['Offsets'][6], row['Offsets'][7], row['Offsets'][8], row['Offsets'][9], row['Offsets'][10], row['Offsets'][11], row['Offsets'][12], row['Offsets'][13], row['Offsets'][14], row['Offsets'][15], row['Slopes'][0], row['Slopes'][1], row['Slopes'][2], row['Slopes'][3], row['Slopes'][4], row['Slopes'][5], row['Slopes'][6], row['Slopes'][7], row['Slopes'][8], row['Slopes'][9], row['Slopes'][10], row['Slopes'][11], row['Slopes'][12], row['Slopes'][13], row['Slopes'][14], row['Slopes'][15]
 
