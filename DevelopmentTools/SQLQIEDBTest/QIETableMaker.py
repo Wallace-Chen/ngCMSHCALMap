@@ -218,7 +218,7 @@ def DumpngHEQIE11Table( df_ngHEsublmap, df_qie11_offset_pv, df_qie11_slope_pv, o
   print('# Eta Phi Depth Det Offsets*16 Slopes*16')
   sys.stdout = out
   for index, row in df_HEQIE_res.iterrows():
-    if int(row['Depth']) == 7: continue
+#    if int(row['Depth']) == 7: continue
     toprint = [int(row['Side'])*int(row['Eta']), int(row['Phi']), int(row['Depth']), row['Det']]
     toprint = toprint + list(map(float, row['Offsets'])) + list(map(float, row['Slopes']))
     print("{: <5d}{: <5d}{: <5d}{}  {: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}{: <12.5f}".format(*toprint))
