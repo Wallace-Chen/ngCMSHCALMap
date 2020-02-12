@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ## login from lxplus 7 
 
 ```
@@ -184,4 +183,3 @@ pip install xlrd --user
 ```
 
 `--user` option you can use if you don't have the privileges to install for example on `lxplus`
->>>>>>> upstreamHF/master
