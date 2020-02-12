@@ -17,6 +17,7 @@ mkdir -p ./$3/Emap
 
 echo "#Dumping LaserCalib EMap Object..."
 echo "#         i    cr    sl    tb   dcc  spigot fib/slb fibch/slbch   subdet   eta   phi   dep" > ./$3/Emap/Emapcalib_LASMON_$1_$2.txt
-cat officialMap/2018HCALEMap_lasermonCalib_K_20180227.txt | grep "LASMON" >> ./$3/Emap/Emapcalib_LASMON_$1_$2.txt
+#cat officialMap/2018HCALEMap_lasermonCalib_K_20180227.txt | grep "LASMON" >> ./$3/Emap/Emapcalib_LASMON_$1_$2.txt
+cat officialMap/2018HCALEMap_lasermonCalib_N_20200212.txt | grep "LASMON" >> ./$3/Emap/Emapcalib_LASMON_$1_$2.txt
 
 sed -i '/#[a-zA-Z]/d' ./$3/Emap/*.txt

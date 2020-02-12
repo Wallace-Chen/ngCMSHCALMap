@@ -74,21 +74,24 @@ then
   echo ".timeout 2000
   DROP TABLE ngHBHEUniversalMap;
   .quit" | sqlite3 ./officialMap/HCALLogicalMap.db
-elif [[ $answer =~ "O" ]];
+fi
+if [[ $answer =~ "O" ]];
 then
   printf "\nYou choose to clear HOUMap in database..."
   echo ".timeout 2000
   DROP TABLE ngHOUniversalMap;
   .quit" | sqlite3 ./officialMap/HCALLogicalMap.db
   printf "\nNote filling database will take quite long"
-elif [[  $answer =~ "F" ]]
+fi
+if [[  $answer =~ "F" ]]
 then
   printf "\nYou choose to clear HF UMaps in database..."
   echo ".timeout 2000
   DROP TABLE ngHFUniversalMap;
   .quit" | sqlite3 ./officialMap/HCALLogicalMap.db
   printf "\nNote filling database will take quite long"
-elif [[ $answer =~ "N" ]];
+fi
+if [[ $answer =~ "N" ]];
 then
   printf "\nYou choose not to touch UMaps in the database, now will dump it only."
 fi

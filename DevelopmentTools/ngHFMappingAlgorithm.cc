@@ -164,6 +164,9 @@ void ngHFMappingAlgorithm::ConstructngHFFrontEnd(int sideid, int rbxqie10id, int
                        thisngHFFrontEnd.rbx, thisngHFFrontEnd.qie10,
                        thisngHFFrontEnd.qie10_id, thisngHFFrontEnd.qie10_barcode
                       );
+  //Starting from 09 November 2019, all QIE ids are set to 999999 since these parts are taken by Aleko, including QIE constants
+  thisngHFFrontEnd.qie10_id = 999999;
+  thisngHFFrontEnd.qie10_barcode = "0x00000000";
   myngHFFrontEnd.push_back(thisngHFFrontEnd);
   return ;
 }
@@ -498,7 +501,8 @@ void ngHFMappingAlgorithm::ConstructngHFCalib(int sideid, int rbxqie10id, int qi
   //thisngHFCalib.uhtr = 6;
   thisngHFCalib.uhtr = 9;
   sideid > 0 ? thisngHFCalib.uhtr_fiber = rbxqie10id/Nqie10Calib : thisngHFCalib.uhtr_fiber = rbxqie10id/Nqie10Calib + 4;
-  thisngHFCalib.ufedid = 1134;
+  // On demand from Dick, era=N HCAL maps, all ngHFcalib channesl FED 1134 -> 1131 (see email Hcal Online client crashing debug with CMSSW_11_0_0_patch1 on 12 Feb 2020)
+  thisngHFCalib.ufedid = 1131;
 
   //set up Geometry part
   thisngHFCalib.side = sideid;
@@ -508,6 +512,9 @@ void ngHFMappingAlgorithm::ConstructngHFCalib(int sideid, int rbxqie10id, int qi
   thisngHFCalib.phi = (rbxqie10id/Nqie10Calib)*18 + 1;
 
   thisngHFCalib.subdet = "CALIB_HF";
+  //Starting from 09 November 2019, all QIE ids are set to 999999 since these parts are taken by Aleko, including QIE constants
+  thisngHFCalib.qie10_id = 999999;
+  thisngHFCalib.qie10_barcode = "0x00000000";
   if(thisngHFCalib.fiber_ch == 3 && thisngHFCalib.sector == 4)
   {
     thisngHFCalib.depth = 9;
@@ -517,6 +524,7 @@ void ngHFMappingAlgorithm::ConstructngHFCalib(int sideid, int rbxqie10id, int qi
     myngHFCalib.push_back(thisngHFCalib);
   }
   if(thisngHFCalib.fiber_ch == 3) return ; //do not fill the calibration channel when fiber channel is 3
+
   myngHFCalib.push_back(thisngHFCalib);
 
   return ;
