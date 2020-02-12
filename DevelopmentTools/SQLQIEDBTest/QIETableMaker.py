@@ -340,20 +340,21 @@ if __name__ == '__main__':
   df_hb_qie11_offset_pv_s1, df_hb_qie11_slope_pv_s1 = GetHBQIE11DataFrame( 'sqlite:///../QIEDatabase/HB_QIE11_Calibrations.db', "shunt=1 AND Gsel=0" )
   df_hb_qie11_offset_pv_s6, df_hb_qie11_slope_pv_s6 = GetHBQIE11DataFrame( 'sqlite:///../QIEDatabase/HB_QIE11_Calibrations.db', "shunt=6 AND Gsel=18" )
 
-  if (opt.qie11mode == "Normal"):
-    DumpngHEQIE11Table( df_ngHEsublmap, df_qie11_offset_pv_s6, df_qie11_slope_pv_s6, "HE_QIE11Calibrations_RM_shunt6.txt", debug = False )
-    DumpngHEQIE11Table( df_ngHEsubclmap, df_qie11_offset_pv_s6, df_qie11_slope_pv_s6, "HE_QIE11Calibrations_CU_shunt6.txt", debug = False )
-    DumpngHBQIE11Table( df_ngHBsublmap, df_hb_qie11_offset_pv_s6, df_hb_qie11_slope_pv_s6, "HB_QIE11Calibrations_RM_shunt6.txt" )
-    DumpngHBQIE11Table( df_ngHBsubclmap, df_hb_qie11_offset_pv_s6, df_hb_qie11_slope_pv_s6, "HB_QIE11Calibrations_CU_shunt6.txt" )
-  elif (opt.qie11mode == "Special"):
-    DumpngHEQIE11Table( df_ngHEsublmap, df_qie11_offset_pv_s1, df_qie11_slope_pv_s1, "HE_QIE11Calibrations_RM_shunt1.txt", debug = False )
-    DumpngHEQIE11Table( df_ngHEsubclmap, df_qie11_offset_pv_s1, df_qie11_slope_pv_s1, "HE_QIE11Calibrations_CU_shunt1.txt", debug = False )
-    DumpngHBQIE11Table( df_ngHBsublmap, df_hb_qie11_offset_pv_s1, df_hb_qie11_slope_pv_s1, "HB_QIE11Calibrations_RM_shunt1.txt" )
-    DumpngHBQIE11Table( df_ngHBsubclmap, df_hb_qie11_offset_pv_s1, df_hb_qie11_slope_pv_s1, "HB_QIE11Calibrations_CU_shunt1.txt" )
-  else:
-    print("#Invalid QIE11 Mode! Please check!")
-  DumpngHFQIE10Table( df_ngHFsublmap, df_qie10_offset_pv, df_qie10_slope_pv, "HF_QIE11Calibrations_RM.txt", debug = False )
-  DumpngHFQIE10Table( df_ngHFsubclmap, df_qie10_offset_pv, df_qie10_slope_pv, "HF_QIE11Calibrations_CU.txt", debug = False )
+#!!!!!!! Starting 09 December 2019, all HB, HE and HF QIE IDs and calibrations are handed over to Aleko, only HO QIE needs to be done here !!!!!!!!!!!!!!!!!
+#  if (opt.qie11mode == "Normal"):
+#    DumpngHEQIE11Table( df_ngHEsublmap, df_qie11_offset_pv_s6, df_qie11_slope_pv_s6, "HE_QIE11Calibrations_RM_shunt6.txt", debug = False )
+#    DumpngHEQIE11Table( df_ngHEsubclmap, df_qie11_offset_pv_s6, df_qie11_slope_pv_s6, "HE_QIE11Calibrations_CU_shunt6.txt", debug = False )
+#    DumpngHBQIE11Table( df_ngHBsublmap, df_hb_qie11_offset_pv_s6, df_hb_qie11_slope_pv_s6, "HB_QIE11Calibrations_RM_shunt6.txt" )
+#    DumpngHBQIE11Table( df_ngHBsubclmap, df_hb_qie11_offset_pv_s6, df_hb_qie11_slope_pv_s6, "HB_QIE11Calibrations_CU_shunt6.txt" )
+#  elif (opt.qie11mode == "Special"):
+#    DumpngHEQIE11Table( df_ngHEsublmap, df_qie11_offset_pv_s1, df_qie11_slope_pv_s1, "HE_QIE11Calibrations_RM_shunt1.txt", debug = False )
+#    DumpngHEQIE11Table( df_ngHEsubclmap, df_qie11_offset_pv_s1, df_qie11_slope_pv_s1, "HE_QIE11Calibrations_CU_shunt1.txt", debug = False )
+#    DumpngHBQIE11Table( df_ngHBsublmap, df_hb_qie11_offset_pv_s1, df_hb_qie11_slope_pv_s1, "HB_QIE11Calibrations_RM_shunt1.txt" )
+#    DumpngHBQIE11Table( df_ngHBsubclmap, df_hb_qie11_offset_pv_s1, df_hb_qie11_slope_pv_s1, "HB_QIE11Calibrations_CU_shunt1.txt" )
+#  else:
+#    print("#Invalid QIE11 Mode! Please check!")
+#  DumpngHFQIE10Table( df_ngHFsublmap, df_qie10_offset_pv, df_qie10_slope_pv, "HF_QIE11Calibrations_RM.txt", debug = False )
+#  DumpngHFQIE10Table( df_ngHFsubclmap, df_qie10_offset_pv, df_qie10_slope_pv, "HF_QIE11Calibrations_CU.txt", debug = False )
   DumpngHOQIE8Table( df_ngHOsublmap, df_qie8_offset_pv, df_qie8_slope_pv , "HO_QIE11Calibrations_RM.txt")
   DumpngHOQIE8Table( df_ngHOsubclmap, df_qie8_offset_pv, df_qie8_slope_pv , "HO_QIE11Calibrations_CU.txt")
 

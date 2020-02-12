@@ -43,4 +43,9 @@ class HCALLMapLoader
                     std::vector<ngHOFrontEnd> &myngHOFrontEnd, std::vector<ngHOBackEnd> &myngHOBackEnd, std::vector<ngHOSiPM> &myngHOSiPM, std::vector<ngHOGeometry> &myngHOGeometry, std::vector<ngHOTriggerTower> &myngHOTriggerTower,
 		    std::vector<ngHOCalib> &myngHOCalib
                    );
+  int GetngHOCalibFromLMap(
+                    std::string LMapFileName, 
+                    std::vector<ngHOFrontEnd> &myngHOFrontEnd, std::vector<ngHOBackEnd> &myngHOBackEnd, std::vector<ngHOSiPM> &myngHOSiPM, std::vector<ngHOGeometry> &myngHOGeometry, std::vector<ngHOTriggerTower> &myngHOTriggerTower,
+		    std::vector<ngHOCalib> &myngHOCalib
+                   );
 };

@@ -1,4 +1,5 @@
 #include "HCALLMapLoader.h"
+#include <limits>
 
 int HCALLMapLoader::GetHBHEHFromLMap(
                                      std::string LMapFileName,
@@ -180,23 +181,78 @@ int HCALLMapLoader::GetngHOFromLMap(
     //rbx, sector, pixel, let_code, qie8, qiech, rm, rm_fi, fi_ch
     //block_coupler, crate, htr, mtp, htr_fi, fedid 
     //QIEId
+    //Tx_LC, TM_row, TM_col, TM_fib, TM_label
 
     ss >> thisngHOGeometry.side >> thisngHOGeometry.eta >> thisngHOGeometry.phi >> thisngHOGeometry.dphi >> thisngHOGeometry.depth >> thisngHOGeometry.subdet
        >> thisngHOFrontEnd.rbx >> thisngHOSiPM.sector >> thisngHOSiPM.pixel >> thisngHOSiPM.letter_code >> thisngHOFrontEnd.qie8 >> thisngHOFrontEnd.qie8_ch >> thisngHOFrontEnd.rm >> thisngHOFrontEnd.rm_fiber >> thisngHOFrontEnd.fiber_ch 
        >> thisngHOBackEnd.block_coupler >> thisngHOBackEnd.crate >> thisngHOBackEnd.htr >> thisngHOBackEnd.mtp >> thisngHOBackEnd.htr_fiber >> thisngHOBackEnd.fedid 
-       >> thisngHOFrontEnd.qie8_id;
+       >> thisngHOFrontEnd.qie8_id
+       >> thisngHOTriggerTower.tx_lc >> thisngHOTriggerTower.tm_row >> thisngHOTriggerTower.tm_col >> thisngHOTriggerTower.tm_fib >> thisngHOTriggerTower.tm_label;
 
     thisngHOBackEnd.dodeca = 0;
 
     if(thisngHOGeometry.subdet == "CALIB_HO"){
-	thisngHOCalib.side = thisngHOGeometry.side; thisngHOCalib.eta = thisngHOGeometry.eta; thisngHOCalib.phi = thisngHOGeometry.phi; thisngHOCalib.dphi = thisngHOGeometry.dphi; thisngHOCalib.depth = thisngHOGeometry.depth; thisngHOCalib.subdet = thisngHOGeometry.subdet;
-	thisngHOCalib.rbx = thisngHOFrontEnd.rbx; thisngHOCalib.sector = thisngHOSiPM.sector; thisngHOCalib.pixel = thisngHOSiPM.pixel; thisngHOCalib.letter_code = thisngHOSiPM.letter_code; thisngHOCalib.qie8 = thisngHOFrontEnd.qie8; thisngHOCalib.qie8_ch = thisngHOFrontEnd.qie8_ch; thisngHOCalib.rm = thisngHOFrontEnd.rm; thisngHOCalib.rm_fiber = thisngHOFrontEnd.rm_fiber; thisngHOCalib.fiber_ch = thisngHOFrontEnd.fiber_ch;
-	thisngHOCalib.block_coupler = thisngHOBackEnd.block_coupler; thisngHOCalib.crate = thisngHOBackEnd.crate; thisngHOCalib.htr = thisngHOBackEnd.htr; thisngHOCalib.mtp = thisngHOBackEnd.mtp; thisngHOCalib.htr_fiber = thisngHOBackEnd.htr_fiber; thisngHOCalib.fedid = thisngHOBackEnd.fedid;
-	thisngHOCalib.qie8_id = thisngHOFrontEnd.qie8_id;
+//	thisngHOCalib.side = thisngHOGeometry.side; thisngHOCalib.eta = thisngHOGeometry.eta; thisngHOCalib.phi = thisngHOGeometry.phi; thisngHOCalib.dphi = thisngHOGeometry.dphi; thisngHOCalib.depth = thisngHOGeometry.depth; thisngHOCalib.subdet = thisngHOGeometry.subdet;
+//	thisngHOCalib.rbx = thisngHOFrontEnd.rbx; thisngHOCalib.sector = thisngHOSiPM.sector; thisngHOCalib.pixel = thisngHOSiPM.pixel; thisngHOCalib.letter_code = thisngHOSiPM.letter_code; thisngHOCalib.qie8 = thisngHOFrontEnd.qie8; thisngHOCalib.qie8_ch = thisngHOFrontEnd.qie8_ch; thisngHOCalib.rm = thisngHOFrontEnd.rm; thisngHOCalib.rm_fiber = thisngHOFrontEnd.rm_fiber; thisngHOCalib.fiber_ch = thisngHOFrontEnd.fiber_ch;
+//	thisngHOCalib.block_coupler = thisngHOBackEnd.block_coupler; thisngHOCalib.crate = thisngHOBackEnd.crate; thisngHOCalib.htr = thisngHOBackEnd.htr; thisngHOCalib.mtp = thisngHOBackEnd.mtp; thisngHOCalib.htr_fiber = thisngHOBackEnd.htr_fiber; thisngHOCalib.fedid = thisngHOBackEnd.fedid;
+//	thisngHOCalib.qie8_id = thisngHOFrontEnd.qie8_id;
+//	thisngHOCalib.dodeca = thisngHOCalib.htr_fiber % 12 + 1;
+//	myngHOCalib.push_back(thisngHOCalib);
+	;
+    }else if(thisngHOGeometry.subdet == "HO"){
+        myngHOFrontEnd.push_back(thisngHOFrontEnd); myngHOBackEnd.push_back(thisngHOBackEnd); myngHOSiPM.push_back(thisngHOSiPM); myngHOGeometry.push_back(thisngHOGeometry); myngHOTriggerTower.push_back(thisngHOTriggerTower);
+    }
+  }
+  return NChannel;
+}
+
+int HCALLMapLoader::GetngHOCalibFromLMap(
+                                  std::string LMapFileName, 
+                                  std::vector<ngHOFrontEnd> &myngHOFrontEnd, std::vector<ngHOBackEnd> &myngHOBackEnd, std::vector<ngHOSiPM> &myngHOSiPM, std::vector<ngHOGeometry> &myngHOGeometry, std::vector<ngHOTriggerTower> &myngHOTriggerTower,
+				  std::vector<ngHOCalib> &myngHOCalib
+                                 )
+{
+  int NChannel = 0;
+  std::ifstream inputFile(LMapFileName.c_str());
+
+  std::string line;
+  while( std::getline(inputFile, line) )
+  {
+    if(line.at(0) == '#') continue;
+    NChannel++;
+    std::istringstream ss(line);
+    //std::cout << line << std::endl;
+    ngHOFrontEnd thisngHOFrontEnd; ngHOBackEnd thisngHOBackEnd; ngHOSiPM thisngHOSiPM; ngHOGeometry thisngHOGeometry; ngHOTriggerTower thisngHOTriggerTower;
+    ngHOCalib thisngHOCalib;
+    
+    //#side, eta, phi, dphi, depth, det 
+    //rbx, sector, pixel, let_code, qie8, qiech, rm, rm_fi, fi_ch
+    //block_coupler, crate, htr, mtp, htr_fi, fedid 
+    //QIEId
+
+    ss >> thisngHOCalib.side >> thisngHOCalib.eta >> thisngHOCalib.phi >> thisngHOCalib.dphi >> thisngHOCalib.depth >> thisngHOCalib.subdet
+       >> thisngHOCalib.rbx >> thisngHOCalib.sector >> thisngHOCalib.pixel >> thisngHOCalib.letter_code >> thisngHOCalib.qie8 >> thisngHOCalib.qie8_ch >> thisngHOCalib.rm >> thisngHOCalib.rm_fiber >> thisngHOCalib.fiber_ch 
+       >> thisngHOCalib.block_coupler >> thisngHOCalib.crate >> thisngHOCalib.htr >> thisngHOCalib.mtp >> thisngHOCalib.htr_fiber >> thisngHOCalib.fedid 
+       >> thisngHOCalib.qie8_id;
+
+
+    if(thisngHOCalib.subdet == "CALIB_HO"){
 	thisngHOCalib.dodeca = thisngHOCalib.htr_fiber % 12 + 1;
 	myngHOCalib.push_back(thisngHOCalib);
-    }else{
+    }else if(thisngHOCalib.subdet == "HOX"){
+	thisngHOGeometry.side = thisngHOCalib.side; thisngHOGeometry.eta = thisngHOCalib.eta; thisngHOGeometry.phi = thisngHOCalib.phi; thisngHOGeometry.dphi = thisngHOCalib.dphi; thisngHOGeometry.depth = thisngHOCalib.depth; thisngHOGeometry.subdet = thisngHOCalib.subdet;
+	thisngHOFrontEnd.rbx = thisngHOCalib.rbx; thisngHOSiPM.sector = thisngHOCalib.sector; thisngHOSiPM.pixel = thisngHOCalib.pixel; thisngHOSiPM.letter_code = thisngHOCalib.letter_code; thisngHOFrontEnd.qie8 = thisngHOCalib.qie8; thisngHOFrontEnd.qie8_ch = thisngHOCalib.qie8_ch; thisngHOFrontEnd.rm = thisngHOCalib.rm; thisngHOFrontEnd.rm_fiber = thisngHOCalib.rm_fiber; thisngHOFrontEnd.fiber_ch = thisngHOCalib.fiber_ch;
+	thisngHOBackEnd.block_coupler = thisngHOCalib.block_coupler; thisngHOBackEnd.crate = thisngHOCalib.crate; thisngHOBackEnd.htr = thisngHOCalib.htr; thisngHOBackEnd.mtp = thisngHOCalib.mtp; thisngHOBackEnd.htr_fiber = thisngHOCalib.htr_fiber; thisngHOBackEnd.fedid = thisngHOCalib.fedid;
+	thisngHOFrontEnd.qie8_id = thisngHOCalib.qie8_id;
+	thisngHOCalib.dodeca = 0;
+        thisngHOTriggerTower.tx_lc = "";
+	thisngHOTriggerTower.tm_row = "";
+	thisngHOTriggerTower.tm_col = "";
+	thisngHOTriggerTower.tm_fib = "";
+	thisngHOTriggerTower.tm_label = "";
         myngHOFrontEnd.push_back(thisngHOFrontEnd); myngHOBackEnd.push_back(thisngHOBackEnd); myngHOSiPM.push_back(thisngHOSiPM); myngHOGeometry.push_back(thisngHOGeometry); myngHOTriggerTower.push_back(thisngHOTriggerTower);
+    }else{
+	;
     }
   }
   return NChannel;

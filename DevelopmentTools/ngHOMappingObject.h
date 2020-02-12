@@ -40,7 +40,12 @@ struct ngHOGeometry
 //Trigger tower struct
 struct ngHOTriggerTower
 {
-  int trg_fiber, trg_fiber_ch;
+//  int trg_fiber, trg_fiber_ch;
+//  int tx_lc;
+//  int tm_row, tm_col, tm_fib;
+  std::string tx_lc;
+  std::string tm_row, tm_col, tm_fib;
+  std::string tm_label;
 };
 
 struct ngHOCalib

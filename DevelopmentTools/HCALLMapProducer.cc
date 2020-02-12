@@ -186,7 +186,10 @@ int main(int argc, char* argv[])
     ngHOMappingAlgorithm myngHOMappingAlgorithm;
     // ngHO mapping algorithm is currently implemented by Ashraf, which can be found under the folder: CMSngHOMAP
     // Here will load ngHO LMap file and dump
-    int Nchannel = myHCALLMapLoader.GetngHOFromLMap("officialMap/eraN/HCALmapngHO_N.txt",
+    int Nchannel = myHCALLMapLoader.GetngHOFromLMap("officialMap/eraN/Trig_LMap_allCates_alligned.txt",
+							myngHOMappingAlgorithm.myngHOFrontEnd, myngHOMappingAlgorithm.myngHOBackEnd, myngHOMappingAlgorithm.myngHOSiPM, myngHOMappingAlgorithm.myngHOGeometry, myngHOMappingAlgorithm.myngHOTriggerTower,
+							myngHOMappingAlgorithm.myngHOCalib);
+    Nchannel = myHCALLMapLoader.GetngHOCalibFromLMap("officialMap/eraN/ngHO_Lmap_allCates_alligned.txt",
 							myngHOMappingAlgorithm.myngHOFrontEnd, myngHOMappingAlgorithm.myngHOBackEnd, myngHOMappingAlgorithm.myngHOSiPM, myngHOMappingAlgorithm.myngHOGeometry, myngHOMappingAlgorithm.myngHOTriggerTower,
 							myngHOMappingAlgorithm.myngHOCalib);
     if( PrdMode == "LMap" )

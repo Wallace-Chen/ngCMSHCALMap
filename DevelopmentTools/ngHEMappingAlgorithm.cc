@@ -95,6 +95,8 @@ void ngHEMappingAlgorithm::ConstructngHEFrontEnd(int sideid, int rbxrmid, int rm
   if     (thisngHEFrontEnd.rm==1||thisngHEFrontEnd.rm==3){ thisngHEFrontEnd.mb_no = bv_rm13[rmfifichid]; }
   else if(thisngHEFrontEnd.rm==2||thisngHEFrontEnd.rm==4){ thisngHEFrontEnd.mb_no = bv_rm24[rmfifichid]; }
   else{ std::cout << "Error in ngHE FrontEnd: rm is not 1234??" << std::endl; }
+  //Starting from 09 November 2019, all QIE ids are set to 999999 since these parts are taken by Aleko, including QIE constants
+  thisngHEFrontEnd.qie11_id = 999999;
   myngHEFrontEnd.push_back(thisngHEFrontEnd);
   return ;
 }
@@ -574,6 +576,8 @@ void ngHEMappingAlgorithm::ConstructngHECalib(int sideid, int rbxrmid, int rmfif
   thisngHECalib.subdet = "CALIB_HE";
 //  if(thisngHECalib.rm_fiber == 1 && thisngHECalib.fiber_ch != 0) return ; //do not fill the calibration channel when calibration pedestal
 
+  //Starting from 09 November 2019, all QIE ids are set to 999999 since these parts are taken by Aleko, including QIE constants
+  thisngHECalib.qie11_id = 999999;
   myngHECalib.push_back(thisngHECalib);
   return ;
 }

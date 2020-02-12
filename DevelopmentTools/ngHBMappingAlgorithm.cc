@@ -105,6 +105,8 @@ void ngHBMappingAlgorithm::ConstructngHBFrontEnd(int sideid, int rbxrmid, int rm
                      thisngHBFrontEnd.rbx, thisngHBFrontEnd.rm, thisngHBFrontEnd.qie11,
                      thisngHBFrontEnd.qie11_id
                     );
+  //Starting from 09 November 2019, all QIE ids are set to 999999 since these parts are taken by Aleko, including QIE constants
+  thisngHBFrontEnd.qie11_id = 999999;
   myngHBFrontEnd.push_back(thisngHBFrontEnd);
   
   ConstructngHBTriggerTower(thisngHBFrontEnd.rm, thisngHBFrontEnd.rm_fiber, thisngHBFrontEnd.fiber_ch, thisngHBFrontEnd.qie11_ch);
@@ -413,6 +415,8 @@ void ngHBMappingAlgorithm::ConstructngHBCalib(int sideid, int rbxrmid, int rmfif
 //    thisngHBCalib.cpoct = thisngHBCalib.cplc + 2;//cpOctFib =  same as cpLC + 2
   }
   thisngHBCalib.subdet = "CALIB_HB";
+  //Starting from 09 November 2019, all QIE ids are set to 999999 since these parts are taken by Aleko, including QIE constants
+  thisngHBCalib.qie11_id = 999999;
   myngHBCalib.push_back(thisngHBCalib);
 
   return;

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## login from lxplus 7 
 
 ```
@@ -169,3 +170,18 @@ cd $CMSSW_BASE/src/ngCMSHCALMap/DevelopmentTools/SQLQIEDBTest
 python QIETableMaker.py --QIE11Mode "Normal" >> 2018HCALQIE_All_K_20180501_Normal_HEshunt6_CALIBHEshunt1.txt
 python QIETableMaker.py --QIE11Mode "Special" >> 2018HCALQIE_All_K_20180501_Special_HEshunt1_CALIBHEshunt1.txt
 ```
+=======
+# CMSngHOMAP
+A simple script to transfer CMS's VME HO detailed fiber allocation into uTCA map 
+
+you need to install pandas >= 0.24, openpyxl and xlrd >= 1.0.0  if they are not installed by using 
+
+pandas is fine in lxplus7 and then you can install the rest 
+
+``` 
+pip install openpyxl --user
+pip install xlrd --user
+```
+
+`--user` option you can use if you don't have the privileges to install for example on `lxplus`
+>>>>>>> upstreamHF/master
